@@ -608,7 +608,7 @@ app.get('/events', async function(req, res){
         if(err){
 		//Changing the code here to return the events now
 		//Will have to implement a better, asynchronous logic to this code, but for now, this works
-		rec.recommend(function(Recommendations)){
+		rec.recommend(Recommendations){
 			console.log(Recommendations)
 			res.send(Recommendations)
 		}

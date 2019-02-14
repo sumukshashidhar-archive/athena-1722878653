@@ -623,7 +623,8 @@ app.get('/events', async function(req, res){
             var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
             console.log(Recommendations)
             res.send(Recommendations)
-            
+           
+
         }
        
     })

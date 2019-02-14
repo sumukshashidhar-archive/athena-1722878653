@@ -606,9 +606,15 @@ app.get('/events', async function(req, res){
     console.log("Getting events......")
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
-            var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
-            console.log(Recommendations)
-            res.send(Recommendations)
+		//Changing the code here to return the events now
+		//Will have to implement a better, asynchronous logic to this code, but for now, this works
+		rec.recommend(function(Recommendations)){
+			console.log(Recommendations)
+			res.send(Recommendations)
+		}
+            //var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
+           // console.log(Recommendations)
+            //res.send(Recommendations)
 
             //REMOVE CODE LATER 
         }

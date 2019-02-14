@@ -608,9 +608,9 @@ app.get('/events', async function(req, res){
         if(err){
 		//Changing the code here to return the events now
 		//Will have to implement a better, asynchronous logic to this code, but for now, this works
-		rec.recommend(Recommendations){
-			console.log(Recommendations)
-			res.send(Recommendations)
+		rec.recommend(function(err, recommendations){
+			console.log(recommendations)
+			res.send(recommendations)
 		}
             //var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
            // console.log(Recommendations)

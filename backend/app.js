@@ -655,7 +655,7 @@ app.get('/achievements', async function(req, res){
 
 // ACHIEVEMENTS ROUTE
 app.post('/achievements', async function(req, res){
-        jwt.verify(tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
             if(!err && decodedToken!=null){
                 console.log("Verified");
                 console.log(decodedToken)

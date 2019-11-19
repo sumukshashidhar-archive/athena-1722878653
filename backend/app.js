@@ -305,7 +305,7 @@ app.post('/login', async function(req, res){
                                 else{
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                     console.log(obj)
-                                    token = jwt.sign({email: obj["EmailId"], given_name:obj["FirstName"], family_name: obj["LastName"] ,role: usrobj["userType"]}, privateKEY, enc.signOptions);
+                                    token = jwt.sign({usrid: obj["._id"], email: obj["EmailId"], given_name:obj["FirstName"], family_name: obj["LastName"] ,role: usrobj["userType"]}, privateKEY, enc.signOptions);
                                     console.log(token)
                                     //Testing verification. Has to be removed during deployment
                                     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
@@ -604,13 +604,19 @@ app.post('/events', async function(req, res){
 
 app.get('/events', async function(req, res){
     console.log("Getting events......")
-    console.log(token)
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
 
         }
         else{
+            Student.findOne({._id: decodedToken["userid"]}, function(err, obj){
+                if(err){
 
+                }
+                else{
+                    console.log("This worked")
+                }
+            })
         }
        
     })

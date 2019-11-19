@@ -1,0 +1,115 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <div class="navbar-collapse collapse justify-content-between">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">LOGO</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+            </ul>
+            <div class="wrap">
+                <div class="search">
+                    <input max-length="32" type="text" class="searchTerm" placeholder="What are you looking for?">
+                    <button type="submit" class="searchButton">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#" routerLink="/dashboard">Dashboard</a>
+                <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+                <a class="nav-item nav-link" href="#"><button class="btn btn-danger">Logout</button></a>
+            </div>
+
+        </div>
+    </nav>
+    <div class="reqMargin"></div>
+    <div class="box1">
+        <p>Add Your Achievements</p>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new achievement</button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new Achievement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #f="ngForm">
+                        <div class="form-group">
+                            <label class="control-label">Category</label>
+                            <div>
+                                <input max-length="32" type="text" class="form-control input-lg"
+                                    placeholder="Enter Achievement Category. Eg: Music, Sports, Technology" required
+                                    ngModel name="achCat" #achCat="ngModel"
+                                    [(ngModel)]="achService.selectedAchievements.achCat">
+                                <span class="help-block" *ngIf="!achCat.valid && achCat.touched">Enter achievement
+                                    category</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <input max-length="32" type="text" class="form-control input-lg"
+                                    placeholder="Enter Achievement Sub Category. Eg: Piano, Football, Web Development"
+                                    required ngModel name="achSubCat" #achSubCat="ngModel"
+                                    [(ngModel)]="achService.selectedAchievements.achSubCat">
+                                <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter
+                                    achievement subcategory</span>
+                            </div>
+                        </div>
+                        <form id="frmUploader" enctype="multipart/form-data" action="api/upload" method="POST">
+                            <input max-length="32" type="file" name="imgUploader" multiple>
+                            <input max-length="32" type="submit" name="submit" id="btnSubmit" value="Upload">
+                        </form>
+                        <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal"
+                            data-target="#exampleModal" (click)="onSubmit(f)">Add Achievement</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal" id="myModal1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">New Achievement</h2>
+                    <button class="close" type="button" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">
+                    <p>Attach a file</p>
+                    <form>
+                        <input max-length="32" type="file" id="file-upload" required class="inputfile">
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                        data-dismiss="modal">Prev</button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" type="button" data-dismiss="modal">Send Achievements</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="container">
+        <mat-card *ngFor="let ach of this.achService.achievements">
+            <mat-card-header>
+                {{ ach.CategoryId }}
+            </mat-card-header>
+            <mat-card-content>
+                {{ ach.SubCategoryId }}
+            </mat-card-content>
+        </mat-card>
+    </div>
+</body>

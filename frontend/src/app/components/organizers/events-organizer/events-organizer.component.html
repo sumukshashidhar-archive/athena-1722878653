@@ -1,0 +1,110 @@
+<div class="background">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   <body>
+      <nav class="navbar navbar-expand-sm bg-light navbar-light">
+         <div class="navbar-collapse collapse justify-content-between">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="#">LOGO</a>
+               </li>
+               <!--->
+                   <li class="nav-item">
+                       <a class="nav-link" href="#">Home</a>
+                   </li>---->
+            </ul>
+            <div class="wrap">
+               <div class="search">
+                  <input max-length="32" type="text" class="searchTerm" placeholder="What are you looking for?">
+                  <button type="submit" class="searchButton">
+                     <i class="fa fa-search"></i>
+                  </button>
+               </div>
+            </div>
+            <div class="navbar-nav">
+               <a class="nav-item nav-link" href="#" routerLink="/dashboard">Dashboard</a>
+               <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
+               <a class="nav-item nav-link" routerLink="/">Logout</a>
+            </div>
+         </div>
+      </nav>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+         Create Event
+      </button>
+      <!-- Modal -->
+      <div id="exampleModal" class="modal fade">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h1 class="modal-title">Add Event</h1>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <h5>Register Your Event</h5>
+                  <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
+                     <div class="form-group">
+                        <label class="control-label">Event Name</label>
+                        <div>
+                           <input max-length="32" type="text" class="form-control input-lg" value="" required ngModel name="evnName"
+                              #evnName="ngModel" [(ngModel)]="eventService.selectedEvent.evnName">
+                           <span class="help-block" *ngIf="!evnName.valid && evnName.touched">Please enter Event
+                              Name</span>
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label">Event Website Link</label>
+                        <div>
+                           <input max-length="32" type="text" class="form-control" required ngModel name="evnOrganizerPage"
+                              #evnOrganizerPage="ngModel" [(ngModel)]="eventService.selectedEvent.evnOrganizerPage">
+                           <span class="help-block" *ngIf="!evnOrganizerPage.valid && evnOrganizerPage.touched">Please
+                              add a link to your website</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label">Event Date</label>
+                        <div>
+                           <input max-length="32" type="date" id="date" required ngModel name="evnDate" #evnDate="ngModel"
+                              [(ngModel)]="eventService.selectedEvent.evnDate">
+                           <p class="help-block" *ngIf="!evnDate.valid && evnDate.touched">Please add Event date</p>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label">Event Address</label>
+                        <div>
+                           <input max-length="32" type="text" id="bio" class="form-control" name="evnLocation" required ngModel address
+                              #evnLocation="ngModel" [(ngModel)]="eventService.selectedEvent.evnLocation">
+                           <span class="help-block" *ngIf="!evnLocation.valid && evnLocation.touched">Please Enter Event
+                              Address</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label">Contact Number</label>
+                        <div>
+                           <input max-length="32" type="text" class="form-control" pattern="[6789][0-9]{9}" required ngModel
+                              name="evnOrganizerContact" #evnOrganizerContact="ngModel"
+                              [(ngModel)]="eventService.selectedEvent.evnOrganizerContact">
+                           <span class="help-block"
+                              *ngIf="!evnOrganizerContact.valid && evnOrganizerContact.touched">Please Enter a Valid
+                              contact Number</span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div>
+                           <button class="btn btn-primary" [disabled]="!f.valid">
+                              Register
+                           </button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+   </body>
+</div>

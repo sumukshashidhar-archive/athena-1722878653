@@ -1,20 +1,3 @@
-/* 
-
-Will have to add in doucmentation and parameter declaration here
-
-
-
-
-*/
-
-
-/* 
-
-
-BASIC HOUSEKEEPING and IMPORT SEQUENCES for DEPENDENCIES
-
-
-*/
 
 //Imports - Needed Packages for Running
 var express = require("express");
@@ -28,9 +11,9 @@ const crypto = require("crypto");
 var multer = require('multer');
 
 
+
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
-var rd = require('./FAKE_RECOMMENDATION_ALGORITHM.js');
 var func = require('./main_functions.js');
 var achievements = require('./models/Achievements.js');
 const enc = require('./config/encryptionConfig.js');
@@ -41,14 +24,13 @@ var Organiser = require("./models/OrganiserInfo.js");
 const db = require('./config/database');
 var event = require('./models/event');
 const saltRounds = enc.saltRounds;
-
+const alg = require('./controllers/algorithm_runtime')
+var rec = require(alg.algorithm_update(true))
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY  = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY  = fs.readFileSync('./keys/public.key', 'utf8');
-var certs = require('./keys/issuer_cert.js'); 
-
 
 
 
@@ -631,7 +613,7 @@ app.get('/events', async function(req, res){
 })
 
 app.get('/achievements', async function(req, res){
-    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
         console.log("Getting Achievements....")
         if(!err && decodedToken!=null){
             console.log("Verified")
@@ -725,6 +707,16 @@ app.post('/event-search', function(req, res){
     })
 })
 
+
+
+app.post('/delete-user', function(req, res){
+
+})
+
+
+app.post('/reset-delete-user', function(req, res){
+
+})
 
 /*
 

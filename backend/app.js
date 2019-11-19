@@ -621,12 +621,12 @@ app.post('/events', async function(req, res){
 })
 
 app.get('/events', async function(req, res){
-    console.log("Getting token...." + req) //FIXME: req.body.token or req.token not working
-    console.log("Getting events......")
-    console.log(token)
+    // console.log("Getting token...." + req) //FIXME: req.body.token or req.token not working
+    // console.log("Getting events......")
+    // console.log(token)
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
-        res.send(rd.rd())
-       
+        // res.send(rd.rd())
+        console.log(rd.rd())
     })
 })
 

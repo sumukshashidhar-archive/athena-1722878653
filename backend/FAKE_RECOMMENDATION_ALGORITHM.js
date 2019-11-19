@@ -1,13 +1,13 @@
 var event = require('./models/event');
 
 module.exports = {
-	rd: function(){
+	rd: function rd(){
 		event.find({}, function(err, obj){
                 if(err){
                     console.log(err)
                 }
                 else{
-                    console.log(obj)
+                    // console.log(obj)
                     return obj
                 }
             })

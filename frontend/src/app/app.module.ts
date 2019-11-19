@@ -100,6 +100,7 @@ import {
   MaterialModule
 } from './material.module';
 import { PasscheckComponent } from './components/passcheck/passcheck.component';
+import { DeleteUserComponent } from './components/students/delete-user/delete-user/delete-user.component';
 
 
 
@@ -138,6 +139,10 @@ export const appRoutes: Routes = [{
   {
     path: "organizerdashboard",
     component: OrganizerDashboardComponent
+  },
+  {
+    path: 'delete',
+    component: DeleteUserComponent
   },
   {
     path: "eventsorg",
@@ -205,7 +210,8 @@ export const appRoutes: Routes = [{
     EventsOrganizerComponent,
     AdminLoginComponent,
     AdminDashComponent,
-    SecurityComponent
+    SecurityComponent,
+    DeleteUserComponent
   ],
   imports: [
     JwtModule.forRoot({

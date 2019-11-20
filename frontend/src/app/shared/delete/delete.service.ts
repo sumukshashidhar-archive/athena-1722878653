@@ -15,8 +15,7 @@ export class DeleteService {
 
   constructor(private http: HttpClient) { }
 
-  postDelete(delete: Delete) {
-    console.log(delete)
-    
+  postDelete(del: Delete) {
+    console.log(del)
   }
 }

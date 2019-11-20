@@ -603,6 +603,7 @@ app.post('/events', async function(req, res){
 })
 
 app.get('/events', async function(req, res){
+<<<<<<< HEAD
     console.log("Getting events......")
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
@@ -619,6 +620,14 @@ app.get('/events', async function(req, res){
             })
         }
        
+=======
+    // console.log("Getting token...." + req) //FIXME: req.body.token or req.token not working
+    // console.log("Getting events......")
+    // console.log(token)
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
+        // res.send(rd.rd())
+        console.log(rd.rd())
+>>>>>>> 7437961b28f6f518861d32b568c5fa1aaa7c1547
     })
 })
 

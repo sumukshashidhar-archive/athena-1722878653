@@ -84,3 +84,7 @@ This project is licensed under the MIT License
 ## PASSWORD RESET
 
 - The reset password is not done yet ( you still can not create a new password ) but the part where you want to check your security question and answer, if you need to use that just do this: 1) Enter your email and click "Next" 2) You will see that there are two input fields autofilled with your security question and email 3) Before you click on "Confirm" just change something in the first two input boxes and revert those changes ( this is because of some NgModel issues I am trying to fix ) 4) You can enter your security answer and verify
+
+## LOADING PAGE
+
+- The loading page does not work. (Tested with slowmo camera)

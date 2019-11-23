@@ -1,8 +1,9 @@
 <div class="background">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <app-loading *ngIf="showSpinner"></app-loading>
 
-    <body>
+    <body *ngIf="!showSpinner">
         <nav class="navbar navbar-expand-sm bg-light navbar-light">
             <div class="navbar-collapse collapse justify-content-between">
                 <ul class="navbar-nav mr-auto">

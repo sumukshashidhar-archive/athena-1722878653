@@ -1,7 +1,9 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<body>
+<app-loading *ngIf="showSpinner"></app-loading>
+
+<body *ngIf="!showSpinner">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
         <div class="navbar-collapse collapse justify-content-between">
             <ul class="navbar-nav mr-auto">
@@ -103,7 +105,7 @@
         </div>
     </div> -->
     <div class="container">
-        <mat-card *ngFor="let ach of this.achService.achievements">
+        <mat-card *ngFor="let ach of this.ach_list">
             <mat-card-header>
                 {{ ach.CategoryId }}
             </mat-card-header>

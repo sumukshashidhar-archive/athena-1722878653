@@ -90,3 +90,7 @@ body {
   display: none !important;
 }
 
+.spinning {
+  margin-left: 50%;
+  margin-top: 20%;
+}

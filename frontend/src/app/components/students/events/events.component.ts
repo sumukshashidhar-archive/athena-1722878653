@@ -9,12 +9,15 @@ import {
   Event
 } from './../../../shared/events/event';
 
+import { LoadingComponent } from './../../loading/loading.component'
+
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css']
 })
 export class EventsComponent implements OnInit {
+  showSpinner: boolean = true;
 
   constructor(private eventService: EventService) {}
 
@@ -25,6 +28,7 @@ export class EventsComponent implements OnInit {
   refreshEvents() {
     this.eventService.getEvents().subscribe((res) => {
       this.eventService.events = res as Event[];
+      this.showSpinner = false;
       console.log(this.eventService.events)
     })
   }

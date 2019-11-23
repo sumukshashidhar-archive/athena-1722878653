@@ -101,9 +101,9 @@ import {
 } from './material.module';
 import { PasscheckComponent } from './components/passcheck/passcheck.component';
 import { DeleteUserComponent } from './components/students/delete-user/delete-user/delete-user.component';
-
-
-
+import {
+  LoadingComponent
+} from './components/loading/loading.component'
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -143,6 +143,10 @@ export const appRoutes: Routes = [{
   {
     path: 'delete',
     component: DeleteUserComponent
+  },
+  {
+    path: 'loading',
+    component: LoadingComponent
   },
   {
     path: "eventsorg",
@@ -211,7 +215,8 @@ export const appRoutes: Routes = [{
     AdminLoginComponent,
     AdminDashComponent,
     SecurityComponent,
-    DeleteUserComponent
+    DeleteUserComponent,
+    LoadingComponent
   ],
   imports: [
     JwtModule.forRoot({

@@ -1,7 +1,8 @@
 .container {
-    margin-top: 20%;
-    margin-left: 43%;
+  margin-top: 23%;
+  margin-left: 43%;
+  height: 10vh;
 }
 mat-spinner {
-    margin-left: 3%;
+  margin-left: 3%;
 }

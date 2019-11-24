@@ -1,12 +1,8 @@
-import {
-  Injectable
-} from '@angular/core';
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DatasharingService {
   private name = new BehaviorSubject(null);
@@ -15,6 +11,6 @@ export class DatasharingService {
   constructor() {}
 
   changeName(name: string) {
-    this.name.next(name)
+    this.name.next(name);
   }
 }

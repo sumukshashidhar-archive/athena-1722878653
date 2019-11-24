@@ -10,7 +10,7 @@ img {
 
 .es {
   margin-left: 70%;
-  margin-left: 70%
+  margin-left: 70%;
 }
 
 body {
@@ -34,7 +34,7 @@ body {
   height: 36px;
   border-radius: 5px 0 0 5px;
   outline: none;
-  color: #9DBFAF;
+  color: #9dbfaf;
 }
 
 .searchTerm:focus {

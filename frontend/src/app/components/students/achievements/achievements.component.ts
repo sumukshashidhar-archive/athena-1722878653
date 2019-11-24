@@ -1,27 +1,16 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import {
-  AchievementsService
-} from './../../../shared/achievements/achievements.service';
-import {
-  Achievements
-} from './../../../shared/achievements/achievements.model';
-import {
-  Router
-} from '@angular/router';
-import {
-  NgForm
-} from '@angular/forms';
+import { AchievementsService } from "./../../../shared/achievements/achievements.service";
+import { Achievements } from "./../../../shared/achievements/achievements.model";
+import { Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
 
-import { LoadingComponent } from './../../loading/loading.component'
+import { LoadingComponent } from "./../../loading/loading.component";
 
 @Component({
-  selector: 'app-achievements',
-  templateUrl: './achievements.component.html',
-  styleUrls: ['./achievements.component.css']
+  selector: "app-achievements",
+  templateUrl: "./achievements.component.html",
+  styleUrls: ["./achievements.component.css"]
 })
 export class AchievementsComponent implements OnInit {
   showSpinner: boolean = true;
@@ -31,7 +20,6 @@ export class AchievementsComponent implements OnInit {
 
   ngOnInit() {
     this.refreshAchievements();
-    this.ach_list.subscribe(() => this.showSpinner=false);
   }
 
   onSubmit(form: NgForm) {
@@ -45,18 +33,19 @@ export class AchievementsComponent implements OnInit {
         } else {
           console.log(err);
         }
-        console.log('Error')
+        console.log("Error");
       }
-    )
+    );
   }
 
   refreshAchievements() {
-    this.achService.getAchievements().subscribe((res) => {
+    this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
       console.log(this.achService.achievements);
       this.showSpinner = false;
-    })
+      console.log(
+        "Show spinner in now false and we are in the refresh achievements method"
+      );
+    });
   }
-
-
 }

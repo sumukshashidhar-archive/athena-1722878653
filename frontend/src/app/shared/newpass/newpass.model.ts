@@ -1,3 +1,3 @@
 export class NewPass {
-    password: string;
+  password: string;
 }

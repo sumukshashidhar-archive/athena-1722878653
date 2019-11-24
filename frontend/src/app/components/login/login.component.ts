@@ -1,38 +1,14 @@
-import {
-  LoginService
-} from './../../shared/login/login.service';
-import {
-  Component,
-  OnInit
-} from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  NgForm,
-  Validators
-} from "@angular/forms";
-import {
-  AuthService
-} from "../../auth/auth.service";
-import {
-  Router
-} from "@angular/router";
-import {
-  CookieService
-} from 'ngx-cookie-service';
-import {
-  AuthGuard
-} from '../../auth/auth.guard'
-import {
-  User
-} from '../../shared/user/user.model';
-import { decoded } from '../../auth/auth.service'
-import {
-  DatasharingService
-} from './../../shared/datasharing.service'
-import {
-  first
-} from 'rxjs/operators';
+import { LoginService } from "./../../shared/login/login.service";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
+import { AuthService } from "../../auth/auth.service";
+import { Router } from "@angular/router";
+import { CookieService } from "ngx-cookie-service";
+import { AuthGuard } from "../../auth/auth.guard";
+import { User } from "../../shared/user/user.model";
+import { decoded } from "../../auth/auth.service";
+import { DatasharingService } from "./../../shared/datasharing.service";
+import { first } from "rxjs/operators";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -60,13 +36,10 @@ export class LoginComponent implements OnInit {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ["", Validators.required]
     });
-    this.data.currentName.subscribe(name => this.fname = name)
+    this.data.currentName.subscribe(name => (this.fname = name));
   }
 
-
-
   onSubmit(form: NgForm) {
-
     this.Auth.login(form.value)
       // .pipe(first())
       .subscribe(
@@ -74,17 +47,19 @@ export class LoginComponent implements OnInit {
           // this.user = res;
           // this.fname = this.user.FirstName
           // console.log(this.user.FirstName)
-          console.log(res)
-          if(decoded['role']=='Student'){
-          this.router.navigate(['/dashboard'])}
-            if (decoded['role']=='Org'){
-             this.router.navigate(['/organizerdashboard'])}
-           console.log(this.user)
-           this.data.changeName(this.user.FirstName)
+          console.log(res);
+          if (decoded["role"] == "Student") {
+            this.router.navigate(["/dashboard"]);
+          }
+          if (decoded["role"] == "Org") {
+            this.router.navigate(["/organizerdashboard"]);
+          }
+          console.log(this.user);
+          this.data.changeName(this.user.FirstName);
         },
         err => {
-          console.log('Could not authenticate')
-          console.log(err)
+          console.log("Could not authenticate");
+          console.log(err);
           this.error = true;
         }
       );

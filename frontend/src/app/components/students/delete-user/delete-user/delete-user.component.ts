@@ -1,18 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormsModule
-} from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-delete-user',
-  templateUrl: './delete-user.component.html',
-  styleUrls: ['./delete-user.component.css']
+  selector: "app-delete-user",
+  templateUrl: "./delete-user.component.html",
+  styleUrls: ["./delete-user.component.css"]
 })
 export class DeleteUserComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

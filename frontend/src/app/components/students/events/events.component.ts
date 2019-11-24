@@ -1,20 +1,13 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  EventService
-} from './../../../shared/events/event.service'
-import {
-  Event
-} from './../../../shared/events/event';
+import { Component, OnInit } from "@angular/core";
+import { EventService } from "./../../../shared/events/event.service";
+import { Event } from "./../../../shared/events/event";
 
-import { LoadingComponent } from './../../loading/loading.component'
+import { LoadingComponent } from "./../../loading/loading.component";
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.css']
+  selector: "app-events",
+  templateUrl: "./events.component.html",
+  styleUrls: ["./events.component.css"]
 })
 export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
@@ -26,10 +19,10 @@ export class EventsComponent implements OnInit {
   }
 
   refreshEvents() {
-    this.eventService.getEvents().subscribe((res) => {
+    this.eventService.getEvents().subscribe(res => {
       this.eventService.events = res as Event[];
       this.showSpinner = false;
-      console.log(this.eventService.events)
-    })
+      console.log(this.eventService.events);
+    });
   }
 }

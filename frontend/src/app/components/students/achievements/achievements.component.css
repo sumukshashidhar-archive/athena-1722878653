@@ -3,7 +3,7 @@
 .box1 {
   position: relative;
   z-index: 1;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.6);
   max-width: 450px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -13,7 +13,7 @@
 }
 
 body {
-  background-image: url('./../../../../assets/images/image4.jpg');
+  background-image: url("./../../../../assets/images/image4.jpg");
   height: 170vh;
   background-size: cover;
   background-position: center;
@@ -33,10 +33,10 @@ body {
   height: 36px;
   border-radius: 5px 0 0 5px;
   outline: none;
-  color: #9DBFAF;
+  color: #9dbfaf;
 }
 
-.searchTerm:focus{
+.searchTerm:focus {
   color: rgb(6, 8, 8);
 }
 
@@ -53,7 +53,7 @@ body {
 }
 
 /*Resize the wrap to see the search bar change!*/
-.wrap{
+.wrap {
   width: 30%;
   position: absolute;
   top: 50%;
@@ -62,7 +62,7 @@ body {
 }
 
 .reqMargin {
-  width : 400px;
+  width: 400px;
   padding: 10% 0 0;
   margin: auto;
 }
@@ -71,7 +71,7 @@ body {
   position: relative;
   overflow: hidden;
 }
-.btn-file input[type=file] {
+.btn-file input[type="file"] {
   position: absolute;
   top: 0;
   right: 0;

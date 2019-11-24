@@ -1,23 +1,11 @@
-import {
-  UserService
-} from './../../../shared/user/user.service';
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  NgForm,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-import {
-  Router
-} from '@angular/router';
+import { UserService } from "./../../../shared/user/user.service";
+import { Component, OnInit } from "@angular/core";
+import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
+  selector: "app-signup",
+  templateUrl: "./signup.component.html",
+  styleUrls: ["./signup.component.css"],
   providers: [UserService]
 })
 export class SignupComponent implements OnInit {
@@ -37,25 +25,28 @@ export class SignupComponent implements OnInit {
       this.Captchaval = false;
     }
   }
-  printing(){
-    console.log('print noobs');
+  printing() {
+    console.log("print noobs");
   }
 
-
-  constructor(public userService: UserService, private router: Router, private _formBuilder: FormBuilder) {}
+  constructor(
+    public userService: UserService,
+    private router: Router,
+    private _formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ["", Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      secondCtrl: ["", Validators.required]
     });
     this.thirdFormGroup = this._formBuilder.group({
-      thirdCtrl: ['', Validators.required]
+      thirdCtrl: ["", Validators.required]
     });
     this.fourthFormGroup = this._formBuilder.group({
-      fourthCtrl: ['', Validators.required]
+      fourthCtrl: ["", Validators.required]
     });
   }
   onSubmit(form: NgForm) {
@@ -63,8 +54,8 @@ export class SignupComponent implements OnInit {
       res => {
         // this.showSuccessmessage = true;
         // setTimeout(() => this.showSuccessmessage = false, 3000);
-        console.log(res)
-        this.router.navigate(['/login'])
+        console.log(res);
+        this.router.navigate(["/login"]);
       },
       err => {
         if (err.status === 422) {
@@ -72,12 +63,10 @@ export class SignupComponent implements OnInit {
           console.log(422);
         } else {
           // this.serverErrormessage = "Something went wrong"
-          console.log('error')
+          console.log("error");
           this.printing();
         }
       }
     );
-
-
   }
 }

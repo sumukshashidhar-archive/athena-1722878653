@@ -36,7 +36,7 @@ var publicKEY  = fs.readFileSync('./keys/public.key', 'utf8');
 
 
 
-/* 
+/*
 
 INITIALIZATIONS
 
@@ -56,13 +56,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //To get rid of the promise exception
-mongoose.Promise = global.Promise; 
+mongoose.Promise = global.Promise;
 
 //DB CONNECTION
 // This is an async funtion
 mongoose.connect(db.mongoURI, {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true, 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     useCreateIndex: true}) //Changed this line to link to a database file instead of having everything in one file to provide quick and easy access for further work
     .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
@@ -102,7 +102,7 @@ var upload = multer({
 
 
 
-/* 
+/*
 
 ventLogSchema
 
@@ -119,7 +119,7 @@ ROUTES AHEAD!---->
 
 
 
-/* 
+/*
 
 
 ROUTES PRODUCTION READY
@@ -131,7 +131,7 @@ ROUTES PRODUCTION READY
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function(req, res)
-{   
+{
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
             //CODE BELOW THIS IS PRODUCTION READY
@@ -149,13 +149,13 @@ app.post('/register', function(req, res)
                         else{
                             console.log("registering user");
                             var newUser = new user({
-                                username: req.body.email, 
-                                userType: "Student", 
+                                username: req.body.email,
+                                userType: "Student",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
                             });
-                                                
+
                             newUser.save(function(err, obj)
                             {
                                 if(err){
@@ -229,7 +229,7 @@ app.post('/updateinfo', function(req, res){
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function(req, res)
-{   
+{
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
             //CODE BELOW THIS IS PRODUCTION READY
@@ -247,13 +247,13 @@ app.post('/registerorganizer', function(req, res)
                         else{
                             console.log("registering user");
                             var newUser = new user({
-                                username: req.body.OrganizerEmail, 
-                                userType: "Student", 
+                                username: req.body.OrganizerEmail,
+                                userType: "Student",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
                             });
-                                                
+
                             newUser.save(function(err, obj)
                             {
                                 if(err){
@@ -281,7 +281,7 @@ app.post('/registerorganizer', function(req, res)
 });
 
 
-// LOGIN 
+// LOGIN
 app.post('/login', async function(req, res){
     //First finding if such a user exists in the database
     user.findOne({username: req.body.username}, function(err, usrobj){
@@ -300,7 +300,7 @@ app.post('/login', async function(req, res){
                             Student.findOne({EmailId: req.body.username}, function(err, obj){
                                 if(err){
                                     console.log(err)
-                                    
+
                                 }
                                 else{
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
@@ -312,12 +312,12 @@ app.post('/login', async function(req, res){
                                         console.log(decodedToken)
                                         console.log("Succesfully generated a JWT Token")
                                     res.json(token)
-                                }) 
+                                })
                                 }
 
-                            
+
                             })
-                            
+
                         }
                         else if(usrobj["userType"]=="Organizer"){
                             //Repeating for Organizer
@@ -330,14 +330,14 @@ app.post('/login', async function(req, res){
                                     token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                     res.json(token)
                                 }
-                                
+
                             })
-                            
+
                         }
                         else if(userobj["userType"]=="Admin"){
 
                             //TODO: Make an admin block here
-                        }   
+                        }
                     }
                     else{
                         console.log("Wrong Password")
@@ -352,7 +352,7 @@ app.post('/login', async function(req, res){
             res.status(422).send(false)
             console.log(err);
         }
-    })  
+    })
 });
 
 
@@ -464,7 +464,7 @@ app.get('/dashboard', async function(req, res){
 
 });
 
-/* 
+/*
 
 
 UNDERDEVELOPED ROUTES
@@ -492,12 +492,12 @@ app.post('/auth', function(req, res){
             }
             else if(decodedToken["role"]=="Student"){
                 res.status(200).send("Student")
-            }    
+            }
         }
     })
 });
 
-/* 
+/*
 
 
 ROUTES THAT NEED BUG SQUISHING
@@ -519,7 +519,7 @@ app.post('/logout', function(req, res)
 
 
 
-// ORGANIZER EVENTS CREATOR ROUTE. 
+// ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function(req, res){
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
@@ -528,10 +528,10 @@ app.post('/organizer-events', async function(req, res){
         else{
             if(decodedToken["role"]=="Org"){
                     var newEvent = new event({
-                        evnName: req.body.evnName, 
+                        evnName: req.body.evnName,
                         evnDate: req.body.evnDate,
-                        evnIntersts: req.body.evnInterests, 
-                        evnLocation: req.body.evnLocation, 
+                        evnIntersts: req.body.evnInterests,
+                        evnLocation: req.body.evnLocation,
                         evnOrganizerName: decodedToken["name"],  //this line has to be changed
                         evnOrganizerPage: req.body.evnOrganizerPage,
                         evnOrganizerContact: req.body.evnOrganizerContact,
@@ -544,7 +544,7 @@ app.post('/organizer-events', async function(req, res){
                             return res.redirect('/registerorganiser');
                         }
                         else
-                        {   
+                        {
                             console.log(obj);
                             res.json(obj)
                         };
@@ -559,7 +559,7 @@ app.post('/organizer-events', async function(req, res){
 });
 
 //Have to implement JWT here as well
-app.post('/interest', async function(req, res){ 
+app.post('/interest', async function(req, res){
     console.log("Getting interests method")
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
         if(err){
@@ -575,7 +575,7 @@ app.post('/interest', async function(req, res){
                 console.log("Permissions error");
                 res.status(403).send("This user is not authorized to access this page.")
             }
-            
+
         }
     })
 })
@@ -598,7 +598,7 @@ app.post('/events', async function(req, res){
         else{
             console.log(err)
         }
-       
+
     })
 })
 
@@ -611,22 +611,22 @@ app.get('/events', async function(req, res){
 		rec.recommend(function(err, recommendations){
 			console.log(recommendations)
 			res.send(recommendations)
-		}
+		})
             //var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
            // console.log(Recommendations)
             //res.send(Recommendations)
 
-            //REMOVE CODE LATER 
+            //REMOVE CODE LATER
         }
         else{
-            
+
             var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
             console.log(Recommendations)
             res.send(Recommendations)
-           
+
 
         }
-       
+
     })
 })
 
@@ -686,7 +686,7 @@ app.post('/achievements', async function(req, res){
                                         console.log("Pushed the object successfully")
                                     }
                                 })
-    
+
                             }
                         })
                     }
@@ -740,35 +740,35 @@ app.post('/reset-delete-user', function(req, res){
 
 
 ARCHIVED ROUTES
-    
+
 
 //OLD ORGANIZER REGISTER CODE
 // //ORGANIZER REGISTER ROUTE
-// app.post('/registerorganizer', function(req, res){   
+// app.post('/registerorganizer', function(req, res){
 //     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken){
 //         if(err){
 //             console.log("registering user");
 //             var newUser = new user({
-//                 username: req.body.OrganizerEmail, 
-//                 userType: "Organizer", 
+//                 username: req.body.OrganizerEmail,
+//                 userType: "Organizer",
 //                 password: bcrypt.hashSync(req.body.Password, saltRounds),
 //                 // securityQuestion: req.body.securityQuestion,
 //                 // securityAnswer: bcrypt.hashSync(req.body.securityAnswer, saltRounds)
 //             })
-        
+
 //             newUser.save(function(err, obj)
 //             {
-                
+
 //                 if(err)
 //                 {
 //                     console.log("ERROR:\n" + err);
 //                 }
-        
+
 //                 else
-//                 {   
+//                 {
 //                     console.log(user);
 //                     res.send(func.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo));
-                    
+
 //                     //Removed some more redundant code
 //                 };
 //             });
@@ -777,12 +777,12 @@ ARCHIVED ROUTES
 //             //TODO: Same as above
 //         }
 //     })
-    
+
 // });
 
 
     //OLD LOGIN CODE FOR DEBUGGING
-// // LOGIN 
+// // LOGIN
 // app.post('/login', async function(req, res){
 //     //First finding if such a user exists in the database
 //     user.findOne({username: req.body.username}, function(err, usrobj){
@@ -810,12 +810,12 @@ ARCHIVED ROUTES
 //                                 console.log(decodedToken)
 //                                 console.log("Succesfully generated a JWT Token")
 //                             res.json(token)
-//                         }) 
+//                         })
 //                         }
 
-                    
+
 //                     })
-                    
+
 //                 }
 //                 else if(usrobj["userType"]=="Organizer"){
 //                     //Repeating for Organizer
@@ -828,13 +828,13 @@ ARCHIVED ROUTES
 //                             token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
 //                             res.json(token)
 //                         }
-                        
+
 //                     })
-                    
+
 //                 }
 //                 else if(userobj["userType"]=="Admin"){
 //                     //TODO: Make an admin block here
-//                 }    
+//                 }
 //             }
 //             else{
 //                 //On method failure
@@ -847,12 +847,9 @@ ARCHIVED ROUTES
 //             res.status(422).send(false)
 //             console.log(err);
 //         }
-//     })  
+//     })
 // });
 
 
 
 */
-
-
-

@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 
 var eventSchema = new mongoose.Schema({
+    //BASICS
     evnName: String, 
     evnDate: Date,
     evnIntersts: [], 
@@ -11,10 +12,10 @@ var eventSchema = new mongoose.Schema({
     evnOrganizerContact: String,
     evnLocation: String, 
     targetAge: String,
+    // CONTACT SUMUK BELOW THIS
     evnState: String,
-    targetAge:String,
-    // Find out how to store images in mongoDB.
-    // Add more here once there are things to add.
+    Event_Rating: Number,
+    Attendees: Array //Specifically not something like [user.Schema]
 });
 
 module.exports = mongoose.model("event", eventSchema);

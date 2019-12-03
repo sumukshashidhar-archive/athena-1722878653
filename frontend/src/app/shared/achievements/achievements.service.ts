@@ -10,6 +10,7 @@ export class AchievementsService {
     achCat: "",
     achSubCat: ""
   };
+  
   achievements: Achievements[];
 
   constructor(private http: HttpClient) {}
@@ -22,5 +23,9 @@ export class AchievementsService {
 
   getAchievements() {
     return this.http.get("http://localhost:3000/achievements");
+  }
+
+  deleteAchievement(_id: string) {
+    return this.http.delete("http://localhost:3000/achievements")
   }
 }

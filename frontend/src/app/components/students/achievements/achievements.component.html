@@ -110,7 +110,7 @@
     <mat-card *ngFor="let ach of this.ach_list">
       <mat-card-header>
         {{ ach.CategoryId }}
-        <button class="btn btn-primary" style="margin-left: 850px;"><i class="fa fa-trash"></i>Remove</button>
+        <button class="btn btn-primary" style="margin-left: 850px;" (click)="onDelete(ach._id)"><i class="fa fa-trash"></i>Remove</button>
       </mat-card-header>
       <mat-card-content>
         {{ ach.SubCategoryId }}

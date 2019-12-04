@@ -1,0 +1,95 @@
+<div class="background">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+
+  <body>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+      <div class="navbar-collapse collapse justify-content-between">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">LOGO</a>
+          </li>
+          <!--->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Home</a>
+                            </li>---->
+        </ul>
+
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="#" routerLink="/eventsorg"
+            >Events</a
+          >
+          <a
+            class="nav-item nav-link"
+            [routerLink]="['/']"
+            routerLinkActive="router-link-active"
+          >
+            <button class="btn btn-danger" (click)="logout()">Logout</button></a
+          >
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="search">
+          <input
+            maxlength="32"
+            type="text"
+            class="searchTerm"
+            placeholder="What are you looking for?"
+            maxlength="32"
+          />
+          <button type="submit" class="searchButton">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <button id="dp" data-toggle="modal" data-target="#exampleModal"></button>
+    <h2 style="color: white;">Welcome, {{ username }}</h2>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Change Profile Photo
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="file"
+              id="displaypic"
+              accept=".gif,.png,.jpeg,.jpg"
+              maxlength="32"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</div>

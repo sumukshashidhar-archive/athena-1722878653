@@ -39,7 +39,7 @@ var orginf = require('./../models/OrganiserInfo');
 
 
 function scoreCreate(organiserObject) {
-    var score =
+    var score;
     // Need to check for undefined and defined data types here
 }
 

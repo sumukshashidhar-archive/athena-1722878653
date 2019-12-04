@@ -41,11 +41,19 @@ export class AchievementsComponent implements OnInit {
   refreshAchievements() {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
-      console.log(this.achService.achievements);
+      console.log(this.ach_list);
       this.showSpinner = false;
       console.log(
-        "Show spinner in now false and we are in the refresh achievements method"
+        "Show spinner is now false and we are in the refresh achievements method"
       );
     });
+  }
+
+  onDelete(_id: string) {
+    if (confirm('Do you want to delete this record ?') == true) {
+      this.achService.deleteAchievement(_id).subscribe((res) => {
+        this.refreshAchievements();
+      })
+    }
   }
 }

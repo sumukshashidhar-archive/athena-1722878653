@@ -24,7 +24,13 @@ const db = require('./config/database');
 var event = require('./models/event');
 const saltRounds = enc.saltRounds;
 const alg = require('./controllers/algorithm_runtime')
+<<<<<<< HEAD
 var recommnedations = require()
+=======
+var rec = require(alg.algorithm_update(true));
+const  multipart  =  require('connect-multiparty');
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
+>>>>>>> e4498a4a7e7ef531ec6f48ca15f9fa57ecb10a27
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -686,6 +692,35 @@ app.post('/achievements', async function (req, res) {
         }
     })
 })
+
+
+// app.post('/achievements', function(req, res)
+// {
+//     console.log("HELLLLLLLLLLLLLLLLO , WOLD");
+//     var newAch = new achievements({
+//         CategoryId: req.body.achCat,
+//         SubCategoryId: req.body.achSubCat
+//     });
+
+//     Student.findOne({EmailId: decodedToken.email}, function(err, obj){
+//         if(err){
+//             console.log(err)
+//         }
+//         else{
+//             console.log("Found the student object with the token. Now pushing achievement")
+//             obj.Achievement.push(achobj)
+//             Student.updateOne({EmailId: decodedToken.email}, {$set:{Achievement: obj.Achievement} }, function(err, updateobj){
+//                 if(err){
+//                     console.log(err)
+//                 }
+//                 else{
+//                     console.log("Pushed the object successfully")
+//                 }
+//             })
+
+//         }
+//     })
+// }); 
 
 // ADMIN DASH ROUTE
 

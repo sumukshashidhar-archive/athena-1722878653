@@ -24,13 +24,10 @@ const db = require('./config/database');
 var event = require('./models/event');
 const saltRounds = enc.saltRounds;
 const alg = require('./controllers/algorithm_runtime')
-<<<<<<< HEAD
-var recommnedations = require()
-=======
+var recommnedations = require("./recommendation/recommender");
 var rec = require(alg.algorithm_update(true));
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
->>>>>>> e4498a4a7e7ef531ec6f48ca15f9fa57ecb10a27
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -53,7 +50,10 @@ var token;
 
 //Using Cors
 app.use(cors());
-
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
 //To get data from the angular project
 app.use(bodyParser.json());
 

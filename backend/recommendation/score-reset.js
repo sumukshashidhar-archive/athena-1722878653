@@ -3,7 +3,7 @@
 
 
 
-module.exports
-{
-    
-}
+module.exports =
+    {
+
+    }

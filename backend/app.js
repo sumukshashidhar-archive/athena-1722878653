@@ -1,3 +1,5 @@
+//CHANGE ALL TOKENS TO JWT AUTH
+
 
 //Imports - Needed Packages for Running
 var express = require("express");
@@ -25,7 +27,6 @@ var event = require('./models/event');
 const saltRounds = enc.saltRounds;
 const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
-var rec = require(alg.algorithm_update(true));
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
@@ -652,12 +653,11 @@ app.get('/achievements', async function (req, res) {
 
 // ACHIEVEMENTS ROUTE
 app.post('/achievements', async function (req, res) {
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
             console.log(decodedToken)
-            var newAch = new achievements
-                ({
+            var newAch = new achievements({
                     CategoryId: req.body.achCat,
                     SubCategoryId: req.body.achSubCat
                 })
@@ -692,35 +692,6 @@ app.post('/achievements', async function (req, res) {
         }
     })
 })
-
-
-// app.post('/achievements', function(req, res)
-// {
-//     console.log("HELLLLLLLLLLLLLLLLO , WOLD");
-//     var newAch = new achievements({
-//         CategoryId: req.body.achCat,
-//         SubCategoryId: req.body.achSubCat
-//     });
-
-//     Student.findOne({EmailId: decodedToken.email}, function(err, obj){
-//         if(err){
-//             console.log(err)
-//         }
-//         else{
-//             console.log("Found the student object with the token. Now pushing achievement")
-//             obj.Achievement.push(achobj)
-//             Student.updateOne({EmailId: decodedToken.email}, {$set:{Achievement: obj.Achievement} }, function(err, updateobj){
-//                 if(err){
-//                     console.log(err)
-//                 }
-//                 else{
-//                     console.log("Pushed the object successfully")
-//                 }
-//             })
-
-//         }
-//     })
-// }); 
 
 // ADMIN DASH ROUTE
 

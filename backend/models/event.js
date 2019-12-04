@@ -24,6 +24,8 @@ var eventSchema = new mongoose.Schema({
     // CONTACT SUMUK BELOW THIS
     evnDescription: String, 
     evnComments: Array,
+    evnScore: Number, 
+    evnCost: Number, 
     evnRating: Number,
     evnAttendees: Array //Specifically not something like [user.Schema]
 });

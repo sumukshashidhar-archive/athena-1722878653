@@ -25,7 +25,9 @@ const db = require('./config/database');
 var event = require('./models/event');
 const saltRounds = enc.saltRounds;
 const alg = require('./controllers/algorithm_runtime')
-var rec = require(alg.algorithm_update(true))
+var rec = require(alg.algorithm_update(true));
+const  multipart  =  require('connect-multiparty');
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -653,47 +655,92 @@ app.get('/achievements', async function(req, res){
 })
 
 
-// ACHIEVEMENTS ROUTE
-app.post('/achievements', async function(req, res){
-        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
-            if(!err && decodedToken!=null){
-                console.log("Verified");
-                console.log(decodedToken)
-                var newAch = new achievements({
-                    CategoryId: req.body.achCat,
-                    SubCategoryId: req.body.achSubCat
-                })
-                newAch.save(function(err, achobj){
-                    if(err){
-                        console.log(err)
-                    }
-                    else{
-                        console.log(decodedToken)
-                        console.log(achobj["id"])
-                        res.status(200).json(achobj)
-                        Student.findOne({EmailId: decodedToken.email}, function(err, obj){
-                            if(err){
-                                console.log(err)
-                            }
-                            else{
-                                console.log("Found the student object with the token. Now pushing achievement")
-                                obj.Achievement.push(achobj)
-                                Student.updateOne({EmailId: decodedToken.email}, {$set:{Achievement: obj.Achievement} }, function(err, updateobj){
-                                    if(err){
-                                        console.log(err)
-                                    }
-                                    else{
-                                        console.log("Pushed the object successfully")
-                                    }
-                                })
+///ACHIEVEMENTS ROUTE
+app.post('/achievements', multipartMiddleware, (req, res) => {
 
-                            }
-                        })
-                    }
-                })
-            }
-        })
+    console.log("File uploaded succesfully");
+
+
+    res.json({
+        'message': 'File uploaded succesfully.'
+    });
+
+        // upload(req, res, function(err) {
+        //     if (err) {
+        //         return console.log("Something went wrong!");
+        //     }
+        //     return console.log("File uploaded sucessfully!.");
+        // });
+
+        // jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken){
+        //     if(!err && decodedToken!=null){
+        //         console.log("Verified");
+        //         console.log(decodedToken)
+        //         var newAch = new achievements({
+        //             CategoryId: req.body.achCat,
+        //             SubCategoryId: req.body.achSubCat
+        //         })
+        //         newAch.save(function(err, achobj){
+        //             if(err){
+        //                 console.log(err)
+        //             }
+        //             else{
+        //                 console.log(decodedToken)
+        //                 console.log(achobj["id"])
+        //                 res.status(200).json(achobj)
+        //                 Student.findOne({EmailId: decodedToken.email}, function(err, obj){
+        //                     if(err){
+        //                         console.log(err)
+        //                     }
+        //                     else{
+        //                         console.log("Found the student object with the token. Now pushing achievement")
+        //                         obj.Achievement.push(achobj)
+        //                         Student.updateOne({EmailId: decodedToken.email}, {$set:{Achievement: obj.Achievement} }, function(err, updateobj){
+        //                             if(err){
+        //                                 console.log(err)
+        //                             }
+        //                             else{
+
+        //                                 console.log("Pushed the object successfully")
+        //                             }
+        //                         })
+
+        //                     }
+        //                 })
+        //             }
+        //         })
+        //     }
+        // })
     })
+
+
+// app.post('/achievements', function(req, res)
+// {
+//     console.log("HELLLLLLLLLLLLLLLLO , WOLD");
+//     var newAch = new achievements({
+//         CategoryId: req.body.achCat,
+//         SubCategoryId: req.body.achSubCat
+//     });
+
+//     Student.findOne({EmailId: decodedToken.email}, function(err, obj){
+//         if(err){
+//             console.log(err)
+//         }
+//         else{
+//             console.log("Found the student object with the token. Now pushing achievement")
+//             obj.Achievement.push(achobj)
+//             Student.updateOne({EmailId: decodedToken.email}, {$set:{Achievement: obj.Achievement} }, function(err, updateobj){
+//                 if(err){
+//                     console.log(err)
+//                 }
+//                 else{
+//                     console.log("Pushed the object successfully")
+//                 }
+//             })
+
+//         }
+//     })
+// }); 
 
 // ADMIN DASH ROUTE
 

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { decoded } from "./../../../auth/auth.service";
 import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
@@ -16,20 +17,31 @@ import { NgForm } from "@angular/forms";
 })
 export class DashboardComponent implements OnInit {
   username: any;
-
+  ipAddress:string;
   constructor(
     private auth: AuthService,
     private router: Router,
     private data: DatasharingService,
     private uname: NameService,
-    public datasharingService: DatasharingService
+    public datasharingService: DatasharingService,
+    private http:HttpClient
   ) {}
-
+  
+    
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);
   }
+  getIP()
+  {
+      this.auth.getIPAddress().subscribe((res:any)=>{
+      this.ipAddress=res.ip;
+      this.http.post('http://localhost:3000/api/ip', this.ipAddress )
+      console.log('IP POSTED')
+    });
+  }
   ngOnInit() {
+    this.getIP();
     var d = decoded;
     this.data.currentName.subscribe((res: Response) => {
       if (decoded["role"] == "Student") {

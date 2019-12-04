@@ -9,7 +9,7 @@ const cors = require('cors');
 var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
-
+var tempsearch = require('./controllers/search/search_controller')
 
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
@@ -617,7 +617,7 @@ app.get('/events', async function (req, res) {
         }
         else {
 
-            var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
+            var Recommendations = recommendations.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
             console.log(Recommendations)
             res.send(Recommendations)
 
@@ -766,6 +766,28 @@ app.post('/delete-achievement', function (req, res) {
         }
     })
 })
+
+app.post('/events_search', function(req, res) {
+    if(req.body.keyword!=undefined) {
+       tempsearch.event_search(req.body.keyword, req.body.usecase, function(err, obj){
+        if(err){
+            console.log('INTERNAL ERROR. ');
+        }
+        else {
+            console.log('SUCCESS >>> GOT SEARCH EVENTS');
+            console.log(obj)
+        }
+       })
+    }
+    else {
+        console.log('INTERNAL ERROR. YOURE NOT SENDING ');
+    }
+})
+
+app.post('/api/ip', function(req, res) {
+    
+})
+
 
 function achievementDelete(achID, studentID) {
     Student.findOne({ "_id": studentID }, function (err, MONGO_STUDENT_OBJ) {

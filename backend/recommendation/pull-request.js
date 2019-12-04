@@ -18,7 +18,7 @@ module.exports =
             }
             )
         },
-
+        
         deep: function deepSearch() //possibly a run code. only then, we run
         {
             event.find({}, function (err, MONGO_OBJ) {
@@ -33,7 +33,6 @@ module.exports =
             }
             )
         },
-
 
         archive: function archivedpull() //A run code may be needed. Something to search old events for
         {
@@ -63,7 +62,6 @@ module.exports =
                 }
             })
         },
-
 
         deepSearch: function deepSearch(keyword) {
             event.find({ "evnName": ("/ . *" + keyword + ". * /") }, function (err, MONGO_OBJ) {

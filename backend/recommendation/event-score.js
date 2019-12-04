@@ -47,13 +47,38 @@ function scoreEvent(event) {
 
 }
 
+function Assigner(scoreArray, eventArray) {
+    for(i=0; i<eventArray.length; i++) {
+        event.findOneAndUpdate({"_id" : (eventArray[i]._id)}, {$set: {"evnScore": scoreArray[i]}}, function(err, MONGO_OBJ){
+            if(err) {
+                console.log('INTERNAL ERROR. COULD NOT FIND EVENT');
+            }
+            else {
+                console.log('SUCCESS >>> FOUND AND UPDTAED for EVENT NUMBER: ', i);
+            }
+        })
+    }
+}
+
+function getEventScore(arr) {
+    var returnarr = []
+    for (i = 0; i < arr.length; i++) {
+        returnarr.push(scoreEvent(arr[i]))
+    }
+    return returnarr;
+}
 
 module.exports = {
-    getEventScore: function getEventScore(arr) {
-        var returnarr = []
-        for (i = 0; i < arr.length; i++) {
-            returnarr.push(scoreEvent(arr[i]))
-        }
-        return returnarr;
+    run_event_scores: function run_event_scores(arr) {
+        getEventScore(arr, function(err, returnarr) {
+            if(err) {
+                console.log('err')
+            }
+            else {
+                    console.log('SUCCESS >>> ');
+                    Assigner(returnarr, arr)
+            }
+        })   
+
     }
 }

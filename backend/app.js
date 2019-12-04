@@ -24,13 +24,7 @@ const db = require('./config/database');
 var event = require('./models/event');
 const saltRounds = enc.saltRounds;
 const alg = require('./controllers/algorithm_runtime')
-<<<<<<< HEAD
-var recommnedations = require()
-=======
-var rec = require(alg.algorithm_update(true));
-const  multipart  =  require('connect-multiparty');
-const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
->>>>>>> e4498a4a7e7ef531ec6f48ca15f9fa57ecb10a27
+var recommnedations = require("./recommendation/recommender");
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication

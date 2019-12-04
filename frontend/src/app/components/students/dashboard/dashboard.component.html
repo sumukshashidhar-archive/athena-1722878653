@@ -1,8 +1,5 @@
 <div class="background">
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
@@ -19,79 +16,52 @@
 
         <div class="navbar-nav">
           <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-          <a class="nav-item nav-link" href="#" routerLink="/achievements"
-            >Achievements</a
-          >
-          <a
-            class="nav-item nav-link"
-            [routerLink]="['/']"
-            routerLinkActive="router-link-active"
-          >
-            <button class="btn btn-danger" (click)="logout()">Logout</button></a
-          >
-          <a
-            class="nav-item nav-link"
-            [routerLink]="['/signup2']"
-            routerLinkActive="router-link-active"
-            >Add Interests</a
-          >
+          <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
+          <a class="nav-item nav-link" [routerLink]="['/']" routerLinkActive="router-link-active">
+            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+          <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+            Interests</a>
           <a routerLink="/delete" class="nav-item nav-link">Settings</a>
         </div>
       </div>
       <div class="wrap">
         <div class="search">
-          <input
-            max-length="32"
-            type="text"
-            class="searchTerm"
-            placeholder="What are you looking for?"
-          />
-          <button type="submit" class="searchButton">
-            <i class="fa fa-search"></i>
-          </button>
+          <form #f="ngForm">
+            <input max-length="32" type="text" class="searchTerm" placeholder="What are you looking for?" required ngModel name="search" #search="ngModel" [(ngModel)]="datasharingService.selSearch.keyword" />
+            <button type="submit" class="searchButton" [disabled]="!search.valid && search.touched" (click)="onSubmit(f)">
+              <i class="fa fa-search"></i>
+            </button>
+            <p>Type of search:</p>
+            <input type="radio" id="1" value="1" [(ngModel)]="datasharingService.selSearch.searchType">
+            <label for="1">Normal search</label>
+            <input type="radio" name="" id="2" value="2" [(ngModel)]="datasharingService.selSearch.searchType">
+            <label for="2">Deep Search</label>
+            <input type="radio" name="" id="3" value="3" [(ngModel)]="datasharingService.selSearch.searchType">
+            <label for="3">Archive Search</label>
+          </form>
         </div>
       </div>
     </nav>
     <button id="dp" data-toggle="modal" data-target="#exampleModal"></button>
     <h2 style="color: white;">Welcome, {{ username }}</h2>
 
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
               Change Profile Photo
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input
-              max-length="32"
-              type="file"
-              id="displaypic"
-              accept=".gif,.png,.jpeg,.jpg"
-            />
+            <input max-length="32" type="file" id="displaypic" accept=".gif,.png,.jpeg,.jpg" />
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
             </button>
             <button type="button" class="btn btn-primary">Save changes</button>

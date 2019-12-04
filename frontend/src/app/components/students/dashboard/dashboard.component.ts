@@ -6,6 +6,8 @@ import { Component, OnInit } from "@angular/core";
 import { DatasharingService } from "./../../../shared/datasharing.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
+import { Search } from "./../../../shared/search.model";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-dashboard",
@@ -19,7 +21,8 @@ export class DashboardComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private data: DatasharingService,
-    private uname: NameService
+    private uname: NameService,
+    public datasharingService: DatasharingService
   ) {}
 
   logout() {
@@ -34,5 +37,21 @@ export class DashboardComponent implements OnInit {
       }
       console.log(this.username);
     });
+  }
+
+  onSubmit(form: NgForm) {
+    this.datasharingService.postSearch(form.value).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+        console.log("Error");
+      }
+    );
   }
 }

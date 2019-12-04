@@ -657,8 +657,8 @@ app.get('/achievements', async function(req, res){
 
 ///ACHIEVEMENTS ROUTE
 app.post('/achievements', multipartMiddleware, (req, res) => {
-
-    console.log("File uploaded succesfully");
+    console.log("HELLLLLLLLLLLLLLLLLLLLLLLO, QOEL");
+    console.log("File uploaded succesfully", res);
 
 
     res.json({

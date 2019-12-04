@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { decoded } from "./../../../auth/auth.service";
 import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
@@ -6,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
 import { DatasharingService } from "./../../../shared/datasharing.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
-
+declare let ClientIP: any;
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -14,13 +15,16 @@ import { Router } from "@angular/router";
 })
 export class DashboardComponent implements OnInit {
   username: any;
-
+  privateIP ;
+  publicIP;
   constructor(
     private auth: AuthService,
     private router: Router,
     private data: DatasharingService,
-    private uname: NameService
+    private uname: NameService,
+    private http:HttpClient
   ) {}
+  
 
   logout() {
     this.auth.logout();

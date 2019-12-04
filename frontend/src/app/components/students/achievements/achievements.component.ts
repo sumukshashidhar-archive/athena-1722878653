@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
 import { LoadingComponent } from "./../../loading/loading.component";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-achievements",
@@ -13,15 +14,16 @@ import { LoadingComponent } from "./../../loading/loading.component";
   styleUrls: ["./achievements.component.css"]
 })
 export class AchievementsComponent implements OnInit {
+  uploadedFiles: Array < File > ;
   showSpinner: boolean = true;
   ach_list: any;
 
-  constructor(public achService: AchievementsService, private router: Router) {}
+  constructor(public achService: AchievementsService, private router: Router,private http: HttpClient) {}
 
   ngOnInit() {
     this.refreshAchievements();
   }
-
+  
   onSubmit(form: NgForm) {
     this.achService.postAchievements(form.value).subscribe(
       res => {
@@ -56,4 +58,23 @@ export class AchievementsComponent implements OnInit {
       })
     }
   }
+
+
+  fileChange(element) {
+    this.uploadedFiles = element.target.files;
+}
+
+upload() {
+  console.log('UPLOAD METHOD');
+  console.log(this.uploadedFiles);
+  let formData = new FormData();
+    for (var i = 0; i < this.uploadedFiles.length; i++) {
+        formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+    }
+    this.http.post('http://localhost:3000/achievements', formData)
+        .subscribe((response) => {
+            console.log('response received is ', response);
+        })
+}
+
 }

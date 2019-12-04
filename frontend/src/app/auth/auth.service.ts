@@ -34,6 +34,7 @@ export class  AuthService {
       console.log('Entered posttoken method')
       console.log(token)
       this.http.post('http://localhost:3000/dashboard', token )
+      
     }
   logout() {
     this.http.post('http://localhost:3000/logout', logout)

@@ -14,6 +14,7 @@ export class  AuthService {
  
   constructor(private http: HttpClient, private router:Router) { }
 
+
   login(user: User): Observable<boolean> {
     console.log('Reached login method')
     return this.http.post<JSON>('http://localhost:3000/login',user)
@@ -35,6 +36,10 @@ export class  AuthService {
       console.log(token)
       this.http.post('http://localhost:3000/dashboard', token )
       
+    }
+    public getIPAddress()
+    {
+      return this.http.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");
     }
   logout() {
     this.http.post('http://localhost:3000/logout', logout)

@@ -49,7 +49,10 @@ var token;
 
 //Using Cors
 app.use(cors());
-
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
 //To get data from the angular project
 app.use(bodyParser.json());
 

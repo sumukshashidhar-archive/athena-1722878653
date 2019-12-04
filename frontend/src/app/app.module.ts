@@ -35,6 +35,7 @@ import { MaterialModule } from "./material.module";
 import { PasscheckComponent } from "./components/passcheck/passcheck.component";
 import { DeleteUserComponent } from "./components/students/delete-user/delete-user/delete-user.component";
 import { LoadingComponent } from "./components/loading/loading.component";
+import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -56,6 +57,10 @@ export const appRoutes: Routes = [
   {
     path: "signup",
     component: SignupComponent
+  },
+  {
+    path: "bigevents",
+    component: BigeventsComponent
   },
   {
     path: "achievements",
@@ -146,7 +151,8 @@ export const appRoutes: Routes = [
     AdminDashComponent,
     SecurityComponent,
     DeleteUserComponent,
-    LoadingComponent
+    LoadingComponent,
+    BigeventsComponent
   ],
   imports: [
     JwtModule.forRoot({

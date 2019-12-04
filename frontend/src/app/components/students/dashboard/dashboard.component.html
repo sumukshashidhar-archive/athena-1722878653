@@ -28,7 +28,7 @@
       <!-- <div class="wrap">
         <div class="search">
           <form #f="ngForm">
-            <input max-length="32" type="text" class="searchTerm" placeholder="What are you looking for?" required ngModel name="search" #search="ngModel" [(ngModel)]="datasharingService.selSearch.keyword" />
+            <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" required ngModel name="search" #search="ngModel" [(ngModel)]="datasharingService.selSearch.keyword" />
             <button type="submit" class="searchButton" [disabled]="!search.valid && search.touched" (click)="onSubmit(f)">
               <i class="fa fa-search"></i>
             </button>
@@ -60,7 +60,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <input max-length="32" type="file" id="displaypic" accept=".gif,.png,.jpeg,.jpg" />
+            <input maxlength="32" type="file" id="displaypic" accept=".gif,.png,.jpeg,.jpg" />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">

@@ -8,11 +8,17 @@ import { Event } from "./event";
 })
 export class EventService {
   selectedEvent: Event = {
-    evnLocation: "",
+    evnPincode: "",
     evnName: "",
     evnOrganizerContact: "",
-    evnDate: "",
-    evnOrganizerPage: ""
+    evnDate1: "",
+    evnDate2: "",
+    evnOrganizerPage: "",
+    evnTargetAge: "",
+    evnDescription: "",
+    evnInterests: "",
+    evnAdd1: "",
+    evnAdd2: ""
   };
   events: Event[];
 
@@ -24,6 +30,7 @@ export class EventService {
 
   postEvents(events: Event) {
     console.log("Post Events method");
+    console.log(events)
     return this.http.post("http://localhost:3000/organizer-events", events);
   }
 }

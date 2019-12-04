@@ -6,13 +6,15 @@ var eventSchema = new mongoose.Schema({
     //BASICS
     evnName: String, 
     evnDate: Date,
-    evnIntersts: [], 
+    interests: [], 
     evnOrganizerName: String,
     evnOrganizerPage: String,
     evnOrganizerContact: String,
     evnLocation: String, 
     targetAge: String,
     // CONTACT SUMUK BELOW THIS
+    evnDescription: String, 
+    Comments: Array,
     evnState: String,
     Event_Rating: Number,
     Attendees: Array //Specifically not something like [user.Schema]

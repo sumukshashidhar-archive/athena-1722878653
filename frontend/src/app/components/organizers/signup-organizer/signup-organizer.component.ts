@@ -46,12 +46,15 @@ export class SignupOrganizerComponent implements OnInit {
         this.showSuccessmessage = true;
         setTimeout(() => (this.showSuccessmessage = false), 3000);
         this.router.navigate(["/login"]);
+        console.log('Signup organizer works')
       },
       err => {
         if (err.status === 422) {
           this.serverErrormessage = err.error.join("<br/>");
+          console.log('Doesnt work')
         } else {
           this.serverErrormessage = "Work please";
+          console.log('This is retarded')
         }
       }
     );

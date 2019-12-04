@@ -1,5 +1,6 @@
 import { InterestSendingService } from "./../../../shared/interests/interest-sending.service";
 import { Component, OnInit } from "@angular/core";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-signup2",
@@ -7,20 +8,20 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./signup2.component.css"]
 })
 export class Signup2Component implements OnInit {
-  interest: string;
-  interests = [];
+  // interest: string;
+  // interests = [];
   constructor(private interestsendingservice: InterestSendingService) {}
-  onClick() {
-    this.interests.push({
-      name: this.interest
-    });
-    this.interest = "";
-  }
-  onSubmit() {
-    this.interestsendingservice.postInterest(this.interests).subscribe(
+  // onClick() {
+  //   this.interests.push({
+  //     name: this.interest
+  //   });
+  //   this.interest = "";
+  // }
+  onSubmit(form: NgForm) {
+    this.interestsendingservice.postInterest(form.value).subscribe(
       res => {
         console.log("Auth is successful");
-        console.log(this.interests);
+        console.log(res);
       },
       err => {
         console.log("ERROR");

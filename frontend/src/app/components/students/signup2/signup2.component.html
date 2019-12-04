@@ -1,52 +1,12 @@
 <body>
   <div class="form">
-    <textarea
-      id="bio"
-      name="bio"
-      required
-      placeholder="Your Bio"
-      ngModel
-      bio
-      #bio="ngModel"
-      cols="30"
-      rows="10"
-    ></textarea>
-    <span class="help-block" *ngIf="bio.touched && !bio.valid"
-      >Please Enter Valid Bio</span
-    >
-    <input
-      maxlength="32"
-      type="text"
-      placeholder="Enter your interest"
-      id="txtSearch"
-      required
-      [(ngModel)]="interest"
-      #inter="ngModel"
-      maxlength="12"
-    />
-    <button
-      class="btn btn-primary"
-      type="button"
-      (click)="onClick()"
-      [disabled]="!inter.valid"
-    >
-      Add Interest
-    </button>
-    <p></p>
-    <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active"
-      ><button
-        class="btn btn-primary"
-        type="button"
-        (click)="onSubmit()"
-        [disabled]="interests.length < 4"
-      >
-        Submit
-      </button></a
-    >
-    <ul class="list-group">
-      <li *ngFor="let interest of interests" class="list-group-item">
-        <span> {{ interest.name }} </span>
-      </li>
-    </ul>
+    <form #f="ngForm">
+      <input type="text" name="bio" class="form-control" ngModel #bio="ngModel"
+        [(ngModel)]="interestsendingservice.selectedInt.bio">
+      <span class="help-block" *ngIf="bio.touched && !bio.valid">Please Enter Valid Bio</span>
+      <input type="text" placeholder="Enter your interests as comma separated values" id="txtSearch" name="interests" #interests="ngModel" required [(ngModel)]="interestsendingservice.selectedInt.interests"
+        maxlength="12" />
+      <button class="btn btn-primary" (click)="onSubmit(f)">Submit</button>
+    </form>
   </div>
 </body>

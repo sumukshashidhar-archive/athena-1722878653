@@ -64,8 +64,8 @@ On the second terminal, you should have an output saying that the server has sta
 
 - **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT. _ (@anirudhlakhotia)
 - **Sumuk Shashidhar**  -  _Request management and Authentication. Implementation of JWT. Recommendation Algorithm for Events_ (@sumukshashidhar)
-- **Vijay Dharmaji**  -  _Working temporary project to test out functionality with ejs_ (@vijaydharmaji29)
 -  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Achievements_   (@anandrajaram21)
+- **Amogh Ananda** - _UI Design_
 
 See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.
 

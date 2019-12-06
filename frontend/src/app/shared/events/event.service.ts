@@ -14,7 +14,7 @@ export class EventService {
     evnDate1: "",
     evnDate2: "",
     evnOrganizerPage: "",
-    evnTargetAge: "",
+    evnTargetAge: 0,
     evnDescription: "",
     evnInterests: "",
     evnAdd1: "",

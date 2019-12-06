@@ -26,6 +26,7 @@ function events_archive_module(authentication) {
             total_events = event_list.length
             var events_to_delete = [] 
             var bad_code_bool = true
+            var while_bool = true
             for(i=0; i<total_events; i++) {
                 if(i==total_events-1) {
                     bad_code_bool = false
@@ -66,7 +67,16 @@ function events_archive_module(authentication) {
                     continue
                 }
             }
-            while(bad_code_bool)
+            while(while_bool) {
+                if(bad_code_bool) {
+                    
+                    while_bool = false
+                }
+                else {
+                    continue
+                }
+                
+            }
             
         }
     })

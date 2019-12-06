@@ -15,12 +15,14 @@ export class UserService {
     phoneno: "",
     userType: "Student",
     securityQuestion: "",
-    securityAnswer: ""
+    securityAnswer: "",
+    pincode: ""
   };
 
   constructor(private http: HttpClient) {}
 
   postUser(user: User) {
+    console.log(user)
     return this.http.post("http://localhost:3000/register", user);
   }
 }

@@ -37,6 +37,7 @@ import { DeleteUserComponent } from "./components/students/delete-user/delete-us
 import { LoadingComponent } from "./components/loading/loading.component";
 import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
 import { SearchresComponent } from './components/students/searchres/searchres.component';
+import { DiscoverComponent } from './components/discover/discover.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -64,8 +65,8 @@ export const appRoutes: Routes = [
     component: BigeventsComponent
   },
   {
-    path: "searchres",
-    component: SearchresComponent
+    path: "discover",
+    component: DiscoverComponent
   },
   {
     path: "achievements",
@@ -158,7 +159,8 @@ export const appRoutes: Routes = [
     DeleteUserComponent,
     LoadingComponent,
     BigeventsComponent,
-    SearchresComponent
+    SearchresComponent,
+    DiscoverComponent
   ],
   imports: [
     JwtModule.forRoot({

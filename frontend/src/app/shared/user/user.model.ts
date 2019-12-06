@@ -9,4 +9,5 @@ export class User {
   userType: string;
   securityQuestion: string;
   securityAnswer: string;
+  pincode: string;
 }

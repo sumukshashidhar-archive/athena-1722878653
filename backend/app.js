@@ -10,6 +10,9 @@ var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
 var tempsearch = require('./controllers/search/search_controller')
+const nodemailer = require('nodemailer');
+const exphbs = require('express-handlebars');
+const path = require('path');
 
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
@@ -33,6 +36,48 @@ const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
+
+///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
+
+function sendMail(output, to)
+{
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'developersatathena@gmail.com', // generated ethereal user
+        pass: 'Kumarans@365!'  // generated ethereal password
+    },
+    tls:{
+      rejectUnauthorized:false
+    }
+  });
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+      from: '"Athena Contact" <developersatathena@gmail.com>', // sender address
+      to: to, // list of receivers
+      subject: 'Node Contact Request', // Subject line
+      text: 'Hello world?', // plain text body
+      html: output // html body
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);   
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+      console.log('Email has been sent');
+  });
+}
+
+//usage   
+//sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
 
 
 /*
@@ -264,6 +309,9 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyOrganiser/'+obj._id;
+
+                                    sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                                     res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
                                 }
@@ -280,6 +328,23 @@ app.post('/registerorganizer', function (req, res) {
         }
     })
 
+});
+
+app.get('/verifyOrganiser/*', function(req, res)
+{
+    idV = req.url.slice(17, 100);
+    Organiser.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR" + err);
+        }
+        else
+        {
+            console.log("VERIFIED");
+            console.log(obj);
+        }
+    }); 
 });
 
 

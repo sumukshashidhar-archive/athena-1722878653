@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../shared/user/user.model';
 import * as jwt_decode from 'jwt-decode';
+
 var Token:JSON;
 export var decoded
+export var username
 var logout:Boolean;
 logout=true
 @Injectable()
 export class  AuthService {
+  username: any;
  
   constructor(private http: HttpClient, private router:Router) { }
 
@@ -21,8 +24,8 @@ export class  AuthService {
       .pipe(
         map(res => {
           console.log(`RESPONSE IS ${res}`)
-          localStorage.setItem('access_token', JSON.stringify(res))
-          var decodedT = localStorage.getItem('access_token');
+          sessionStorage.setItem('access_token', JSON.stringify(res))
+          var decodedT = sessionStorage.getItem('access_token');
            decoded = jwt_decode(decodedT); 
           console.log(decoded);
           this.posttoken(res)
@@ -41,17 +44,17 @@ export class  AuthService {
     {
       return this.http.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");
     }
+    
   logout() {
     this.http.post('http://localhost:3000/logout', logout)
     console.log(logout)
-    localStorage.removeItem('access_token');
-    this.router.navigate(['/login']);
+    sessionStorage.removeItem('access_token');
     
   }
   getToken(){
-    return localStorage.getItem('access_token')
+    return sessionStorage.getItem('access_token')
   }
    loggedIn(){
-    return !! localStorage.getItem('access_token') ;
+    return !! sessionStorage.getItem('access_token') ;
   }
 }

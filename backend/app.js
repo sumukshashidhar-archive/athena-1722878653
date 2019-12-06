@@ -1,5 +1,6 @@
 
 //Imports - Needed Packages for Running
+var https = require('https');
 var express = require("express");
 var fs = require('fs');
 var jwt = require('jsonwebtoken')
@@ -28,7 +29,6 @@ var recommnedations = require("./recommendation/recommender");
 var rec = require(alg.algorithm_update(true));
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
-
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
@@ -60,6 +60,8 @@ app.use(bodyParser.json());
 //To get rid of the promise exception
 mongoose.Promise = global.Promise;
 
+
+
 //DB CONNECTION
 // This is an async funtion
 mongoose.connect(db.mongoURI,
@@ -72,6 +74,13 @@ mongoose.connect(db.mongoURI,
     .catch(err => console.log(err));
 
 //STARTING SERVER HERE
+// https.createServer({
+//     key: fs.readFileSync('./keys/server.key'),
+//     cert: fs.readFileSync('./keys/server.cert')
+//   }, app)
+//   .listen(3000, function () {
+//     console.log('Example app listening on port 3000! Go to https://localhost:3000/')
+//   })
 app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is from a config file
 {
     console.log("SERVER STARTED");

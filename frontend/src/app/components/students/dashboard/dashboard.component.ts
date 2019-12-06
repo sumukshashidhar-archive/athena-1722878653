@@ -17,6 +17,7 @@ import { NgForm } from "@angular/forms";
 })
 export class DashboardComponent implements OnInit {
   username: any;
+  name:any
   ipAddress:string;
   constructor(
     private auth: AuthService,
@@ -30,7 +31,6 @@ export class DashboardComponent implements OnInit {
     
   logout() {
     this.auth.logout();
-    this.router.navigate(["/login"]);
   }
   getIP()
   {
@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.getIP();
+
     var d = decoded;
     this.data.currentName.subscribe((res: Response) => {
       if (decoded["role"] == "Student") {

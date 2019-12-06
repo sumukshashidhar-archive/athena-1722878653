@@ -660,7 +660,12 @@ app.get('/achievements', async function (req, res) {
 
 
 // ACHIEVEMENTS ROUTE
-app.post('/achievements', async function (req, res) {
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+    console.log(req.body, req.files);
+
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
@@ -702,6 +707,11 @@ app.post('/achievements', async function (req, res) {
     })
 })
 
+
+app.get('/getImages/*', function(req, res)
+{
+    
+});
 
 // app.post('/achievements', function(req, res)
 // {

@@ -8,17 +8,19 @@ import { Achievements } from "./achievements.model";
 export class AchievementsService {
   selectedAchievements: Achievements = {
     achCat: "",
-    achSubCat: ""
+    achSubCat: "",
   };
-  
+  // formData = new FormData();
   achievements: Achievements[];
 
   constructor(private http: HttpClient) {}
 
-  postAchievements(ach: Achievements) {
+  postAchievements(ach: Achievements, ) {
     console.log("Post achievements method");
     console.log(ach);
+    // console.log(fdata)
     return this.http.post("http://localhost:3000/achievements", ach);
+
   }
 
   getAchievements() {

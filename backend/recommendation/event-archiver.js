@@ -1,8 +1,10 @@
 // Have to insert this into the archived events array in a sorted format
 // 
 
+//working module check
 
 
+//Imports
 var datetime = Date()
 var event = require('./../models/event')
 var archevent = require('./../models/archived-event')
@@ -81,11 +83,15 @@ function LOOP_ARCHIVE(event_list) {
     })
 }
 
+
+
+//must export everything. basically all modules
 module.exports =
     {
         // Functions for Archiving Events
         // Should be an independent module
         // Can develop a scheduler here instead. Have to see how that goes
+        //@authentication - the user who is running this module
         archive_events: function archive_events(authentication) {
             var event_list = []
             event.find({}, function(err, MONGO_OBJ) {

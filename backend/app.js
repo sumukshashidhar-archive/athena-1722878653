@@ -15,7 +15,8 @@ var tempsearch = require('./controllers/search/search_controller')
 
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
-var func = require('./main_functions.js');
+var organizer_functions = require('./controllers/organizer_controller');
+var student_functions = require('./controllers/student_controller')
 var achievements = require('./models/Achievements.js');
 const enc = require('./config/encryptionConfig.js');
 var serv = require('./config/severConfig.js');
@@ -169,7 +170,7 @@ app.post('/register', function (req, res) {
                                 else {
                                     console.log(obj);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(func.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo)); //TODO: Put this in a different file
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -266,7 +267,7 @@ app.post('/registerorganizer', function (req, res) {
                                 else {
                                     console.log(obj);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(func.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
+                                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -535,8 +536,7 @@ app.post('/organizer-events', async function (req, res) {
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
-                    evnOrganizerContact: req.body.evnOrganizerContact,
-                    evnId: func.eventIDGen(req.body.evnName, req.body.evnDate)
+                    evnOrganizerContact: req.body.evnOrganizerContact
                 });
                 newEvent.save(function (err, obj) {
                     if (err) {

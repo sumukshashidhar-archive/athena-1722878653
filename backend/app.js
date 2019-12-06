@@ -838,7 +838,7 @@ function achievementDelete(achID, studentID) {
  
 
 //SHA256 hash of add_keys. Done for the anonyminity of the post URL
-app.post('/ba01ac51de2e64b87861e99c833ba6b1b2262aff68a4f21cffa307eb29eddcc3', function(req, res) {
+app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', function(req, res) {
     //SHA512 of 'admin'
 	console.log("Recieved the post request")
 	console.log(req.body)
@@ -861,7 +861,7 @@ app.post('/ba01ac51de2e64b87861e99c833ba6b1b2262aff68a4f21cffa307eb29eddcc3', fu
                             res.status(500)
                         }
                         else { 
-                            key_controller.key_add(key, MONGO_ADMIN_OBJ.username)
+                            key_controller.key_add(BCRYPT_KEY_HASH, MONGO_ADMIN_OBJ.username)
                             res.status(200).send("Added Key")
                         }
                     })

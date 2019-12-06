@@ -235,8 +235,9 @@ app.post('/updateinfo', function (req, res) {
 app.post('/registerorganizer', function (req, res) {
     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (err) {
+            console.log(req.body.Password)
             //CODE BELOW THIS IS PRODUCTION READY
-            bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
+            bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
                 if (err) {
                     console.log(err)
                     res.status(500).send("Internal Server Error") //Sends an internal server err

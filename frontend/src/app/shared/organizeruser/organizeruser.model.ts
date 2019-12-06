@@ -5,4 +5,6 @@ export class OrgUser {
   Password: string;
   PhoneNo: string;
   userType: string;
+  securityQuestion: string;
+  securityAnswer: string;
 }

@@ -11,12 +11,15 @@ export class OrganizeruserService {
     RegistrationDate: "",
     Password: "",
     PhoneNo: "",
-    userType: "Organizer"
+    userType: "Organizer",
+    securityAnswer: "",
+    securityQuestion: ""
   };
 
   constructor(private http: HttpClient) {}
 
   postOrgUser(user: OrgUser) {
+    console.log(user)
     return this.http.post("http://localhost:3000/registerorganizer", user);
   }
 }

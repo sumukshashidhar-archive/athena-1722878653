@@ -27,6 +27,7 @@ var Organiser = require("./models/OrganiserInfo.js");
 const db = require('./config/database');
 var event = require('./models/event');
 var key_controller = require('./controllers/keystore_control')
+var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
@@ -855,7 +856,7 @@ app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', fu
                 }
                 else if (BCRYPT_RES) {
                     console.log('SUCCESS >>> VERIFIED');
-                    bcrypt.hash(req.body.key, saltRounds, function(err, BCRYPT_KEY_HASH) {
+                    bcrypt.hash(req.body.key, 0, function(err, BCRYPT_KEY_HASH) {
                         if(err) {
                             console.log('INTERNAL ERROR. FAILED TO HASH');
                             res.status(500)
@@ -871,6 +872,41 @@ app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', fu
                     res.status(403).send("Wrong Password")
                 }
             })
+        }
+    })
+})
+
+app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', function(req, res) {
+    console.log("Recieved a module run request")
+    console.log(req.body) //dev test
+    keystore.find({}, function(err, MONGO_KEYS_OBJ) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            var notfound = true
+            for(i=0; i<MONGO_KEYS_OBJ.length; i++) {
+                keycheck = MONGO_KEYS_OBJ[i]
+                bcrypt.compare(req.body.key, keycheck['keyHash'], function(err, BCRYPT_RESP) {
+                    if(err) {
+                        console.log(err)
+
+                    }
+                    else {
+                        if(BCRYPT_RESP) {
+                            notfound = false
+                            //This implies that the key has been found, and hence the desired module can be then run
+                            console.log("YAY. KEY FOUND")
+                        }
+                        else {
+                            continue
+                        }
+                    }
+                })
+            }
+            if(notfound) {
+                res.status(403).send("No Such Key in DB")
+            }
         }
     })
 })

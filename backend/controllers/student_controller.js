@@ -1,7 +1,7 @@
 //IMPORTS
-var user = require("./models/user.js");
-var Student = require("./models/StudentInfo.js");
-var Organiser = require("./models/OrganiserInfo.js");
+var user = require("./../models/user.js");
+var Student = require("./../models/StudentInfo.js");
+var Organiser = require("./../models/OrganiserInfo.js");
 const crypto = require("crypto");
 
 module.exports = {

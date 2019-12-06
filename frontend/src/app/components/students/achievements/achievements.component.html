@@ -50,7 +50,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form #f="ngForm">
+          <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
             <div class="form-group">
               <label class="control-label">Category</label>
               <div>
@@ -69,12 +69,16 @@
                 <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter achievement
                   subcategory</span>
               </div>
-            </div>
-            <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
-              <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
+              <h2>FILE UPLOAD</h2>
+              <img [src]="url" height="200"> <br/>
               <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
-              <input maxlength="32" type="submit" class="input-group-text upload"  (click)="upload()"  id="btnUpload"  />
-            </form>
+             
+            </div>
+            <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
+              <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
+              
+              <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
+            <!-- </form> -->
             <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
               (click)="onSubmit(f)">
               Add Achievement

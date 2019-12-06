@@ -874,3 +874,177 @@ app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', fu
         }
     })
 })
+
+
+///TEST CODE
+// ///TEST 
+// admin_log_controller.log_module_run("sumuk", "Event_Archive")
+// //NOW THAT THE RUN ATTEMPT HAS BEEN LOGGED. MOVE ON TO THE ACTUAL EVENT ARCHIVE
+// //RECIEVE THE EVENTS NOW
+// event.find({}, function (err, EVENT_OBJ) {
+//     if (err) {
+//         console.log('INTERNAL ERROR. \n ', err);
+//     }
+//     else {
+//         console.log(EVENT_OBJ)
+//         event_list = EVENT_OBJ
+//         datetime = Date()
+//         var cur; //For setting current event
+//         total_events = EVENT_OBJ.length;
+//         var events_to_delete = []
+//         var bad_code_bool = true
+//         var while_bool = true
+//         for (i = 0; i < total_events; i++) {
+//             console.log("Inside Outer Loop Now")
+//             if (i == total_events - 1) {
+//                 bad_code_bool = false
+//             }
+//             //Selecting the event here
+//             if ((event_list[i]).evnEndDate < datetime) {
+//                 console.log("Entering Loop Now")
+//                 cur = event_list[i]
+//                 console.log("Cur is \n ", cur)
+//                 //Checking if the event Date is less than the current date and then pushing it to the Archived events array
+//                 console.log('Archiving Event ', i, 'of ', total_events)
+//                 var newArchEvent = new archevent({
+//                     evnName: cur.evnName,
+//                     evnStartDate: cur.evnStartDate,
+//                     evnEndDate: cur.evnEndDate,
+//                     evnInterests: cur.interests,
+//                     evnOrganizerName: cur.evnOrganizerName,
+//                     evnOrganizerPage: cur.evnOrganizerPage,
+//                     evnOrganizerContact: cur.evnOrganizerContact,
+//                     evnLocation: cur.evnLocation,
+//                     evnPincode: cur.evnPincode,
+//                     evnAddress: cur.evnAddress,
+//                     evnTargetAge: cur.targetAge,
+//                     // CONTACT SUMUK BELOW THIS
+//                     evnDescription: cur.evnDescription,
+//                     evnRating: cur.evnRating
+//                 })
+//                 newArchEvent.save(function (err, obj) {
+//                     if (err) {
+//                         console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+//                     }
+//                     else {
+//                         console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+//                         console.log(obj)
+//                         events_to_delete.push(cur._id)
+//                     }
+//                 }) // ONCE THIS HAS BEEN UPDATED.
+//             }
+//             else {
+//                 continue
+//             }
+//         }
+//         while (while_bool) {
+//             if (bad_code_bool) {
+//                 var tot_length = events_to_delete.length;
+//                 for (i = 0; i < tot_length; i++) {
+//                     event.deleteOne({ "_id": events_to_delete[i] }, function (err, MONGO_OBJ) {
+//                         if (err) {
+//                             console.log("Error in Deletion")
+//                             console.log(err)
+//                         }
+//                         else {
+//                             console.log('SUCCESS >>> DELETED');
+//                             console.log('Now deleting ', i, 'of ', tot_length, ' events.')
+//                         }
+//                     })
+//                 }
+//                 while_bool = false
+//             }
+//             else {
+//                 continue
+//             }
+
+//         }
+
+//     }
+// })
+
+
+// function events_archive_module(authentication) {
+//     //FIRST THING IS TO LOG THIS ATTEMPT!
+//     admin_log_controller.log_module_run(authentication, "Event_Archive")
+//     //NOW THAT THE RUN ATTEMPT HAS BEEN LOGGED. MOVE ON TO THE ACTUAL EVENT ARCHIVE
+//     //RECIEVE THE EVENTS NOW
+//     event.find({}, function (err, EVENT_OBJ) {
+//         if (err) {
+//             console.log('INTERNAL ERROR. \n ', err);
+//         }
+//         else {
+//             event_list = EVENT_OBJ
+//             datetime = Date()
+//             var cur; //For setting current event
+//             total_events = event_list.length
+//             var events_to_delete = []
+//             var bad_code_bool = true
+//             var while_bool = true
+//             for (i = 0; i < total_events; i++) {
+//                 if (i == total_events - 1) {
+//                     bad_code_bool = false
+//                 }
+//                 //Selecting the event here
+//                 if ((event_list[i]).evnEndDate < datetime) {
+//                     cur = event_list[i]
+//                     //Checking if the event Date is less than the current date and then pushing it to the Archived events array
+//                     console.log('Archiving Event ', i, 'of ', total_events)
+//                     var newArchEvent = new archevent({
+//                         evnName: cur.evnName,
+//                         evnStartDate: cur.evnStartDate,
+//                         evnEndDate: cur.evnEndDate,
+//                         evnInterests: cur.interests,
+//                         evnOrganizerName: cur.evnOrganizerName,
+//                         evnOrganizerPage: cur.evnOrganizerPage,
+//                         evnOrganizerContact: cur.evnOrganizerContact,
+//                         evnLocation: cur.evnLocation,
+//                         evnPincode: cur.evnPincode,
+//                         evnAddress: cur.evnAddress,
+//                         evnTargetAge: cur.targetAge,
+//                         // CONTACT SUMUK BELOW THIS
+//                         evnDescription: cur.evnDescription,
+//                         evnRating: cur.evnRating
+//                     })
+//                     newArchEvent.save(function (err, obj) {
+//                         if (err) {
+//                             console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+//                         }
+//                         else {
+//                             console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+//                             console.log(obj)
+//                             events_to_delete.push(cur._id)
+//                         }
+//                     }) // ONCE THIS HAS BEEN UPDATED.
+//                 }
+//                 else {
+//                     continue
+//                 }
+//             }
+//             while (while_bool) {
+//                 if (bad_code_bool) {
+//                     var tot_length = events_to_delete.length;
+//                     for (i = 0; i < tot_length; i++) {
+//                         event.deleteOne({ "_id": events_to_delete[i] }, function (err, MONGO_OBJ) {
+//                             if (err) {
+//                                 console.log("Error in Deletion")
+//                                 console.log(err)
+//                             }
+//                             else {
+//                                 console.log('SUCCESS >>> DELETED');
+//                                 console.log('Now deleting ', i, 'of ', tot_length, ' events.')
+//                             }
+//                         })
+//                     }
+//                     while_bool = false
+//                 }
+//                 else {
+//                     continue
+//                 }
+
+//             }
+
+//         }
+//     })
+
+// }

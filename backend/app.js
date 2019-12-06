@@ -885,7 +885,8 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
         }
         else {
             var notfound = true
-            for(i=0; i<MONGO_KEYS_OBJ.length; i++) {
+            total_length = MONGO_KEYS_OBJ.length
+            for(i=0; i<total_length; i++) {
                 keycheck = MONGO_KEYS_OBJ[i]
                 bcrypt.compare(req.body.key, keycheck['keyHash'], function(err, BCRYPT_RESP) {
                     if(err) {
@@ -899,7 +900,7 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
                             console.log("YAY. KEY FOUND")
                         }
                         else {
-                            continue
+                            console.log('Searching record ', i, ' of ', total_length)
                         }
                     }
                 })

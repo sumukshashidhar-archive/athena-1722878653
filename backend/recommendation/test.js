@@ -2,7 +2,7 @@ var pull_test = require('./pull-request')
 var db = require('./../config/database')
 var mongoose = require('mongoose')
 var express = require('express')
-
+var rec = require('./common_ground')
 
 
 var port = 3000
@@ -36,6 +36,7 @@ app.get('/hello', function(req, res) {
             res.render('index')
             res.send("Hello")
             console.log(MONGO_OBJ)
+
         }
     })
 })

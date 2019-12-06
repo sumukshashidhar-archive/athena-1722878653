@@ -6,7 +6,7 @@ LICSENSE: No License
 */
 
 var event = require('./../models/event')
-
+var sum_array;
 //We take in bytes / elements, and return a score
 
 function get_scores(arr, pincode, interests, age, costPref) {
@@ -17,14 +17,11 @@ function get_scores(arr, pincode, interests, age, costPref) {
     for(i=0; i<arr.length; i++) {
         var ev = arr[i]
         var sum=0; 
-
-
         //Pincode Calculation
-        if (pincode!=undefined) {
+        if (pincode!=undefined && ev.evnPincode!=undefined) {
             sum += (Math.abs(pincode - ev.evnPincode)*0.7)
         }
         
-    
         if (ev.evnScore!=undefined) {
             //Adding raw event score
             sum += ev.evnScore
@@ -40,7 +37,6 @@ function get_scores(arr, pincode, interests, age, costPref) {
             //Subtracting Cost Preferences modulus from the total score. Multiplied by 0.1
             sum -= (Math.abs(costPref - ev.evnCost)*0.1)
         }
-    
     
     
         //For the interests checking
@@ -69,6 +65,7 @@ function get_scores(arr, pincode, interests, age, costPref) {
     
     
     }
+    return sum_array
  
     //Have to make one for attending friends as well.
 }
@@ -99,6 +96,14 @@ function binarySearch(arr, x, start, end) {
 
 module.exports = {
     score_events: function score_events(arr) {
-
+        get_scores(arr, 560076, ['sample_interest'], 17, 500, function(err, obj) {
+            if(err) {
+                console.log('INTERNAL ERROR. ');
+            }
+            else {
+                console.log(obj)
+                return obj
+            }
+        })
     }
 }

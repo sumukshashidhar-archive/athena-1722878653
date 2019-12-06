@@ -13,7 +13,7 @@ export class DatasharingService {
 
   selSearch: Search = {
     keyword: '',
-    searchType: ''
+    usecase: ''
   };
 
   constructor(private http: HttpClient) {}

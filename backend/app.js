@@ -601,7 +601,11 @@ app.post('/organizer-events', async function (req, res) {
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
-                    evnOrganizerContact: req.body.evnOrganizerContact
+                    evnOrganizerContact: req.body.evnOrganizerContact,
+                    evnLocation: req.body.evnLocation,
+                    evnTargetAge: req.body.evnTargetAge,
+                    evnDescription: req.body.evnDescription,
+                    evnCost: req.body.cost,
                 });
                 newEvent.save(function (err, obj) {
                     if (err) {
@@ -820,11 +824,6 @@ app.post('/events_search', function(req, res) {
         console.log('INTERNAL ERROR. YOURE NOT SENDING ');
     }
 })
-
-app.post('/api/ip', function(req, res) {
-    
-})
-
 
 function achievementDelete(achID, studentID) {
     Student.findOne({ "_id": studentID }, function (err, MONGO_STUDENT_OBJ) {

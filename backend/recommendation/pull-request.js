@@ -6,14 +6,18 @@ var archevent = require('./../models/archived-event')
 
 module.exports =
     {
+        //These Events
         regular: function regularpull(city) {
             event.find({ evnLocation: city }, function (err, MONGO_OBJ) {
                 if (err) {
                     console.log('INTERNAL ERROR. FAILED TO RETRIEVE EVENTS FROM DB. \n CHECK DB CONNECTION');
                     return err;
                 }
-                else {
+                else if(MONGO_OBJ) {
                     return MONGO_OBJ
+                }
+                else {
+                    return false
                 }
             }
             )

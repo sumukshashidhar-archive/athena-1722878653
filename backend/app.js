@@ -26,6 +26,7 @@ var Student = require("./models/StudentInfo.js");
 var Organiser = require("./models/OrganiserInfo.js");
 const db = require('./config/database');
 var event = require('./models/event');
+var key_controller = require('./controllers/keystore_control')
 const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
@@ -834,3 +835,40 @@ function achievementDelete(achID, studentID) {
     }
     )
 }
+ 
+
+//SHA256 hash of add_keys. Done for the anonyminity of the post URL
+app.post('/ba01ac51de2e64b87861e99c833ba6b1b2262aff68a4f21cffa307eb29eddcc3', function(req, res) {
+    //SHA512 of 'admin'
+    user.findOne({"username": req.body.username, "userType":"c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec"}, function(err, MONGO_ADMIN_OBJ) {
+        if(err) {
+            console.log('INTERNAL ERROR. FOUND NO ADMIN');
+            res.status(404).send("No user found")
+        }
+        else if(MONGO_ADMIN_OBJ) {
+            bcrypt.compare(req.body.password, MONGO_ADMIN_OBJ.password, function(err, BCRYPT_RES) {
+                if(err) {
+                    console.log('INTERNAL ERROR. ');
+                    res.status(403).send("Hash Error")
+                }
+                else if (BCRYPT_RES) {
+                    console.log('SUCCESS >>> VERIFIED');
+                    bcrypt.hash(req.body.key, saltRounds, function(err, BCRYPT_KEY_HASH) {
+                        if(err) {
+                            console.log('INTERNAL ERROR. FAILED TO HASH');
+                            res.status(500)
+                        }
+                        else { 
+                            key_controller.key_add(key, MONGO_ADMIN_OBJ.username)
+                            res.status(200).send("Added Key")
+                        }
+                    })
+                }
+                else {
+                    console.log('INTERNAL ERROR. WRONG PASSWORD');
+                    res.status(403).send("Wrong Password")
+                }
+            })
+        }
+    })
+})

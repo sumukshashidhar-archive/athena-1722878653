@@ -39,6 +39,7 @@ import { BigeventsComponent } from './components/students/bigevents/bigevents.co
 import { SearchresComponent } from './components/students/searchres/searchres.component';
 import { DiscoverComponent } from './components/discover/discover.component';
 import { KeyaddComponent } from './keyadd/keyadd.component';
+import { RunmoduleComponent } from './runmodule/runmodule.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -60,6 +61,10 @@ export const appRoutes: Routes = [
   {
     path: "1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e",
     component: KeyaddComponent
+  },
+  {
+    path: "f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e",
+    component: RunmoduleComponent
   },
   {
     path: "signup",
@@ -166,7 +171,8 @@ export const appRoutes: Routes = [
     BigeventsComponent,
     SearchresComponent,
     DiscoverComponent,
-    KeyaddComponent
+    KeyaddComponent,
+    RunmoduleComponent
   ],
   imports: [
     JwtModule.forRoot({

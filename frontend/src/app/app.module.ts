@@ -58,7 +58,7 @@ export const appRoutes: Routes = [
     component: LoginComponent
   },
   {
-    path: "keyadd",
+    path: "1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e",
     component: KeyaddComponent
   },
   {

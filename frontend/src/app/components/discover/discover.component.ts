@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Search } from './../../shared/search.model';
+import { DatasharingService } from './../../shared/datasharing.service';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-discover',
@@ -7,9 +11,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiscoverComponent implements OnInit {
 
-  constructor() { }
+  constructor(public data: DatasharingService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onSubmit(form: NgForm) {
+    this.data.postSearch(form.value).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+      }
+    );
   }
 
 }

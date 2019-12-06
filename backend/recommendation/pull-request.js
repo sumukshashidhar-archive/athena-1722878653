@@ -6,14 +6,18 @@ var archevent = require('./../models/archived-event')
 
 module.exports =
     {
+        //These Events
         regular: function regularpull(city) {
             event.find({ evnLocation: city }, function (err, MONGO_OBJ) {
                 if (err) {
                     console.log('INTERNAL ERROR. FAILED TO RETRIEVE EVENTS FROM DB. \n CHECK DB CONNECTION');
                     return err;
                 }
-                else {
+                else if(MONGO_OBJ) {
                     return MONGO_OBJ
+                }
+                else {
+                    return false
                 }
             }
             )
@@ -21,6 +25,7 @@ module.exports =
         
         deep: function deepSearch() //possibly a run code. only then, we run
         {
+            
             event.find({}, function (err, MONGO_OBJ) {
                 if (err) {
                     console.log('INTERNAL ERROR. RETRIEVE FOR DEEP FAILED');
@@ -28,10 +33,11 @@ module.exports =
                 }
                 else {
                     console.log('SUCCESS >>>> Retrived from DATABASE')
+                    console.log('Printing from inside function \n' ,MONGO_OBJ)
                     return MONGO_OBJ;
+                    
                 }
-            }
-            )
+            })
         },
 
         archive: function archivedpull() //A run code may be needed. Something to search old events for

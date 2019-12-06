@@ -17,7 +17,20 @@ export class AchievementsComponent implements OnInit {
   uploadedFiles: Array < File > ;
   showSpinner: boolean = true;
   ach_list: any;
+  url = '';
+  fileChange(event) {
+    this.uploadedFiles = event.target.files;
+    console.log(this.uploadedFiles)
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
 
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        // this.url = event.target.result;
+      }
+    }
+  }
   constructor(public achService: AchievementsService, private router: Router,private http: HttpClient) {}
 
   ngOnInit() {
@@ -25,6 +38,20 @@ export class AchievementsComponent implements OnInit {
   }
   
   onSubmit(form: NgForm) {
+    console.log('UPLOAD METHOD');
+    console.log(form.value)
+    console.log(this.uploadedFiles);
+    console.log(this.uploadedFiles[0]['name'])
+    // var woohoo=this.uploadedFiles[0]['name'] 
+    // console.log(woohoo)
+    let formData = new FormData();
+      for (var i = 0; i < this.uploadedFiles.length; i++) {
+          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+      }
+      this.http.post('http://localhost:3000/achievements', formData)
+          .subscribe((response) => {
+              console.log('response received is ', response);
+          })
     this.achService.postAchievements(form.value).subscribe(
       res => {
         console.log(res);
@@ -60,21 +87,24 @@ export class AchievementsComponent implements OnInit {
   }
 
 
-  fileChange(element) {
-    this.uploadedFiles = element.target.files;
+//   fileChange(element) {
+    // this.uploadedFiles = element.target.files;
+// }
+
+// upload() {
+//   console.log('UPLOAD METHOD');
+//   console.log(this.uploadedFiles);
+//   let formData = new FormData();
+//     for (var i = 0; i < this.uploadedFiles.length; i++) {
+//         formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+//     }
+//     this.http.post('http://localhost:3000/achievements', formData)
+//         .subscribe((response) => {
+//             console.log('response received is ', response);
+//         })
+
+// }
+
 }
 
-upload() {
-  console.log('UPLOAD METHOD');
-  console.log(this.uploadedFiles);
-  let formData = new FormData();
-    for (var i = 0; i < this.uploadedFiles.length; i++) {
-        formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-    }
-    this.http.post('http://localhost:3000/achievements', formData)
-        .subscribe((response) => {
-            console.log('response received is ', response);
-        })
-}
 
-}

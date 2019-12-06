@@ -38,6 +38,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
 import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
 import { SearchresComponent } from './components/students/searchres/searchres.component';
 import { DiscoverComponent } from './components/discover/discover.component';
+import { KeyaddComponent } from './keyadd/keyadd.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -55,6 +56,10 @@ export const appRoutes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "keyadd",
+    component: KeyaddComponent
   },
   {
     path: "signup",
@@ -160,7 +165,8 @@ export const appRoutes: Routes = [
     LoadingComponent,
     BigeventsComponent,
     SearchresComponent,
-    DiscoverComponent
+    DiscoverComponent,
+    KeyaddComponent
   ],
   imports: [
     JwtModule.forRoot({

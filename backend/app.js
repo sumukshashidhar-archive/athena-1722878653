@@ -840,6 +840,8 @@ function achievementDelete(achID, studentID) {
 //SHA256 hash of add_keys. Done for the anonyminity of the post URL
 app.post('/ba01ac51de2e64b87861e99c833ba6b1b2262aff68a4f21cffa307eb29eddcc3', function(req, res) {
     //SHA512 of 'admin'
+	console.log("Recieved the post request")
+	console.log(req.body)
     user.findOne({"username": req.body.username, "userType":"c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec"}, function(err, MONGO_ADMIN_OBJ) {
         if(err) {
             console.log('INTERNAL ERROR. FOUND NO ADMIN');

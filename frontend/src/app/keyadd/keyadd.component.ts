@@ -16,6 +16,7 @@ export class KeyaddComponent implements OnInit {
   onSubmit(form: NgForm) {
    console.log(form.value)
    this.http.post('http://localhost:3000/ba01ac51de2e64b87861e99c833ba6b1b2262aff68a4f21cffa307eb29eddcc3',form.value)
+   console.log('POSTED KEYADD')
    
 }
 

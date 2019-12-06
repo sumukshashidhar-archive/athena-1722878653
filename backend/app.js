@@ -1,6 +1,4 @@
 //CHANGE ALL TOKENS TO JWT AUTH
-
-
 //Imports - Needed Packages for Running
 var express = require("express");
 var fs = require('fs');

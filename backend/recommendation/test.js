@@ -27,16 +27,24 @@ app.set('view engine', 'ejs')
 
 app.get('/hello', function(req, res) {
     console.log("GOT THE REQUEST")
-    res.render('index')
     pull_test.deep(function(err, MONGO_OBJ) {
         if(err) {
             console.log(err)
         }
         else {
-            res.render('index')
-            res.send("Hello")
-            console.log(MONGO_OBJ)
-
+            console.log("THIS IS IN THE MAIN FILE" , MONGO_OBJ)
+            rec.score_events(MONGO_OBJ, function(err, scores) {
+                if(err) {
+                    console.log('some random error')
+                    console.log(err)
+                }
+                else {
+                    console.log('sdfab gi hu nbuug avioh wi asiufiaus')
+                    console.log(scores)
+                    res.render('index')
+                }
+                console.log("its insideee")
+            })
         }
     })
 })

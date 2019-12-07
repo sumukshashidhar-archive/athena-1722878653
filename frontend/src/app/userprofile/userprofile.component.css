@@ -22,7 +22,7 @@ ul li{
   background: rgba(255,255,255,.1);
   display: flex;
   padding: 10px 20px;
-  color: #fff;
+  color: #000;
   margin: 5px 0;
   transition: .5s;
 }
@@ -57,7 +57,7 @@ ul li span:nth-child(3){
 
 ul li:hover{
   transform:scale(1.06);
-  background: #ff0057;
+  background: #fff;
 }
 body {
   margin:0;

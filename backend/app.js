@@ -697,27 +697,9 @@ app.post('/events', async function (req, res) {
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            //Changing the code here to return the events now
-            //Will have to implement a better, asynchronous logic to this code, but for now, this works
-            recommnedations.recommend(function (err, recommendations) {
-                console.log(recommendations)
-                res.send(recommendations)
-            })
-            //var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
-            // console.log(Recommendations)
-            //res.send(Recommendations)
-
-            //REMOVE CODE LATER
-        }
-        else {
-
-            var Recommendations = recommendations.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
-            console.log(Recommendations)
-            res.send(Recommendations)
-
-
+    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if(err) {
+            console.log("")
         }
 
     })
@@ -937,7 +919,7 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
                             console.log("YAY. KEY FOUND")
                         }
                         else {
-                            console.log('Searching record ', i, ' of ', total_length)
+                            console.log("Searching Record ", i, "of ", total_length)
                         }
                     }
                 })

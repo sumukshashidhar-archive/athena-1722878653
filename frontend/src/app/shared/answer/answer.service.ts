@@ -7,9 +7,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AnswerService {
   selectedAnswer: Answer = {
-    securityQuestion: "",
-    securityAnswer: "",
-    email: ""
+    code: ""
   };
 
   constructor(private http: HttpClient) {}

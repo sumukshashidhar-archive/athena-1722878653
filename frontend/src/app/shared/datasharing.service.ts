@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { HttpClient } from '@angular/common/http';
 import { Search } from './search.model';
+import { User_Search } from './user_search.model'
 
 @Injectable({
   providedIn: "root"
@@ -13,8 +14,13 @@ export class DatasharingService {
 
   selSearch: Search = {
     keyword: '',
-    usecase: 0
+    usecase: null
   };
+
+  selSearch1: User_Search = {
+    userKey: "",
+    userUseCase: null
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -26,5 +32,11 @@ export class DatasharingService {
     console.log('Search method')
     console.log(search)
     return this.http.post("http://localhost:3000/events_search", search)
+  }
+
+  postUserSearch(userSearch: User_Search) {
+    console.log('User Search Method')
+    console.log(userSearch)
+    return this.http.post('http://localhost:3000/user-search', userSearch)
   }
 }

@@ -1,0 +1,112 @@
+<div class="background">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <div class="navbar-collapse collapse justify-content-between">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">LOGO</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
+          </ul>
+         
+          <div class="wrap">
+            <div class="search">
+              <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" />
+              <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <div class="navbar-nav">
+              <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+              <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
+      
+              <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+                Interests</a>
+              <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+              <a class="nav-item nav-link" [routerLink]="['/achievements']" routerLinkActive="router-link-active">Achievements</a>
+              <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+                <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+            </div>
+        </div>
+      </nav>
+
+    
+    <body>
+   
+   
+      <div class="container">
+          <div class="card">
+              <div class="face face1">
+                  <div class="content">
+                      <h3>INTERESTS</h3>
+                  </div>
+              </div>
+              <div class="face face2">
+                    <div class="content">
+                            <p>to be filled</p>
+                            <a href="#">Read More</a>
+                        </div>
+            </div>
+          </div>
+          <div class="card">
+                <div class="face face1">
+                    <div class="content">
+                             
+                        <h3>ACHIEVEMENTS</h3>
+                    </div>
+                </div>
+                <div class="face face2">
+                      <div class="content">
+                               
+<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
+    Click to view achievements
+  </button>
+                          </div>
+              </div>
+            </div>
+            <div class="card">
+                    <div class="face face1">
+                        <div class="content">                            
+                            <h3>EVENTS</h3>
+                        </div>
+                    </div>
+                    <div class="face face2">
+                          <div class="content">
+                                  <p>to be filled</p>
+                                  <a href="#">Read More</a>
+                              </div>
+                  </div>
+                </div>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Achievements</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" *ngFor="let ach of this.ach_list">
+                <ul>
+                    <li>
+                        <span class="number"> {{ ach.CategoryId }}</span>
+                        <span class="name">{{ ach.SubCategoryId }}</span>
+                        <!-- <span class="points">95</span> -->
+                    </li>
+                    
+                
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </body>
+  </div>

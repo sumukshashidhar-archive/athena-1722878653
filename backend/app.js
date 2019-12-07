@@ -61,8 +61,8 @@ function sendMail(output, to)
   let mailOptions = {
       from: '"Athena Contact" <developersatathena@gmail.com>', // sender address
       to: to, // list of receivers
-      subject: 'Node Contact Request', // Subject line
-      text: 'Hello world?', // plain text body
+      subject: 'Athena Contact', // Subject line
+      text: 'Com[puter generated email, please do not reply', // plain text body
       html: output // html body
   };
 
@@ -80,6 +80,24 @@ function sendMail(output, to)
 
 //usage   
 //sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
+
+//RANDOM CODE GENERATOR
+
+function generate(n) {
+    var add = 1; 
+    var max = 12 - add;
+
+    if(n > max) {
+        return generate(max) + generate(n - max);
+    }
+
+    max = Math.pow(10, n+add);
+    var min = max/10;
+    var number = Math.floor( Math.random() * (max - min + 1) ) + min;
+
+    return ("" + number).substring(add); 
+}
+
 
 
 /*
@@ -204,7 +222,8 @@ app.post('/register', function (req, res) {
                                     userType: "Student",
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
-                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
+                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                    Verified: false
                                 });
 
                             newUser.save(function (err, obj) {
@@ -214,6 +233,11 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
+                                    
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+
+                                    sendMail(output,req.body.email);
+                                    
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                                     res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo)); //TODO: Put this in a different file
                                 }
@@ -258,7 +282,8 @@ app.post('/updateinfo', function (req, res) {
                                         console.log(err)
                                     }
                                     else {
-                                        console.log("Success")
+                                        console.log("Success");
+
                                         res.status(200).send("Success")
                                     }
                                 })
@@ -272,9 +297,7 @@ app.post('/updateinfo', function (req, res) {
             })
         }
     })
-})
-
-
+});
 
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
@@ -311,7 +334,7 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyOrganiser/'+obj._id;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
 
                                     sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
@@ -332,10 +355,10 @@ app.post('/registerorganizer', function (req, res) {
 
 });
 
-app.get('/verifyOrganiser/*', function(req, res)
+app.get('/verifyuser/*', function(req, res)
 {
-    idV = req.url.slice(17, 100);
-    Organiser.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
+    idV = req.url.slice(12, 100);
+    user.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
     {
         if(err)
         {
@@ -424,8 +447,6 @@ app.post('/login', async function (req, res) {
 });
 
 
-
-
 //PRODUCTION READY CODE:
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
@@ -434,7 +455,11 @@ app.post('/reset', function (req, res) {
             console.log(err)
         }
         else {
-            res.json(obj.securityQuestion)
+            var code = generate(6); 
+            var output = 'YOUR CODE IS: '+ code;
+
+            sendMail(output,req.body.email);
+            res.send({code: code, msg: 'Email Sent'});
         }
     })
 })
@@ -672,27 +697,9 @@ app.post('/events', async function (req, res) {
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            //Changing the code here to return the events now
-            //Will have to implement a better, asynchronous logic to this code, but for now, this works
-            recommnedations.recommend(function (err, recommendations) {
-                console.log(recommendations)
-                res.send(recommendations)
-            })
-            //var Recommendations = rec.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
-            // console.log(Recommendations)
-            //res.send(Recommendations)
-
-            //REMOVE CODE LATER
-        }
-        else {
-
-            var Recommendations = recommendations.recommend(decodedToken["interests"], decodedToken["Pincode"], decodedToken["Location"])
-            console.log(Recommendations)
-            res.send(Recommendations)
-
-
+    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if(err) {
+            console.log("")
         }
 
     })
@@ -722,7 +729,12 @@ app.get('/achievements', async function (req, res) {
 
 
 // ACHIEVEMENTS ROUTE
-app.post('/achievements', async function (req, res) {
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+    console.log(req.body,req.files, req.files.uploads[0].path);
+
+
     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
@@ -746,7 +758,7 @@ app.post('/achievements', async function (req, res) {
                         else {
                             console.log("Found the student object with the token. Now pushing achievement")
                             obj.Achievement.push(achobj)
-                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement, Image: req.files.uploads[0].path} }, function (err, updateobj) {
                                 if (err) {
                                     console.log(err)
                                 }
@@ -761,7 +773,29 @@ app.post('/achievements', async function (req, res) {
             })
         }
     })
+});
+
+app.post('/delete-achievement', function (req, res) {
+    //This is for deleting achievements
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
+            //Have to send which achievement id I have to delete
+            console.log(req);
+
+            Student.update(
+                {EmailId: decodedToken.email},
+                { $pull: {Achievements: { _id: req.body.achId }}},
+                { multi: false }
+            )
+
+        }
+        else {
+            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
+            res.status(403)
+        }
+    })
 })
+
 
 // ADMIN DASH ROUTE
 
@@ -789,21 +823,6 @@ app.post('/event-search', function (req, res) {
             //TODO: Make sure that the RD engine works on this dataset as well
             console.log(obj)
             res.json(obj)
-        }
-    })
-})
-
-
-app.post('/delete-achievement', function (req, res) {
-    //This is for deleting achievements
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
-            //Have to send which achievement id I have to delete
-
-        }
-        else {
-            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
-            res.status(403)
         }
     })
 })

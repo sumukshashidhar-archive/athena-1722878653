@@ -1,6 +1,4 @@
 //CHANGE ALL TOKENS TO JWT AUTH
-
-
 //Imports - Needed Packages for Running
 var express = require("express");
 var fs = require('fs');
@@ -28,6 +26,8 @@ var Student = require("./models/StudentInfo.js");
 var Organiser = require("./models/OrganiserInfo.js");
 const db = require('./config/database');
 var event = require('./models/event');
+var key_controller = require('./controllers/keystore_control')
+var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
@@ -61,8 +61,8 @@ function sendMail(output, to)
   let mailOptions = {
       from: '"Athena Contact" <developersatathena@gmail.com>', // sender address
       to: to, // list of receivers
-      subject: 'Node Contact Request', // Subject line
-      text: 'Hello world?', // plain text body
+      subject: 'Athena Contact', // Subject line
+      text: 'Com[puter generated email, please do not reply', // plain text body
       html: output // html body
   };
 
@@ -80,6 +80,24 @@ function sendMail(output, to)
 
 //usage   
 //sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
+
+//RANDOM CODE GENERATOR
+
+function generate(n) {
+    var add = 1; 
+    var max = 12 - add;
+
+    if(n > max) {
+        return generate(max) + generate(n - max);
+    }
+
+    max = Math.pow(10, n+add);
+    var min = max/10;
+    var number = Math.floor( Math.random() * (max - min + 1) ) + min;
+
+    return ("" + number).substring(add); 
+}
+
 
 
 /*
@@ -204,7 +222,8 @@ app.post('/register', function (req, res) {
                                     userType: "Student",
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
-                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
+                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                    Verified: false
                                 });
 
                             newUser.save(function (err, obj) {
@@ -214,6 +233,11 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
+                                    
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+
+                                    sendMail(output,req.body.email);
+                                    
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                                     res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo)); //TODO: Put this in a different file
                                 }
@@ -258,7 +282,8 @@ app.post('/updateinfo', function (req, res) {
                                         console.log(err)
                                     }
                                     else {
-                                        console.log("Success")
+                                        console.log("Success");
+
                                         res.status(200).send("Success")
                                     }
                                 })
@@ -272,9 +297,7 @@ app.post('/updateinfo', function (req, res) {
             })
         }
     })
-})
-
-
+});
 
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
@@ -311,7 +334,7 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyOrganiser/'+obj._id;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
 
                                     sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
@@ -332,10 +355,10 @@ app.post('/registerorganizer', function (req, res) {
 
 });
 
-app.get('/verifyOrganiser/*', function(req, res)
+app.get('/verifyuser/*', function(req, res)
 {
-    idV = req.url.slice(17, 100);
-    Organiser.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
+    idV = req.url.slice(12, 100);
+    user.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
     {
         if(err)
         {
@@ -424,8 +447,6 @@ app.post('/login', async function (req, res) {
 });
 
 
-
-
 //PRODUCTION READY CODE:
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
@@ -434,7 +455,11 @@ app.post('/reset', function (req, res) {
             console.log(err)
         }
         else {
-            res.json(obj.securityQuestion)
+            var code = generate(6); 
+            var output = 'YOUR CODE IS: '+ code;
+
+            sendMail(output,req.body.email);
+            res.send({code: code, msg: 'Email Sent'});
         }
     })
 })
@@ -836,3 +861,252 @@ function achievementDelete(achID, studentID) {
     }
     )
 }
+ 
+
+//SHA256 hash of add_keys. Done for the anonyminity of the post URL
+app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', function(req, res) {
+    //SHA512 of 'admin'
+	console.log("Recieved the post request")
+	console.log(req.body)
+    user.findOne({"username": req.body.username, "userType":"c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec"}, function(err, MONGO_ADMIN_OBJ) {
+        if(err) {
+            console.log('INTERNAL ERROR. FOUND NO ADMIN');
+            res.status(404).send("No user found")
+        }
+        else if(MONGO_ADMIN_OBJ) {
+            bcrypt.compare(req.body.password, MONGO_ADMIN_OBJ.password, function(err, BCRYPT_RES) {
+                if(err) {
+                    console.log('INTERNAL ERROR. ');
+                    res.status(403).send("Hash Error")
+                }
+                else if (BCRYPT_RES) {
+                    console.log('SUCCESS >>> VERIFIED');
+                    bcrypt.hash(req.body.key, 0, function(err, BCRYPT_KEY_HASH) {
+                        if(err) {
+                            console.log('INTERNAL ERROR. FAILED TO HASH');
+                            res.status(500)
+                        }
+                        else { 
+                            key_controller.key_add(BCRYPT_KEY_HASH, MONGO_ADMIN_OBJ.username)
+                            res.status(200).send("Added Key")
+                        }
+                    })
+                }
+                else {
+                    console.log('INTERNAL ERROR. WRONG PASSWORD');
+                    res.status(403).send("Wrong Password")
+                }
+            })
+        }
+    })
+})
+
+app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', function(req, res) {
+    console.log("Recieved a module run request")
+    console.log(req.body) //dev test
+    keystore.find({}, function(err, MONGO_KEYS_OBJ) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            var notfound = true
+            total_length = MONGO_KEYS_OBJ.length
+            for(i=0; i<total_length; i++) {
+                keycheck = MONGO_KEYS_OBJ[i]
+                bcrypt.compare(req.body.key, keycheck['keyHash'], function(err, BCRYPT_RESP) {
+                    if(err) {
+                        console.log(err)
+
+                    }
+                    else {
+                        if(BCRYPT_RESP) {
+                            notfound = false
+                            //This implies that the key has been found, and hence the desired module can be then run
+                            console.log("YAY. KEY FOUND")
+                        }
+                        else {
+                            console.log('Searching record ', i, ' of ', total_length)
+                        }
+                    }
+                })
+            }
+            if(notfound) {
+                res.status(403).send("No Such Key in DB")
+            }
+        }
+    })
+})
+
+
+///TEST CODE
+// ///TEST 
+// admin_log_controller.log_module_run("sumuk", "Event_Archive")
+// //NOW THAT THE RUN ATTEMPT HAS BEEN LOGGED. MOVE ON TO THE ACTUAL EVENT ARCHIVE
+// //RECIEVE THE EVENTS NOW
+// event.find({}, function (err, EVENT_OBJ) {
+//     if (err) {
+//         console.log('INTERNAL ERROR. \n ', err);
+//     }
+//     else {
+//         console.log(EVENT_OBJ)
+//         event_list = EVENT_OBJ
+//         datetime = Date()
+//         var cur; //For setting current event
+//         total_events = EVENT_OBJ.length;
+//         var events_to_delete = []
+//         var bad_code_bool = true
+//         var while_bool = true
+//         for (i = 0; i < total_events; i++) {
+//             console.log("Inside Outer Loop Now")
+//             if (i == total_events - 1) {
+//                 bad_code_bool = false
+//             }
+//             //Selecting the event here
+//             if ((event_list[i]).evnEndDate < datetime) {
+//                 console.log("Entering Loop Now")
+//                 cur = event_list[i]
+//                 console.log("Cur is \n ", cur)
+//                 //Checking if the event Date is less than the current date and then pushing it to the Archived events array
+//                 console.log('Archiving Event ', i, 'of ', total_events)
+//                 var newArchEvent = new archevent({
+//                     evnName: cur.evnName,
+//                     evnStartDate: cur.evnStartDate,
+//                     evnEndDate: cur.evnEndDate,
+//                     evnInterests: cur.interests,
+//                     evnOrganizerName: cur.evnOrganizerName,
+//                     evnOrganizerPage: cur.evnOrganizerPage,
+//                     evnOrganizerContact: cur.evnOrganizerContact,
+//                     evnLocation: cur.evnLocation,
+//                     evnPincode: cur.evnPincode,
+//                     evnAddress: cur.evnAddress,
+//                     evnTargetAge: cur.targetAge,
+//                     // CONTACT SUMUK BELOW THIS
+//                     evnDescription: cur.evnDescription,
+//                     evnRating: cur.evnRating
+//                 })
+//                 newArchEvent.save(function (err, obj) {
+//                     if (err) {
+//                         console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+//                     }
+//                     else {
+//                         console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+//                         console.log(obj)
+//                         events_to_delete.push(cur._id)
+//                     }
+//                 }) // ONCE THIS HAS BEEN UPDATED.
+//             }
+//             else {
+//                 continue
+//             }
+//         }
+//         while (while_bool) {
+//             if (bad_code_bool) {
+//                 var tot_length = events_to_delete.length;
+//                 for (i = 0; i < tot_length; i++) {
+//                     event.deleteOne({ "_id": events_to_delete[i] }, function (err, MONGO_OBJ) {
+//                         if (err) {
+//                             console.log("Error in Deletion")
+//                             console.log(err)
+//                         }
+//                         else {
+//                             console.log('SUCCESS >>> DELETED');
+//                             console.log('Now deleting ', i, 'of ', tot_length, ' events.')
+//                         }
+//                     })
+//                 }
+//                 while_bool = false
+//             }
+//             else {
+//                 continue
+//             }
+
+//         }
+
+//     }
+// })
+
+
+// function events_archive_module(authentication) {
+//     //FIRST THING IS TO LOG THIS ATTEMPT!
+//     admin_log_controller.log_module_run(authentication, "Event_Archive")
+//     //NOW THAT THE RUN ATTEMPT HAS BEEN LOGGED. MOVE ON TO THE ACTUAL EVENT ARCHIVE
+//     //RECIEVE THE EVENTS NOW
+//     event.find({}, function (err, EVENT_OBJ) {
+//         if (err) {
+//             console.log('INTERNAL ERROR. \n ', err);
+//         }
+//         else {
+//             event_list = EVENT_OBJ
+//             datetime = Date()
+//             var cur; //For setting current event
+//             total_events = event_list.length
+//             var events_to_delete = []
+//             var bad_code_bool = true
+//             var while_bool = true
+//             for (i = 0; i < total_events; i++) {
+//                 if (i == total_events - 1) {
+//                     bad_code_bool = false
+//                 }
+//                 //Selecting the event here
+//                 if ((event_list[i]).evnEndDate < datetime) {
+//                     cur = event_list[i]
+//                     //Checking if the event Date is less than the current date and then pushing it to the Archived events array
+//                     console.log('Archiving Event ', i, 'of ', total_events)
+//                     var newArchEvent = new archevent({
+//                         evnName: cur.evnName,
+//                         evnStartDate: cur.evnStartDate,
+//                         evnEndDate: cur.evnEndDate,
+//                         evnInterests: cur.interests,
+//                         evnOrganizerName: cur.evnOrganizerName,
+//                         evnOrganizerPage: cur.evnOrganizerPage,
+//                         evnOrganizerContact: cur.evnOrganizerContact,
+//                         evnLocation: cur.evnLocation,
+//                         evnPincode: cur.evnPincode,
+//                         evnAddress: cur.evnAddress,
+//                         evnTargetAge: cur.targetAge,
+//                         // CONTACT SUMUK BELOW THIS
+//                         evnDescription: cur.evnDescription,
+//                         evnRating: cur.evnRating
+//                     })
+//                     newArchEvent.save(function (err, obj) {
+//                         if (err) {
+//                             console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+//                         }
+//                         else {
+//                             console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+//                             console.log(obj)
+//                             events_to_delete.push(cur._id)
+//                         }
+//                     }) // ONCE THIS HAS BEEN UPDATED.
+//                 }
+//                 else {
+//                     continue
+//                 }
+//             }
+//             while (while_bool) {
+//                 if (bad_code_bool) {
+//                     var tot_length = events_to_delete.length;
+//                     for (i = 0; i < tot_length; i++) {
+//                         event.deleteOne({ "_id": events_to_delete[i] }, function (err, MONGO_OBJ) {
+//                             if (err) {
+//                                 console.log("Error in Deletion")
+//                                 console.log(err)
+//                             }
+//                             else {
+//                                 console.log('SUCCESS >>> DELETED');
+//                                 console.log('Now deleting ', i, 'of ', tot_length, ' events.')
+//                             }
+//                         })
+//                     }
+//                     while_bool = false
+//                 }
+//                 else {
+//                     continue
+//                 }
+
+//             }
+
+//         }
+//     })
+
+// }

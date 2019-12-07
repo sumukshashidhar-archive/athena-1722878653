@@ -13,7 +13,7 @@ var StudentInfoSchema = new mongoose.Schema({
     PhoneNo: String,
     SLocation: String,
     Achievement: [Achievements.schema], 
-    pincode: Number
+    pincode: Number,
 });
 
 module.exports = mongoose.model("StudentInfo", StudentInfoSchema);

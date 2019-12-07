@@ -1,0 +1,73 @@
+<form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
+    <div class="form-group">
+        <div>
+          <input
+            maxlength="32"
+            class="form-control"
+            type="email"
+            placeholder="Username"
+            required
+            ngModel
+            name="username"
+            id="username"
+            #username="ngModel"
+          />
+          <span
+            style="color: red;"
+            class="help-block"
+            *ngIf="!username.valid && username.touched"
+            >Enter a username</span
+          >
+        </div>
+      </div>
+    <div class="form-group">
+        <div>
+          <input
+            maxlength="32"
+            class="form-control"
+            type="password"
+            placeholder="Password"
+            required
+            ngModel
+            name="password"
+            id="password"
+            #password="ngModel"
+          />
+          <span
+            style="color: red;"
+            class="help-block"
+            *ngIf="!password.valid && password.touched"
+            >Enter a password</span
+          >
+        </div>
+      </div>
+      <div class="form-group">
+          <div>
+            <input
+              maxlength="5000"
+              class="form-control"
+              type="text"
+              placeholder="key"
+              required
+              ngModel
+              name="key"
+              id="key"
+              #key="ngModel"
+            />
+            <span
+              style="color: red;"
+              class="help-block"
+              *ngIf="!key.valid && key.touched"
+              >Enter a KEY</span
+            >
+          </div>
+        </div>
+        <button
+        style="margin-left: 40%;"
+        class="btn btn-secondary"
+        type="submit"
+        [disabled]="!f.valid"
+      >
+        SUBMIT
+      </button>
+</form>

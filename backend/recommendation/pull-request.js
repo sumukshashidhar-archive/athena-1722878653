@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var event = require('./../models/event')
 var archevent = require('./../models/archived-event')
-
+var rec = require('./common_ground')
 
 
 module.exports =
@@ -22,22 +22,27 @@ module.exports =
             }
             )
         },
-        
+
         deep: function deepSearch() //possibly a run code. only then, we run
         {
-            
             event.find({}, function (err, MONGO_OBJ) {
                 if (err) {
                     console.log('INTERNAL ERROR. RETRIEVE FOR DEEP FAILED');
                     return err;
                 }
                 else {
-                    console.log('SUCCESS >>>> Retrived from DATABASE')
-                    console.log('Printing from inside function \n' ,MONGO_OBJ)
-                    return MONGO_OBJ;
-                    
+                    console.log(MONGO_OBJ)
+                    rec.score_events(MONGO_OBJ, function(err, scores) {
+                        if(err) {
+                            console.log('INTERNAL ERROR. ');
+                        }
+                        else {
+                            console.log(scores)
+                        }
+                    })
                 }
             })
+
         },
 
         archive: function archivedpull() //A run code may be needed. Something to search old events for

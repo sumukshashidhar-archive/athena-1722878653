@@ -36,10 +36,10 @@ import { PasscheckComponent } from "./components/passcheck/passcheck.component";
 import { DeleteUserComponent } from "./components/students/delete-user/delete-user/delete-user.component";
 import { LoadingComponent } from "./components/loading/loading.component";
 import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
-import { SearchresComponent } from './components/students/searchres/searchres.component';
 import { DiscoverComponent } from './components/discover/discover.component';
 import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
+import { UserprofileComponent } from './userprofile/userprofile.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -142,6 +142,10 @@ export const appRoutes: Routes = [
     component: CommonsignupComponent
   },
   {
+    path: "userprofile",
+    component: UserprofileComponent
+  },
+  {
     path: "**",
     component: HomePageComponent
   }
@@ -169,10 +173,10 @@ export const appRoutes: Routes = [
     DeleteUserComponent,
     LoadingComponent,
     BigeventsComponent,
-    SearchresComponent,
     DiscoverComponent,
     KeyaddComponent,
-    RunmoduleComponent
+    RunmoduleComponent,
+    UserprofileComponent
   ],
   imports: [
     JwtModule.forRoot({

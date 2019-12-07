@@ -36,7 +36,6 @@ import { PasscheckComponent } from "./components/passcheck/passcheck.component";
 import { DeleteUserComponent } from "./components/students/delete-user/delete-user/delete-user.component";
 import { LoadingComponent } from "./components/loading/loading.component";
 import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
-import { SearchresComponent } from './components/students/searchres/searchres.component';
 import { DiscoverComponent } from './components/discover/discover.component';
 
 export function tokenGetter() {
@@ -159,7 +158,6 @@ export const appRoutes: Routes = [
     DeleteUserComponent,
     LoadingComponent,
     BigeventsComponent,
-    SearchresComponent,
     DiscoverComponent
   ],
   imports: [

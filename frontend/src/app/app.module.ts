@@ -168,7 +168,6 @@ export const appRoutes: Routes = [
     DeleteUserComponent,
     LoadingComponent,
     BigeventsComponent,
-    SearchresComponent,
     DiscoverComponent,
     KeyaddComponent,
     RunmoduleComponent

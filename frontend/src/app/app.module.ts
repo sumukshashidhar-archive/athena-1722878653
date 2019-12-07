@@ -39,6 +39,7 @@ import { BigeventsComponent } from './components/students/bigevents/bigevents.co
 import { DiscoverComponent } from './components/discover/discover.component';
 import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
+import { UserprofileComponent } from './userprofile/userprofile.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -141,6 +142,10 @@ export const appRoutes: Routes = [
     component: CommonsignupComponent
   },
   {
+    path: "userprofile",
+    component: UserprofileComponent
+  },
+  {
     path: "**",
     component: HomePageComponent
   }
@@ -170,7 +175,8 @@ export const appRoutes: Routes = [
     BigeventsComponent,
     DiscoverComponent,
     KeyaddComponent,
-    RunmoduleComponent
+    RunmoduleComponent,
+    UserprofileComponent
   ],
   imports: [
     JwtModule.forRoot({

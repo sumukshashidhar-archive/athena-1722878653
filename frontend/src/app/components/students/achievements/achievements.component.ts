@@ -86,6 +86,7 @@ export class AchievementsComponent implements OnInit {
 
   onDelete(_id: string) {
     if (confirm('Do you want to delete this record ?') == true) {
+      console.log(_id)
       this.achService.deleteAchievement(_id).subscribe((res) => {
         this.refreshAchievements();
       })

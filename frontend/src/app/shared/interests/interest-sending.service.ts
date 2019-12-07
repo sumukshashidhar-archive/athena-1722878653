@@ -11,7 +11,6 @@ export class InterestSendingService {
     interests: "",
     bio: ""
   }
-
   constructor(private http: HttpClient) {}
 
   postInterest(interests: Interests) {

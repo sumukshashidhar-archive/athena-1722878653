@@ -10,7 +10,6 @@ var OrganiserInfoSchema = new mongoose.Schema({
     Events_Number: Number, //Have to store the number of events the organizer has organized here
     Average_Event_Rating: Number, 
     Average_Event_Score: Number,
-    Verified: false
 });
 
 module.exports = mongoose.model("OrganiserInfo", OrganiserInfoSchema);

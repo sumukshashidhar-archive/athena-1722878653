@@ -13,7 +13,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Home</a>
         </li>
+        <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
       </ul>
+     
       <div class="wrap">
         <div class="search">
           <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" />
@@ -23,10 +25,16 @@
         </div>
       </div>
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="#" routerLink="/dashboard">Dashboard</a>
-        <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-        <a class="nav-item nav-link" href="#"><button class="btn btn-danger">Logout</button></a>
-      </div>
+          <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+          <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
+  
+          <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+            Interests</a>
+          <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+          <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
+          <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+        </div>
     </div>
   </nav>
   <div class="reqMargin"></div>

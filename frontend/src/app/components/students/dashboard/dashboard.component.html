@@ -18,11 +18,13 @@
           <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
           <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
           <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
-          <a class="nav-item nav-link" [routerLink]="['/']" routerLinkActive="router-link-active">
-            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+         
           <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
             Interests</a>
           <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+          <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
+          <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
         </div>
       </div>
       <!-- Search functionality below -->

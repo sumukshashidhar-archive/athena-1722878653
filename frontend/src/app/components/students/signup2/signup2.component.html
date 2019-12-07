@@ -1,12 +1,38 @@
 <body>
-  <div class="form">
-    <form #f="ngForm">
-      <input type="text" name="bio" class="form-control" ngModel #bio="ngModel"
-        [(ngModel)]="interestsendingservice.selectedInt.bio">
-      <span class="help-block" *ngIf="bio.touched && !bio.valid">Please Enter Valid Bio</span>
-      <input type="text" placeholder="Enter your interests as comma separated values" id="txtSearch" name="interests" #interests="ngModel" required [(ngModel)]="interestsendingservice.selectedInt.interests"
-        maxlength="12" />
-      <button class="btn btn-primary" (click)="onSubmit(f)">Submit</button>
-    </form>
-  </div>
-</body>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <div class="navbar-collapse collapse justify-content-between">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">LOGO</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
+          </ul>
+          <div class="navbar-nav">
+              <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+              <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
+      
+              <a class="nav-item nav-link" [routerLink]="['/achievements']" routerLinkActive="router-link-active">Achievements
+                </a>
+              <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+              <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
+              <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+                <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+            </div>
+        </div>
+      </nav>
+
+
+      <div class="form">
+        <form #f="ngForm">
+          <input type="text" name="bio" class="form-control" ngModel #bio="ngModel"
+            [(ngModel)]="interestsendingservice.selectedInt.bio">
+          <span class="help-block" *ngIf="bio.touched && !bio.valid">Please Enter Valid Bio</span>
+          <input type="text" placeholder="Enter your interests as comma separated values" id="txtSearch" name="interests" #interests="ngModel" required [(ngModel)]="interestsendingservice.selectedInt.interests"
+            />
+          <button class="btn btn-primary" (click)="onSubmit(f)">Submit</button>
+        </form>
+      </div>
+    </body>

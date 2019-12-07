@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { InterestSendingService } from "./../../../shared/interests/interest-sending.service";
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from '@angular/forms';
@@ -10,13 +11,18 @@ import { NgForm } from '@angular/forms';
 export class Signup2Component implements OnInit {
   // interest: string;
   // interests = [];
-  constructor(private interestsendingservice: InterestSendingService) {}
+  constructor(private interestsendingservice: InterestSendingService,public auth:AuthService) {}
   // onClick() {
   //   this.interests.push({
   //     name: this.interest
   //   });
   //   this.interest = "";
   // }
+
+
+  logout(){
+    this.auth.logout()
+  }
   onSubmit(form: NgForm) {
     this.interestsendingservice.postInterest(form.value).subscribe(
       res => {

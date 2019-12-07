@@ -1,0 +1,73 @@
+<div class="background">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <h2 style="margin-left: 26%; font-size: 5vh;">NAME</h2>
+    <body>
+      <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <div class="navbar-collapse collapse justify-content-between">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">LOGO</a>
+            </li>
+            <!--->
+                      <li class="nav-item">
+                          <a class="nav-link" href="#">Home</a>
+                      </li>---->
+          </ul>
+  
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+            <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
+            <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
+            <a class="nav-item nav-link" [routerLink]="['/']" routerLinkActive="router-link-active">
+              <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+            <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+              Interests</a>
+            <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+          </div>
+        </div>
+      </nav>
+   
+      <div class="container">
+          <div class="card">
+              <div class="face face1">
+                  <div class="content">
+                      <h3>INTERESTS</h3>
+                  </div>
+              </div>
+              <div class="face face2">
+                    <div class="content">
+                            <p>to be filled</p>
+                            <a href="#">Read More</a>
+                        </div>
+            </div>
+          </div>
+          <div class="card">
+                <div class="face face1">
+                    <div class="content">
+                      
+                        <h3>ACHIEVEMENTS</h3>
+                    </div>
+                </div>
+                <div class="face face2">
+                      <div class="content">
+                              <p>to be filled</p>
+                              <a href="#">Read More</a>
+                          </div>
+              </div>
+            </div>
+            <div class="card">
+                    <div class="face face1">
+                        <div class="content">                            
+                            <h3>EVENTS</h3>
+                        </div>
+                    </div>
+                    <div class="face face2">
+                          <div class="content">
+                                  <p>to be filled</p>
+                                  <a href="#">Read More</a>
+                              </div>
+                  </div>
+                </div>
+      </div>
+    </body>
+  </div>

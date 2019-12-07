@@ -46,24 +46,24 @@ export class PasscheckComponent implements OnInit {
     }
   }
 
-  // onsubmit(form: NgForm) {
-  //   this.answerService.postAnswer(form.value).subscribe(
-  //     res => {
-  //       console.log(res);
-  //       this.y = res;
-  //       if (res) {
-  //         console.log(res)
-  //       } else {
-  //         console.log("Wrong answer");
-  //       }
-  //     },
-  //     err => {
-  //       if (err.status === 422) {
-  //         console.log(422);
-  //       } else {
-  //         console.log(err);
-  //       }
-  //     }
-  //   );
-  // }
+  onsubmit(form: NgForm) {
+    this.answerService.postAnswer(form.value).subscribe(
+      res => {
+        console.log(res);
+        this.y = res;
+        if (res) {
+          console.log(res)
+        } else {
+          console.log("Wrong answer");
+        }
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
 }

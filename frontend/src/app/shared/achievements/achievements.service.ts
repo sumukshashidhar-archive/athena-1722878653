@@ -26,6 +26,6 @@ export class AchievementsService {
   }
 
   deleteAchievement(_id: string) {
-    return this.http.delete("http://localhost:3000/achievements")
+    return this.http.delete("http://localhost:3000/delete-achievement")
   }
 }

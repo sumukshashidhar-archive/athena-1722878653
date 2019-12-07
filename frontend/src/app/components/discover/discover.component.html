@@ -3,6 +3,41 @@
 </head>
 
 <body>
+        <nav class="navbar navbar-expand-sm bg-light navbar-light">
+                <div class="navbar-collapse collapse justify-content-between">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="#">LOGO</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
+                  </ul>
+                 
+                  <div class="wrap">
+                    <div class="search">
+                      <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" />
+                      <button type="submit" class="searchButton">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="navbar-nav">
+                      <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+                      <a class="nav-item nav-link" [routerLink]="['/achievements']" routerLinkActive="router-link-active" >Achievements</a>
+              
+                      <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+                        Interests</a>
+                      <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+                      <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
+                      <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+                        <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+                    </div>
+                </div>
+              </nav>
+
+
     <div class="container">
         <h1 style="text-align: center;">Discover Something New</h1>
         <!-- Events searching below -->

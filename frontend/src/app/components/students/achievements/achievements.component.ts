@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 
 import { LoadingComponent } from "./../../loading/loading.component";
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: "app-achievements",
@@ -31,7 +32,7 @@ export class AchievementsComponent implements OnInit {
       }
     }
   }
-  constructor(public achService: AchievementsService, private router: Router,private http: HttpClient) {}
+  constructor(private auth:AuthService,public achService: AchievementsService, private router: Router,private http: HttpClient) {}
 
   ngOnInit() {
     this.refreshAchievements();
@@ -67,6 +68,11 @@ export class AchievementsComponent implements OnInit {
     );
   }
 
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(["/login"]);
+  }
   refreshAchievements() {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];

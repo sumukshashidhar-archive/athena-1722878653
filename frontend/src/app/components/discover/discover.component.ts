@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Search } from './../../shared/search.model';
 import { DatasharingService } from './../../shared/datasharing.service';
@@ -11,11 +12,14 @@ import { NgForm } from '@angular/forms';
 })
 export class DiscoverComponent implements OnInit {
 
-  constructor(public data: DatasharingService, private router: Router) { }
+  constructor(public data: DatasharingService, private router: Router,public  auth:AuthService) { }
 
   ngOnInit() {
   }
-
+  logout() {
+    this.auth.logout();
+    this.router.navigate(["/login"]);
+  }
   onSubmit(form: NgForm) {
     this.data.postSearch(form.value).subscribe(
       res => {

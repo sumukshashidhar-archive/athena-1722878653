@@ -31,4 +31,19 @@ export class DiscoverComponent implements OnInit {
     );
   }
 
+  onSubmit1(form: NgForm) {
+    this.data.postUserSearch(form.value).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
+
 }

@@ -747,7 +747,12 @@ app.get('/achievements', async function (req, res) {
 
 
 // ACHIEVEMENTS ROUTE
-app.post('/achievements', async function (req, res) {
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+    console.log(req.body,req.files, req.files.uploads[0].path);
+
+
     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
@@ -771,7 +776,7 @@ app.post('/achievements', async function (req, res) {
                         else {
                             console.log("Found the student object with the token. Now pushing achievement")
                             obj.Achievement.push(achobj)
-                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement, Image: req.files.uploads[0].path} }, function (err, updateobj) {
                                 if (err) {
                                     console.log(err)
                                 }
@@ -786,7 +791,29 @@ app.post('/achievements', async function (req, res) {
             })
         }
     })
+});
+
+app.post('/delete-achievement', function (req, res) {
+    //This is for deleting achievements
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
+            //Have to send which achievement id I have to delete
+            console.log(req);
+
+            Student.update(
+                {EmailId: decodedToken.email},
+                { $pull: {Achievements: { _id: req.body.achId }}},
+                { multi: false }
+            )
+
+        }
+        else {
+            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
+            res.status(403)
+        }
+    })
 })
+
 
 // ADMIN DASH ROUTE
 
@@ -814,21 +841,6 @@ app.post('/event-search', function (req, res) {
             //TODO: Make sure that the RD engine works on this dataset as well
             console.log(obj)
             res.json(obj)
-        }
-    })
-})
-
-
-app.post('/delete-achievement', function (req, res) {
-    //This is for deleting achievements
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
-            //Have to send which achievement id I have to delete
-
-        }
-        else {
-            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
-            res.status(403)
         }
     })
 })

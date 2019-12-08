@@ -143,8 +143,10 @@ export const appRoutes: Routes = [
   },
   {
     path: "userprofile",
-    component: UserprofileComponent
+    component: UserprofileComponent,
+    canActivate: [AuthGuard]
   },
+  
   {
     path: "**",
     component: HomePageComponent

@@ -13,7 +13,7 @@ var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-var brain = require('brain.js')
+// var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -459,7 +459,7 @@ app.post('/reset', function (req, res) {
             var output = 'YOUR CODE IS: '+ code;
 
             sendMail(output,req.body.email);
-            Student.findOneAndUpdate({EmailId: decodedToken.email }, {$set: {authCode: code}}, function(err, obj)
+            Student.findOneAndUpdate({EmailId: req.body.email }, {$set: {authCode: code}}, function(err, obj)
             {
                 if(err)
                 {
@@ -472,7 +472,37 @@ app.post('/reset', function (req, res) {
             });
         }
     })
-})
+});
+
+app.post('/resetPasswordCode', function(req, res)
+{
+    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) 
+        {
+            console.log(err);
+        }
+        else 
+        {
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    if(mongoObj.authCode == req.body.codeUser)
+                    {
+                        console.log("Verified")
+                        res.return(true);
+                    }
+                    else
+                    {
+                        res.return(false);
+                    }
+                }
+            })
+        }
+    })
+});
+
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
@@ -661,29 +691,6 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
-//Have to implement JWT here as well
-// app.post('/interest', async function (req, res) {
-//     console.log("Getting interests method")
-//     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-//         if (err) {
-//             console.log(err)
-//         }
-//         else {
-//             if (decodedToken["role"] == "Student") {
-//                 obj.Bio = (req.body.bio);
-//                 obj.interests = req.body.interests;
-//                 res.send(obj.interests);
-//             }
-//             else {
-//                 console.log("Permissions error");
-//                 res.status(403).send("This user is not authorized to access this page.")
-//             }
-
-//         }
-//     })
-// })
-
-// Must, MUST send me the user object here later. Needed to run my rdEngine. Maybe even some low load cache
 
 app.post('/events', async function (req, res) {
     console.log(req.token)
@@ -702,7 +709,7 @@ app.post('/events', async function (req, res) {
             console.log(err)
         }
 
-    })
+    });
 })
 
 app.get('/events', async function (req, res) {
@@ -725,8 +732,8 @@ app.get('/achievements', async function (req, res) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Achievement)
-                    res.json(mongoObj.Achievement)
+                    console.log("Mongo Object is" + mongoObj.Achievement);
+                    res.json(mongoObj.Achievement);
                 }
             })
         }
@@ -741,7 +748,6 @@ app.get('/achievements', async function (req, res) {
 // ACHIEVEMENTS ROUTE
 app.post('/achievements',  multipartMiddleware, (req, res) => {
 
-    console.log("HSSSSSSSSSSS\N\N");
     console.log(req.body,req.files, req.files.uploads[0].path);
 
 
@@ -811,7 +817,7 @@ app.post('/delete-achievement', function (req, res) {
 
 app.get('/interests', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Achievements....")
+        console.log("Getting Interests....")
         if (!err && decodedToken != null) {
             console.log("Verified")
             Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
@@ -820,7 +826,7 @@ app.get('/interests', async function (req, res) {
                 }
                 else {
                     console.log("Mongo Object is" + mongoObj.Interests);
-                    res.json(mongoObj.Achievement)
+                    res.send(mongoObj.Interests.split(','));
                 }
             })
         }
@@ -850,7 +856,7 @@ app.post('/addInterest', function(req, res)
                 }
             });
 
-            inter = inter + req.body.interest;
+            inter = inter + "," + req.body.interest;
 
             Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
                 if (err) {
@@ -858,7 +864,7 @@ app.post('/addInterest', function(req, res)
                 }
                 else {
                     console.log("Mongo Object is" + mongoObj.Interests);
-                    res.json(mongoObj.Interests);
+                    res.send(mongoObj.Interests);
                 }
             })
         }

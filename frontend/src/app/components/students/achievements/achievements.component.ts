@@ -8,20 +8,19 @@ import { NgForm } from "@angular/forms";
 import { LoadingComponent } from "./../../loading/loading.component";
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/auth/auth.service';
-
+export var  uploadedFiles: Array < File > ;
 @Component({
   selector: "app-achievements",
   templateUrl: "./achievements.component.html",
   styleUrls: ["./achievements.component.css"]
 })
 export class AchievementsComponent implements OnInit {
-  uploadedFiles: Array < File > ;
   showSpinner: boolean = true;
   ach_list: any;
   url = '';
   fileChange(event) {
-    this.uploadedFiles = event.target.files;
-    console.log(this.uploadedFiles)
+    uploadedFiles = event.target.files;
+    console.log(uploadedFiles)
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
 
@@ -41,19 +40,32 @@ export class AchievementsComponent implements OnInit {
   onSubmit(form: NgForm) {
     console.log('UPLOAD METHOD');
     console.log(form.value)
-    console.log(this.uploadedFiles);
-    console.log(this.uploadedFiles[0]['name'])
-    // var woohoo=this.uploadedFiles[0]['name'] 
-    // console.log(woohoo)
+    var cat= form.value['achCat']
+    var subcat= form.value['achSubCat']
+    var file= uploadedFiles;
+
+    console.log(`YES ${cat}`)
+    console.log(`THIS ${subcat}`)
+    console.log(`DONE${file}`)
+    console.log(uploadedFiles[0]['name'])
+ 
     let formData = new FormData();
-      for (var i = 0; i < this.uploadedFiles.length; i++) {
-          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+      for (var i = 0; i < uploadedFiles.length; i++) {
+          formData.append("uploads[]", uploadedFiles[i], uploadedFiles[i].name);
       }
-      this.http.post('http://localhost:3000/achievements', formData)
-          .subscribe((response) => {
-              console.log('response received is ', response);
-          })
-    this.achService.postAchievements(form.value).subscribe(
+
+
+      var selectedAchievements: Achievements = {
+        uploadedFiles: file, 
+        achCat: cat,
+        achSubCat: subcat 
+      };
+      console.log('YES THIS WORKS')
+      console.log(selectedAchievements)
+
+
+
+    this.achService.postAchievements(selectedAchievements).subscribe(
       res => {
         console.log(res);
       },

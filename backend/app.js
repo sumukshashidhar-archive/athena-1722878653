@@ -321,7 +321,7 @@ app.post('/registerorganizer', function (req, res) {
                             console.log("registering user");
                             var newUser = new user({
                                 username: req.body.OrganizerEmail,
-                                userType: "Student",
+                                userType: "Organizer",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH

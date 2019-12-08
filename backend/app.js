@@ -797,6 +797,69 @@ app.post('/delete-achievement', function (req, res) {
 })
 
 
+//INTERESTS
+
+app.get('/interests', async function (req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Mongo Object is" + mongoObj.Interests);
+                    res.json(mongoObj.Achievement)
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    })
+});
+
+app.post('/addInterest', function(req, res)
+{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+
+            Student.findOne({ EmailId: decodedToken.email }, function(err, obj)
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    inter = obj.Interests;
+                }
+            });
+
+            inter = inter + req.body.interest;
+
+            Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Mongo Object is" + mongoObj.Interests);
+                    res.json(mongoObj.Interests);
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+});
+
+
 // ADMIN DASH ROUTE
 
 app.post('/organizerdashboard', async function (req, res) {

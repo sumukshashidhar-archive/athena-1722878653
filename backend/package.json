@@ -12,7 +12,6 @@
     "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "brain.js": "^2.0.0-alpha.9",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
     "ejs": "^2.7.1",

@@ -1,0 +1,10 @@
+[
+    {
+        "input": ["singing", "dancing"], 
+        "output": 0.5
+    }, 
+    {
+        "input": ["tabla", "veena"],
+        "output": 0.5
+    }
+]

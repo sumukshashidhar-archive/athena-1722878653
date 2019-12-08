@@ -459,7 +459,17 @@ app.post('/reset', function (req, res) {
             var output = 'YOUR CODE IS: '+ code;
 
             sendMail(output,req.body.email);
-            res.send({code: code, msg: 'Email Sent'});
+            Student.findOneAndUpdate({EmailId: decodedToken.email }, {$set: {authCode: code}}, function(err, obj)
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    res.send(true);
+                }
+            });
         }
     })
 })
@@ -652,26 +662,26 @@ app.post('/organizer-events', async function (req, res) {
 });
 
 //Have to implement JWT here as well
-app.post('/interest', async function (req, res) {
-    console.log("Getting interests method")
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            if (decodedToken["role"] == "Student") {
-                obj.Bio = (req.body.bio);
-                obj.interests = req.body.interests;
-                res.send(obj.interests);
-            }
-            else {
-                console.log("Permissions error");
-                res.status(403).send("This user is not authorized to access this page.")
-            }
+// app.post('/interest', async function (req, res) {
+//     console.log("Getting interests method")
+//     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+//         if (err) {
+//             console.log(err)
+//         }
+//         else {
+//             if (decodedToken["role"] == "Student") {
+//                 obj.Bio = (req.body.bio);
+//                 obj.interests = req.body.interests;
+//                 res.send(obj.interests);
+//             }
+//             else {
+//                 console.log("Permissions error");
+//                 res.status(403).send("This user is not authorized to access this page.")
+//             }
 
-        }
-    })
-})
+//         }
+//     })
+// })
 
 // Must, MUST send me the user object here later. Needed to run my rdEngine. Maybe even some low load cache
 

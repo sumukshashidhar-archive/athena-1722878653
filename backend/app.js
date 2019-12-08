@@ -1287,3 +1287,97 @@ app.get('/eevnts', function(req, res) {
     })
 })
 
+
+
+//BASICALLY THE ENTIRE RECOMMENDER SYSTEM. DEEP SEARCH
+app.get('/eeevnts', function(req, res) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if(err) {
+            console.log('INTERNAL ERROR. ', err);
+        }
+        else {
+            event.find({}, function(err, MONGO_RETURN) {
+                if(err) {
+                    console.log('INTERNAL ERROR. ', err);
+                }
+                else {
+                    if(!MONGO_RETURN) {
+                        res.status(200).send("Events Not Found in your city");
+                    }
+                    else {
+                        
+                        //Have the rd Engine in here :)
+                        //Binary Search Function
+                        function binarySearch(arr, x, start, end) { 
+        
+                            // Base Condtion 
+                            if (start > end) return false; 
+                        
+                            // Find the middle index 
+                            let mid=Math.floor((start + end)/2); 
+                        
+                            // Compare mid with given key x 
+                            if (arr[mid]===x) return true; 
+                                
+                            // If element at mid is greater than x, 
+                            // search in the left half of mid 
+                            if(arr[mid] > x)  
+                                return binarySearch(arr, x, start, mid-1); 
+                            else
+                        
+                                // If element at mid is smaller than x, 
+                                // search in the right half of mid 
+                                return binarySearch(arr, x, mid+1, end); 
+                        } 
+                        //This will have to be wrapped inside a function when its possible
+                        tot_length = MONGO_RETURN.length;
+                        for(i=0; i<tot_length; i++) {
+                            //Sets the event
+                            ev = MONGO_RETURN['i']
+                            //Now starting the actual recommendation
+                            var sum = 0;
+                            if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
+                                sum += (Math.abs(pincode - ev.evnPincode)*0.7)
+                            }
+                            if (ev.evnScore!=undefined) {
+                                //Adding raw event score
+                                sum += ev.evnScore
+                            }
+                            if (ev.evnTarget!=undefined && decodedToken.age!=undefined) {
+            
+                                //Subtracting Raw Target Age Difference
+                                sum -= (Math.abs(age - ev.evnTargetAge)*0.5)
+                            }
+                            if(decodedToken.costPref!=undefined && ev.evnCost!=undefined) {
+                                //Subtracting Cost Preferences modulus from the total score. Multiplied by 0.1
+                                sum -= (Math.abs(costPref - ev.evnCost)*0.1)
+                            }
+                            console.log("Testing: ", sum)
+                            var n = 1;
+                            var event_interests = ev.evnInterests;
+                            var userinterests = decodedToken.interests;
+                            var tot_event_interests = ev.evnInterests.length; 
+                            for(i=0; i < tot_event_interests; i++) {
+                                binarySearch(userinterests, event_interests[i], 0, (userinterests.length -1 ), function(res) {
+                                    if(res==false) {
+                                        //No statements
+                                        continue
+                                    }
+                                    else {
+                                        console.log('Found a similarity between the interests')
+                                        sum += 1*n
+                                        n +=1
+                                    }
+                                })  
+                            }
+                            sum_array.push(sum)
+
+                        }
+                        console.log(sum_array)
+
+                    }
+                }
+            })
+        }
+    })
+})

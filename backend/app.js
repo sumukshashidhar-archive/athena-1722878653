@@ -32,7 +32,7 @@ const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
-const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
+const  multipartMiddleware  =  multipart({ uploadDir:  './data/images/uploads' });
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -49,8 +49,8 @@ function sendMail(output, to)
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'developersatathena@gmail.com', // generated ethereal user
-        pass: 'Kumarans@365!'  // generated ethereal password
+        user: 'noreplyathenav1@gmail.com', // generated ethereal user
+        pass: 'Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC'  // generated ethereal password //Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC
     },
     tls:{
       rejectUnauthorized:false
@@ -200,6 +200,7 @@ ROUTES PRODUCTION READY
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
+    console.log(req.body)
     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (err) {
             //CODE BELOW THIS IS PRODUCTION READY
@@ -239,7 +240,7 @@ app.post('/register', function (req, res) {
                                     sendMail(output,req.body.email);
                                     
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo)); //TODO: Put this in a different file
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -395,9 +396,10 @@ app.post('/login', async function (req, res) {
 
                                 }
                                 else {
+                                    console.log(req.body)
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                     console.log(obj)
-                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: usrobj["Interests"], Location: usrobj["SLocation"], Pincode: usrobj["pincode"] }, privateKEY, enc.signOptions);
+                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"] }, privateKEY, enc.signOptions);
                                     console.log(token)
                                     //Testing verification. Has to be removed during deployment
                                     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -1185,3 +1187,103 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
 //     })
 
 // }
+
+
+var tot_length;
+var ev;
+var sum_array;
+
+
+//BASICALLY THE ENTIRE RECOMMENDER SYSTEM
+app.get('/eevnts', function(req, res) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if(err) {
+            console.log('INTERNAL ERROR. ', err);
+        }
+        else {
+            event.find({evnLocation: decodedToken['sLocation']}, function(err, MONGO_RETURN) {
+                if(err) {
+                    console.log('INTERNAL ERROR. ', err);
+                }
+                else {
+                    if(!MONGO_RETURN) {
+                        res.status(200).send("Events Not Found in your city");
+                    }
+                    else {
+                        
+                        //Have the rd Engine in here :)
+                        //Binary Search Function
+                        function binarySearch(arr, x, start, end) { 
+        
+                            // Base Condtion 
+                            if (start > end) return false; 
+                        
+                            // Find the middle index 
+                            let mid=Math.floor((start + end)/2); 
+                        
+                            // Compare mid with given key x 
+                            if (arr[mid]===x) return true; 
+                                
+                            // If element at mid is greater than x, 
+                            // search in the left half of mid 
+                            if(arr[mid] > x)  
+                                return binarySearch(arr, x, start, mid-1); 
+                            else
+                        
+                                // If element at mid is smaller than x, 
+                                // search in the right half of mid 
+                                return binarySearch(arr, x, mid+1, end); 
+                        } 
+                        //This will have to be wrapped inside a function when its possible
+                        tot_length = MONGO_RETURN.length;
+                        for(i=0; i<tot_length; i++) {
+                            //Sets the event
+                            ev = MONGO_RETURN['i']
+                            //Now starting the actual recommendation
+                            var sum = 0;
+                            if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
+                                sum += (Math.abs(pincode - ev.evnPincode)*0.7)
+                            }
+                            if (ev.evnScore!=undefined) {
+                                //Adding raw event score
+                                sum += ev.evnScore
+                            }
+                            if (ev.evnTarget!=undefined && decodedToken.age!=undefined) {
+            
+                                //Subtracting Raw Target Age Difference
+                                sum -= (Math.abs(age - ev.evnTargetAge)*0.5)
+                            }
+                            if(decodedToken.costPref!=undefined && ev.evnCost!=undefined) {
+                                //Subtracting Cost Preferences modulus from the total score. Multiplied by 0.1
+                                sum -= (Math.abs(costPref - ev.evnCost)*0.1)
+                            }
+                            console.log("Testing: ", sum)
+                            var n = 1;
+                            var event_interests = ev.evnInterests;
+                            var userinterests = decodedToken.interests;
+                            var tot_event_interests = ev.evnInterests.length; 
+                            for(i=0; i < tot_event_interests; i++) {
+                                binarySearch(userinterests, event_interests[i], 0, (userinterests.length -1 ), function(res) {
+                                    if(res==false) {
+                                        //No statements
+                                        continue
+                                    }
+                                    else {
+                                        console.log('Found a similarity between the interests')
+                                        sum += 1*n
+                                        n +=1
+                                    }
+                                })  
+                            }
+                            sum_array.push(sum)
+
+                        }
+                        console.log(sum_array)
+
+                    }
+                }
+            })
+        }
+    })
+})
+

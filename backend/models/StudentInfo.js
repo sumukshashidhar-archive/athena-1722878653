@@ -8,10 +8,10 @@ var StudentInfoSchema = new mongoose.Schema({
     EmailId: String,
     Age: String,
     Bio: String, 
-    Interests: String, 
+    interests: [], 
     DOB: String,
     PhoneNo: String,
-    SLocation: String,
+    Location: String,
     Achievement: [Achievements.schema], 
     pincode: Number,
 });

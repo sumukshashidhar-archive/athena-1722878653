@@ -6,7 +6,7 @@ const crypto = require("crypto");
 
 module.exports = {
     
-    furtherInfoStudent: function furtherInfoStudent(fName, lName, emailId, DOB, phoneNo, loginId, securityQuestion, securityAnswer){
+    furtherInfoStudent: function furtherInfoStudent(fName, lName, emailId, DOB, phoneNo, city, pincode){
         console.log("Saving Further info..."); //Should remove this line once testing is done
         var newStudent = new Student({
             FirstName: fName,
@@ -14,11 +14,10 @@ module.exports = {
             EmailId: emailId,
             DOB: DOB,
             PhoneNo: phoneNo,
-            LoginId: loginId,
-            UserInterests: "",
-            Achievements: [],
-            securityQuestion: securityQuestion,
-            securityAnswer: securityAnswer
+            interests: [],
+            Achievement: [],
+            Location: city, 
+            pincode: pincode
         });
         newStudent.save(function(err, obj)
         {

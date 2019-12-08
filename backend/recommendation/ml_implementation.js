@@ -1,21 +1,13 @@
-//How will I implement this properly?
-const brain = require('brain.js')
-const data = require('./../data/brain_data/ml_data/training_data.json')
-
-const neuralNetwork = new brain.recurrent.LSTM();
-
-const training_data = data.map(item => ({
-    input: item.input, 
-    output: item.output
+const brain = require('brain.js');
+const data = require('./../data/brain_data/ml_data/training_data.json');
+const training_data=data.map(item=>({
+  input:item.input,
+  output:item.output
 }))
 
+const net = new brain.recurrent.LSTM();
 
-neuralNetwork.train(training_data, {
-    iterations: 3000
-})
+net.train(training_data,{iterations:2000});
 
-
-
-const output = neuralNetwork.run(['singing', 'veena'])//Whatever piece of text I want to run here
-
-console.log(`Output: ${output}`)
+const output = net.run(['veena', 'cricket']); 
+console.log(output)

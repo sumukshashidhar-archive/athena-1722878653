@@ -64,7 +64,7 @@ On the second terminal, you should have an output saying that the server has sta
 
 - **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT. _ (@anirudhlakhotia)
 - **Sumuk Shashidhar**  -  _Request management and Authentication. Implementation of JWT. Recommendation Algorithm for Events_ (@sumukshashidhar)
-- **Vijay Dharmaji**  -  _File Upload_ (@vijaydharmaji29)
+- **Vijay Dharmaji**  -  _File Upload and Node Mailer_ (@vijaydharmaji29)
 -  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Achievements_   (@anandrajaram21)
 
 See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.
@@ -85,9 +85,10 @@ config/serverConfig.js
 controllers/search/search_controller.js
 controllers/tokenExtractor.js
 
+## INFO ON BRAIN.JS
+Before installation, try to update npm to its latest version by 
+```
+sudo npm install npm@latest -g
+```
 
-
-To DO:
- - Change Encryption Keys before deployment
- - Breakup of main_functions.js
- - 
+It should, theoretically, do the trick. If it does not, then you will have to compile the brain.js libraries yourself before deployment

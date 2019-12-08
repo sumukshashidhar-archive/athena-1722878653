@@ -147,7 +147,7 @@
                 <div>
                   <input type="number" maxlength="3" class="form-control" required ngModel name="evnTargetAge"
                     #evnTargetAge="ngModel" [(ngModel)]="eventService.selectedEvent.evnTargetAge">
-                  <span class="help-block" *ngIf="!age.valid && age.touched">Please Enter Target Age</span>
+                  <span class="help-block" *ngIf="!evnTargetAge.valid && evnTargetAge.touched">Please Enter Target Age</span>
                 </div>
               </div>
               <div class="form-group">

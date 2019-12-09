@@ -7,7 +7,7 @@ import { CookieService } from "ngx-cookie-service";
 import { AuthGuard } from "../../auth/auth.guard";
 import { User } from "../../shared/user/user.model";
 import { decoded } from "../../auth/auth.service";
-import { DatasharingService } from "./../../shared/datasharing.service";
+import { DatasharingService } from "../../shared/search/datasharing.service";
 import { first } from "rxjs/operators";
 
 @Component({

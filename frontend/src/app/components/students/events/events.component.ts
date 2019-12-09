@@ -3,6 +3,7 @@ import { EventService } from "./../../../shared/events/event.service";
 import { Event } from "./../../../shared/events/event";
 
 import { LoadingComponent } from "./../../loading/loading.component";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-events",
@@ -24,5 +25,23 @@ export class EventsComponent implements OnInit {
       this.showSpinner = false;
       console.log(this.eventService.events);
     });
+  }
+
+  sendDetails(_id: string){
+    this.eventService.getEventDetails(_id).subscribe(
+      res => {
+        console.log(res)
+        this.eventService.details = res
+      },
+      err => {
+        if (err.status === 422) {
+          // this.serverErrormessage = err.error.join('<br/>');
+          console.log(422);
+        } else {
+          // this.serverErrormessage = "Something went wrong"
+          console.log("error");
+        }
+      }
+    );
   }
 }

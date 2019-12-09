@@ -22,6 +22,8 @@ export class EventService {
   };
   events: Event[];
 
+  details: any;
+
   constructor(private http: HttpClient) {}
 
   getEvents() {
@@ -37,5 +39,10 @@ export class EventService {
     console.log("Post Events method");
     console.log(events)
     return this.http.post("http://localhost:3000/organizer-events", events);
+  }
+
+  getEventDetails(_id: string){
+    console.log(_id)
+    return this.http.post("https://localhost:3000/click-on-events", _id)
   }
 }

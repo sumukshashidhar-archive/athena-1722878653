@@ -385,36 +385,6 @@ app.get('/verifyuser/*', function(req, res)
     }); 
 });
 
-//////UPLOAD PROFILE PIC
-app.post('/achievements',  multipartMiddleware, (req, res) => {
-
-    console.log("HSSSSSSSSSSS\N\N");
-
-        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-            if (!err && decodedToken != null) {
-                console.log("Verified");
-                console.log(decodedToken);
-
-                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
-                {
-                    if(err)
-                    {
-                        console.log("ERRROR" + err);
-                        res.send(false);
-                    }
-                    else
-                    {
-                        console.log("Updated profile pic!!");
-                        res.send(true);
-                    }
-                });
-
-
-            }
-        });
-    
-
-});
 
 // LOGIN
 app.post('/login', async function (req, res) {
@@ -442,7 +412,7 @@ app.post('/login', async function (req, res) {
                                     console.log(req.body)
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                     console.log(obj)
-                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
+                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"] }, privateKEY, enc.signOptions);
                                     console.log(token)
                                     //Testing verification. Has to be removed during deployment
                                     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -550,7 +520,7 @@ app.post('/resetPasswordCode', function(req, res)
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
-    console.log(req.body.email);
+    console.log(req.body.email)
     user.findOne({ username: req.body.email }, function (err, obj) {
         if (err) {
             //if an error, logging it
@@ -888,6 +858,38 @@ app.post('/delete-achievement', function (req, res) {
         }
     })
 })
+
+//////UPLOAD PROFILE PIC
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+            if (!err && decodedToken != null) {
+                console.log("Verified");
+                console.log(decodedToken);
+
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
+                {
+                    if(err)
+                    {
+                        console.log("ERRROR" + err);
+                        res.send(false);
+                    }
+                    else
+                    {
+                        console.log("Updated profile pic");
+                        res.send(true);
+                    }
+                });
+
+
+            }
+        });
+    
+
+});
+
 
 
 //INTERESTS

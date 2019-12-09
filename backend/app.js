@@ -1393,21 +1393,51 @@ app.get('/eeevnts', function(req, res) {
 
 
 app.post('/click-on-events', function(req, res) {
-    //Does not require authentication
-    //Must send a post
-    event.findOne({}, function(err, obj) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if(err) {
-            console.log(err)
+            console.log('INTERNAL ERROR. ', err);
         }
         else {
-            if(obj) {
-                i
-            }
-            else {
-                console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
-            }
+            Student.findOne({_id: decodedToken._id}, function(err, MONGO_OBJ_RETURN) {
+                if(err) {
+                    console.log(err)
+                }
+                else{
+                    if(MONGO_OBJ_RETURN) {
+                        event.findOne({_id: req.body._id}, function(err, EVNobj) {
+                            if(err) {
+                                console.log(err)
+                            }
+                            else {
+                                if(EVNobj) {
+                                    res.send(EVNobj)
+                                    MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
+                                    event.findOneAndUpdate({_id: EVNobj._id}, {$set: {uservector: MONGO_OBJ_RETURN.uservector}}, function(err, UPDATED_OBJ){
+                                        if(err) {
+                                            console.log(err)
+                                        }
+                                        else {
+                                            console.log(UPDATED_OBJ)
+                                        }
+                                    })
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
+                                }
+                            }
+                        })
+
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
         }
     })
+    //Does not require authentication
+    //Must send a post
+    
 })
 
 
@@ -1429,7 +1459,7 @@ app.post('/add-categories', function(err, obj) {
                     }
                     else {
                         console.log(subcatsave)
-                        
+
                     }
                 })
             }

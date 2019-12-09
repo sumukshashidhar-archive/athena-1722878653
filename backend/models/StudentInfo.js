@@ -14,6 +14,7 @@ var StudentInfoSchema = new mongoose.Schema({
     Location: String,
     Achievement: [Achievements.schema], 
     pincode: Number,
+    uservector: []
 });
 
 module.exports = mongoose.model("StudentInfo", StudentInfoSchema);

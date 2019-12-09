@@ -6,7 +6,10 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root"
 })
 export class NewpassService {
+  emailToSend: any;
+
   selectedPass: NewPass = {
+    email: "",
     password: ""
   };
 
@@ -14,6 +17,6 @@ export class NewpassService {
 
   postPassword(pass: NewPass) {
     console.log(pass);
-    return this.http.post("http://localhost:3000/new-password", pass);
+    return this.http.post("http://localhost:3000/resetpassword", pass);
   }
 }

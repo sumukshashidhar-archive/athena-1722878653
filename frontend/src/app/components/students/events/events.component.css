@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+/* @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 .tl {
   width: 100%;
@@ -45,7 +45,6 @@ body {
   font-size: 20px;
 }
 
-/*Resize the wrap to see the search bar change!*/
 .wrap {
   width: 30%;
   position: absolute;
@@ -57,4 +56,7 @@ body {
 mat-accordion,
 mat-expansion-panel {
   margin-bottom: 25px;
-}
+} */
+
+/* New CSS Goes below */
+

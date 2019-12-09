@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Email } from "../../shared/password/password.model";
 import { AnswerService } from "./../../shared/answer/answer.service";
+import { NewpassService } from './../../shared/newpass/newpass.service';
 
 @Component({
   selector: "app-passcheck",
@@ -13,19 +14,21 @@ import { AnswerService } from "./../../shared/answer/answer.service";
 export class PasscheckComponent implements OnInit {
   x: any;
   y: any;
-  emailToSent:any;
+  emailToSend:any;
 
   constructor(
     public passService: PasswordService,
     private router: Router,
-    public answerService: AnswerService
+    public answerService: AnswerService,
+    public newPass: NewpassService
   ) {}
 
   ngOnInit() {}
 
   onSubmit(form: NgForm) {
     console.log(form.value)
-    this.emailToSent = form.value.email;
+    this.emailToSend = form.value.email;
+    this.newPass.emailToSend = this.emailToSend;
     this.passService.postEmail(form.value).subscribe(
       res => {
         this.x = res;
@@ -50,7 +53,8 @@ export class PasscheckComponent implements OnInit {
   }
 
   onsubmit(form: NgForm) {
-    form.value['email'] =this.emailToSent;
+    form.value['email'] =this.emailToSend;
+
     console.log(form.value)
     this.answerService.postAnswer(form.value).subscribe(
       res => {
@@ -58,6 +62,7 @@ export class PasscheckComponent implements OnInit {
         this.y = res;
         if (res) {
           console.log(res)
+          this.router.navigate(['/resetpass']);
         } else {
           console.log("Wrong answer");
         }

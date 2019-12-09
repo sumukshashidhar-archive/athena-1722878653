@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Achievements } from "./achievements.model";
-import{uploadedFiles} from './../../components/students/achievements/achievements.component'
+
 @Injectable({
   providedIn: "root"
 })

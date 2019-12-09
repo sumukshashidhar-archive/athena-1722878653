@@ -27,6 +27,7 @@ export class ResetpassComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    form.value['email']=this.newPass.emailToSend;
     this.newPass.postPassword(form.value).subscribe(
       res => {
         console.log(res);

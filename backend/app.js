@@ -757,51 +757,74 @@ app.get('/achievements', async function (req, res) {
 
 
 // ACHIEVEMENTS ROUTE
+var flag = 0;
+var achCat = '';
+var achSubCat = '';
+
+
+// ACHIEVEMENTS ROUTE
 app.post('/achievements',  multipartMiddleware, (req, res) => {
 
-    console.log(req.body,req.files, req.files.uploads[0].path);
+    console.log("HSSSSSSSSSSS\N\N");
+
+    if(flag == 0)
+    {
+        achCat = req.body.achCat;
+        achSubCat = req.body.achSubCat;
+
+        flag = 1;
+    }
+    else
+    {   
+        console.log(req.body, req.files, req.files.uploads[0].path);
 
 
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null) {
-            console.log("Verified");
-            console.log(decodedToken)
-            var newAch = new achievements({
-                    CategoryId: req.body.achCat,
-                    SubCategoryId: req.body.achSubCat
-                })
-            newAch.save(function (err, achobj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log(decodedToken)
-                    console.log(achobj["id"])
-                    res.status(200).json(achobj)
-                    Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
-                        if (err) {
-                            console.log(err)
-                        }
-                        else {
-                            console.log("Found the student object with the token. Now pushing achievement")
-                            obj.Achievement.push(achobj)
-                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement, Image: req.files.uploads[0].path} }, function (err, updateobj) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                                else {
-                                    console.log("Pushed the object successfully")
-                                }
-                            })
-
-                        }
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+            if (!err && decodedToken != null) {
+                console.log("Verified");
+                console.log(decodedToken)
+                var newAch = new achievements
+                    ({
+                        CategoryId: achCat,
+                        SubCategoryId: achSubCat,
+                        Image: req.files.uploads[0].path
                     })
-                }
-            })
-        }
-    })
-});
+                newAch.save(function (err, achobj) {
+                    if (err) {
+                        console.log(err)
+                    }
+                    else {
+                        console.log(decodedToken)
+                        console.log(achobj["id"])
+                        res.status(200).json(achobj)
+                        Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                console.log("Found the student object with the token. Now pushing achievement")
+                                obj.Achievement.push(achobj)
+                                Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                    else {
+                                        console.log("Pushed the object successfully")
+                                    }
+                                })
+    
+                            }
+                        })
+                    }
+                })
+            }
+        });
 
+        flag = 0;
+    }
+    
+
+});
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {

@@ -13,7 +13,6 @@ var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const category = require('./models/category-model')
 const subcat = require('./models/subcategory-model')
 
 
@@ -469,14 +468,16 @@ app.post('/reset', function (req, res) {
             var output = 'YOUR CODE IS: '+ code;
 
             sendMail(output,req.body.email);
-            user.findOneAndUpdate({EmailId: req.body.email }, {$set: {authCode: code}}, function(err, obj)
+            user.findOneAndUpdate({EmailId: req.body.email }, {$set: {AuthCode: code}}, function(err, obj)
             {
                 if(err)
                 {
                     console.log(err);
+                    res.send(false);
                 }
                 else
-                {
+                {   
+                    console.log(obj);
                     res.send(true);
                 }
             });
@@ -485,20 +486,25 @@ app.post('/reset', function (req, res) {
 });
 
 app.post('/resetPasswordCode', function(req, res)
-{
-    Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+{   
+    console.log(req.body.code);
+    console.log(req.body.email);
+
+    user.findOne({ EmailId: req.body.email }, function (err, mongoObj) {
         if (err) {
             console.log(err)
-            }
+        }
         else {
-            if(mongoObj.authCode == req.body.codeUser)
+            console.log(mongoObj);
+            if(mongoObj.AuthCode == req.body.code)
             {
                 console.log("Verified")
-                res.return(true);
+                res.send(true);
             }
             else
             {
-                res.return(false);
+                console.log("PROBLEMMM")
+                res.send(false);
             }
         }
     });
@@ -780,7 +786,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
         jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified");
-                console.log(decodedToken)
+                console.log(decodedToken);
                 var newAch = new achievements
                     ({
                         CategoryId: achCat,
@@ -890,6 +896,7 @@ app.post('/addInterest', function(req, res)
             });
 
             inter = inter + "," + req.body.interest;
+            console.log(inter);
 
             Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
                 if (err) {

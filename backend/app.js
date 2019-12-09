@@ -20,7 +20,7 @@ const subcat = require('./models/subcategory-model')
 
 
 
-// var brain = require('brain.js')
+var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -486,29 +486,20 @@ app.post('/reset', function (req, res) {
 
 app.post('/resetPasswordCode', function(req, res)
 {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) 
-        {
-            console.log(err);
+    Student.findOne({ EmailId: req.body.email1 }, function (err, mongoObj) {
+        if (err) {
+            console.log(err)
         }
-        else 
-        {
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    if(mongoObj.authCode == req.body.codeUser)
-                    {
-                        console.log("Verified")
-                        res.return(true);
-                    }
-                    else
-                    {
-                        res.return(false);
-                    }
-                }
-            })
+        else {
+            if(mongoObj.authCode == req.body.codeUser)
+            {
+                console.log("Verified")
+                res.send(true);
+            }
+            else
+            {
+                res.send(false);
+            }
         }
     })
 });

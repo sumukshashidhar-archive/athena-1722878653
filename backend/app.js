@@ -1411,3 +1411,9 @@ app.post('/click-on-events', function(req, res) {
         }
     })
 })
+
+
+
+app.post('/add-categories', function(err, obj) {
+    
+})

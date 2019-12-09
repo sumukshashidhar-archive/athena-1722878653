@@ -335,7 +335,7 @@ app.post('/registerorganizer', function (req, res) {
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",,
+                                profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                 Verified: false
                             });
 

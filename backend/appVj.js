@@ -13,13 +13,14 @@ var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const subcat = require('./models/subcategory-model')
+// const category = require('./models/category-model')
+// const subcat = require('./models/subcategory-model')
 
 
 
 
 
-// var brain = require('brain.js')
+//var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -231,7 +232,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    AuthCode: "000000",
+                                    profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                     Verified: false
                                 });
 
@@ -248,7 +249,7 @@ app.post('/register', function (req, res) {
                                     sendMail(output,req.body.email);
                                     
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode)); //TODO: Put this in a different file
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -333,8 +334,9 @@ app.post('/registerorganizer', function (req, res) {
                                 userType: "Organizer",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
-                                AuthCode: "000000",
-                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
+                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                Verified: false
                             });
 
                             newUser.save(function (err, obj) {
@@ -376,8 +378,9 @@ app.get('/verifyuser/*', function(req, res)
         }
         else
         {
-            console.log("VERIFIED");
+            console.log("VERIFIED"); 
             console.log(obj);
+            res.redirect("http://localhost:4200/login");
         }
     }); 
 });
@@ -396,6 +399,7 @@ app.post('/login', async function (req, res) {
                 }
                 else {
                     if (BCRYPT_RES) {
+                        console.log(usrobj)
                         //Checking what user type the user is, and returning a JWT based on that
                         if (usrobj["userType"] == "Student") {
                             //If the user object is a Student. I am finding a student with the required description
@@ -458,6 +462,7 @@ app.post('/login', async function (req, res) {
 });
 
 
+//PRODUCTION READY CODE:
 //PRODUCTION READY CODE:
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
@@ -670,7 +675,7 @@ app.post('/organizer-events', async function (req, res) {
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
-                    evnDate: req.body.evnDate,
+                    evnDate: req.body.evnDate1,
                     evnIntersts: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
@@ -832,6 +837,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
 
 });
 
+
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -852,6 +858,38 @@ app.post('/delete-achievement', function (req, res) {
         }
     })
 })
+
+//////UPLOAD PROFILE PIC
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+            if (!err && decodedToken != null) {
+                console.log("Verified");
+                console.log(decodedToken);
+
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
+                {
+                    if(err)
+                    {
+                        console.log("ERRROR" + err);
+                        res.send(false);
+                    }
+                    else
+                    {
+                        console.log("Updated profile pic");
+                        res.send(true);
+                    }
+                });
+
+
+            }
+        });
+    
+
+});
+
 
 
 //INTERESTS
@@ -898,7 +936,6 @@ app.post('/addInterest', function(req, res)
             });
 
             inter = inter + "," + req.body.interest;
-            console.log(inter);
 
             Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
                 if (err) {
@@ -1424,21 +1461,51 @@ app.get('/eeevnts', function(req, res) {
 
 
 app.post('/click-on-events', function(req, res) {
-    //Does not require authentication
-    //Must send a post
-    event.findOne({}, function(err, obj) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if(err) {
-            console.log(err)
+            console.log('INTERNAL ERROR. ', err);
         }
         else {
-            if(obj) {
-                i
-            }
-            else {
-                console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
-            }
+            Student.findOne({_id: decodedToken._id}, function(err, MONGO_OBJ_RETURN) {
+                if(err) {
+                    console.log(err)
+                }
+                else{
+                    if(MONGO_OBJ_RETURN) {
+                        event.findOne({_id: req.body._id}, function(err, EVNobj) {
+                            if(err) {
+                                console.log(err)
+                            }
+                            else {
+                                if(EVNobj) {
+                                    res.send(EVNobj)
+                                    MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
+                                    event.findOneAndUpdate({_id: EVNobj._id}, {$set: {uservector: MONGO_OBJ_RETURN.uservector}}, function(err, UPDATED_OBJ){
+                                        if(err) {
+                                            console.log(err)
+                                        }
+                                        else {
+                                            console.log(UPDATED_OBJ)
+                                        }
+                                    })
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
+                                }
+                            }
+                        })
+
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
         }
     })
+    //Does not require authentication
+    //Must send a post
+    
 })
 
 
@@ -1460,7 +1527,7 @@ app.post('/add-categories', function(err, obj) {
                     }
                     else {
                         console.log(subcatsave)
-                        
+
                     }
                 })
             }

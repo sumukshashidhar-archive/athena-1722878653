@@ -40,6 +40,7 @@ import { DiscoverComponent } from './components/discover/discover.component';
 import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import { SearchresComponent } from './components/searchres/searchres.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -178,7 +179,8 @@ export const appRoutes: Routes = [
     DiscoverComponent,
     KeyaddComponent,
     RunmoduleComponent,
-    UserprofileComponent
+    UserprofileComponent,
+    SearchresComponent
   ],
   imports: [
     JwtModule.forRoot({

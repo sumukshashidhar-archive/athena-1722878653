@@ -1,31 +1,36 @@
 import { HttpClient } from '@angular/common/http';
-import { decoded } from "./../../../auth/auth.service";
 import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
-
+import * as jwt_decode from 'jwt-decode';
 import { Component, OnInit } from "@angular/core";
 import { DatasharingService } from "./../../../shared/datasharing.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
 import { Search } from "./../../../shared/search.model";
 import { NgForm } from "@angular/forms";
-
+export var decoded :any 
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
+  
   username: any;
   ipAddress:string;
+  
+   
   constructor(
+    
     private auth: AuthService,
     private router: Router,
     private data: DatasharingService,
     private uname: NameService,
     public datasharingService: DatasharingService,
     private http:HttpClient
-  ) {}
+  ) {
+    decoded= localStorage.getItem('access_token');
+  }
   
     
   logout() {
@@ -41,11 +46,12 @@ export class DashboardComponent implements OnInit {
     });
   }
   ngOnInit() {
+    var decodedtoken= jwt_decode(decoded)
     this.getIP();
-    var d = decoded;
+
     this.data.currentName.subscribe((res: Response) => {
-      if (decoded["role"] == "Student") {
-        this.username = decoded["given_name"];
+      if (decodedtoken["role"] == "Student") {
+        this.username = decodedtoken["given_name"];
       }
       console.log(this.username);
     });

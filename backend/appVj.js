@@ -231,6 +231,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                    AuthCode: "000000",
                                     Verified: false
                                 });
 
@@ -332,6 +333,7 @@ app.post('/registerorganizer', function (req, res) {
                                 userType: "Organizer",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
+                                AuthCode: "000000",
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
                             });
 
@@ -467,8 +469,7 @@ app.post('/reset', function (req, res) {
             var code = generate(6); 
             var output = 'YOUR CODE IS: '+ code;
 
-            sendMail(output,req.body.email);
-            user.findOneAndUpdate({EmailId: req.body.email }, {$set: {AuthCode: code}}, function(err, obj)
+            user.findOneAndUpdate({username: req.body.email }, {$set: {AuthCode: code}}, function(err, obj)
             {
                 if(err)
                 {
@@ -477,6 +478,7 @@ app.post('/reset', function (req, res) {
                 }
                 else
                 {   
+                    sendMail(output,req.body.email);
                     console.log(obj);
                     res.send(true);
                 }
@@ -490,7 +492,7 @@ app.post('/resetPasswordCode', function(req, res)
     console.log(req.body.code);
     console.log(req.body.email);
 
-    user.findOne({ EmailId: req.body.email }, function (err, mongoObj) {
+    user.findOne({ username: req.body.email}, function (err, mongoObj) {
         if (err) {
             console.log(err)
         }

@@ -7,7 +7,8 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AnswerService {
   selectedAnswer: Answer = {
-    code: ""
+    code: "",
+    email1: ""
   };
 
   constructor(private http: HttpClient) {}
@@ -15,7 +16,7 @@ export class AnswerService {
   postAnswer(securityAnswer: Answer) {
     console.log(securityAnswer);
     return this.http.post(
-      "http://localhost:3000/resetpassword",
+      "http://localhost:3000/resetPasswordCode",
       securityAnswer
     );
   }

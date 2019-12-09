@@ -232,6 +232,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                    profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                     Verified: false
                                 });
 
@@ -333,7 +334,9 @@ app.post('/registerorganizer', function (req, res) {
                                 userType: "Organizer",
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
-                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH
+                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                                profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",,
+                                Verified: false
                             });
 
                             newUser.save(function (err, obj) {
@@ -382,6 +385,36 @@ app.get('/verifyuser/*', function(req, res)
     }); 
 });
 
+//////UPLOAD PROFILE PIC
+app.post('/achievements',  multipartMiddleware, (req, res) => {
+
+    console.log("HSSSSSSSSSSS\N\N");
+
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+            if (!err && decodedToken != null) {
+                console.log("Verified");
+                console.log(decodedToken);
+
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
+                {
+                    if(err)
+                    {
+                        console.log("ERRROR" + err);
+                        res.send(false);
+                    }
+                    else
+                    {
+                        console.log("Updated profile pic!!");
+                        res.send(true);
+                    }
+                });
+
+
+            }
+        });
+    
+
+});
 
 // LOGIN
 app.post('/login', async function (req, res) {

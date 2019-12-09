@@ -13,6 +13,7 @@ import { AnswerService } from "./../../shared/answer/answer.service";
 export class PasscheckComponent implements OnInit {
   x: any;
   y: any;
+  emailToSent:any;
 
   constructor(
     public passService: PasswordService,
@@ -23,6 +24,8 @@ export class PasscheckComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(form: NgForm) {
+    console.log(form.value)
+    this.emailToSent = form.value.email;
     this.passService.postEmail(form.value).subscribe(
       res => {
         this.x = res;
@@ -47,6 +50,8 @@ export class PasscheckComponent implements OnInit {
   }
 
   onsubmit(form: NgForm) {
+    form.value['email'] =this.emailToSent;
+    console.log(form.value)
     this.answerService.postAnswer(form.value).subscribe(
       res => {
         console.log(res);

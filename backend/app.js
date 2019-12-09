@@ -375,8 +375,9 @@ app.get('/verifyuser/*', function(req, res)
         }
         else
         {
-            console.log("VERIFIED");
+            console.log("VERIFIED"); 
             console.log(obj);
+            res.redirect("http://localhost:4200/login");
         }
     }); 
 });
@@ -516,7 +517,7 @@ app.post('/resetPasswordCode', function(req, res)
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
-    console.log(req.body.email)
+    console.log(req.body.email);
     user.findOne({ username: req.body.email }, function (err, obj) {
         if (err) {
             //if an error, logging it

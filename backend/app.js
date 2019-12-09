@@ -39,7 +39,7 @@ const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
-const  multipartMiddleware  =  multipart({ uploadDir:  '../uploads' });
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -405,7 +405,7 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                     else
                     {
                         console.log("Updated profile pic!!");
-                        res.send(true);
+                        res.send({path: req.files.uploads[0].path});
                     }
                 });
 
@@ -414,6 +414,14 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
         });
     
 
+});
+
+app.get('/getImage', function(req, res)
+{   
+    console.log(req.query.url);
+    var Path=path.join(__dirname, req.query.url)
+    console.log(Path)
+    res.sendFile(Path);
 });
 
 // LOGIN

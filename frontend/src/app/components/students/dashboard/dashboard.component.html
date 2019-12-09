@@ -62,16 +62,18 @@
             </button>
           </div>
           <div class="modal-body">
-            <input maxlength="32" type="file" id="displaypic" accept=".gif,.png,.jpeg,.jpg" />
+              <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" (click)="send()">Save changes</button>
           </div>
         </div>
       </div>
     </div>
+
+    <img [src]="imageToShow">
   </body>
 </div>

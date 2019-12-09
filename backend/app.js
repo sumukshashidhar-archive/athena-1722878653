@@ -232,7 +232,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                    profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                     Verified: false
                                 });
 
@@ -335,7 +335,7 @@ app.post('/registerorganizer', function (req, res) {
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "../uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                 Verified: false
                             });
 
@@ -395,7 +395,7 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                 console.log("Verified");
                 console.log(decodedToken);
 
-                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path.slice(2,1000)}}, function(err, ibj)
                 {
                     if(err)
                     {

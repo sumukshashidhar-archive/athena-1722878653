@@ -720,6 +720,16 @@ app.get('/events', async function (req, res) {
         if(err) {
             console.log("")
         }
+        else {
+            event.find({}, function(err, MONGO_EVENTS_RETURN) {
+                if(err) {
+
+                }
+                else {
+                    res.send(MONGO_EVENTS_RETURN)
+                }
+            })
+        }
 
     })
 })
@@ -1378,6 +1388,25 @@ app.get('/eeevnts', function(req, res) {
                     }
                 }
             })
+        }
+    })
+})
+
+
+app.post('/click-on-events', function(req, res) {
+    //Does not require authentication
+    //Must send a post
+    event.findOne({}, function(err, obj) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(obj) {
+                i
+            }
+            else {
+                console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
+            }
         }
     })
 })

@@ -1,9 +1,9 @@
 <div class="background">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <app-loading *ngIf="showSpinner"></app-loading>
+  <!-- <app-loading *ngIf="showSpinner"></app-loading> -->
 
-  <body *ngIf="!showSpinner">
+  <!-- <body *ngIf="!showSpinner">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <div class="navbar-collapse collapse justify-content-between">
         <ul class="navbar-nav mr-auto">
@@ -48,9 +48,22 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-  </body>
-  <!-- This is how the new events page will look -->
-  <!-- <body *ngIf="!showSpinner">
-    
   </body> -->
+  <!-- This is how the new events page will look -->
+
+  <body>
+    <h1 style="text-align: center;">Events</h1>
+    <div *ngFor="let evn of eventService.events">
+    <div class="container">
+      <div class="card col-4">
+        <img src="./../../../../assets/images/image2.jpg" style="margin-top: 1rem;" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title">{{evn.evnName}}</h5>
+          <p class="card-text">{{evn.evnOrganizerPage}}</p>
+          <button class="btn btn-primary" [routerLink]="['/bigevents']" routerLinkActive="router-link-active" >Check it out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
 </div>

@@ -14,12 +14,13 @@ export class DatasharingService {
 
   selSearch: Search = {
     keyword: '',
-    usecase: null
+    usecase: 1
+    
   };
 
   selSearch1: User_Search = {
-    userKey: "",
-    userUseCase: null
+    userKey: ""
+    // userUseCase: null
   }
 
   constructor(private http: HttpClient) {}

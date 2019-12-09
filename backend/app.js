@@ -45,6 +45,7 @@ const  multipartMiddleware  =  multipart({ uploadDir:  './data/images/uploads' }
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
+var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
 
 ///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
 
@@ -396,7 +397,7 @@ app.post('/login', async function (req, res) {
                 else {
                     if (BCRYPT_RES) {
                         //Checking what user type the user is, and returning a JWT based on that
-                        if (usrobj["userType"] == "Student") {
+                        if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
                             //If the user object is a Student. I am finding a student with the required description
                             Student.findOne({ EmailId: req.body.username }, function (err, obj) {
                                 if (err) {
@@ -715,7 +716,9 @@ app.post('/events', async function (req, res) {
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    console.log(req)
+    console.log(req.header)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if(err) {
             console.log("")
         }
@@ -725,6 +728,7 @@ app.get('/events', async function (req, res) {
 
                 }
                 else {
+                    console.log(decodedToken)
                     res.send(MONGO_EVENTS_RETURN)
                 }
             })
@@ -762,7 +766,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     console.log(req.body,req.files, req.files.uploads[0].path);
 
 
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
             console.log(decodedToken)
@@ -988,6 +992,7 @@ app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', fu
 app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', function(req, res) {
     console.log("Recieved a module run request")
     console.log(req.body) //dev test
+    //Very very slow, but since we have a small number of keys, should not take much time
     keystore.find({}, function(err, MONGO_KEYS_OBJ) {
         if(err) {
             console.log(err)
@@ -1391,7 +1396,7 @@ app.get('/eeevnts', function(req, res) {
     })
 })
 
-
+//NOT TESTED
 app.post('/click-on-events', function(req, res) {
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if(err) {
@@ -1474,4 +1479,23 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
+})
+
+app.get('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
+    module.find({}, function(err, MODULES_OBJ) {
+        if(err) {
+            console.log('INTERNAL ERROR. ');
+        }
+        else {
+            console.log("Loaded Modules")
+            res.send(MODULES_OBJ)
+        }
+    })
+})
+
+
+
+app.post('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
+    //Needs to get the module to run
+    
 })

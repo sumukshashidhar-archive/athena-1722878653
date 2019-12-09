@@ -1,6 +1,7 @@
 import { User } from "./../user/user.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+export var send
 @Injectable({
   providedIn: "root"
 })
@@ -16,13 +17,16 @@ export class LoginService {
     userType: "",
     securityQuestion: "",
     securityAnswer: "",
-    pincode: ""
+    pincode: "",
+    bio:""
   };
 
   constructor(private http: HttpClient) {}
 
   postLogin(user: User) {
     console.log(Object);
+    send=user.bio
+    console.log(`BIO is {send}`)
     return this.http.post("http://localhost:3000/login", user);
   }
 }

@@ -20,7 +20,7 @@ const subcat = require('./models/subcategory-model')
 
 
 
-var brain = require('brain.js')
+//var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -248,7 +248,7 @@ app.post('/register', function (req, res) {
                                     sendMail(output,req.body.email);
                                     
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode)); //TODO: Put this in a different file
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                                 }
                             });
                         }

@@ -68,7 +68,7 @@
           <ng-template matStepLabel>Tell us more about yourself</ng-template>
           <form #g="ngForm">
             <mat-form-field>
-              <input maxlength="32" placeholder="Date of Birth" matInput type="text" required ngModel name="DOB"
+              <input maxlength="32" placeholder="Date of Birth" matInput type="date" required ngModel name="DOB"
                 #DOB="ngModel" [(ngModel)]="userService.selectedUser.DOB" />
               <mat-error class="help-block" *ngIf="!DOB.valid && DOB.touched">Please Enter Date Of Birth</mat-error>
             </mat-form-field>
@@ -81,6 +81,14 @@
               <input type="text" maxlength="32" placeholder="Enter your pincode" matInput required ngModel name="pincode" #pincode="ngModel" [(ngModel)]="userService.selectedUser.pincode">
               <mat-error class="help-block" *ngIf="!pincode.valid && pincode.touched">Please Enter Pincode</mat-error>
             </mat-form-field>
+            <br />
+            <mat-form-field>
+                <input maxlength="32" matInput type="text" placeholder="Enter Bio" required ngModel
+                  name="bio" #bio="ngModel" [(ngModel)]="userService.selectedUser.bio" />
+                <mat-error class="help-block" *ngIf="!bio.valid && bio.touched">
+                 Enter a little about yourself
+                  </mat-error>
+              </mat-form-field>
           </form>
           <br />
           <div>
@@ -108,6 +116,7 @@
                 Security Answer to your Security
                 Question</mat-error>
             </mat-form-field>
+          
           </form>
           <div>
             <button mat-button matStepperPrevious>Back</button>

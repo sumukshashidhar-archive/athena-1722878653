@@ -16,7 +16,8 @@ export class LoginService {
     userType: "",
     securityQuestion: "",
     securityAnswer: "",
-    pincode: ""
+    pincode: "",
+    bio:""
   };
 
   constructor(private http: HttpClient) {}

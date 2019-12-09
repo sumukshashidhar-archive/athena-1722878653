@@ -20,7 +20,7 @@ const subcat = require('./models/subcategory-model')
 
 
 
-var brain = require('brain.js')
+//var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -248,7 +248,7 @@ app.post('/register', function (req, res) {
                                     sendMail(output,req.body.email);
                                     
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode)); //TODO: Put this in a different file
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -395,6 +395,7 @@ app.post('/login', async function (req, res) {
                 }
                 else {
                     if (BCRYPT_RES) {
+                        console.log(usrobj)
                         //Checking what user type the user is, and returning a JWT based on that
                         if (usrobj["userType"] == "Student") {
                             //If the user object is a Student. I am finding a student with the required description
@@ -486,7 +487,7 @@ app.post('/reset', function (req, res) {
 
 app.post('/resetPasswordCode', function(req, res)
 {
-    Student.findOne({ EmailId: req.body.email1 }, function (err, mongoObj) {
+    Student.findOne({ EmailId: req.body.email }, function (err, mongoObj) {
         if (err) {
             console.log(err)
         }
@@ -662,7 +663,7 @@ app.post('/organizer-events', async function (req, res) {
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
-                    evnDate: req.body.evnDate,
+                    evnDate: req.body.evnDate1,
                     evnIntersts: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed

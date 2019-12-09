@@ -737,7 +737,7 @@ app.post('/organizer-events', async function (req, res) {
 });
 
 
-app.get('/eventss', async function (req, res) {
+app.get('/events', async function (req, res) {
     console.log("Getting events......")
     console.log(req)
     console.log(req.header)
@@ -1287,7 +1287,7 @@ var sample_event_arr = [
     }
 ]
 //BASICALLY THE ENTIRE RECOMMENDER SYSTEM
-app.get('/events', function(req, res) {
+app.get('/eventsss', function(req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, adecodedToken) {
         if(err) {
             console.log('INTERNAL ERROR. ', err);

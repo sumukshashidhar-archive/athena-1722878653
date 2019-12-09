@@ -78,7 +78,7 @@
               <mat-error class="help-block" *ngIf="!city.valid && city.touched">Enter your city</mat-error>
             </mat-form-field>
             <mat-form-field>
-              <input type="text" maxlength="32" placeholder="Enter your pincode" matInput required ngModel name="pincode" #pincode="ngModel" [(ngModel)]="userService.selectedUser.pincode">
+              <input type="number" maxlength="6" placeholder="Enter your pincode" matInput required ngModel name="pincode" #pincode="ngModel" [(ngModel)]="userService.selectedUser.pincode">
               <mat-error class="help-block" *ngIf="!pincode.valid && pincode.touched">Please Enter Pincode</mat-error>
             </mat-form-field>
             <br />

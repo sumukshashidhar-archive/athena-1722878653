@@ -10,4 +10,6 @@ export class User {
   securityQuestion: string;
   securityAnswer: string;
   pincode: string;
+  bio:string;
 }
+

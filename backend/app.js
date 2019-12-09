@@ -13,8 +13,8 @@ var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const category = require('./models/category-model')
-const subcat = require('./models/subcategory-model')
+// const category = require('./models/category-model')
+// const subcat = require('./models/subcategory-model')
 
 
 
@@ -39,7 +39,7 @@ const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
-const  multipartMiddleware  =  multipart({ uploadDir:  './data/images/uploads' });
+const  multipartMiddleware  =  multipart({ uploadDir:  '../uploads' });
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
@@ -459,6 +459,7 @@ app.post('/login', async function (req, res) {
 
 
 //PRODUCTION READY CODE:
+//PRODUCTION READY CODE:
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
     user.findOne({ username: req.body.email }, function (err, obj) {
@@ -469,15 +470,17 @@ app.post('/reset', function (req, res) {
             var code = generate(6); 
             var output = 'YOUR CODE IS: '+ code;
 
-            sendMail(output,req.body.email);
-            Student.findOneAndUpdate({EmailId: req.body.email }, {$set: {authCode: code}}, function(err, obj)
+            user.findOneAndUpdate({username: req.body.email }, {$set: {AuthCode: code}}, function(err, obj)
             {
                 if(err)
                 {
                     console.log(err);
+                    res.send(false);
                 }
                 else
-                {
+                {   
+                    sendMail(output,req.body.email);
+                    console.log(obj);
                     res.send(true);
                 }
             });
@@ -486,23 +489,28 @@ app.post('/reset', function (req, res) {
 });
 
 app.post('/resetPasswordCode', function(req, res)
-{
-    Student.findOne({ EmailId: req.body.email }, function (err, mongoObj) {
+{   
+    console.log(req.body.code);
+    console.log(req.body.email);
+
+    user.findOne({ username: req.body.email}, function (err, mongoObj) {
         if (err) {
             console.log(err)
         }
         else {
-            if(mongoObj.authCode == req.body.codeUser)
+            console.log(mongoObj);
+            if(mongoObj.AuthCode == req.body.code)
             {
                 console.log("Verified")
                 res.send(true);
             }
             else
             {
+                console.log("PROBLEMMM")
                 res.send(false);
             }
         }
-    })
+    });
 });
 
 //Method for resetting passwords
@@ -756,8 +764,6 @@ app.get('/achievements', async function (req, res) {
     })
 })
 
-
-// ACHIEVEMENTS ROUTE
 var flag = 0;
 var achCat = '';
 var achSubCat = '';
@@ -783,7 +789,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
         jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified");
-                console.log(decodedToken)
+                console.log(decodedToken);
                 var newAch = new achievements
                     ({
                         CategoryId: achCat,
@@ -826,6 +832,8 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     
 
 });
+
+
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {

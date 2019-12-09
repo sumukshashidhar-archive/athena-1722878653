@@ -13,6 +13,13 @@ var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const category = require('./models/category-model')
+const subcat = require('./models/subcategory-model')
+
+
+
+
+
 // var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
@@ -1414,5 +1421,35 @@ app.post('/click-on-events', function(req, res) {
 
 
 app.post('/add-categories', function(err, obj) {
-    
+    category.findOne({catName: req.body.catName}, function(err, obj) {
+        if(err) {
+            console.log('INTERNAL ERROR. ');
+        }
+        else{
+            if(obj) {
+                var newSubCat = new subcat({
+                    subCatName: req.body.subCatName
+
+                })
+                newSubCat.save(function(err, subcatsave) {
+                    if(err) {
+                        console.log('INTERNAL ERROR. ', err);
+                    }
+                    else {
+                        console.log(subcatsave)
+                        
+                    }
+                })
+            }
+            else {
+                var newSubCategory = new subcat({
+                    subCatName: req.body.subCatName
+                })
+                var newCategody = new category({
+                    catName: req.body.catName, 
+                    
+                })
+            }
+        }
+    })   
 })

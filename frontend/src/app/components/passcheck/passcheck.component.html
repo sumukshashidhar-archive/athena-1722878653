@@ -22,12 +22,11 @@
       <mat-step>
         <ng-template matStepLabel>Enter Security Code</ng-template>
         <form #g="ngForm">
-          <mat-form-field>
+          <!-- <mat-form-field>
             <p>Email Id</p>
             <input type="email" maxlength="32" matInput required ngModel name="email1" #email1="ngModel" [(ngModel)]="answerService.selectedAnswer.email1">
             <mat-error class="help-block" *ngIf="!email1.valid && email1.touched">Enter email id</mat-error>
-          </mat-form-field>
-          <br>
+          </mat-form-field> -->
           <mat-form-field>
             <p>You have received a 6 digit code on your email. Please enter it below</p>
             <input type="text" maxlength="6" matInput required ngModel name="code" ngModel #code="ngModel" [(ngModel)]="answerService.selectedAnswer.code">

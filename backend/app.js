@@ -1476,6 +1476,7 @@ app.post('/click-on-events', function(req, res) {
                             }
                             else {
                                 if(EVNobj) {
+                                    console.log(EVNobj)
                                     res.send(EVNobj)
                                     MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
                                     event.findOneAndUpdate({_id: EVNobj._id}, {$set: {uservector: MONGO_OBJ_RETURN.uservector}}, function(err, UPDATED_OBJ){

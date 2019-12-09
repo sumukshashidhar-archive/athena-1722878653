@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from 'jwt-decode';
-import { DatasharingService } from "src/app/shared/datasharing.service";
+import { DatasharingService } from "src/app/shared/search/datasharing.service";
 import { NameService } from "src/app/shared/name/name.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";

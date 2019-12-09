@@ -60,7 +60,8 @@
         <div class="card-body">
           <h5 class="card-title">{{evn.evnName}}</h5>
           <p class="card-text">{{evn.evnOrganizerPage}}</p>
-          <button class="btn btn-primary" [routerLink]="['/bigevents']" routerLinkActive="router-link-active" >Check it out</button>
+          <p class="card-text">{{evn._id}}</p>
+          <button class="btn btn-primary" [routerLink]="['/bigevents']" routerLinkActive="router-link-active" (click)="sendDetails(evn._id)">Check it out</button>
         </div>
       </div>
     </div>

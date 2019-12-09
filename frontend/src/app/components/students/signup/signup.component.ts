@@ -17,6 +17,7 @@ export class SignupComponent implements OnInit {
   Captchaval: boolean = false;
   showSuccessmessage: boolean;
   serverErrormessage: string;
+  test: any;
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
     if (captchaResponse.length > 0) {
@@ -50,6 +51,8 @@ export class SignupComponent implements OnInit {
     });
   }
   onSubmit(form: NgForm) {
+    this.test = (document.getElementById('bio') as HTMLTextAreaElement).value
+    form.value['bio']=this.test;
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log(res);
@@ -66,5 +69,9 @@ export class SignupComponent implements OnInit {
         }
       }
     );
+  }
+
+  testing(){
+    console.log(this.test)
   }
 }

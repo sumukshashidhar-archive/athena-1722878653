@@ -92,26 +92,10 @@
         </mat-step>
         <mat-step [stepControl]="thirdFormGroup">
           <ng-template matStepLabel>Security</ng-template>
-          <form #i="ngForm">
-            <mat-form-field>
-              <input maxlength="32" matInput type="text" placeholder="Security Question" required ngModel
-                name="securityQuestion" #securityQuestion="ngModel"
-                [(ngModel)]="userService.selectedUser.securityQuestion" />
-              <mat-error class="help-block" *ngIf="!securityQuestion.valid && securityQuestion.touched">Please enter a
-                Security Question</mat-error>
-            </mat-form-field>
-            <br />
-            <mat-form-field>
-              <input maxlength="32" matInput type="text" placeholder="Security Answer" required ngModel
-                name="securityAnswer" #securityAnswer="ngModel" [(ngModel)]="userService.selectedUser.securityAnswer" />
-              <mat-error class="help-block" *ngIf="!securityAnswer.valid && securityAnswer.touched">Please enter the
-                Security Answer to your Security
-                Question</mat-error>
-            </mat-form-field>
-          </form>
+         
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext [disabled]="f.invalid || g.invalid || i.invalid">
+            <button mat-button matStepperNext [disabled]="f.invalid || g.invalid">
               Next
             </button>
           </div>

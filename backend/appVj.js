@@ -860,7 +860,7 @@ app.post('/delete-achievement', function (req, res) {
 })
 
 //////UPLOAD PROFILE PIC
-app.post('/achievements',  multipartMiddleware, (req, res) => {
+app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
 
     console.log("HSSSSSSSSSSS\N\N");
 

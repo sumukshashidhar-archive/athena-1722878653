@@ -52,8 +52,6 @@ export class SignupComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.userService.postUser(form.value).subscribe(
       res => {
-        // this.showSuccessmessage = true;
-        // setTimeout(() => this.showSuccessmessage = false, 3000);
         console.log(res);
         this.router.navigate(["/login"]);
       },

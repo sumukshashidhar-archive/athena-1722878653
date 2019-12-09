@@ -56,8 +56,9 @@ function sendMail(output, to)
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'noreplyathenav1@gmail.com', // generated ethereal user
-        pass: 'Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC'  // generated ethereal password //Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC
+        user: 'developersatathena@gmail.com ', // generated ethereal user
+        pass: 'Kumarans@365!'
+          // generated ethereal password //Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC
     },
     tls:{
       rejectUnauthorized:false

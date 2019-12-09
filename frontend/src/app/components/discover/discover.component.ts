@@ -4,6 +4,7 @@ import { Search } from './../../shared/search.model';
 import { DatasharingService } from './../../shared/datasharing.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-discover',
@@ -18,6 +19,7 @@ export class DiscoverComponent implements OnInit {
   constructor(public data: DatasharingService, private router: Router,public  auth:AuthService) { }
 
   ngOnInit() {
+    
   }
   logout() {
     this.auth.logout();

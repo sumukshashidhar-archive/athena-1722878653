@@ -14,7 +14,8 @@ export class DatasharingService {
 
   selSearch: Search = {
     keyword: '',
-    usecase: null
+    usecase: 1
+    
   };
 
   selSearch1: User_Search = {

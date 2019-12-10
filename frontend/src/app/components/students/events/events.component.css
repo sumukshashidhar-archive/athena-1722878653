@@ -1,5 +1,6 @@
-/* @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+/* -------------------------------------------------------- Type Zero CSS Below --------------------------------------------------------- */
 
+/* 
 .tl {
   width: 100%;
   height: 50%;
@@ -39,7 +40,7 @@ body {
   border: 1px solid #e6e6e6;
   background: #e6e6e6;
   text-align: center;
-  color: #fff;
+  color:  #000;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   font-size: 20px;
@@ -57,6 +58,155 @@ mat-accordion,
 mat-expansion-panel {
   margin-bottom: 25px;
 } */
+/* ----------------------------------------------------------- Type One CSS Ends --------------------------------------------------------- */
 
-/* New CSS Goes below */
+/* ----------------------------------------------------------- Type One CSS Below -------------------------------------------------------- */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, #43cea2, #185a9d); 
+}
+
+.cont {
+  position: relative;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cont .card_try {
+  position: relative;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 100px 0;
+}
+
+.cont .card_try:nth-child(odd) {
+  flex-direction: row;
+}
+
+.cont .card_try:nth-child(even) {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.cont .card_try:nth-child(even) .imgBx {
+  left: -25px;
+}
+
+.cont .card_try .imgBx {
+  position: relative;
+  left: 25px;
+  width: 500px;
+  height: 400px;
+  z-index: 1;
+}
+
+.cont .card_try .imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cont .card_try .contentBx {
+  position: relative;
+  right: 25px;
+  width: 500px;
+  height: 400px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:20px 60px 20px 100px;
+}
+
+.cont .card_try .contentBx:before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: -1;
+}
+
+.cont .card_try:nth-child(even) .contentBx {
+  right: -25px;
+  padding:20px 100px 20px 60px;
+}
+
+.cont .card_try .contentBx h2 {
+  font-size: 30px;
+  color:  #000;
+}
+
+.cont .card_try .contentBx p {
+  margin-top: 10px;
+  color:  #000;
+}
+
+.cont .card_try .contentBx a {
+  display: inline-block;
+  margin-top: 15px;
+  color:  #000;
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+@media (max-width: 1000px) {
+  .cont .card_try {
+    flex-direction: column;
+    max-width: 350px;
+    margin: 25px 25px;
+  }
+
+  .cont .card_try .imgBx {
+    width: 100%;
+    height: 250px;
+    left: 0;
+  }
+
+  .cont .card_try .contentBx {
+    width: 1005;
+    height: auto;
+    right: 0;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .cont .card_try .contentBx:before {
+    top: 0;
+    bottom: 0;
+  }
+
+  .cont .card_try:nth-child(even) .imgBx {
+    left: 0;
+  }
+
+  .cont .card_try:nth-child(even) .contentBx {
+    right: 0;
+    padding: 30px;
+  }
+}
+
+/* ---------------------------------------------------- Type One CSS Ends ---------------------------------------------------------------- */

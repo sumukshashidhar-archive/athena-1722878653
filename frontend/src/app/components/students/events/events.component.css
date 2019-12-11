@@ -164,7 +164,7 @@ body {
   color:  #000;
 }
 
-.cont .card_try .contentBx a {
+.cont .card_try .contentBx button {
   display: inline-block;
   margin-top: 15px;
   color:  #000;

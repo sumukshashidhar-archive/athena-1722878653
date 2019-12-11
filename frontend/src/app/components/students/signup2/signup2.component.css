@@ -19,6 +19,7 @@ body {
   padding: 45px;
   text-align: center;
   overflow: hidden;
+  margin-top: 15rem;
 }
 
 .form input {

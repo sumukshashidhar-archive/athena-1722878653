@@ -1,7 +1,7 @@
 import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { Search } from './../../shared/search.model';
-import { DatasharingService } from './../../shared/datasharing.service';
+import { Search } from '../../shared/search/search.model';
+import { DatasharingService } from '../../shared/search/datasharing.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';

@@ -10,7 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.7",
+<<<<<<< HEAD
+=======
+    "bcryptjs": "^2.4.3",
+>>>>>>> fb559b6e5790c80aad3c60de9a63eba443538e67
     "body-parser": "^1.19.0",
+    "brain.js": "^2.0.0-alpha.9",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
     "ejs": "^2.7.1",

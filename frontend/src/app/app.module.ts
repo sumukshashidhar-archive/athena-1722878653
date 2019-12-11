@@ -41,6 +41,7 @@ import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { SearchresComponent } from './components/searchres/searchres.component';
+import { SearchComponent } from './search/search.component';
 import { VerificationComponent } from './components/verification/verification.component';
 
 export function tokenGetter() {
@@ -51,6 +52,10 @@ export const appRoutes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path:"search",
+    component: SearchComponent
   },
   {
     path: "homepage",
@@ -186,6 +191,7 @@ export const appRoutes: Routes = [
     RunmoduleComponent,
     UserprofileComponent,
     SearchresComponent,
+    SearchComponent,
     VerificationComponent
   ],
   imports: [

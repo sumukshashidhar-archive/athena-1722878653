@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient,HttpHeaders } from "@angular/common/http";
 
 import { Event } from "./event";
+import { Details } from './details.model'
 
 @Injectable({
   providedIn: "root"
@@ -22,7 +23,11 @@ export class EventService {
   };
   events: Event[];
 
-  details: any;
+  details: Details = {
+    _id: ""
+  }
+
+  details1: any;
 
   constructor(private http: HttpClient) {}
 
@@ -41,8 +46,8 @@ export class EventService {
     return this.http.post("http://localhost:3000/organizer-events", events);
   }
 
-  getEventDetails(_id: string){
+  getEventDetails(_id: Details ){
     console.log(_id)
-    return this.http.post("https://localhost:3000/click-on-events", _id)
+    return this.http.post("http://localhost:3000/click-on-events", _id)
   }
 }

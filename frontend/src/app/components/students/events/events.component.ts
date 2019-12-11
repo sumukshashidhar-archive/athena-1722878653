@@ -5,7 +5,7 @@ import { Event } from "./../../../shared/events/event";
 import { LoadingComponent } from "./../../loading/loading.component";
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
+export var EventDetails;
 @Component({
   selector: "app-events",
   templateUrl: "./events.component.html",
@@ -36,6 +36,9 @@ export class EventsComponent implements OnInit {
       res => {
         console.log(res)
         this.eventService.details1 = res;
+        EventDetails=res
+        console.log('THIS IS BEFORE VAR')
+        console.log(this.eventService.details1)
         this.router.navigate(['/bigevents'])
       },
       err => {

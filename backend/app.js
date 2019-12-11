@@ -451,7 +451,7 @@ app.post('/login', async function (req, res) {
                                     console.log(req.body)
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                     console.log(obj)
-                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
+                                    token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
                                     console.log(token)
                                     //Testing verification. Has to be removed during deployment
                                     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -1541,12 +1541,13 @@ app.get('/eeevnts', function(req, res) {
 
 //NOT TESTED
 app.post('/click-on-events', function(req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if(err) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            Student.findOne({_id: decodedToken._id}, function(err, MONGO_OBJ_RETURN) {
+            console.log('Body is : ', req.body)
+            Student.findOne({_id: decodedToken.usrid}, function(err, MONGO_OBJ_RETURN) {
                 if(err) {
                     console.log(err)
                 }

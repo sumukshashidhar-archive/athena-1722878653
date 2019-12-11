@@ -4,6 +4,7 @@ import { Event } from "./../../../shared/events/event";
 
 import { LoadingComponent } from "./../../loading/loading.component";
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-events",
@@ -14,7 +15,7 @@ export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
   x: string;
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit() {
     this.refreshEvents();
@@ -35,6 +36,7 @@ export class EventsComponent implements OnInit {
       res => {
         console.log(res)
         this.eventService.details1 = res;
+        this.router.navigate(['/bigevents'])
       },
       err => {
         if (err.status === 422) {

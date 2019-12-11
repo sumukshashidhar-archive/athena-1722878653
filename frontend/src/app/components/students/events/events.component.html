@@ -84,6 +84,10 @@
         <div class="content">
           <h3>{{ evn.evnName }}</h3>
           <p>{{ evn.evnDescription }}</p>
+          <p>{{ evn.evnDate1 }}</p>
+          <form #f="ngForm">
+            <button (click)="sendDetails(f, evn._id)">Read More</button>
+          </form>
         </div>
       </div>
       <!-- <div class="box">

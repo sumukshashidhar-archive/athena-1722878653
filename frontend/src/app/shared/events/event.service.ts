@@ -48,6 +48,6 @@ export class EventService {
 
   getEventDetails(_id: Details ){
     console.log(_id)
-    return this.http.post("https://localhost:3000/click-on-events", _id)
+    return this.http.post("http://localhost:3000/click-on-events", _id)
   }
 }

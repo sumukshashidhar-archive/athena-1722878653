@@ -234,6 +234,7 @@ app.post('/register', function (req, res) {
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                    Bio: "This is my world!!",
                                     Verified: false
                                 });
 
@@ -415,14 +416,6 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
         });
     
 
-});
-
-app.get('/getImage', function(req, res)
-{   
-    console.log(req.query.url);
-    var Path=path.join(__dirname, req.query.url)
-    console.log(Path)
-    res.sendFile(Path);
 });
 
 // LOGIN
@@ -650,6 +643,38 @@ app.get('/dashboard', async function (req, res) {
 
 });
 
+app.get('/getImage', function(req, res)
+{   
+    console.log(req.query.url);
+    var Path=path.join(__dirname, req.query.url)
+    console.log(Path)
+    res.sendFile(Path);
+});
+
+app.post('/bio', function(req, res)
+{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Bio....")
+        if (!err && decodedToken != null) {
+            console.log("Verified: " + decodedToken.email);
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Mongo Object is Bio " + mongoObj);
+                    res.json(mongoObj.Bio);
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+});
+
+
 /*
 
 
@@ -778,7 +803,7 @@ app.get('/achievements', async function (req, res) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Achievement);
+                    console.log("Mongo Object is AChievments" + mongoObj.Achievement);
                     res.json(mongoObj.Achievement);
                 }
             })

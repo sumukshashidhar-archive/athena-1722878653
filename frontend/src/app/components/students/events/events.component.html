@@ -1,4 +1,3 @@
-<div class="background">
   <app-loading *ngIf="showSpinner"></app-loading>
 
   <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
@@ -30,7 +29,7 @@
     <h4 style="text-align: center; color: white; margin: 5px;">
       Upcoming Events
     </h4>
-    <div class="container">
+    <div class="cont">
       <mat-accordion *ngFor="let evn of eventService.events">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -52,25 +51,62 @@
 
   <!-- -------------------------------------------------- Events Page Type Zero HTML Ends ----------------------------------------------------- -->
   <!-- -------------------------------------------------- Events Page Type One HTML Below ---------------------------------------------------------- -->
-
-  <body *ngIf="!showSpinner">
-    <div class="cont">
-      <div class="card_try" *ngFor="let evn of eventService.events">
-        <div class="imgBx">
-          <img src="./../../../../assets/images/image3.jpg" alt="Image">
-        </div>
-        <div class="contentBx">
-          <div class="content">
-            <h2>{{ evn.evnName }}</h2>
-            <p>{{ evn.evnDescription }}</p>
-            <form #f="ngForm">
-              <button (click)="sendDetails(f, evn._id)">Read More</button>
-            </form>
+  <!-- <div class="background">
+    <body *ngIf="!showSpinner">
+      <div class="cont">
+        <div class="card_try" *ngFor="let evn of eventService.events">
+          <div class="imgBx">
+            <img src="./../../../../assets/images/image3.jpg" alt="Image">
+          </div>
+          <div class="contentBx">
+            <div class="content">
+              <h2>{{ evn.evnName }}</h2>
+              <p>{{ evn.evnDescription }}</p>
+              <form #f="ngForm">
+                <button (click)="sendDetails(f, evn._id)">Read More</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </body>
-</div>
+    </body>
+  </div> -->
 
   <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
+  <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
+
+  <body>
+    <div class="cont">
+      <div class="box" *ngFor="let evn of eventService.events">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image1.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>{{ evn.evnName }}</h3>
+          <p>{{ evn.evnDescription }}</p>
+        </div>
+      </div>
+      <!-- <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image2.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Two</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image3.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Three</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div> -->
+    </div>
+  </body>

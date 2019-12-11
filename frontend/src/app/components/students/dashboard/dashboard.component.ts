@@ -3,10 +3,10 @@ import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from 'jwt-decode';
 import { Component, OnInit } from "@angular/core";
-import { DatasharingService } from "./../../../shared/datasharing.service";
+import { DatasharingService } from "../../../shared/search/datasharing.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
-import { Search } from "./../../../shared/search.model";
+import { Search } from "../../../shared/search/search.model";
 import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
 export var decoded :any 

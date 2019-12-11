@@ -301,3 +301,12 @@ body {
    opacity: 1;
    transition-delay: 0.5s;
  }  
+
+ .cont .content button {
+  display: inline-block;
+  margin-top: 15px;
+  color:  #000;
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid #000;
+ }

@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
+  x: string;
 
   constructor(private eventService: EventService) {}
 
@@ -27,11 +28,18 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  sendDetails(_id: string){
-    this.eventService.getEventDetails(_id).subscribe(
+  clicking(_id: string){
+    this.x = _id;
+    console.log(this.x)
+  }
+
+  sendDetails(form: NgForm){
+    form.value['_id'] = this.x;
+    console.log(form.value);
+    this.eventService.getEventDetails(form.value).subscribe(
       res => {
         console.log(res)
-        this.eventService.details = res
+        this.eventService.details1 = res;
       },
       err => {
         if (err.status === 422) {

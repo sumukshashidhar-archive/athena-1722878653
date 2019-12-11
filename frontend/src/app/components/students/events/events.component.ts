@@ -28,13 +28,8 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  clicking(_id: string){
-    this.x = _id;
-    console.log(this.x)
-  }
-
-  sendDetails(form: NgForm){
-    form.value['_id'] = this.x;
+  sendDetails(form: NgForm, _id: string){
+    form.value['_id'] = _id;
     console.log(form.value);
     this.eventService.getEventDetails(form.value).subscribe(
       res => {

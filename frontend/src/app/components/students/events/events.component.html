@@ -64,8 +64,7 @@
             <h2>{{ evn.evnName }}</h2>
             <p>{{ evn.evnDescription }}</p>
             <form #f="ngForm">
-              <button (click)="clicking(evn._id)">Read more</button>
-              <button class="btn btn-primary" (click)="sendDetails(f)">test</button>
+              <button (click)="sendDetails(f, evn._id)">Read More</button>
             </form>
           </div>
         </div>

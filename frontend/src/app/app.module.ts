@@ -41,6 +41,8 @@ import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { SearchresComponent } from './components/searchres/searchres.component';
+import { SearchComponent } from './search/search.component';
+import { VerificationComponent } from './components/verification/verification.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -50,6 +52,10 @@ export const appRoutes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path:"search",
+    component: SearchComponent
   },
   {
     path: "homepage",
@@ -66,6 +72,10 @@ export const appRoutes: Routes = [
   {
     path: "f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e",
     component: RunmoduleComponent
+  },
+  {
+    path: "verify",
+    component: VerificationComponent
   },
   {
     path: "signup",
@@ -180,7 +190,9 @@ export const appRoutes: Routes = [
     KeyaddComponent,
     RunmoduleComponent,
     UserprofileComponent,
-    SearchresComponent
+    SearchresComponent,
+    SearchComponent,
+    VerificationComponent
   ],
   imports: [
     JwtModule.forRoot({

@@ -39,12 +39,13 @@ const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
 var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
-const  multipartMiddleware  =  multipart({ uploadDir:  '../uploads' });
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
+var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
 
 ///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
 
@@ -233,6 +234,7 @@ app.post('/register', function (req, res) {
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                    Bio: "This is my world!!",
                                     Verified: false
                                 });
 
@@ -405,7 +407,11 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                     else
                     {
                         console.log("Updated profile pic!!");
+<<<<<<< HEAD
                         res.send({path: req.files.uploads[0].path.slice(2,1000)});
+=======
+                        res.send({path: req.files.uploads[0].path});
+>>>>>>> ca4e9381489adb8996198ec688a783e11fdc5102
                     }
                 });
 
@@ -431,7 +437,7 @@ app.post('/login', async function (req, res) {
                     if (BCRYPT_RES) {
                         console.log(usrobj)
                         //Checking what user type the user is, and returning a JWT based on that
-                        if (usrobj["userType"] == "Student") {
+                        if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
                             //If the user object is a Student. I am finding a student with the required description
                             Student.findOne({ EmailId: req.body.username }, function (err, obj) {
                                 if (err) {
@@ -442,7 +448,7 @@ app.post('/login', async function (req, res) {
                                     console.log(req.body)
                                     //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                     console.log(obj)
-                                    token = jwt.sign({ usrid: obj["._id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
+                                    token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
                                     console.log(token)
                                     //Testing verification. Has to be removed during deployment
                                     jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -641,6 +647,38 @@ app.get('/dashboard', async function (req, res) {
 
 });
 
+app.get('/getImage', function(req, res)
+{   
+    console.log(req.query.url);
+    var Path=path.join(__dirname, req.query.url)
+    console.log(Path)
+    res.sendFile(Path);
+});
+
+app.post('/bio', function(req, res)
+{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Bio....")
+        if (!err && decodedToken != null) {
+            console.log("Verified: " + decodedToken.email);
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Mongo Object is Bio " + mongoObj);
+                    res.json(mongoObj.Bio);
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+});
+
+
 /*
 
 
@@ -697,7 +735,7 @@ app.post('/logout', function (req, res) {
 
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (err) {
             console.log(err)
         }
@@ -736,29 +774,11 @@ app.post('/organizer-events', async function (req, res) {
 });
 
 
-app.post('/events', async function (req, res) {
-    console.log(req.token)
-    console.log(token)
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err) {
-            if (decodedToken["role"] == "Student") {
-                res.status(200).send(event.find({}))
-            }
-            else {
-                console.log("Unauthorized to access this page")
-                res.status(403).send("Unauth")
-            }
-        }
-        else {
-            console.log(err)
-        }
-
-    });
-})
-
 app.get('/events', async function (req, res) {
     console.log("Getting events......")
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    console.log(req)
+    console.log(req.header)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if(err) {
             console.log("")
         }
@@ -768,6 +788,7 @@ app.get('/events', async function (req, res) {
 
                 }
                 else {
+                    console.log(decodedToken)
                     res.send(MONGO_EVENTS_RETURN)
                 }
             })
@@ -786,7 +807,7 @@ app.get('/achievements', async function (req, res) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Achievement);
+                    console.log("Mongo Object is AChievments" + mongoObj.Achievement);
                     res.json(mongoObj.Achievement);
                 }
             })
@@ -864,6 +885,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
         flag = 0;
     }
     
+
 
 });
 
@@ -1054,6 +1076,7 @@ app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', fu
 app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', function(req, res) {
     console.log("Recieved a module run request")
     console.log(req.body) //dev test
+    //Very very slow, but since we have a small number of keys, should not take much time
     keystore.find({}, function(err, MONGO_KEYS_OBJ) {
         if(err) {
             console.log(err)
@@ -1266,17 +1289,49 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
 
 var tot_length;
 var ev;
-var sum_array;
+var sum_array = [];
+var hashmaps; 
 
-
+var sample_user = {
+    'pincode': 560076,
+    'age': 13, 
+    'interests': [
+        'dancing', 
+        'something', 
+        'playing'
+    ]
+}
+var sample_event_arr = [
+    {
+        'evnScore' : 3, 
+        'evnPincode': 560072,
+        'evnTargetAge': 12, 
+        'evnInterests': [
+            'dancing', 
+            'singing', 
+            'playing'
+        ]
+    },
+    {
+        'evnScore' : 5, 
+        'evnPincode': 560072,
+        'evnTargetAge': 15, 
+        'evnInterests': [
+            'dancadsag', 
+            'singing', 
+            'lol'
+        ]
+    }
+]
 //BASICALLY THE ENTIRE RECOMMENDER SYSTEM
-app.get('/eevnts', function(req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+app.get('/eventsss', function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, adecodedToken) {
         if(err) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            event.find({evnLocation: decodedToken['sLocation']}, function(err, MONGO_RETURN) {
+            var decodedToken = sample_user;
+            event.find({}, function(err, MONGO_RETURN) {
                 if(err) {
                     console.log('INTERNAL ERROR. ', err);
                 }
@@ -1289,7 +1344,6 @@ app.get('/eevnts', function(req, res) {
                         //Have the rd Engine in here :)
                         //Binary Search Function
                         function binarySearch(arr, x, start, end) { 
-        
                             // Base Condtion 
                             if (start > end) return false; 
                         
@@ -1310,49 +1364,106 @@ app.get('/eevnts', function(req, res) {
                                 return binarySearch(arr, x, mid+1, end); 
                         } 
                         //This will have to be wrapped inside a function when its possible
-                        tot_length = MONGO_RETURN.length;
-                        for(i=0; i<tot_length; i++) {
+                        //tot_length = MONGO_RETURN.length;
+                        tot_length = sample_event_arr.length;
+                        for(let i=0; i<tot_length; i++) {
                             //Sets the event
-                            ev = MONGO_RETURN['i']
+                            //ev = MONGO_RETURN[i]
+                            console.log('Printing the sample array', sample_event_arr)
+                            ev = sample_event_arr[i]
+                            console.log('The current set array ', ev)
+                            console.log('Decoded Token is ', decodedToken)
                             //Now starting the actual recommendation
-                            var sum = 0;
+                            var sum = 0.0;
                             if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
-                                sum += (Math.abs(pincode - ev.evnPincode)*0.7)
+                                sum += (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7)
+                                console.log((Math.abs(decodedToken.pincode - ev.evnPincode)*0.7))
+                                console.log('Sum at step 1: ', sum)
                             }
-                            if (ev.evnScore!=undefined) {
-                                //Adding raw event score
-                                sum += ev.evnScore
-                            }
-                            if (ev.evnTarget!=undefined && decodedToken.age!=undefined) {
+                            // if (ev.evnScore!=undefined) {
+                            //     //Adding raw event score
+                            //     sum += ev.evnScore
+                            // }
+                            if (ev.evnTargetAge!=undefined && decodedToken.age!=undefined) {
             
                                 //Subtracting Raw Target Age Difference
-                                sum -= (Math.abs(age - ev.evnTargetAge)*0.5)
+                                sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
+                                console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
+                                console.log('Sum at step 2: ', sum)
                             }
-                            if(decodedToken.costPref!=undefined && ev.evnCost!=undefined) {
-                                //Subtracting Cost Preferences modulus from the total score. Multiplied by 0.1
-                                sum -= (Math.abs(costPref - ev.evnCost)*0.1)
-                            }
+                            // if(decodedToken.costPref!=undefined && ev.evnCost!=undefined) {
+                            //     //Subtracting Cost Preferences modulus from the total score. Multiplied by 0.1
+                            //     sum -= (Math.abs(costPref - ev.evnCost)*0.1)
+                            // }
                             console.log("Testing: ", sum)
                             var n = 1;
                             var event_interests = ev.evnInterests;
                             var userinterests = decodedToken.interests;
-                            var tot_event_interests = ev.evnInterests.length; 
-                            for(i=0; i < tot_event_interests; i++) {
-                                binarySearch(userinterests, event_interests[i], 0, (userinterests.length -1 ), function(res) {
-                                    if(res==false) {
-                                        //No statements
-                                        continue
+                            var tot_event_interests = ev.evnInterests.length;
+                            console.log('This is ', tot_event_interests) 
+                            for(let j=0; j < tot_event_interests; j++) {
+                                console.log('Entering loop ' , j)
+                                for(let k=0; k < userinterests.length; k++) {
+                                    if(event_interests[j]==userinterests[k]) {
+                                        sum +=10
                                     }
-                                    else {
-                                        console.log('Found a similarity between the interests')
-                                        sum += 1*n
-                                        n +=1
-                                    }
-                                })  
+                                }
+                                console.log('FINAL SUM: ', sum)
+                                // binarySearch(userinterests, event_interests[j], 0, (userinterests.length -1 ), function(res) {
+                                //     if(res==false) {
+                                //         //No statements
+                                //         console.log('Nothing')
+                                //     }
+                                //     else {
+                                //         console.log('Found a similarity between the interests')
+                                //         sum += 1*n
+                                //         console.log("Sum at step ", j, "is ", sum)
+                                //         n +=1
+                                //     }
+                                // })  
                             }
+
+
+
+
                             sum_array.push(sum)
+                            console.log(sample_event_arr[i])
+                            console.log('after score')
+                            sample_event_arr[i]['score'] = sum;
+                            console.log(sample_event_arr[i])
+
+
+                            function GetSortOrder(prop) {
+                                return function(a, b) {
+                                    if(a[prop] > b[prop]) {
+                                        return 1
+                                    }
+                                    else if (a[prop] < b[prop]) {
+                                        return -1;
+                                    }
+                                    return 0
+                                }
+                            }
+
+                            sample_event_arr.sort(GetSortOrder('score'))
+                            console.log('sorted array is ', sample_event_arr )
+
+
+
+                            // function sort_by_key(sample_event_arr)
+                            // {
+                            // return array.sort(function(a, b)
+                            //     {
+                            //     var x = a[key]; var y = b[key];
+                            //     return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                            //     });
+                            // }
+
+                            // people = sort_by_key(people, 'name');
 
                         }
+                        //[{_id: evn1}, {}, {}]
+                        //[2.55, 4.55, ]
                         console.log(sum_array)
 
                     }
@@ -1457,14 +1568,15 @@ app.get('/eeevnts', function(req, res) {
     })
 })
 
-
+//NOT TESTED
 app.post('/click-on-events', function(req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if(err) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            Student.findOne({_id: decodedToken._id}, function(err, MONGO_OBJ_RETURN) {
+            console.log('Body is : ', req.body)
+            Student.findOne({_id: decodedToken.usrid}, function(err, MONGO_OBJ_RETURN) {
                 if(err) {
                     console.log(err)
                 }
@@ -1476,6 +1588,7 @@ app.post('/click-on-events', function(req, res) {
                             }
                             else {
                                 if(EVNobj) {
+                                    console.log(EVNobj)
                                     res.send(EVNobj)
                                     MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
                                     event.findOneAndUpdate({_id: EVNobj._id}, {$set: {uservector: MONGO_OBJ_RETURN.uservector}}, function(err, UPDATED_OBJ){
@@ -1540,6 +1653,7 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
+<<<<<<< HEAD
 });
 
 app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
@@ -1586,3 +1700,26 @@ app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
 
     console.log("FINISHED DELETING WITH EMAIL ID " + email);
 });
+=======
+})
+
+app.get('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
+    module.find({}, function(err, MODULES_OBJ) {
+        if(err) {
+            console.log('INTERNAL ERROR. ');
+        }
+        else {
+            console.log("Loaded Modules")
+            res.send(MODULES_OBJ)
+        }
+    })
+})
+
+
+
+app.post('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
+    //Needs to get the module to run
+    
+})
+
+>>>>>>> ca4e9381489adb8996198ec688a783e11fdc5102

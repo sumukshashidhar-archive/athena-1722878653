@@ -52,7 +52,6 @@
 <html>
 
 <head>
-  <title>Animated Login Form</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -91,6 +90,7 @@
             <br>
             <span style="color: red;" class="help-block" *ngIf="!password.valid && password.touched">Enter a
               password</span>
+            <p *ngIf="!showSuccessmessage && password.touched">Wrong Password</p>
           </div>
         </div>
         <a [routerLink]="['/passcheck']" routerLinkActive="router-link-active" style="text-decoration: none;">Forgot

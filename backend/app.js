@@ -407,7 +407,11 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                     else
                     {
                         console.log("Updated profile pic!!");
+<<<<<<< HEAD
+                        res.send({path: req.files.uploads[0].path.slice(2,1000)});
+=======
                         res.send({path: req.files.uploads[0].path});
+>>>>>>> ca4e9381489adb8996198ec688a783e11fdc5102
                     }
                 });
 
@@ -1649,6 +1653,54 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
+<<<<<<< HEAD
+});
+
+app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
+{
+    var email = 'sanjeev196945@outlook.com';
+    console.log(email);
+
+    user.deleteMany({username: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
+        }
+        else
+        {
+            console.log("Deleted user in 'users': " +obj);
+        }
+    });
+
+    Student.deleteMany({EmailId: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
+        }
+        else
+        {
+            console.log("Deleted user in 'Student': " +obj);
+        }
+    });
+
+    Organiser.deleteMany({OrganiserEmail: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
+        }
+        else
+        {
+            console.log("Deleted user in 'Organiser': " +obj);
+        }
+    });
+
+
+    console.log("FINISHED DELETING WITH EMAIL ID " + email);
+});
+=======
 })
 
 app.get('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
@@ -1670,3 +1722,4 @@ app.post('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57
     
 })
 
+>>>>>>> ca4e9381489adb8996198ec688a783e11fdc5102

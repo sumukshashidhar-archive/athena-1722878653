@@ -84,7 +84,7 @@
             <i class="fa fa-lock"></i>
           </div>
           <div class="div">
-            <input maxlength="32" class="input" type="password" placeholder="Password" required ngModel name="password"
+            <input maxlength="32" minlength="6" class="input" type="password" placeholder="Password" required ngModel name="password"
               id="password" #password="ngModel" [(ngModel)]="loginService.selectedUser.password">
             <br>
             <br>

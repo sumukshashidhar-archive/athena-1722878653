@@ -15,7 +15,7 @@ img {
 
 body {
   background-color: #00c2ff;
-  height: 170vh;
+  height: 120vh;
   background-size: cover;
   background-position: center;
 }
@@ -77,3 +77,9 @@ body {
 h2 {
   text-align: center;
 }
+
+.card {
+  margin-top: 15rem;
+  margin-left: 25rem;
+}
+

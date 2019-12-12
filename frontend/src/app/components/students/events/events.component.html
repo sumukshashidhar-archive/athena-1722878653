@@ -1,7 +1,6 @@
-<div class="background">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <app-loading *ngIf="showSpinner"></app-loading>
 
-  <!-- <app-loading *ngIf="showSpinner"></app-loading> -->
+  <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
 
   <!-- <body *ngIf="!showSpinner">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
@@ -30,7 +29,7 @@
     <h4 style="text-align: center; color: white; margin: 5px;">
       Upcoming Events
     </h4>
-    <div class="container">
+    <div class="cont">
       <mat-accordion *ngFor="let evn of eventService.events">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -49,21 +48,69 @@
       </mat-accordion>
     </div>
   </body> -->
-  <!-- This is how the new events page will look -->
 
-  <body>
-    <h1 style="text-align: center;">Events</h1>
-    <div *ngFor="let evn of eventService.events">
-    <div class="container">
-      <div class="card col-4">
-        <img src="./../../../../assets/images/image2.jpg" style="margin-top: 1rem;" class="card-img-top" alt="">
-        <div class="card-body">
-          <h5 class="card-title">{{evn.evnName}}</h5>
-          <p class="card-text">{{evn.evnOrganizerPage}}</p>
-          <button class="btn btn-primary" [routerLink]="['/bigevents']" routerLinkActive="router-link-active" >Check it out</button>
+  <!-- -------------------------------------------------- Events Page Type Zero HTML Ends ----------------------------------------------------- -->
+  <!-- -------------------------------------------------- Events Page Type One HTML Below ---------------------------------------------------------- -->
+  <!-- <div class="background">
+    <body *ngIf="!showSpinner">
+      <div class="cont">
+        <div class="card_try" *ngFor="let evn of eventService.events">
+          <div class="imgBx">
+            <img src="./../../../../assets/images/image3.jpg" alt="Image">
+          </div>
+          <div class="contentBx">
+            <div class="content">
+              <h2>{{ evn.evnName }}</h2>
+              <p>{{ evn.evnDescription }}</p>
+              <form #f="ngForm">
+                <button (click)="sendDetails(f, evn._id)">Read More</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
+    </body>
+  </div> -->
+
+  <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
+  <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
+<div>
+  <body>
+    <div class="cont">
+      <div class="box" *ngFor="let evn of eventService.events">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image1.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>{{ evn.evnName }}</h3>
+          <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
+          <p>{{ evn.evnDate1 }}</p>
+          <form #f="ngForm">
+            <button (click)="sendDetails(f, evn._id)">Read More</button>
+          </form>
+        </div>
+      </div>
+      <!-- <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image2.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Two</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image3.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Three</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div> -->
     </div>
-  </div>
   </body>
-</div>

@@ -1,5 +1,4 @@
 
-import { bio } from './../components/students/signup2/signup2.component';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
@@ -16,21 +15,36 @@ import * as jwt_decode from 'jwt-decode';
 export class UserprofileComponent implements OnInit {
   ach_list: any;
    decoded:any
-  bio=bio
+  bio:any
   username:any
   constructor( private auth: AuthService,
     private router: Router,private http:HttpClient,public achService: AchievementsService) {
       this.decoded = localStorage.getItem('access_token');
      }
 
+
+
+     getBio(email:String){
+       this.http.post('http://localhost:3000/bio', email).subscribe(res=>{
+        console.log('RESPONSE FOR BIO: ');
+        console.log(res);
+         this.bio=res
+       })
+       
+     }
   ngOnInit() {
+   
+
     var decodedtoken= jwt_decode(this.decoded)
     if (decodedtoken["role"] == "Student") {
       this.username = decodedtoken["given_name"];
+      var EMAIL=decodedtoken['email']
+      var BioInfo=this.getBio(EMAIL)
+      console.log(BioInfo)
+      console.log(EMAIL)
     }
     console.log(this.decoded)
     this.getAch()
-    console.log(bio)
   }
   logout() {
     this.auth.logout();

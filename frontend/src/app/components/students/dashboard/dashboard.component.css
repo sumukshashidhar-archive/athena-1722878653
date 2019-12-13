@@ -73,6 +73,10 @@ body {
   margin: 25px auto;
   display: block;
 }
+.table{
+  margin-left: 50%;
+  text-align: center;
+}
 
 h2 {
   text-align: center;

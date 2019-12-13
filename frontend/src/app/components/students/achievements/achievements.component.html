@@ -1,3 +1,4 @@
+<div class="bg" style="background-color: #00c2ff;">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -77,8 +78,7 @@
                 <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter achievement
                   subcategory</span>
               </div>
-              <h2>FILE UPLOAD</h2>
-              <img [src]="url" height="200"> <br/>
+              <!-- <img [src]="url" height="200"> <br/> -->
               <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
              
             </div>
@@ -121,16 +121,59 @@
             </div>
         </div>
     </div> -->
-  <div class="container">
-    <mat-card *ngFor="let ach of this.ach_list">
-      <mat-card-header>
-        {{ ach.CategoryId }}
-        <button class="btn btn-primary" style="margin-left: 850px;" (click)="onDelete(ach._id)"><i
-            class="fa fa-trash"></i>Remove</button>
-      </mat-card-header>
-      <mat-card-content>
-        {{ ach.SubCategoryId }}
-      </mat-card-content>
-    </mat-card>
-  </div>
-</body>
+
+<!--  -->
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+<div class="container">
+    <div class="row">
+      <div class="newsItem col-12 col-sm-6 col-md-4 col-lg-4 " *ngFor="let ach of this.ach_list">
+        <div class="column"></div>
+        <div class="card" >
+          <div class="container">
+              <div class="image">
+                  <img src="https://previews.123rf.com/images/donikz/donikz1802/donikz180200493/95624624-tree-stumps-under-the-snow-in-the-winter-forest.jpg" />
+              </div>
+              <div class="card-block">
+                
+              <h2>{{ ach.CategoryId }}</h2>
+              <div class="summary">
+              <div class="hr"></div>
+                <h3>{{ ach.SubCategoryId }}</h3>
+                <div class="hr"></div>
+                <p>Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. estas porttitor. Morbi lectus risus, iaculis vel, suscipit quis.
+                </p>
+                <a href="" class="read-more">READ MORE</a>
+              </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      
+        </div>
+      
+        </div>
+      
+ </body>
+</div>
+
+
+  
+  
+  
+    
+    
+    
+    
+    
+
+  
+
+  
+
+
+
+  
+
+

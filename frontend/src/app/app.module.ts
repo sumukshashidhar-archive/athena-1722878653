@@ -43,6 +43,7 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
 import { SearchresComponent } from './components/searchres/searchres.component';
 import { SearchComponent } from './search/search.component';
 import { VerificationComponent } from './components/verification/verification.component';
+import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 
 
 export function tokenGetter() {
@@ -162,7 +163,7 @@ export const appRoutes: Routes = [
   
   {
     path: "**",
-    component: HomePageComponent
+    component: PagenotfoundComponent
   }
 ];
 
@@ -195,6 +196,7 @@ export const appRoutes: Routes = [
     SearchresComponent,
     SearchComponent,
     VerificationComponent,
+    PagenotfoundComponent,
   
   ],
   imports: [

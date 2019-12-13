@@ -6,7 +6,7 @@ import { ThrowStmt } from '@angular/compiler';
 @Component({
   selector: 'app-bigevents',
   templateUrl: './bigevents.component.html',
-  styleUrls: ['./bigevents.component.css']
+  styleUrls: ['./bigevents.component.scss']
 })
 export class BigeventsComponent implements OnInit {
   x: any = this.eventService.details1;

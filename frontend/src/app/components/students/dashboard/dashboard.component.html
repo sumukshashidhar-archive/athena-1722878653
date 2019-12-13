@@ -76,5 +76,18 @@
     </div>
 
     <img [src]="imageToShow">
+    <p></p>
+    <div class="table" style="overflow: hidden;
+    max-width: 50%;">
+    <div class="row">
+      <div class="col-4" >
+        <div class="list-group" id="list-tab" role="tablist">
+            <h3 class = "list-group-item-heading" style="background-color:#ff3d00;
+            
+            color:#80e1ff;">Achievements</h3>
+      <div class="list-group-item" *ngFor="let ach of ach_list" id="list-profile-list"  href="#list-profile" role="tab" aria-controls="profile">{{ach.SubCategoryId }}</div>
+        </div>
+      </div>
+     </div>
+    </div>
   </body>
-</div>

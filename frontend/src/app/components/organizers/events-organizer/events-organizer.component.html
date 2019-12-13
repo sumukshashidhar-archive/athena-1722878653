@@ -1,5 +1,6 @@
 <div class="background">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <script type="text/javascript" src="./function.js"></script>
 
   <body>
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
@@ -77,8 +78,8 @@
                 <div class="form-group">
                   <label class="control-label">Event Starting Date</label>
                   <div>
-                    <input maxlength="32" type="date" id="date" required ngModel name="evnDate1" #evnDate1="ngModel"
-                      [(ngModel)]="eventService.selectedEvent.evnDate1" />
+                    <input id="datefield1" maxlength="32" type="date" id="date" required ngModel name="evnDate1" #evnDate1="ngModel"
+                      [(ngModel)]="eventService.selectedEvent.evnDate1" [min]="maxDate">
                     <p class="help-block" *ngIf="!evnDate1.valid && evnDate1.touched">
                       Please add Event date
                     </p>
@@ -87,8 +88,8 @@
                 <div class="form-group">
                   <label class="control-label">Event Ending Date</label>
                   <div>
-                    <input maxlength="32" type="date" id="date" required ngModel name="evnDate2" #evnDate2="ngModel"
-                      [(ngModel)]="eventService.selectedEvent.evnDate2" />
+                    <input id="datefield2" maxlength="32" type="date" id="date" required ngModel name="evnDate2" #evnDate2="ngModel"
+                      [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="maxDate">
                     <span class="help-block" *ngIf="!evnDate2.valid && evnDate2.touched">
                       Please add Event date
                     </span>
@@ -179,5 +180,5 @@
       </div>
     </div>
     <!-- /.modal -->
-  </body>
+    </body>
 </div>

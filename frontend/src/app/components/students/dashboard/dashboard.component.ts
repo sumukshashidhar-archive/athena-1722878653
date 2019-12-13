@@ -1,3 +1,4 @@
+import { AchievementsService } from './../../../shared/achievements/achievements.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
@@ -9,6 +10,7 @@ import { Router } from "@angular/router";
 import { Search } from "../../../shared/search/search.model";
 import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
+import { Achievements } from 'src/app/shared/achievements/achievements.model';
 export var decoded :any 
 @Component({
   selector: "app-dashboard",
@@ -21,6 +23,7 @@ export class DashboardComponent implements OnInit {
   username: any;
   ipAddress:string;
   path:''
+  ach_list:any
    
   constructor(
     
@@ -29,11 +32,21 @@ export class DashboardComponent implements OnInit {
     private data: DatasharingService,
     private uname: NameService,
     public datasharingService: DatasharingService,
-    private http:HttpClient
+    private http:HttpClient,
+    private ach:AchievementsService
   ) {
     decoded= localStorage.getItem('access_token');
+    this.refreshAchievements();
   }
-  
+  refreshAchievements() {
+    this.ach.getAchievements().subscribe(res => {
+      this.ach_list = res as Achievements[];
+      console.log(this.ach_list);
+      this.ach_list=this.ach_list.slice(0,5);
+      console.log(this.ach_list)
+    });
+  }
+
 
 createImageFromBlob(image:Blob){
   let reader= new FileReader();

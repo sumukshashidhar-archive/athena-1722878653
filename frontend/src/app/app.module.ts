@@ -44,6 +44,7 @@ import { SearchresComponent } from './components/searchres/searchres.component';
 import { SearchComponent } from './search/search.component';
 import { VerificationComponent } from './components/verification/verification.component';
 
+
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
@@ -152,6 +153,7 @@ export const appRoutes: Routes = [
     path: "commonsignup",
     component: CommonsignupComponent
   },
+ 
   {
     path: "userprofile",
     component: UserprofileComponent,
@@ -192,7 +194,8 @@ export const appRoutes: Routes = [
     UserprofileComponent,
     SearchresComponent,
     SearchComponent,
-    VerificationComponent
+    VerificationComponent,
+  
   ],
   imports: [
     JwtModule.forRoot({

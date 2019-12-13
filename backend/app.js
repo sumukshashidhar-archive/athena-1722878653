@@ -234,8 +234,8 @@ app.post('/register', function (req, res) {
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
-                                    Bio: "This is my world!!",
-                                    Verified: false
+                                    Bio: req.body.bio,
+                                    Verified: false //default
                                 });
 
                             newUser.save(function (err, obj) {
@@ -245,7 +245,7 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    
+                                    // This will need to be SHA hashed to allow for better verification systems. 
                                     var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
 
                                     sendMail(output,req.body.email);
@@ -382,7 +382,7 @@ app.get('/verifyuser/*', function(req, res)
         {
             console.log("VERIFIED"); 
             console.log(obj);
-            res.redirect("http://localhost:4200/login");
+            res.redirect("http://localhost:4200/login"); //Does this work?
         }
     }); 
 });
@@ -1487,30 +1487,7 @@ app.get('/eeevnts', function(req, res) {
                         res.status(200).send("Events Not Found in your city");
                     }
                     else {
-                        
-                        //Have the rd Engine in here :)
-                        //Binary Search Function
-                        function binarySearch(arr, x, start, end) { 
-        
-                            // Base Condtion 
-                            if (start > end) return false; 
-                        
-                            // Find the middle index 
-                            let mid=Math.floor((start + end)/2); 
-                        
-                            // Compare mid with given key x 
-                            if (arr[mid]===x) return true; 
-                                
-                            // If element at mid is greater than x, 
-                            // search in the left half of mid 
-                            if(arr[mid] > x)  
-                                return binarySearch(arr, x, start, mid-1); 
-                            else
-                        
-                                // If element at mid is smaller than x, 
-                                // search in the right half of mid 
-                                return binarySearch(arr, x, mid+1, end); 
-                        } 
+
                         //This will have to be wrapped inside a function when its possible
                         tot_length = MONGO_RETURN.length;
                         for(i=0; i<tot_length; i++) {
@@ -1563,6 +1540,63 @@ app.get('/eeevnts', function(req, res) {
         }
     })
 })
+function binarySearch(arr, x, start, end) { 
+        
+    // Base Condtion 
+    if (start > end) return false; 
+
+    // Find the middle index 
+    let mid=Math.floor((start + end)/2); 
+
+    // Compare mid with given key x 
+    if (arr[mid]===x) return true; 
+        
+    // If element at mid is greater than x, 
+    // search in the left half of mid 
+    if(arr[mid] > x)  
+        return binarySearch(arr, x, start, mid-1); 
+    else
+
+        // If element at mid is smaller than x, 
+        // search in the right half of mid 
+        return binarySearch(arr, x, mid+1, end); 
+}
+//Does not need to be synchronous, only need to see how to make the binary search synchronous
+function arrAdderCircuit(uservecobj, event_interests, userid) {
+    var tot_len1 = event_interests.length
+    for(let i=0; i<tot_len1; i++) {
+        var cur_element = event_interests[i]
+        binarySearch(uservecobj, cur_element, 0, (tot_len1 - 1), function(err, res) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                if(res) {
+                    console.log("Interest already exists in the Array")
+                }
+                else if(res==false) {
+                    console.log("Interest does not exist. Will add it here")
+                    uservecobj.append(cur_element)
+                }
+                else {
+                    console.log("Skipping the search entirely")
+                }
+            }
+        })
+    }
+    //This is after all the updating is done, we have to push the user object to the cloud!
+    Student.findOneAndUpdate({_id:userid}, {$set: {uservector: uservecobj}}, function(err, UPDATE_OBJ) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            console.log('Pushed the user vector object to the cloud')
+            console.log(UPDATE_OBJ.uservector)
+        }
+    })
+}
+
+
 
 //NOT TESTED
 app.post('/click-on-events', function(req, res) {
@@ -1571,7 +1605,6 @@ app.post('/click-on-events', function(req, res) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            console.log('Body is : ', req.body)
             Student.findOne({_id: decodedToken.usrid}, function(err, MONGO_OBJ_RETURN) {
                 if(err) {
                     console.log(err)

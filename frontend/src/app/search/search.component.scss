@@ -328,6 +328,7 @@ ul li .check::before {
 
 input[type=radio]:checked ~ .check {
   border: 5px solid #0DFF92;
+  padding-inline: 0px;
 }
 
 input[type=radio]:checked ~ .check::before{

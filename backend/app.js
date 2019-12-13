@@ -1682,24 +1682,49 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
-})
+});
 
-app.get('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
-    module.find({}, function(err, MODULES_OBJ) {
-        if(err) {
-            console.log('INTERNAL ERROR. ');
+app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
+{
+    var email = 'sanjeev196945@outlook.com';
+    console.log(email);
+
+    user.deleteMany({username: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
         }
-        else {
-            console.log("Loaded Modules")
-            res.send(MODULES_OBJ)
+        else
+        {
+            console.log("Deleted user in 'users': " +obj);
         }
-    })
-})
+    });
+
+    Student.deleteMany({EmailId: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
+        }
+        else
+        {
+            console.log("Deleted user in 'Student': " +obj);
+        }
+    });
+
+    Organiser.deleteMany({OrganiserEmail: email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log("ERROR " + err);
+        }
+        else
+        {
+            console.log("Deleted user in 'Organiser': " +obj);
+        }
+    });
 
 
-
-app.post('/8b51fd610056d0b7e04a94a82512a6308931ff6aa5bd504cd7fecc93eb999fd7dec57d7f36448249861f11f22f6d1672b4fa4a892395f9e59fc2074faf93c550', function(req, res) {
-    //Needs to get the module to run
-    
-})
-
+    console.log("FINISHED DELETING WITH EMAIL ID " + email);
+});

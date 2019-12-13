@@ -74,7 +74,7 @@
 
   <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
   <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
-
+<div>
   <body>
     <div class="cont">
       <div class="box" *ngFor="let evn of eventService.events">
@@ -83,7 +83,7 @@
         </div>
         <div class="content">
           <h3>{{ evn.evnName }}</h3>
-          <p>{{ evn.evnDescription }}</p>
+          <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
           <p>{{ evn.evnDate1 }}</p>
           <form #f="ngForm">
             <button (click)="sendDetails(f, evn._id)">Read More</button>

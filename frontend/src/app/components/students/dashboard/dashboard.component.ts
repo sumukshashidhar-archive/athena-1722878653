@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from 'jwt-decode';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { DatasharingService } from "../../../shared/search/datasharing.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
@@ -11,6 +11,7 @@ import { Search } from "../../../shared/search/search.model";
 import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
 import { Achievements } from 'src/app/shared/achievements/achievements.model';
+import { LOCAL_STORAGE } from '@ng-toolkit/universal';
 export var decoded :any 
 @Component({
   selector: "app-dashboard",
@@ -25,7 +26,7 @@ export class DashboardComponent implements OnInit {
   path:''
   ach_list:any
    
-  constructor(
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any, 
     
     private auth: AuthService,
     private router: Router,
@@ -114,7 +115,7 @@ createImageFromBlob(image:Blob){
 
 
 postEvents() {
-  const token=localStorage.getItem('access_token')
+  const token=this.localStorage.getItem('access_token')
   const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
   const options = {
     headers: headers

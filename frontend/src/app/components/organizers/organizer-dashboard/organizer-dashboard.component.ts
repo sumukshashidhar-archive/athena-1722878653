@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from 'jwt-decode';
 import { DatasharingService } from "src/app/shared/search/datasharing.service";
 import { NameService } from "src/app/shared/name/name.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { Router } from "@angular/router";
+import { LOCAL_STORAGE } from '@ng-toolkit/universal';
 export var decoded :any 
 @Component({
   selector: "app-organizer-dashboard",
@@ -13,7 +14,7 @@ export var decoded :any
 })
 export class OrganizerDashboardComponent implements OnInit {
   username: any;
-  constructor(
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any, 
     private auth: AuthService,
     private router: Router,
     private data: DatasharingService,

@@ -1,39 +1,15 @@
-<link
-  href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
-  rel="stylesheet"
-/>
+<!-- <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
 
 <body>
   <div class="login-page">
     <div class="form">
       <form #f="ngForm" class="login-form" (ngSubmit)="f.valid && onSubmit(f)">
-        <input
-          maxlength="32"
-          type="email"
-          placeholder="Email"
-          required
-          ngModel
-          name="username"
-          email
-          #email="ngModel"
-          [(ngModel)]="loginService.selectedUser.email"
-        />
-        <span class="help-block" *ngIf="!email.valid && email.touched"
-          >Please enter a valid email</span
-        >
+        <input maxlength="32" type="email" placeholder="Email" required ngModel name="username" email #email="ngModel"
+          [(ngModel)]="loginService.selectedUser.email" />
+        <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email</span>
         <p></p>
-        <input
-          maxlength="32"
-          type="password"
-          placeholder="Password"
-          required
-          ngModel
-          name="password"
-          minlength="8"
-          id="password"
-          #password="ngModel"
-          [(ngModel)]="loginService.selectedUser.password"
-        />
+        <input maxlength="32" type="password" placeholder="Password" required ngModel name="password" minlength="8"
+          id="password" #password="ngModel" [(ngModel)]="loginService.selectedUser.password" />
         <button class="btn btn-primary" type="submit" [disabled]="!f.valid">
           Log In
         </button>
@@ -53,4 +29,4 @@
       </form>
     </div>
   </div>
-</body>
+</body> -->

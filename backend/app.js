@@ -15,8 +15,26 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 // const category = require('./models/category-model')
 // const subcat = require('./models/subcategory-model')
+const algorithm = 'aes-256-cbc';
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+var Encrypt = require('./models/Encrypt');
 
+function encrypt(text) {
+ let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+ let encrypted = cipher.update(text);
+ encrypted = Buffer.concat([encrypted, cipher.final()]);
+ return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
+}
 
+function decrypt(text) {
+ let iv = Buffer.from(text.iv, 'hex');
+ let encryptedText = Buffer.from(text.encryptedData, 'hex');
+ let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+ let decrypted = decipher.update(encryptedText);
+ decrypted = Buffer.concat([decrypted, decipher.final()]);
+ return decrypted.toString();
+}
 
 
 
@@ -225,6 +243,7 @@ app.post('/register', function (req, res) {
                             res.status(500).send("Internal Server Error") //Sends an internal server err
                         }
                         else {
+                            
                             console.log("registering user");
                             var newUser = new user
                                 ({
@@ -245,13 +264,29 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+                                    var encrypted = encrypt(req.body.email);
+                                    var encryptedObj = new Encrypt
+                                    ({
+                                        iv: encrypted.iv,
+                                        username: obj.username
+                                    });
 
-                                    sendMail(output,req.body.email);
-                                    
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                                    encryptedObj.save(function(err, obj)
+                                    {
+                                        if(err)
+                                        {
+                                            console.log("ERROR + " + err);
+                                        }
+                                        else
+                                        {
+                                            var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + encryptedObj._id;
+                                            console.log(output);
+                                            sendMail(output,req.body.email);
+                                        
+                                            //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                                            res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -348,7 +383,7 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+encrypt(req.body.email).encryptedData;
 
                                     sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
@@ -371,20 +406,36 @@ app.post('/registerorganizer', function (req, res) {
 
 app.get('/verifyuser/*', function(req, res)
 {
-    idV = req.url.slice(12, 100);
-    user.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
+    var idx = req.url.slice(12, 1000);
+    console.log(req.url);
+    console.log("ID: " + idx);
+
+    
+    Encrypt.find({_id: idx}, function(err, obj)
     {
         if(err)
         {
-            console.log("ERROR" + err);
+            console.log("ERROR + " + err);
         }
         else
         {
-            console.log("VERIFIED"); 
-            console.log(obj);
-            res.redirect("http://localhost:4200/login");
+            console.log(obj + obj.iv);
+            user.updateOne({ username: obj.username }, { $set: { Verified: true } }, function(err, obj1)
+            {
+                if(err)
+                {
+                    console.log("ERROR" + err);
+                }
+                else
+                {   
+
+                    console.log("VERIFIED"); 
+                    console.log(obj1);
+                    res.redirect("http://localhost:4200/login");
+                }
+            }); 
         }
-    }); 
+    });
 });
 
 //////UPLOAD PROFILE PIC
@@ -969,6 +1020,7 @@ app.post('/addInterest', function(req, res)
         }
     });
 });
+
 
 
 // ADMIN DASH ROUTE

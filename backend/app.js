@@ -253,7 +253,8 @@ app.post('/register', function (req, res) {
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
-                                    Bio: "This is my world!!",
+                                    Bio: req.body.bio,
+                                    Interests: "",
                                     Verified: false
                                 });
 
@@ -324,6 +325,7 @@ app.post('/updateinfo', function (req, res) {
                                 var PhoneNo = req.body.phoneNo
                                 var Bio = req.body.bio
                                 var SLocation = req.body.Slocation
+
                                 user.updateOne({ id: obj._id }, { $set: { FirstName: req.body.FirstName, LastName: req.body.LastName, PhoneNo: req.body.phoneNo, Bio: req.body.bio, SLocation: req.body.Slocation } }, function (err, obj) {
                                     if (err) {
                                         console.log(err)
@@ -966,7 +968,7 @@ app.get('/interests', async function (req, res) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {
             console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+            user.findOne({ username: decodedToken.email }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
@@ -990,7 +992,7 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            Student.findOne({ EmailId: decodedToken.email }, function(err, obj)
+            user.findOne({ username: decodedToken.email }, function(err, obj)
             {
                 if(err)
                 {
@@ -1004,7 +1006,7 @@ app.post('/addInterest', function(req, res)
 
             inter = inter + "," + req.body.interest;
 
-            Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
+            user.updateOne({ username: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }

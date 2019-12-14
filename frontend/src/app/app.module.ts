@@ -44,6 +44,9 @@ import { SearchresComponent } from './components/searchres/searchres.component';
 import { SearchComponent } from './search/search.component';
 import { VerificationComponent } from './components/verification/verification.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { CommonModule } from '@angular/common';
+import { TransferHttpCacheModule } from '@nguniversal/common';
+import { NgtUniversalModule } from '@ng-toolkit/universal';
 
 
 export function tokenGetter() {
@@ -207,7 +210,7 @@ export const appRoutes: Routes = [
         blacklistedRoutes: ["localhost:4000/api/auth"]
       }
     }),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -217,7 +220,10 @@ export const appRoutes: Routes = [
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    CommonModule,
+    TransferHttpCacheModule,
+    NgtUniversalModule
   ],
   providers: [
     Title,

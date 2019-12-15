@@ -552,8 +552,17 @@ app.post('/login', async function (req, res) {
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
     user.findOne({ username: req.body.email }, function (err, obj) {
-        if (err) {
-            console.log(err)
+        if (!obj) {
+            if(err)
+            {
+                console.log(err);
+                res.send(false);
+            }
+            else
+            {
+                console.log("COULDN'T FIND OBJECT");
+                res.send(false);
+            }
         }
         else {
             var code = generate(6); 
@@ -602,45 +611,21 @@ app.post('/resetPasswordCode', function(req, res)
     });
 });
 
+function resetPasswordFunction(email, newPassword)
+{
+    console.log(email);
+}
+
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
-    console.log(req.body.email);
-    user.findOne({ username: req.body.email }, function (err, obj) {
-        if (err) {
-            //if an error, logging it
-            console.log(err)
-        }
-        else {
-            if (obj == {} || obj == undefined || obj == null) {
-                console.log("works")
-            }
-            else {
-                //Then comparing it with the bcypt hash present in the users thing
-                bcrypt.compare(req.body.securityAnswer, obj["securityAnswer"], function (err, BCRYPT_RES) {
-                    if (err) {
-                        //if there is an error, sends false
-                        console.log(err)
-                        res.send(false)
-                    }
-                    else {
-                        if (BCRYPT_RES) {
-                            //if there is no error, it checks if the response is true
-                            console.log("Succeeded.")
-                            res.send(true).json(obj["authCode"])
-                        }
-                        else {
-                            //If not it outputs false
-                            console.log("Authentication Error")
-                            res.send(false)
-                        }
-                    }
-                })
-            }
+    console.log("Reseting password");
+    resetPasswordFunction(req.body.email, req.body.password);    
+    
+});
 
-        }
-    })
-})
+
+//I BELIEVE THIS IS REDUNDANT CODE:
 
 
 app.post('/new-password', function (err, obj) {

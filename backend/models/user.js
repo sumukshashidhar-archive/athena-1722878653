@@ -10,7 +10,10 @@ var UserSchema = new mongoose.Schema({
     AuthCode: String,
     lastUpdatedOn: Date,
     user_Activity: Number,
-    Verified: false
+    Verified: false,
+    profilePic: String,
+    Interests: String,
+    iv: String
 });
 
 module.exports = mongoose.model("User", UserSchema);

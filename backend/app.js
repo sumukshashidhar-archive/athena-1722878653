@@ -18,7 +18,8 @@ const path = require('path');
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
-var Encrypt = require('./models/Encrypt');
+var Encrypt = require('./models/encrypt');
+var SubCatModel = require('./models/subcategory-model.js');
 
 function encrypt(text) {
  let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
@@ -948,7 +949,7 @@ app.post('/delete-achievement', function (req, res) {
 
 //INTERESTS
 
-app.get('/interests', async function (req, res) {
+app.get('/interest  ', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {
@@ -1688,6 +1689,17 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
+});
+
+app.post('/getCategories', function(req, res)
+{
+    SubCatModel.find({}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log()
+        }
+    });
 });
 
 app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)

@@ -9,7 +9,7 @@ const cors = require('cors');
 var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
-var tempsearch = require('./controllers/search/search_controller')
+// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
@@ -40,7 +40,7 @@ var key_controller = require('./controllers/keystore_control')
 var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
-var recommnedations = require("./recommendation/recommender");
+// var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
@@ -904,9 +904,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     }
     
 
-
 });
-
 
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements

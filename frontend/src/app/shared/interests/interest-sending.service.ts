@@ -9,7 +9,6 @@ import { Interests } from './interests.model';
 export class InterestSendingService {
   selectedInt: Interests = {
     interests: "",
-    bio: ""
   }
   constructor(private http: HttpClient) {}
 

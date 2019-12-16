@@ -1,3 +1,4 @@
+import { VerifyemailComponent } from './components/verifyemail/verifyemail.component';
 import { TokenInterceptorService } from "./shared/token-interceptor.service";
 import * as jwt_decode from "jwt-decode";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -45,6 +46,7 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { CommonModule } from '@angular/common';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { OrgverifyemailComponent } from './components/orgverifyemail/orgverifyemail.component';
 
 
 export function tokenGetter() {
@@ -55,6 +57,14 @@ export const appRoutes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path: "verifyemail",
+    component: VerifyemailComponent
+  },
+  {
+    path: "orgverifyemail",
+    component: OrgverifyemailComponent
   },
   {
     path: "homepage",
@@ -187,7 +197,9 @@ export const appRoutes: Routes = [
     RunmoduleComponent,
     UserprofileComponent,
     SearchresComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    VerifyemailComponent,
+    OrgverifyemailComponent
   ],
   imports: [
     JwtModule.forRoot({

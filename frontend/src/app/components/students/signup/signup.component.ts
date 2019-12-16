@@ -2,6 +2,7 @@ import { UserService } from "./../../../shared/user/user.service";
 import { Component, OnInit } from "@angular/core";
 import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+export var email
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
@@ -53,10 +54,12 @@ export class SignupComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.test = (document.getElementById('bio') as HTMLTextAreaElement).value
     form.value['bio']=this.test;
+    email=form.value['email']
+    console.log(email)
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log(res);
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/verifyemail"]);
       },
       err => {
         if (err.status === 422) {

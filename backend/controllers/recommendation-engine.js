@@ -43,7 +43,14 @@ module.exports = {
     }, 
 
     deepSearch: function deepSearch(keyword, USER) {
-        event.find({})
+        event.find({} ,function(err, EVNSOBJ) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                console.log(EVNSOBJ)
+            }
+        })
     }, 
 
     archSearch: function archSearch(keyword, USER) {

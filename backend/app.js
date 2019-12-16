@@ -1735,13 +1735,39 @@ app.post('/add-categories', function(err, obj) {
     })   
 });
 
-app.post('/getCategories', function(req, res)
+app.get('/getCategoriesAll', function(req, res)
 {
-    SubCatModel.find({}, function(err, obj)
+    CatE.find({}, function(err, obj)
     {
         if(err)
         {
             console.log()
+        }
+        else
+        {
+            console.log(obj);
+            res.send(obj);
+        }
+    });
+});
+
+app.get('/getCategoriesId', function(req, res)
+{   
+    console.log(req.query.catId);
+    var id = parseInt(req.query.catId);
+    console.log(id);
+
+    CatE.findOne({catId: id}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log()
+        }
+        else
+        {   
+            console.log(obj);
+            console.log(obj.catId);
+            res.send(obj.subCat)
         }
     });
 });

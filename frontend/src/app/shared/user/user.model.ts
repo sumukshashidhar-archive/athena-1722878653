@@ -12,6 +12,5 @@ export class User {
   pincode: string;
   bio:string;
   studentSchool: string;
-  eventsAttending:[];
 }
 

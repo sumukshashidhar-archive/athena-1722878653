@@ -129,6 +129,11 @@ function generate(n) {
 
 
 
+function passwordSecurity() {
+
+}
+
+
 /*
 
 INITIALIZATIONS
@@ -197,33 +202,9 @@ var upload = multer({
 // });
 
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
+function resetPasswordFunction() {
 
-
-
-/*
-
-ventLogSchema
-
-ROUTES AHEAD!---->
-
-
-
-*/
-
-
-
-
-
-
-
-
-/*
-
-
-ROUTES PRODUCTION READY
-
-
-*/
+}
 
 
 
@@ -589,6 +570,7 @@ app.post('/resetPasswordCode', function(req, res)
             {
                 console.log("Verified")
                 res.send(true);
+                resetPasswordFunction()
             }
             else
             {
@@ -599,16 +581,51 @@ app.post('/resetPasswordCode', function(req, res)
     });
 });
 
-function resetPasswordFunction(email, newPassword)
+function resetPasswordFunction(email, newPassword, code)
 {
     console.log(email);
+    console.log(newPassword);
+    user.findOne({email: email, authCode: code}, function(err, obj) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(obj){
+                console.log("Found the object")
+                bcrypt.hash(newPassword, saltRounds, function(err, BCRYPT_NEW_PWD_HASH) {
+                    if(err) {
+
+                    }
+                    else {
+                        user.findOneAndUpdate({email:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
+                            if(err) {
+                                console.log(err)
+                            }
+                            else{
+                                if(obj) {
+                                    console.log("Object is updated successfully: ", obj)
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. DID NOT FIND SUCH A USER');
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+            else {
+                console.log("The user does not exist, or the authcode is incrorrect")
+            }
+        }
+    })
+    
 }
 
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
     console.log("Reseting password");
-    resetPasswordFunction(req.body.email, req.body.password);    
+    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);    
     
 });
 
@@ -1514,30 +1531,7 @@ app.get('/eeevnts', function(req, res) {
                         res.status(200).send("Events Not Found in your city");
                     }
                     else {
-                        
-                        //Have the rd Engine in here :)
-                        //Binary Search Function
-                        function binarySearch(arr, x, start, end) { 
-        
-                            // Base Condtion 
-                            if (start > end) return false; 
-                        
-                            // Find the middle index 
-                            let mid=Math.floor((start + end)/2); 
-                        
-                            // Compare mid with given key x 
-                            if (arr[mid]===x) return true; 
-                                
-                            // If element at mid is greater than x, 
-                            // search in the left half of mid 
-                            if(arr[mid] > x)  
-                                return binarySearch(arr, x, start, mid-1); 
-                            else
-                        
-                                // If element at mid is smaller than x, 
-                                // search in the right half of mid 
-                                return binarySearch(arr, x, mid+1, end); 
-                        } 
+
                         //This will have to be wrapped inside a function when its possible
                         tot_length = MONGO_RETURN.length;
                         for(i=0; i<tot_length; i++) {
@@ -1590,6 +1584,63 @@ app.get('/eeevnts', function(req, res) {
         }
     })
 })
+function binarySearch(arr, x, start, end) { 
+        
+    // Base Condtion 
+    if (start > end) return false; 
+
+    // Find the middle index 
+    let mid=Math.floor((start + end)/2); 
+
+    // Compare mid with given key x 
+    if (arr[mid]===x) return true; 
+        
+    // If element at mid is greater than x, 
+    // search in the left half of mid 
+    if(arr[mid] > x)  
+        return binarySearch(arr, x, start, mid-1); 
+    else
+
+        // If element at mid is smaller than x, 
+        // search in the right half of mid 
+        return binarySearch(arr, x, mid+1, end); 
+}
+//Does not need to be synchronous, only need to see how to make the binary search synchronous
+function arrAdderCircuit(uservecobj, event_interests, userid) {
+    var tot_len1 = event_interests.length
+    for(let i=0; i<tot_len1; i++) {
+        var cur_element = event_interests[i]
+        binarySearch(uservecobj, cur_element, 0, (tot_len1 - 1), function(err, res) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                if(res) {
+                    console.log("Interest already exists in the Array")
+                }
+                else if(res==false) {
+                    console.log("Interest does not exist. Will add it here")
+                    uservecobj.append(cur_element)
+                }
+                else {
+                    console.log("Skipping the search entirely")
+                }
+            }
+        })
+    }
+    //This is after all the updating is done, we have to push the user object to the cloud!
+    Student.findOneAndUpdate({_id:userid}, {$set: {uservector: uservecobj}}, function(err, UPDATE_OBJ) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            console.log('Pushed the user vector object to the cloud')
+            console.log(UPDATE_OBJ.uservector)
+        }
+    })
+}
+
+
 
 //NOT TESTED
 app.post('/click-on-events', function(req, res) {
@@ -1598,7 +1649,6 @@ app.post('/click-on-events', function(req, res) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            console.log('Body is : ', req.body)
             Student.findOne({_id: decodedToken.usrid}, function(err, MONGO_OBJ_RETURN) {
                 if(err) {
                     console.log(err)

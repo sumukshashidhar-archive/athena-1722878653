@@ -1694,7 +1694,7 @@ app.post('/add-categories', function(err, obj) {
 
 app.get('/getCategoriesAll', function(req, res)
 {
-    CatE.find({}, function(err, obj)
+    CatE.find({}, {subCat: 0}, function(err, obj)
     {
         if(err)
         {

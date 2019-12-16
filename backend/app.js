@@ -22,6 +22,7 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 
 var evnSearchController = require('./controllers/search/event-search-controller.js')
+var recommendationEngine = require('./controllers/recommendation-engine.js')
 
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
@@ -1009,20 +1010,6 @@ app.post('/organizerdashboard', async function (req, res) {
     })
 })
 
-app.post('/event-search', function (req, res) {
-    //Running an event search with the given keywords in the database
-    // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
-        if (err) {
-            console.log(err)
-        }
-        else {
-            //TODO: Make sure that the RD engine works on this dataset as well
-            console.log(obj)
-            res.json(obj)
-        }
-    })
-})
 
 app.post('/events_search', function(req, res) {
     if(req.body.keyword!=undefined) {
@@ -1685,17 +1672,18 @@ app.post('/organizer-search', function(req, res){
 })
 
 app.post('/event-search', function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, DECODED_TOKEN_STU) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            console.log("Now sending to the search module. ")
+
+        }
     //This is the event search functionality
     //1 is for the regular search
     //2 is the deep search
     //3 is the archive search
-
-
-
-    ///ROUTE HANDLING
-    if(req.body.choice==1) {
-        
-    }
 })
 
 app.post('/add-categories', function(err, obj) {

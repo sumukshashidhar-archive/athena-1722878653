@@ -835,7 +835,6 @@ app.get('/events', async function (req, res) {
 
     })
 })
-
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
@@ -877,7 +876,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     }
     else
     {   
-        console.log(req.body, req.files, req.files.uploads[0].path);
+        // console.log(req.body, req.files, req.files.uploads[0].path);
 
 
         jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -888,7 +887,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
                     ({
                         CategoryId: achCat,
                         SubCategoryId: achSubCat,
-                        Image: req.files.uploads[0].path
+                        Image:path.join(__dirname,req.files.uploads[0].path)
                     })
                 newAch.save(function (err, achobj) {
                     if (err) {
@@ -925,7 +924,9 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     }
     
 
+
 });
+
 
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements
@@ -947,6 +948,7 @@ app.post('/delete-achievement', function (req, res) {
         }
     })
 })
+
 
 
 //INTERESTS

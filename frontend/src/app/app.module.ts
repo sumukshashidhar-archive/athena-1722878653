@@ -1,3 +1,4 @@
+import { VerifyemailComponent } from './components/verifyemail/verifyemail.component';
 import { TokenInterceptorService } from "./shared/token-interceptor.service";
 import * as jwt_decode from "jwt-decode";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -55,6 +56,10 @@ export const appRoutes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path: "verifyemail",
+    component: VerifyemailComponent
   },
   {
     path: "homepage",
@@ -187,7 +192,8 @@ export const appRoutes: Routes = [
     RunmoduleComponent,
     UserprofileComponent,
     SearchresComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    VerifyemailComponent
   ],
   imports: [
     JwtModule.forRoot({

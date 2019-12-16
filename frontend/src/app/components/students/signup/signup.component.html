@@ -87,13 +87,11 @@ height: 150vh;
               <mat-error class="help-block" *ngIf="!pincode.valid && pincode.touched">Please Enter Pincode</mat-error>
             </mat-form-field>
             <br />
-            <!-- <mat-form-field>
-              <input maxlength="32" matInput type="text" placeholder="Enter Bio" required ngModel
-                  name="bio" #bio="ngModel" [(ngModel)]="userService.selectedUser.bio" />
-              <mat-error class="help-block" *ngIf="!bio.valid && bio.touched">
-                Enter a little about yourself
-              </mat-error>
-            </mat-form-field> -->
+            <mat-form-field>
+              <input type="text" maxlength="32" placeholder="Enter your school" matInput required ngModel name="studentSchool" #studentSchool="ngModel" [(ngModel)]="userService.selectedUser.studentSchool">
+              <mat-error class="help-block" *ngIf="!studentSchool.valid && studentSchool.touched">Please Enter Your School</mat-error>
+            </mat-form-field>
+            <br>
             <mat-form-field>
               <textarea matInput placeholder="Enter bio" id="bio" cols="30" rows="2"></textarea>
             </mat-form-field>

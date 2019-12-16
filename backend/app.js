@@ -439,28 +439,39 @@ app.post('/login', async function (req, res) {
                         console.log(usrobj)
                         //Checking what user type the user is, and returning a JWT based on that
                         if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
-                            //If the user object is a Student. I am finding a student with the required description
-                            Student.findOne({ EmailId: req.body.username }, function (err, obj) {
-                                if (err) {
-                                    console.log(err)
+                            if(usrobj.Verified)
+                            {
 
-                                }
-                                else {
-                                    console.log(req.body)
-                                    //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
-                                    console.log(obj)
-                                    token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
-                                    console.log(token)
-                                    //Testing verification. Has to be removed during deployment
-                                    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-                                        console.log(decodedToken)
-                                        console.log("Succesfully generated a JWT Token")
-                                        res.json(token)
-                                    })
-                                }
+                            
+                                //If the user object is a Student. I am finding a student with the required description
+                                Student.findOne({ EmailId: req.body.username }, function (err, obj) {
+                                    if(!err && (!usrobj && usrobj != undefined) ) {
+                                        console.log(req.body)
+                                        //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
+                                        console.log(obj)
+                                        token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
+                                        console.log(token)
+                                        //Testing verification. Has to be removed during deployment
+                                        jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+                                            console.log(decodedToken)
+                                            console.log("Succesfully generated a JWT Token")
+                                            res.json(token)
+                                        })
+                                    }
+                                    else
+                                    {
+                                        console.log(err);
+                                    }
 
 
-                            })
+                                });
+                            }
+                            else
+                            {
+                                res.send(false);
+                                console.log("USER NOT VERIFIED");
+                            }
+
 
                         }
                         else if (usrobj["userType"] == "Organizer") {
@@ -492,7 +503,8 @@ app.post('/login', async function (req, res) {
             })
         }
         else {
-            res.status(422).send(false)
+            res.send(false);
+            console.log("PROBABLY NOT FOUND USER");
             console.log(err);
         }
     })

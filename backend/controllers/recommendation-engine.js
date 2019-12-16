@@ -32,7 +32,7 @@ module.exports = {
     }, 
 
     regSearch: function regSearch(keyword, USER) {
-        event.find({evnLocation: USER.Location}, function(err, EVNSOBJ) {
+        event.find({evnLocation: USER.Location, }, function(err, EVNSOBJ) {
             if(err) {
                 console.log(err)
             }
@@ -43,7 +43,7 @@ module.exports = {
     }, 
 
     deepSearch: function deepSearch(keyword, USER) {
-
+        event.find({})
     }, 
 
     archSearch: function archSearch(keyword, USER) {

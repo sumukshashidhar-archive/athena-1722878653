@@ -238,6 +238,7 @@ app.post('/register', function (req, res) {
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                     Bio: req.body.bio,
                                     Interests: "",
+                                    studentSchool: req.body.studentSchool, 
                                     Verified: false
                                 });
 
@@ -953,7 +954,7 @@ app.post('/delete-achievement', function (req, res) {
 
 //INTERESTS
 
-app.get('/interest  ', async function (req, res) {
+app.get('/interests', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {

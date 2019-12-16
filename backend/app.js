@@ -21,7 +21,7 @@ const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 
-
+var evnSearchController = require('./controllers/search/event-search-controller.js')
 
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
@@ -1693,6 +1693,9 @@ app.post('/event-search', function(req, res) {
 
 
     ///ROUTE HANDLING
+    if(req.body.choice==1) {
+        
+    }
 })
 
 app.post('/add-categories', function(err, obj) {

@@ -43,7 +43,7 @@ const saltRounds = enc.saltRounds;
 // var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
-
+var daVinci = require ('./controllers/recommendation-engine.js')
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
@@ -1060,18 +1060,13 @@ app.post('/organizerdashboard', async function (req, res) {
 })
 
 app.post('/event-search', function (req, res) {
-    //Running an event search with the given keywords in the database
-    // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
-        if (err) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if(err) {
             console.log(err)
         }
         else {
-            //TODO: Make sure that the RD engine works on this dataset as well
-            console.log(obj)
-            res.json(obj)
+            daVinci.explore(decodedToken)
         }
-    })
 })
 
 app.post('/events_search', function(req, res) {

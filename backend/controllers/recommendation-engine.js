@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
 var tokenExtractor = require()
 var publicKEY = fs.readFileSync('./../keys/public.key', 'utf8'); 
 const enc = require('./../config/encryptionConfig.js');
+var event = require('./../models/event.js')
+var archevent = require('./../models/archived-event.js')
 module.exports = {
     //This must be sent the authorization header, else it will not work
     searchHandler: function searchHandler(useCase, keyword, tokenObject) {
@@ -43,18 +45,34 @@ module.exports = {
     }, 
 
     deepSearch: function deepSearch(keyword, USER) {
+        //Search using the keyword
         event.find({} ,function(err, EVNSOBJ) {
             if(err) {
                 console.log(err)
             }
             else {
                 console.log(EVNSOBJ)
+                rd(USER, EVNSOBJ)
             }
         })
     }, 
 
     archSearch: function archSearch(keyword, USER) {
-
+        archevent.find({}, function(err, EVNSOBJ) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                if(EVNSOBJ) {
+                    console.log(EVNSOBJ)
+                    rd(USEROBJ, EVNSOBJ)
+                }
+                else {
+                    console.log("Blank Array returned")
+                    res.send([])
+                }
+            }
+        })
     }, 
 
     explore: function explore(USEROBJ) {

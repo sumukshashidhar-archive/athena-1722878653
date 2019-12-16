@@ -568,19 +568,20 @@ function resetPasswordFunction(email, newPassword, code)
 {
     console.log(email);
     console.log(newPassword);
-    user.findOne({email: email, authCode: code}, function(err, obj) {
+    user.findOne({username: email}, function(err, obj) {
         if(err) {
             console.log(err)
         }
         else {
+            console.log(obj)
             if(obj){
-                console.log("Found the object")
+                console.log("Found the objectwddffas")
                 bcrypt.hash(newPassword, saltRounds, function(err, BCRYPT_NEW_PWD_HASH) {
                     if(err) {
 
                     }
                     else {
-                        user.findOneAndUpdate({email:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
+                        user.findOneAndUpdate({username:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
                             if(err) {
                                 console.log(err)
                             }
@@ -607,8 +608,11 @@ function resetPasswordFunction(email, newPassword, code)
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
     //Finding if a user exists with the same email
+    console.log("Email is: ", req.body.email) 
+    console.log("Password: ", req.body.password) 
     console.log("Reseting password");
-    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);    
+    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode); 
+
     
 });
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NewpassService } from "./../../shared/newpass/newpass.service";
+import { AnswerService } from './../../shared/answer/answer.service'
 
 @Component({
   selector: "app-resetpass",
@@ -14,7 +15,8 @@ export class ResetpassComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    public newPass: NewpassService
+    public newPass: NewpassService,
+    public answerService: AnswerService
   ) {}
 
   ngOnInit() {
@@ -27,6 +29,7 @@ export class ResetpassComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    form.value['authCode'] = this.answerService.authCode
     form.value['email']=this.newPass.emailToSend;
     this.newPass.postPassword(form.value).subscribe(
       res => {

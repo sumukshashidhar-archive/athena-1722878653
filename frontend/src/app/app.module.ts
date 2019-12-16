@@ -46,6 +46,7 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { CommonModule } from '@angular/common';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { OrgverifyemailComponent } from './components/orgverifyemail/orgverifyemail.component';
 
 
 export function tokenGetter() {
@@ -60,6 +61,10 @@ export const appRoutes: Routes = [
   {
     path: "verifyemail",
     component: VerifyemailComponent
+  },
+  {
+    path: "orgverifyemail",
+    component: OrgverifyemailComponent
   },
   {
     path: "homepage",
@@ -193,7 +198,8 @@ export const appRoutes: Routes = [
     UserprofileComponent,
     SearchresComponent,
     PagenotfoundComponent,
-    VerifyemailComponent
+    VerifyemailComponent,
+    OrgverifyemailComponent
   ],
   imports: [
     JwtModule.forRoot({

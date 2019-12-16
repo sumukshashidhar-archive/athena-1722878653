@@ -782,7 +782,8 @@ app.post('/organizer-events', async function (req, res) {
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
-                    evnDate: req.body.evnDate1,
+                    evnDate1: req.body.evnDate1,
+                    evnDate2:req.body.evnDate2,
                     evnIntersts: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed

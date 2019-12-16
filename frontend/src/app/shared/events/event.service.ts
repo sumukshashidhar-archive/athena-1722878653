@@ -39,7 +39,6 @@ export class EventService {
     };
     return this.http.get("http://localhost:3000/events",options);
   }
-
   postEvents(events: Event) {
     console.log("Post Events method");
     console.log(events)

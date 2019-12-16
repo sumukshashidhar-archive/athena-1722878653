@@ -19,7 +19,8 @@ export class LoginService {
     securityAnswer: "",
     pincode: "",
     bio:"",
-    studentSchool: ""
+    studentSchool: "",
+    eventsAttending:[]
   };
 
   constructor(private http: HttpClient) {}

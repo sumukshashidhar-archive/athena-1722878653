@@ -21,8 +21,7 @@ const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 
-var evnSearchController = require('./controllers/search/event-search-controller.js')
-var recommendationEngine = require('./controllers/recommendation-engine.js')
+
 
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
@@ -944,7 +943,7 @@ app.get('/interests', async function (req, res) {
                 }
                 else {
                     console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests.split(','));
+                    res.send(mongoObj.Interests);
                 }
             })
         }
@@ -962,29 +961,33 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            user.findOne({ username: decodedToken.email }, function(err, obj)
+            var newInterests = req.body.interests;
+
+            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
             {
-                if(err)
+                if(err || obj == null || obj == undefined)
                 {
                     console.log(err);
                 }
                 else
                 {
-                    inter = obj.Interests;
+                    var currentInterests = obj.Interests;
+
+                    for(var i = 0; i < newInterests.length; i++)
+                    {
+                        if(currentInterests.includes(newInterests[i]))
+                        {
+                            console.log("Already there");
+                        }
+                        else
+                        {
+                            obj.Interests.push(newInterests[i]);
+                        }
+                    }
+
                 }
             });
 
-            inter = inter + "," + req.body.interest;
-
-            user.updateOne({ username: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests);
-                }
-            })
         }
         else {
             console.log(err)
@@ -993,7 +996,31 @@ app.post('/addInterest', function(req, res)
     });
 });
 
-
+app.post('/deleteInterest', function(req, res)
+{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) 
+        {
+            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
+            {
+                if(err || obj == null || obj == undefined)
+                {
+                    console.log("ERROR");
+                }
+                else
+                {
+                    obj.Interests.pop(req.body.interest);
+                }
+            });
+        }
+        else
+        {
+            console.log(err)
+            console.log("Something went wrong")
+        }    
+    });    
+});
 
 // ADMIN DASH ROUTE
 
@@ -1010,6 +1037,20 @@ app.post('/organizerdashboard', async function (req, res) {
     })
 })
 
+app.post('/event-search', function (req, res) {
+    //Running an event search with the given keywords in the database
+    // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
+    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
+        if (err) {
+            console.log(err)
+        }
+        else {
+            //TODO: Make sure that the RD engine works on this dataset as well
+            console.log(obj)
+            res.json(obj)
+        }
+    })
+})
 
 app.post('/events_search', function(req, res) {
     if(req.body.keyword!=undefined) {
@@ -1672,18 +1713,14 @@ app.post('/organizer-search', function(req, res){
 })
 
 app.post('/event-search', function(req, res) {
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, DECODED_TOKEN_STU) {
-        if(err) {
-            console.log(err)
-        }
-        else {
-            console.log("Now sending to the search module. ")
-
-        }
     //This is the event search functionality
     //1 is for the regular search
     //2 is the deep search
     //3 is the archive search
+
+
+
+    ///ROUTE HANDLING
 })
 
 app.post('/add-categories', function(err, obj) {

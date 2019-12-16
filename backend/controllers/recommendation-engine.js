@@ -32,7 +32,14 @@ module.exports = {
     }, 
 
     regSearch: function regSearch(keyword, USER) {
-
+        event.find({evnLocation: USER.Location}, function(err, EVNSOBJ) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                rd(USER, EVNSOBJ)
+            }
+        })
     }, 
 
     deepSearch: function deepSearch(keyword, USER) {
@@ -77,10 +84,6 @@ module.exports = {
             //BASIC RECOMMENDATIONS
 
             // => Further comes the events searching
-
-
-
-
             var n = 1;
             var event_interests = ev.evnInterests;
             var userinterests = decodedToken.interests;

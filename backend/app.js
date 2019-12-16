@@ -22,12 +22,12 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 
 
-
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
-var student_functions = require('./controllers/student_controller')
+var student_functions = require('./controllers/student_controller');
+var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
 const enc = require('./config/encryptionConfig.js');
 var serv = require('./config/severConfig.js');
@@ -545,7 +545,6 @@ app.post('/resetPasswordCode', function(req, res)
             {
                 console.log("Verified")
                 res.send(true);
-                resetPasswordFunction()
             }
             else
             {
@@ -556,46 +555,6 @@ app.post('/resetPasswordCode', function(req, res)
     });
 });
 
-function resetPasswordFunction(email, newPassword, code)
-{
-    console.log(email);
-    console.log(newPassword);
-    user.findOne({username: email}, function(err, obj) {
-        if(err) {
-            console.log(err)
-        }
-        else {
-            console.log(obj)
-            if(obj){
-                console.log("Found the objectwddffas")
-                bcrypt.hash(newPassword, saltRounds, function(err, BCRYPT_NEW_PWD_HASH) {
-                    if(err) {
-
-                    }
-                    else {
-                        user.findOneAndUpdate({username:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
-                            if(err) {
-                                console.log(err)
-                            }
-                            else{
-                                if(obj) {
-                                    console.log("Object is updated successfully: ", obj)
-                                }
-                                else {
-                                    console.log('INTERNAL ERROR. DID NOT FIND SUCH A USER');
-                                }
-                            }
-                        })
-                    }
-                })
-            }
-            else {
-                console.log("The user does not exist, or the authcode is incrorrect")
-            }
-        }
-    })
-    
-}
 
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
@@ -603,8 +562,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Email is: ", req.body.email) 
     console.log("Password: ", req.body.password) 
     console.log("Reseting password");
-    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode); 
-
+    user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode); 
+    res.send("Validated")
     
 });
 

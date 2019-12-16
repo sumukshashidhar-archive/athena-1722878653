@@ -209,7 +209,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                    profilePic: "/uploads/lak.png",
                                     Bio: req.body.bio,
                                     Interests: "",
                                     studentSchool: req.body.studentSchool, 
@@ -315,7 +315,7 @@ app.post('/registerorganizer', function (req, res) {
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                profilePic: "/uploads/lak.png",
                                 Verified: false
                             });
 
@@ -377,7 +377,7 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                 console.log("Verified");
                 console.log(decodedToken);
 
-                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path.slice(2,1000)}}, function(err, ibj)
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
                 {
                     if(err)
                     {
@@ -388,6 +388,8 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                     {
                         console.log("Updated profile pic!!");
                         res.send({path: req.files.uploads[0].path});
+                        
+
                     }
                 });
 
@@ -632,6 +634,58 @@ app.get('/getImage', function(req, res)
     res.sendFile(Path);
 });
 
+
+
+app.get('/imageUpload', function(req, res)
+{   
+    // console.log(req.url);
+    // var Path=path.join(__dirname, req.query.url)
+    // console.log(Path)
+    // res.sendFile(Path);
+
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Bio....")
+        if (!err && decodedToken != null) {
+            console.log("Verified: " + decodedToken.email);
+            user.findOne({username: decodedToken.email}, function(err, obj)
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    var Path=path.join(__dirname,obj.profilePic )
+                    console.log(obj.profilePic)
+                    console.log("Path: " + Path);
+                    console.log('HEREEE')
+                    res.sendFile(Path)
+
+                }
+            });
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+
+    console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/bio', function(req, res)
 {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -654,6 +708,14 @@ app.post('/bio', function(req, res)
         }
     });
 });
+
+
+
+
+
+
+
+
 
 
 /*

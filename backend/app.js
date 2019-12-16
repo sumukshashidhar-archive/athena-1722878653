@@ -18,7 +18,8 @@ const path = require('path');
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
-var Encrypt = require('./models/encrypt');
+var Encrypt = require('./models/encrypt.js');
+var CatE = require('./models/category.js');
 var SubCatModel = require('./models/subcategory-model.js');
 
 function encrypt(text) {
@@ -262,7 +263,7 @@ app.post('/register', function (req, res) {
                                         }
                                         else
                                         {
-                                            var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + encryptedObj._id;
+                                            var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
                                             console.log(output);
                                             sendMail(output,req.body.email);
                                         
@@ -367,7 +368,7 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+encrypt(req.body.email).encryptedData;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
 
                                     sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
@@ -391,21 +392,9 @@ app.post('/registerorganizer', function (req, res) {
 app.get('/verifyuser/*', function(req, res)
 {
     var idx = req.url.slice(12, 1000);
-    console.log(req.url);
-    console.log("ID: " + idx);
 
-    
-    Encrypt.find({_id: idx}, function(err, obj)
-    {
-        if(err)
+            user.updateOne({ _id: idx }, { $set: { Verified: true } }, function(err, obj1)
         {
-            console.log("ERROR + " + err);
-        }
-        else
-        {
-            console.log(obj + obj.iv);
-            user.updateOne({ username: obj.username }, { $set: { Verified: true } }, function(err, obj1)
-            {
                 if(err)
                 {
                     console.log("ERROR" + err);
@@ -418,8 +407,6 @@ app.get('/verifyuser/*', function(req, res)
                     res.redirect("http://localhost:4200/login");
                 }
             }); 
-        }
-    });
 });
 
 //////UPLOAD PROFILE PIC
@@ -1799,4 +1786,47 @@ app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
 
 
     console.log("FINISHED DELETING WITH EMAIL ID " + email);
+});
+
+app.post('/addCat', function(req, res)
+{
+    
+    
+    var catId = generate(6);
+    var catName = "Adventerous Journey";
+
+    var subCatNameArray = ["Nature", "Historic", "Investigation", "Survival"];
+    var subCat = new Array();
+
+    for(var i = 0; i < subCatNameArray.length; i++)
+    {
+        var subCatObj = 
+        {
+            subCatId: parseInt(generate(10)),
+            subCatName: subCatNameArray[i]
+        }
+
+        subCat.push(subCatObj);
+    }
+
+    
+    var cat = new CatE
+    ({
+        catId: catId,
+        catName: catName,
+        subCat: subCat
+    });
+
+    cat.save(function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log(obj);
+            res.redirect("file:///C:/Users/Dell/Documents/main/athena-pvt/addCat.html");
+        }
+    });
 });

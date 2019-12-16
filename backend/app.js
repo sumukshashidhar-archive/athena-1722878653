@@ -1702,6 +1702,21 @@ app.post('/student-search', function(req, res) {
 
 })
 
+app.post('/organizer-search', function(req, res){
+
+})
+
+app.post('/event-search', function(req, res) {
+    //This is the event search functionality
+    //1 is for the regular search
+    //2 is the deep search
+    //3 is the archive search
+
+
+
+    ///ROUTE HANDLING
+})
+
 app.post('/add-categories', function(err, obj) {
     category.findOne({catName: req.body.catName}, function(err, obj) {
         if(err) {

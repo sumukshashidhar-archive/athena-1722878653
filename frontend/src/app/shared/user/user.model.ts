@@ -11,5 +11,6 @@ export class User {
   securityAnswer: string;
   pincode: string;
   bio:string;
+  studentSchool: string;
 }
 

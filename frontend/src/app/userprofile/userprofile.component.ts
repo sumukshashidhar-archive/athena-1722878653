@@ -18,11 +18,38 @@ export class UserprofileComponent implements OnInit {
    decoded:any
   bio:any
   username:any
+  imageToShow:any
+  profileUrlExists=false
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any,  private auth: AuthService,
     private router: Router,private http:HttpClient,public achService: AchievementsService) {
       this.decoded = localStorage.getItem('access_token');
      }
 
+
+
+
+  postToIt(){
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+      this.http.get('http://localhost:3000/imageUpload',{ responseType:'blob'}).subscribe
+      ((response:Blob)=>{
+        console.log('response as blob');
+        console.log(response);
+         this.createImageFromBlob(response);
+      }); 
+    }
+
+
+    createImageFromBlob(image:Blob){
+      let reader= new FileReader();
+      reader.addEventListener("load",()=>{
+        this.imageToShow=reader.result;
+      },false);
+      this.profileUrlExists=true
+      if(image){
+        reader.readAsDataURL(image)
+      }
+      }
 
 
      getBio(email:String){
@@ -35,6 +62,7 @@ export class UserprofileComponent implements OnInit {
      }
   ngOnInit() {
    
+    
 
     var decodedtoken= jwt_decode(this.decoded)
     if (decodedtoken["role"] == "Student") {
@@ -43,6 +71,7 @@ export class UserprofileComponent implements OnInit {
       var BioInfo=this.getBio(EMAIL)
       console.log(BioInfo)
       console.log(EMAIL)
+      this.postToIt()
     }
     console.log(this.decoded)
     this.getAch()

@@ -1388,28 +1388,6 @@ app.get('/eventsss', function(req, res) {
                     }
                     else {
                         
-                        //Have the rd Engine in here :)
-                        //Binary Search Function
-                        function binarySearch(arr, x, start, end) { 
-                            // Base Condtion 
-                            if (start > end) return false; 
-                        
-                            // Find the middle index 
-                            let mid=Math.floor((start + end)/2); 
-                        
-                            // Compare mid with given key x 
-                            if (arr[mid]===x) return true; 
-                                
-                            // If element at mid is greater than x, 
-                            // search in the left half of mid 
-                            if(arr[mid] > x)  
-                                return binarySearch(arr, x, start, mid-1); 
-                            else
-                        
-                                // If element at mid is smaller than x, 
-                                // search in the right half of mid 
-                                return binarySearch(arr, x, mid+1, end); 
-                        } 
                         //This will have to be wrapped inside a function when its possible
                         //tot_length = MONGO_RETURN.length;
                         tot_length = sample_event_arr.length;

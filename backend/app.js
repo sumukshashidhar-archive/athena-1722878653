@@ -248,29 +248,12 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var encrypted = encrypt(req.body.email);
-                                    var encryptedObj = new Encrypt
-                                    ({
-                                        iv: encrypted.iv,
-                                        username: obj.username
-                                    });
-
-                                    encryptedObj.save(function(err, obj)
-                                    {
-                                        if(err)
-                                        {
-                                            console.log("ERROR + " + err);
-                                        }
-                                        else
-                                        {
-                                            var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-                                            console.log(output);
-                                            sendMail(output,req.body.email);
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
+                                    console.log(output);
+                                    sendMail(output,req.body.email);
                                         
-                                            //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                            res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
-                                        }
-                                    });
+                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                                 }
                             });
                         }
@@ -367,7 +350,7 @@ app.post('/registerorganizer', function (req, res) {
                                     res.status(422).send("Error in saving user");
                                 }
                                 else {
-                                    console.log(obj);
+                                    console.log(obj._id);
                                     var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
 
                                     sendMail(output,req.body.OrganizerEmail);

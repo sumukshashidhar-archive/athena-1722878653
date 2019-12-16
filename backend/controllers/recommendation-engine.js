@@ -152,7 +152,12 @@ module.exports = {
             else {
                 if(EVN_OBJECT) {
                     console.log(EVN_OBJECT)
-                    console.log("Got")
+                    console.log("Got the object")
+                    var total_length = EVN_OBJECT.length
+                    for(let i=0; i<total_length; i++) {
+                        var CUR_EVENT = EVN_OBJECT[i]
+                        console.log('Archiving event at: ', i, 'of ', total_length)
+                    }
                 }
                 else {
 

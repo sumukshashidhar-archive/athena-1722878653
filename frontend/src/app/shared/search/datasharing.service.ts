@@ -15,12 +15,10 @@ export class DatasharingService {
   selSearch: Search = {
     keyword: '',
     usecase: 1
-    
   };
 
   selSearch1: User_Search = {
     userKey: ""
-    // userUseCase: null
   }
 
   constructor(private http: HttpClient) {}
@@ -32,7 +30,7 @@ export class DatasharingService {
   postSearch(search: Search){
     console.log('Search method')
     console.log(search)
-    return this.http.post("http://localhost:3000/events_search", search)
+    return this.http.post("http://localhost:3000/events-search", search)
   }
 
   postUserSearch(userSearch: User_Search) {

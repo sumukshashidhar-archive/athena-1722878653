@@ -3,6 +3,7 @@ import { UserService } from "./../../../shared/user/user.service";
 import { Component, OnInit } from "@angular/core";
 import { NgForm, FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+export var orgemail
 
 @Component({
   selector: "app-signup-organizer",
@@ -43,9 +44,11 @@ export class SignupOrganizerComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.organizeruserService.postOrgUser(form.value).subscribe(
       res => {
+        orgemail=form.value['OrganizerEmail']
+        console.log(orgemail)
         this.showSuccessmessage = true;
         setTimeout(() => (this.showSuccessmessage = false), 3000);
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/orgverifyemail"]);
         console.log('Signup organizer works')
       },
       err => {

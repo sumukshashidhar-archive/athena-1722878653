@@ -18,7 +18,7 @@ export class UserService {
     securityAnswer: "",
     pincode: "",
     bio:"",
-    studentSchool: ""
+    studentSchool: "",
   };
 
   constructor(private http: HttpClient) {}

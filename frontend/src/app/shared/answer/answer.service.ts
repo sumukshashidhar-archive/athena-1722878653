@@ -11,6 +11,8 @@ export class AnswerService {
     email1: ""
   };
 
+  authCode: string;
+
   constructor(private http: HttpClient) {}
 
   postAnswer(securityAnswer: Answer) {

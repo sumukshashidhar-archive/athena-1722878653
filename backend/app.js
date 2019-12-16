@@ -468,7 +468,7 @@ app.post('/login', async function (req, res) {
                             }
                             else
                             {
-                                res.send(false);
+                                res.send("WRONG VER");
                                 console.log("USER NOT VERIFIED");
                             }
 
@@ -498,7 +498,7 @@ app.post('/login', async function (req, res) {
                     }
                     else {
                         console.log("Wrong Password")
-                        res.status(403).send("Wrong Password")
+                        res.status(403).send("WRONG PASS");
                         //WRONG PASSWORD
                     }
                 }

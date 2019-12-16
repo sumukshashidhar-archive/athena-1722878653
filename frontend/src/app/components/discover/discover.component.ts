@@ -29,13 +29,14 @@ export class DiscoverComponent implements OnInit {
     this.normal = document.getElementById("1")
     this.deep = document.getElementById("2")
     this.archive = document.getElementById("3")
-    if (this.normal){
+    console.log(this.normal, this.deep, this.archive)
+    if (this.normal.checked){
       form.value['usecase'] = 1
     }
-    else if (this.deep){
+    else if (this.deep.checked){
       form.value['usecase']= 2
     }
-    else if (this.archive) {
+    else if (this.archive.checked) {
       form.value['usecase'] = 3
     }
     console.log(form.value);

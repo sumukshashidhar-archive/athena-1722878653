@@ -1,3 +1,4 @@
+import { VerifyemailComponent } from './components/verifyemail/verifyemail.component';
 import { TokenInterceptorService } from "./shared/token-interceptor.service";
 import * as jwt_decode from "jwt-decode";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -41,8 +42,6 @@ import { KeyaddComponent } from './keyadd/keyadd.component';
 import { RunmoduleComponent } from './runmodule/runmodule.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { SearchresComponent } from './components/searchres/searchres.component';
-import { SearchComponent } from './search/search.component';
-import { VerificationComponent } from './components/verification/verification.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { CommonModule } from '@angular/common';
 import { TransferHttpCacheModule } from '@nguniversal/common';
@@ -59,8 +58,8 @@ export const appRoutes: Routes = [
     component: HomePageComponent
   },
   {
-    path:"search",
-    component: SearchComponent
+    path: "verifyemail",
+    component: VerifyemailComponent
   },
   {
     path: "homepage",
@@ -77,10 +76,6 @@ export const appRoutes: Routes = [
   {
     path: "f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e",
     component: RunmoduleComponent
-  },
-  {
-    path: "verify",
-    component: VerificationComponent
   },
   {
     path: "signup",
@@ -197,10 +192,8 @@ export const appRoutes: Routes = [
     RunmoduleComponent,
     UserprofileComponent,
     SearchresComponent,
-    SearchComponent,
-    VerificationComponent,
     PagenotfoundComponent,
-  
+    VerifyemailComponent
   ],
   imports: [
     JwtModule.forRoot({

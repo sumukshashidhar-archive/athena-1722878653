@@ -1,3 +1,5 @@
+// import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
 import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NewpassService } from "./../../shared/newpass/newpass.service";
@@ -14,6 +16,7 @@ export class ResetpassComponent implements OnInit {
   secondFormGroup: FormGroup;
 
   constructor(
+    private router:Router,
     private _formBuilder: FormBuilder,
     public newPass: NewpassService,
     public answerService: AnswerService
@@ -33,6 +36,7 @@ export class ResetpassComponent implements OnInit {
     form.value['email']=this.newPass.emailToSend;
     this.newPass.postPassword(form.value).subscribe(
       res => {
+        this.router.navigate(['/login']);
         console.log(res);
       },
       err => {

@@ -36,8 +36,6 @@ export class EventsComponent implements OnInit {
       res => {
         console.log(res)
         this.eventService.details1 = res;
-        EventDetails=res
-        console.log('THIS IS BEFORE VAR')
         console.log(this.eventService.details1)
         this.router.navigate(['/bigevents'])
       },

@@ -3,9 +3,9 @@ var admin_log = require('./../models/admin-log')
 
 
 module.exports = {
-    log_module_run: function log_module_run(authentication, module) {
+    log_module_run: function log_module_run(authentication, modules) {
         var newAdminLog = new admin_log( {
-            module: module,
+            module: modules,
             timeStamp: Date.now(),
             runBy: authentication
         })

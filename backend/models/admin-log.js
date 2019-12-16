@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 
 var admin_log_Schema = new mongoose.Schema({
     module: String, 
-    timeStamp: Number,
+    timeStamp: Date,
     runBy: String
 })
 

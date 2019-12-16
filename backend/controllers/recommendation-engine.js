@@ -7,6 +7,7 @@ var publicKEY = fs.readFileSync('./../keys/public.key', 'utf8');
 const enc = require('./../config/encryptionConfig.js');
 var event = require('./../models/event.js')
 var archevent = require('./../models/archived-event.js')
+var admin_logs = require('./admin_controller.js')
 module.exports = {
     //This must be sent the authorization header, else it will not work
     searchHandler: function searchHandler(useCase, keyword, tokenObject) {
@@ -39,6 +40,7 @@ module.exports = {
                 console.log(err)
             }
             else {
+                console.log("SENDING TO RD INTERESTS")
                 rd(USER, EVNSOBJ)
             }
         })
@@ -51,6 +53,7 @@ module.exports = {
                 console.log(err)
             }
             else {
+                console.log("SENDING TO RD INTERESTS")
                 console.log(EVNSOBJ)
                 rd(USER, EVNSOBJ)
             }
@@ -81,6 +84,7 @@ module.exports = {
                 console.log(err)
             }
             else {
+                console.log("SENDING TO RD")
                 console.log(EVNSOBJ)
                 rd(USEROBJ, EVNSOBJ)
             }
@@ -138,5 +142,8 @@ module.exports = {
             }
             return 0
         }
+    }, 
+    eventsArchive: function eventsArchive(authentication) {
+        admin_logs.log_module_run(authentication, "Archiver Function")
     }
 }

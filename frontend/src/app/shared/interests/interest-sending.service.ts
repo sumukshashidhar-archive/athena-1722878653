@@ -15,6 +15,6 @@ export class InterestSendingService {
 
   postInterest(interests: Interests) {
     console.log(interests);
-    return this.http.post("http://localhost:3000/interest", interests);
+    return this.http.post("http://localhost:3000/interests", interests);
   }
 }

@@ -943,7 +943,7 @@ app.get('/interests', async function (req, res) {
                 }
                 else {
                     console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests.split(','));
+                    res.send(mongoObj.Interests);
                 }
             })
         }
@@ -961,29 +961,33 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            user.findOne({ username: decodedToken.email }, function(err, obj)
+            var newInterests = req.body.interests;
+
+            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
             {
-                if(err)
+                if(err || obj == null || obj == undefined)
                 {
                     console.log(err);
                 }
                 else
                 {
-                    inter = obj.Interests;
+                    var currentInterests = obj.Interests;
+
+                    for(var i = 0; i < newInterests.length; i++)
+                    {
+                        if(currentInterests.includes(newInterests[i]))
+                        {
+                            console.log("Already there");
+                        }
+                        else
+                        {
+                            obj.Interests.push(newInterests[i]);
+                        }
+                    }
+
                 }
             });
 
-            inter = inter + "," + req.body.interest;
-
-            user.updateOne({ username: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests);
-                }
-            })
         }
         else {
             console.log(err)
@@ -992,7 +996,31 @@ app.post('/addInterest', function(req, res)
     });
 });
 
-
+app.post('/deleteInterest', function(req, res)
+{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) 
+        {
+            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
+            {
+                if(err || obj == null || obj == undefined)
+                {
+                    console.log("ERROR");
+                }
+                else
+                {
+                    obj.Interests.pop(req.body.interest);
+                }
+            });
+        }
+        else
+        {
+            console.log(err)
+            console.log("Something went wrong")
+        }    
+        
+});
 
 // ADMIN DASH ROUTE
 

@@ -43,7 +43,7 @@ const saltRounds = enc.saltRounds;
 // var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
-
+var daVinci = require ('./controllers/recommendation-engine.js')
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');

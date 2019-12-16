@@ -145,5 +145,19 @@ module.exports = {
     }, 
     eventsArchive: function eventsArchive(authentication) {
         admin_logs.log_module_run(authentication, "Archiver Function")
+        event.find({}, function(err, EVN_OBJECT) {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                if(EVN_OBJECT) {
+                    console.log(EVN_OBJECT)
+                    console.log("Got")
+                }
+                else {
+
+                }
+            }
+        })
     }
 }

@@ -9,26 +9,12 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./bigevents.component.css']
 })
 export class BigeventsComponent implements OnInit {
-  x: any = this.eventService.details1;
-  evnName:any
-  age:number
-  description:any
-  orgcontact:number
-  orgname:string
-  getEvents(){
-
-  }
+  x: any =  this.eventService.details1;
+  
   constructor(public eventService: EventService) { }
 
   ngOnInit() {
-    console.log(EventDetails)
-    this.evnName=EventDetails["evnName"]
-    this.age=EventDetails["evnTargetAge"]
-    this.description=EventDetails["evnDescription"]
-    this.orgcontact=EventDetails["evnOrganizerContact"]
-    this.orgname=EventDetails["evnOrganizerName"]
-
+    console.log(this.x)
   }
-
 
 }

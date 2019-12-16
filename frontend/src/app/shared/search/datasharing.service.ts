@@ -30,7 +30,7 @@ export class DatasharingService {
   postSearch(search: Search){
     console.log('Search method')
     console.log(search)
-    return this.http.post("http://localhost:3000/events-search", search)
+    return this.http.post("http://localhost:3000/event-search", search)
   }
 
   postUserSearch(userSearch: User_Search) {

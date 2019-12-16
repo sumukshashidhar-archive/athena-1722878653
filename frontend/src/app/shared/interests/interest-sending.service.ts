@@ -10,6 +10,9 @@ export class InterestSendingService {
   selectedInt: Interests = {
     interests: "",
   }
+
+  
+
   constructor(private http: HttpClient) {}
 
   postInterest(interests: Interests) {

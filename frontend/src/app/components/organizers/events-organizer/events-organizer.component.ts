@@ -19,6 +19,7 @@ export class EventsOrganizerComponent implements OnInit {
     this.maxDateSet()
   }
   onSubmit(form: NgForm) {
+    form.value['evnLocation'] = form.value['evnAdd1'] + '\n' + form.value['evnAdd2']
     this.eventService.postEvents(form.value).subscribe(
       res => {
         console.log(res);

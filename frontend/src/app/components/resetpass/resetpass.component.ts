@@ -36,8 +36,8 @@ export class ResetpassComponent implements OnInit {
     form.value['email']=this.newPass.emailToSend;
     this.newPass.postPassword(form.value).subscribe(
       res => {
-        this.router.navigate(['/login']);
         console.log(res);
+        this.router.navigate(['/login']);
       },
       err => {
         if (err.status === 422) {

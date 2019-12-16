@@ -1,4 +1,3 @@
-import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from "@angular/core";
 
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
@@ -18,10 +17,8 @@ export class AchievementsComponent implements OnInit {
   uploadedFiles: Array < File > ;
   showSpinner: boolean = true;
   ach_list: any;
-   link:string
-   actualLink:any
 
-  constructor(public achService: AchievementsService, private router: Router,private http: HttpClient, public auth:AuthService)  {}
+  constructor(public achService: AchievementsService, private router: Router,private http: HttpClient) {}
 
   ngOnInit() {
     this.refreshAchievements();
@@ -54,10 +51,6 @@ export class AchievementsComponent implements OnInit {
     );
   }
 
-
-    logout(){
-      this.auth.logout()
-    }
   refreshAchievements() {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];

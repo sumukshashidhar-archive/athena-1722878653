@@ -1693,7 +1693,14 @@ app.post('/click-on-events', function(req, res) {
     
 })
 
+app.post('/student-search', function(req, res) {
 
+
+
+
+
+
+})
 
 app.post('/add-categories', function(err, obj) {
     category.findOne({catName: req.body.catName}, function(err, obj) {

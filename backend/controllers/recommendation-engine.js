@@ -144,6 +144,7 @@ module.exports = {
         }
     }, 
     eventsArchive: function eventsArchive(authentication) {
+        var events_to_delete;
         admin_logs.log_module_run(authentication, "Archiver Function")
         event.find({}, function(err, EVN_OBJECT) {
             if(err) {
@@ -157,10 +158,51 @@ module.exports = {
                     for(let i=0; i<total_length; i++) {
                         var CUR_EVENT = EVN_OBJECT[i]
                         console.log('Archiving event at: ', i, 'of ', total_length)
+                        if(CUR_EVENT["evnEndDate"] < Date.now()) {
+                            var newArchEvent = new archevent({
+                                evnName: cur.evnName, 
+                                evnStartDate: cur.evnStartDate,
+                                evnEndDate: cur.evnEndDate,
+                                evnInterests: cur.interests, 
+                                evnOrganizerName: cur.evnOrganizerName,
+                                evnOrganizerPage: cur.evnOrganizerPage,
+                                evnOrganizerContact: cur.evnOrganizerContact,
+                                evnLocation: cur.evnLocation, 
+                                evnPincode: cur.evnPincode,
+                                evnAddress: cur.evnAddress, 
+                                evnTargetAge: cur.targetAge,
+                                // CONTACT SUMUK BELOW THIS
+                                evnDescription: cur.evnDescription, 
+                                evnRating: cur.evnRating
+                            })
+                            newArchEvent.save(function(err, obj) {
+                                if(err) {
+                                    console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+                                }
+                                else {
+                                    console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+                                    console.log(obj)
+                                    events_to_delete.push(cur._id)
+                                }
+                            })
+                        }
+                        
                     }
+                    total_length = events_to_delete.length
+                    for(let j=0; j < total_length; j++) {
+                        event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
+                            if(err) {
+                                console.log(err)
+                            }
+                            else {
+                                console.log("Deleted")
+                            }
+                        })
+                    }
+                    console.log("Deleted all redundant achievements")
                 }
                 else {
-
+                    console.log("got blank from mongo")
                 }
             }
         })

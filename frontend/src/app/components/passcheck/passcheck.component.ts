@@ -60,6 +60,7 @@ export class PasscheckComponent implements OnInit {
       res => {
         console.log(res);
         this.y = res;
+        this.answerService.authCode = form.value['code']
         if (res) {
           console.log(res)
           this.router.navigate(['/resetpass']);

@@ -20,23 +20,6 @@ const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
-var SubCatModel = require('./models/subcategory-model.js');
-
-function encrypt(text) {
- let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
- let encrypted = cipher.update(text);
- encrypted = Buffer.concat([encrypted, cipher.final()]);
- return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
-}
-
-function decrypt(text) {
- let iv = Buffer.from(text.iv, 'hex');
- let encryptedText = Buffer.from(text.encryptedData, 'hex');
- let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
- let decrypted = decipher.update(encryptedText);
- decrypted = Buffer.concat([decrypted, decipher.final()]);
- return decrypted.toString();
-}
 
 
 
@@ -128,12 +111,6 @@ function generate(n) {
 }
 
 
-
-function passwordSecurity() {
-
-}
-
-
 /*
 
 INITIALIZATIONS
@@ -202,9 +179,6 @@ var upload = multer({
 // });
 
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
-function resetPasswordFunction() {
-
-}
 
 
 
@@ -431,78 +405,82 @@ app.post('/login', async function (req, res) {
         console.log(usrobj);
         //checking that the user object is not null or undefined, to avoid further errors
         if (!err && (usrobj != null && usrobj != undefined)) {
-            bcrypt.compare(req.body.password, usrobj["password"], function (err, BCRYPT_RES) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    if (BCRYPT_RES) {
-                        console.log(usrobj)
-                        //Checking what user type the user is, and returning a JWT based on that
-                        if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
-                            if(usrobj.Verified)
-                            {
-                                //If the user object is a Student. I am finding a student with the required description
-                                Student.findOne({ EmailId: req.body.username }, function (err, obj) {
-                                    if(!err && (usrobj != null && usrobj != undefined) ) {
-                                        console.log(req.body)
-                                        //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
-                                        console.log(obj)
-                                        token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
-                                        console.log(token)
-                                        //Testing verification. Has to be removed during deployment
-                                        jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-                                            console.log(decodedToken)
-                                            console.log("Succesfully generated a JWT Token")
-                                            res.json(token)
-                                        })
-                                    }
-                                    else
-                                    {   
-                                        console.log("vhjk"); 
-                                        console.log(err);
-                                    }
 
+            if(usrobj.Verified)
+            {
+                bcrypt.compare(req.body.password, usrobj["password"], function (err, BCRYPT_RES) {
+                    if (err) 
+                    {
+                        console.log(err)
+                    }
+                    else 
+                    {
+                        if (BCRYPT_RES) 
+                        {
+                            console.log(usrobj)
+                            //Checking what user type the user is, and returning a JWT based on that
+                            if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) 
+                            {
+
+                                    //If the user object is a Student. I am finding a student with the required description
+                                    Student.findOne({ EmailId: req.body.username }, function (err, obj) {
+                                        if(!err && (usrobj != null && usrobj != undefined) ) {
+                                            console.log(req.body)
+                                            //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
+                                            console.log(obj)
+                                            token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"] }, privateKEY, enc.signOptions);
+                                            console.log(token)
+                                            //Testing verification. Has to be removed during deployment
+                                            jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+                                                console.log(decodedToken)
+                                                console.log("Succesfully generated a JWT Token")
+                                                res.json(token)
+                                            })
+                                        }
+                                        else
+                                        {   
+                                            console.log("vhjk"); 
+                                            console.log(err);
+                                        }
+
+
+                                    });
+                            }
+                            else if (usrobj["userType"] == "Organizer") {
+                                //Repeating for Organizer
+                                Organiser.findOne({ OrganiserEmail: req.body.username }, function (err, obj) {
+                                    if (usrobj.Verified) {
+                                        console.log("vhjk fghuio");
+
+                                        console.log(obj)
+                                        token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
+                                        res.json(token)
+                                    }
+                                    else {
+                                        res.send("WRONG VER");
+                                        console.log("ORGANISER NOT VERIFIED");
+                                    }
 
                                 });
                             }
-                            else
-                            {
-                                res.send("WRONG VER");
-                                console.log("USER NOT VERIFIED");
+                            else if (userobj["userType"] == "Admin") {
+
+                                //TODO: Make an admin block here
                             }
-
-
                         }
-                        else if (usrobj["userType"] == "Organizer") {
-                            //Repeating for Organizer
-                            Organiser.findOne({ OrganiserEmail: req.body.username }, function (err, obj) {
-                                if (err) {
-
-                                }
-                                else {
-                                    console.log("vhjk fghuio");
-
-                                    console.log(obj)
-                                    token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
-                                    res.json(token)
-                                }
-
-                            })
-
-                        }
-                        else if (userobj["userType"] == "Admin") {
-
-                            //TODO: Make an admin block here
+                        else {
+                            console.log("Wrong Password")
+                            res.status(403).send("WRONG PASS");
+                            //WRONG PASSWORD
                         }
                     }
-                    else {
-                        console.log("Wrong Password")
-                        res.status(403).send("WRONG PASS");
-                        //WRONG PASSWORD
-                    }
-                }
-            })
+                });
+            }
+            else
+            {
+                res.send("WRONG VER");
+                console.log("USER NOT VERIFIED");
+            } 
         }
         else {
             res.send(false);
@@ -1693,79 +1671,74 @@ app.post('/click-on-events', function(req, res) {
     
 })
 
+app.post('/student-search', function(req, res) {
 
 
-// app.post('/add-categories', function(err, obj) {
-//     category.findOne({catName: req.body.catName}, function(err, obj) {
-//         if(err) {
-//             console.log('INTERNAL ERROR. ');
-//         }
-//         else{
-//             if(obj) {
-//                 var newSubCat = new subcat({
-//                     subCatName: req.body.subCatName
 
-//                 })
-//                 newSubCat.save(function(err, subcatsave) {
-//                     if(err) {
-//                         console.log('INTERNAL ERROR. ', err);
-//                     }
-//                     else {
-//                         console.log(subcatsave)
 
-//                     }
-//                 })
-//             }
-//             else {
-//                 var newSubCategory = new subcat({
-//                     subCatName: req.body.subCatName
-//                 })
-//                 var newCategody = new category({
-//                     catName: req.body.catName, 
+
+
+})
+
+app.post('/organizer-search', function(req, res){
+
+})
+
+app.post('/event-search', function(req, res) {
+    //This is the event search functionality
+    //1 is for the regular search
+    //2 is the deep search
+    //3 is the archive search
+
+
+
+    ///ROUTE HANDLING
+})
+
+app.post('/add-categories', function(err, obj) {
+    category.findOne({catName: req.body.catName}, function(err, obj) {
+        if(err) {
+            console.log('INTERNAL ERROR. ');
+        }
+        else{
+            if(obj) {
+                var newSubCat = new subcat({
+                    subCatName: req.body.subCatName
+
+                })
+                newSubCat.save(function(err, subcatsave) {
+                    if(err) {
+                        console.log('INTERNAL ERROR. ', err);
+                    }
+                    else {
+                        console.log(subcatsave)
+
+                    }
+                })
+            }
+            else {
+                var newSubCategory = new subcat({
+                    subCatName: req.body.subCatName
+                })
+                var newCategody = new category({
+                    catName: req.body.catName, 
                     
-//                 })
-//             }
-//         }
-//     })   
-// });
+                })
+            }
+        }
+    })   
+});
 
-app.get('/getCategoriesAll', function(req, res)
+app.post('/getCategories', function(req, res)
 {
-    CatE.find({}, function(err, obj)
+    SubCatModel.find({}, function(err, obj)
     {
         if(err)
         {
             console.log()
         }
-        else
-        {
-            console.log(obj);
-            res.send(obj);
-        }
     });
 });
-
-app.get('/getCategoriesId', function(req, res)
-{   
-    console.log(req.query.catId);
-    var id = parseInt(req.query.catId);
-    console.log(id);
-
-    CatE.findOne({catId: id}, function(err, obj)
-    {
-        if(err)
-        {
-            console.log()
-        }
-        else
-        {   
-            console.log(obj);
-            console.log(obj.catId);
-            res.send(obj.subCat)
-        }
-    });
-});
-
 
 app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
 {

@@ -427,7 +427,7 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
 app.post('/login', async function (req, res) {
     //First finding if such a user exists in the database
     user.findOne({ username: req.body.username }, function (err, usrobj) {
-
+        console.log(usrobj);
         //checking that the user object is not null or undefined, to avoid further errors
         if (!err && (usrobj != null && usrobj != undefined)) {
             bcrypt.compare(req.body.password, usrobj["password"], function (err, BCRYPT_RES) {
@@ -441,11 +441,9 @@ app.post('/login', async function (req, res) {
                         if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
                             if(usrobj.Verified)
                             {
-
-                            
                                 //If the user object is a Student. I am finding a student with the required description
                                 Student.findOne({ EmailId: req.body.username }, function (err, obj) {
-                                    if(!err && (!usrobj && usrobj != undefined) ) {
+                                    if(!err && (usrobj != null && usrobj != undefined) ) {
                                         console.log(req.body)
                                         //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                         console.log(obj)
@@ -459,7 +457,8 @@ app.post('/login', async function (req, res) {
                                         })
                                     }
                                     else
-                                    {
+                                    {   
+                                        console.log("vhjk"); 
                                         console.log(err);
                                     }
 
@@ -481,6 +480,8 @@ app.post('/login', async function (req, res) {
 
                                 }
                                 else {
+                                    console.log("vhjk fghuio");
+
                                     console.log(obj)
                                     token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                     res.json(token)

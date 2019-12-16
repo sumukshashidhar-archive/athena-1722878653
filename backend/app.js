@@ -15,8 +15,27 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 // const category = require('./models/category-model')
 // const subcat = require('./models/subcategory-model')
+const algorithm = 'aes-256-cbc';
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+var Encrypt = require('./models/encrypt');
+var SubCatModel = require('./models/subcategory-model.js');
 
+function encrypt(text) {
+ let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+ let encrypted = cipher.update(text);
+ encrypted = Buffer.concat([encrypted, cipher.final()]);
+ return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };
+}
 
+function decrypt(text) {
+ let iv = Buffer.from(text.iv, 'hex');
+ let encryptedText = Buffer.from(text.encryptedData, 'hex');
+ let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+ let decrypted = decipher.update(encryptedText);
+ decrypted = Buffer.concat([decrypted, decipher.final()]);
+ return decrypted.toString();
+}
 
 
 
@@ -109,6 +128,11 @@ function generate(n) {
 
 
 
+function passwordSecurity() {
+
+}
+
+
 /*
 
 INITIALIZATIONS
@@ -177,33 +201,9 @@ var upload = multer({
 // });
 
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
+function resetPasswordFunction() {
 
-
-
-/*
-
-ventLogSchema
-
-ROUTES AHEAD!---->
-
-
-
-*/
-
-
-
-
-
-
-
-
-/*
-
-
-ROUTES PRODUCTION READY
-
-
-*/
+}
 
 
 
@@ -225,6 +225,7 @@ app.post('/register', function (req, res) {
                             res.status(500).send("Internal Server Error") //Sends an internal server err
                         }
                         else {
+                            
                             console.log("registering user");
                             var newUser = new user
                                 ({
@@ -235,7 +236,8 @@ app.post('/register', function (req, res) {
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
                                     Bio: req.body.bio,
-                                    Verified: false //default
+                                    Interests: "",
+                                    Verified: false
                                 });
 
                             newUser.save(function (err, obj) {
@@ -245,13 +247,29 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    // This will need to be SHA hashed to allow for better verification systems. 
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+                                    var encrypted = encrypt(req.body.email);
+                                    var encryptedObj = new Encrypt
+                                    ({
+                                        iv: encrypted.iv,
+                                        username: obj.username
+                                    });
 
-                                    sendMail(output,req.body.email);
-                                    
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                                    encryptedObj.save(function(err, obj)
+                                    {
+                                        if(err)
+                                        {
+                                            console.log("ERROR + " + err);
+                                        }
+                                        else
+                                        {
+                                            var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + encryptedObj._id;
+                                            console.log(output);
+                                            sendMail(output,req.body.email);
+                                        
+                                            //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                                            res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -289,6 +307,7 @@ app.post('/updateinfo', function (req, res) {
                                 var PhoneNo = req.body.phoneNo
                                 var Bio = req.body.bio
                                 var SLocation = req.body.Slocation
+
                                 user.updateOne({ id: obj._id }, { $set: { FirstName: req.body.FirstName, LastName: req.body.LastName, PhoneNo: req.body.phoneNo, Bio: req.body.bio, SLocation: req.body.Slocation } }, function (err, obj) {
                                     if (err) {
                                         console.log(err)
@@ -348,7 +367,7 @@ app.post('/registerorganizer', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+obj._id;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/'+encrypt(req.body.email).encryptedData;
 
                                     sendMail(output,req.body.OrganizerEmail);
                                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
@@ -371,20 +390,36 @@ app.post('/registerorganizer', function (req, res) {
 
 app.get('/verifyuser/*', function(req, res)
 {
-    idV = req.url.slice(12, 100);
-    user.updateOne({ _id: idV }, { $set: { Verified: true } }, function(err, obj)
+    var idx = req.url.slice(12, 1000);
+    console.log(req.url);
+    console.log("ID: " + idx);
+
+    
+    Encrypt.find({_id: idx}, function(err, obj)
     {
         if(err)
         {
-            console.log("ERROR" + err);
+            console.log("ERROR + " + err);
         }
         else
         {
-            console.log("VERIFIED"); 
-            console.log(obj);
-            res.redirect("http://localhost:4200/login"); //Does this work?
+            console.log(obj + obj.iv);
+            user.updateOne({ username: obj.username }, { $set: { Verified: true } }, function(err, obj1)
+            {
+                if(err)
+                {
+                    console.log("ERROR" + err);
+                }
+                else
+                {   
+
+                    console.log("VERIFIED"); 
+                    console.log(obj1);
+                    res.redirect("http://localhost:4200/login");
+                }
+            }); 
         }
-    }); 
+    });
 });
 
 //////UPLOAD PROFILE PIC
@@ -499,8 +534,17 @@ app.post('/login', async function (req, res) {
 app.post('/reset', function (req, res) {
     //Finding a user from the DB
     user.findOne({ username: req.body.email }, function (err, obj) {
-        if (err) {
-            console.log(err)
+        if (!obj) {
+            if(err)
+            {
+                console.log(err);
+                res.send(false);
+            }
+            else
+            {
+                console.log("COULDN'T FIND OBJECT");
+                res.send(false);
+            }
         }
         else {
             var code = generate(6); 
@@ -539,6 +583,7 @@ app.post('/resetPasswordCode', function(req, res)
             {
                 console.log("Verified")
                 res.send(true);
+                resetPasswordFunction()
             }
             else
             {
@@ -549,45 +594,56 @@ app.post('/resetPasswordCode', function(req, res)
     });
 });
 
-//Method for resetting passwords
-app.post('/resetpassword', function (req, res) {
-    //Finding if a user exists with the same email
-    console.log(req.body.email);
-    user.findOne({ username: req.body.email }, function (err, obj) {
-        if (err) {
-            //if an error, logging it
+function resetPasswordFunction(email, newPassword, code)
+{
+    console.log(email);
+    console.log(newPassword);
+    user.findOne({email: email, authCode: code}, function(err, obj) {
+        if(err) {
             console.log(err)
         }
         else {
-            if (obj == {} || obj == undefined || obj == null) {
-                console.log("works")
-            }
-            else {
-                //Then comparing it with the bcypt hash present in the users thing
-                bcrypt.compare(req.body.securityAnswer, obj["securityAnswer"], function (err, BCRYPT_RES) {
-                    if (err) {
-                        //if there is an error, sends false
-                        console.log(err)
-                        res.send(false)
+            if(obj){
+                console.log("Found the object")
+                bcrypt.hash(newPassword, saltRounds, function(err, BCRYPT_NEW_PWD_HASH) {
+                    if(err) {
+
                     }
                     else {
-                        if (BCRYPT_RES) {
-                            //if there is no error, it checks if the response is true
-                            console.log("Succeeded.")
-                            res.send(true).json(obj["authCode"])
-                        }
-                        else {
-                            //If not it outputs false
-                            console.log("Authentication Error")
-                            res.send(false)
-                        }
+                        user.findOneAndUpdate({email:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
+                            if(err) {
+                                console.log(err)
+                            }
+                            else{
+                                if(obj) {
+                                    console.log("Object is updated successfully: ", obj)
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. DID NOT FIND SUCH A USER');
+                                }
+                            }
+                        })
                     }
                 })
             }
-
+            else {
+                console.log("The user does not exist, or the authcode is incrorrect")
+            }
         }
     })
-})
+    
+}
+
+//Method for resetting passwords
+app.post('/resetpassword', function (req, res) {
+    //Finding if a user exists with the same email
+    console.log("Reseting password");
+    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);    
+    
+});
+
+
+//I BELIEVE THIS IS REDUNDANT CODE:
 
 
 app.post('/new-password', function (err, obj) {
@@ -910,12 +966,12 @@ app.post('/delete-achievement', function (req, res) {
 
 //INTERESTS
 
-app.get('/interests', async function (req, res) {
+app.get('/interest  ', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {
             console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+            user.findOne({ username: decodedToken.email }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
@@ -939,7 +995,7 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            Student.findOne({ EmailId: decodedToken.email }, function(err, obj)
+            user.findOne({ username: decodedToken.email }, function(err, obj)
             {
                 if(err)
                 {
@@ -953,7 +1009,7 @@ app.post('/addInterest', function(req, res)
 
             inter = inter + "," + req.body.interest;
 
-            Student.updateOne({ EmailId: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
+            user.updateOne({ username: decodedToken.email },{ $set: {Interests: inter} }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
@@ -969,6 +1025,7 @@ app.post('/addInterest', function(req, res)
         }
     });
 });
+
 
 
 // ADMIN DASH ROUTE
@@ -1682,6 +1739,17 @@ app.post('/add-categories', function(err, obj) {
             }
         }
     })   
+});
+
+app.post('/getCategories', function(req, res)
+{
+    SubCatModel.find({}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log()
+        }
+    });
 });
 
 app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)

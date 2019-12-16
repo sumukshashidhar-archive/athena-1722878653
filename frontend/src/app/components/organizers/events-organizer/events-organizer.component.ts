@@ -10,10 +10,14 @@ import { EventService } from "./../../../shared/events/event.service";
 })
 export class EventsOrganizerComponent implements OnInit {
   returnedEvents: any;
+  maxDate: string;
+  newDate: string;
 
   constructor(public eventService: EventService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.maxDateSet()
+  }
   onSubmit(form: NgForm) {
     this.eventService.postEvents(form.value).subscribe(
       res => {
@@ -28,4 +32,29 @@ export class EventsOrganizerComponent implements OnInit {
       }
     );
   }
+
+  maxDateSet(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var newmm; 
+    var newdd;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        newdd = '0' + dd.toString();
+    }
+    else {
+      newdd = dd.toString();
+    }
+    if (mm < 10) {
+        newmm = '0' + mm.toString(mm);
+    }
+    else {
+      newmm = mm.toString();
+    }
+    this.maxDate = yyyy + '-' + newmm + '-' + newdd;
+
+  }
+
+
 }

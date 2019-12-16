@@ -11,7 +11,7 @@ export var bio
 export class Signup2Component implements OnInit {
   // interest: string;
   // interests = [];
-  constructor(private interestsendingservice: InterestSendingService,public auth:AuthService) {}
+  constructor(public interestsendingservice: InterestSendingService,public auth:AuthService) {}
   // onClick() {
   //   this.interests.push({
   //     name: this.interest

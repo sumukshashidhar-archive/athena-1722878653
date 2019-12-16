@@ -15,7 +15,7 @@ export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
   x: string;
 
-  constructor(private eventService: EventService, private router: Router) {}
+  constructor(public eventService: EventService, private router: Router) {}
 
   ngOnInit() {
     this.refreshEvents();

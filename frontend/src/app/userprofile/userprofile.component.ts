@@ -1,11 +1,12 @@
 
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { Achievements } from '../shared/achievements/achievements.model';
 import { AchievementsService } from '../shared/achievements/achievements.service';
 import * as jwt_decode from 'jwt-decode';
+import { LOCAL_STORAGE } from '@ng-toolkit/universal';
 
 @Component({
   selector: 'app-userprofile',
@@ -17,7 +18,7 @@ export class UserprofileComponent implements OnInit {
    decoded:any
   bio:any
   username:any
-  constructor( private auth: AuthService,
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any,  private auth: AuthService,
     private router: Router,private http:HttpClient,public achService: AchievementsService) {
       this.decoded = localStorage.getItem('access_token');
      }

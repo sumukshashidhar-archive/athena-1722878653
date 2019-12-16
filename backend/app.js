@@ -1695,50 +1695,77 @@ app.post('/click-on-events', function(req, res) {
 
 
 
-app.post('/add-categories', function(err, obj) {
-    category.findOne({catName: req.body.catName}, function(err, obj) {
-        if(err) {
-            console.log('INTERNAL ERROR. ');
-        }
-        else{
-            if(obj) {
-                var newSubCat = new subcat({
-                    subCatName: req.body.subCatName
+// app.post('/add-categories', function(err, obj) {
+//     category.findOne({catName: req.body.catName}, function(err, obj) {
+//         if(err) {
+//             console.log('INTERNAL ERROR. ');
+//         }
+//         else{
+//             if(obj) {
+//                 var newSubCat = new subcat({
+//                     subCatName: req.body.subCatName
 
-                })
-                newSubCat.save(function(err, subcatsave) {
-                    if(err) {
-                        console.log('INTERNAL ERROR. ', err);
-                    }
-                    else {
-                        console.log(subcatsave)
+//                 })
+//                 newSubCat.save(function(err, subcatsave) {
+//                     if(err) {
+//                         console.log('INTERNAL ERROR. ', err);
+//                     }
+//                     else {
+//                         console.log(subcatsave)
 
-                    }
-                })
-            }
-            else {
-                var newSubCategory = new subcat({
-                    subCatName: req.body.subCatName
-                })
-                var newCategody = new category({
-                    catName: req.body.catName, 
+//                     }
+//                 })
+//             }
+//             else {
+//                 var newSubCategory = new subcat({
+//                     subCatName: req.body.subCatName
+//                 })
+//                 var newCategody = new category({
+//                     catName: req.body.catName, 
                     
-                })
-            }
-        }
-    })   
-});
+//                 })
+//             }
+//         }
+//     })   
+// });
 
-app.post('/getCategories', function(req, res)
+app.get('/getCategoriesAll', function(req, res)
 {
-    SubCatModel.find({}, function(err, obj)
+    CatE.find({}, function(err, obj)
     {
         if(err)
         {
             console.log()
         }
+        else
+        {
+            console.log(obj);
+            res.send(obj);
+        }
     });
 });
+
+app.get('/getCategoriesId', function(req, res)
+{   
+    console.log(req.query.catId);
+    var id = parseInt(req.query.catId);
+    console.log(id);
+
+    CatE.findOne({catId: id}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log()
+        }
+        else
+        {   
+            console.log(obj);
+            console.log(obj.catId);
+            res.send(obj.subCat)
+        }
+    });
+});
+
 
 app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function(req, res)
 {

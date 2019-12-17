@@ -1,4 +1,11 @@
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 <body>
+
+
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
         <div class="navbar-collapse collapse justify-content-between">
           <ul class="navbar-nav mr-auto">
@@ -24,12 +31,49 @@
         </div>
       </nav>
 
+    <div>
+        <div class="row" style="padding-left: 300px;padding-top: 200px;">
+            <div class="col-xs-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div class="row">
+                                <div class="col-xs-4">
 
-      <div class="form">
-        <form #f="ngForm">
-          <input type="text" placeholder="Add your interests as comma separated values" id="txtSearch" name="interests" #interests="ngModel" required [(ngModel)]="interestsendingservice.selectedInt.interests"
-            />
-          <button class="btn btn-primary" (click)="onSubmit(f)">Submit</button>
-        </form>
-      </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h4> User Interest </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-xs-6">
+                                <label ><strong>Category Name</strong></label>
+                                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-xs-6">
+                                <label> Sub category Name </label>
+                                <ngx-select-dropdown  [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat" [options]="subcatOptions"></ngx-select-dropdown>
+
+                            </div>
+
+                            </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row text-center">
+                            <div class="col-xs-3">
+                                <button type="button" class="btn btn-success btn-block" (click)="adduserInterestList()">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </body>

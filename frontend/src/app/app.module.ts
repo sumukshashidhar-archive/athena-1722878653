@@ -47,6 +47,8 @@ import { CommonModule } from '@angular/common';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
 import { OrgverifyemailComponent } from './components/orgverifyemail/orgverifyemail.component';
+import { SelectDropDownModule} from 'ngx-select-dropdown';
+
 
 
 export function tokenGetter() {
@@ -199,7 +201,8 @@ export const appRoutes: Routes = [
     SearchresComponent,
     PagenotfoundComponent,
     VerifyemailComponent,
-    OrgverifyemailComponent
+    OrgverifyemailComponent,
+
   ],
   imports: [
     JwtModule.forRoot({
@@ -222,7 +225,8 @@ export const appRoutes: Routes = [
     MaterialModule,
     CommonModule,
     TransferHttpCacheModule,
-    NgtUniversalModule
+    NgtUniversalModule,
+    SelectDropDownModule
   ],
   providers: [
     Title,

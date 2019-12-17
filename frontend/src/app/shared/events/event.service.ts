@@ -35,7 +35,7 @@ export class EventService {
     const token=localStorage.getItem('access_token')
     const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
     const options = {
-      headers: headers
+      headers : headers
     };
     return this.http.get("http://localhost:3000/events",options);
   }
@@ -48,5 +48,23 @@ export class EventService {
   getEventDetails(_id: Details ){
     console.log(_id)
     return this.http.post("http://localhost:3000/click-on-events", _id)
+  }
+
+  getcategoryDetails() {
+    return this.http.get("http://localhost:3000/getCategoriesAll");
+  }
+
+  getSubCategory(id) {
+    return this.http.get("http://localhost:3000/getCategoriesId?catId="+id);
+  }
+
+  postUserInterest(userInterest) {
+
+    const token=localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
+    return this.http.post("http://localhost:3000/addInterest", userInterest,options);
   }
 }

@@ -12,6 +12,7 @@ import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
 import { Achievements } from 'src/app/shared/achievements/achievements.model';
 import { LOCAL_STORAGE } from '@ng-toolkit/universal';
+import{school} from '../signup/signup.component'
 export var decoded :any 
 @Component({
   selector: "app-dashboard",
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit {
   ipAddress:string;
   path:''
   ach_list:any
-   
+   School=school
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any, 
     
     private auth: AuthService,
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
     private http:HttpClient,
     private ach:AchievementsService
   ) {
+    
     decoded= localStorage.getItem('access_token');
     var decodedtoken= jwt_decode(decoded)
     var email=decodedtoken['email']
@@ -159,6 +161,7 @@ postEvents() {
     });
   }
   ngOnInit() {
+    console.log(this.School)
     var decodedtoken= jwt_decode(decoded)
     this.getIP();
 

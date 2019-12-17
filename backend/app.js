@@ -9,7 +9,7 @@ const cors = require('cors');
 var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
-var tempsearch = require('./controllers/search/search_controller')
+// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
@@ -22,12 +22,12 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 
 
-
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
-var student_functions = require('./controllers/student_controller')
+var student_functions = require('./controllers/student_controller');
+var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
 const enc = require('./config/encryptionConfig.js');
 var serv = require('./config/severConfig.js');
@@ -40,10 +40,10 @@ var key_controller = require('./controllers/keystore_control')
 var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
 // const alg = require('./controllers/algorithm_runtime')
-var recommnedations = require("./recommendation/recommender");
+// var recommnedations = require("./recommendation/recommender");
 const  multipart  =  require('connect-multiparty');
 const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
-
+var daVinci = require ('./controllers/recommendation-engine.js')
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
@@ -209,7 +209,7 @@ app.post('/register', function (req, res) {
                                     password: BCRYPT_PASSWORD_HASH,
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                    profilePic: "/uploads/lak.png",
                                     Bio: req.body.bio,
                                     Interests: "",
                                     studentSchool: req.body.studentSchool, 
@@ -315,7 +315,7 @@ app.post('/registerorganizer', function (req, res) {
                                 password: BCRYPT_PASSWORD_HASH,
                                 securityQuestion: req.body.securityQuestion,
                                 securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "/uploads/AreF3U9Qbl7-MtjVKcRKZa0x.png",
+                                profilePic: "/uploads/lak.png",
                                 Verified: false
                             });
 
@@ -377,7 +377,7 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                 console.log("Verified");
                 console.log(decodedToken);
 
-                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path.slice(2,1000)}}, function(err, ibj)
+                user.findOneAndUpdate({username: decodedToken.email}, {$set: {profilePic: req.files.uploads[0].path}}, function(err, ibj)
                 {
                     if(err)
                     {
@@ -388,6 +388,8 @@ app.post('/uploadProfile',  multipartMiddleware, (req, res) => {
                     {
                         console.log("Updated profile pic!!");
                         res.send({path: req.files.uploads[0].path});
+                        
+
                     }
                 });
 
@@ -545,7 +547,6 @@ app.post('/resetPasswordCode', function(req, res)
             {
                 console.log("Verified")
                 res.send(true);
-                resetPasswordFunction()
             }
             else
             {
@@ -556,46 +557,6 @@ app.post('/resetPasswordCode', function(req, res)
     });
 });
 
-function resetPasswordFunction(email, newPassword, code)
-{
-    console.log(email);
-    console.log(newPassword);
-    user.findOne({username: email}, function(err, obj) {
-        if(err) {
-            console.log(err)
-        }
-        else {
-            console.log(obj)
-            if(obj){
-                console.log("Found the objectwddffas")
-                bcrypt.hash(newPassword, saltRounds, function(err, BCRYPT_NEW_PWD_HASH) {
-                    if(err) {
-
-                    }
-                    else {
-                        user.findOneAndUpdate({username:email}, {$set: {password: BCRYPT_NEW_PWD_HASH}}, function(err, obj){
-                            if(err) {
-                                console.log(err)
-                            }
-                            else{
-                                if(obj) {
-                                    console.log("Object is updated successfully: ", obj)
-                                }
-                                else {
-                                    console.log('INTERNAL ERROR. DID NOT FIND SUCH A USER');
-                                }
-                            }
-                        })
-                    }
-                })
-            }
-            else {
-                console.log("The user does not exist, or the authcode is incrorrect")
-            }
-        }
-    })
-    
-}
 
 //Method for resetting passwords
 app.post('/resetpassword', function (req, res) {
@@ -603,8 +564,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Email is: ", req.body.email) 
     console.log("Password: ", req.body.password) 
     console.log("Reseting password");
-    resetPasswordFunction(req.body.email, req.body.password, req.body.authCode); 
-
+    user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode); 
+    res.send("Validated")
     
 });
 
@@ -673,6 +634,58 @@ app.get('/getImage', function(req, res)
     res.sendFile(Path);
 });
 
+
+
+app.get('/imageUpload', function(req, res)
+{   
+    // console.log(req.url);
+    // var Path=path.join(__dirname, req.query.url)
+    // console.log(Path)
+    // res.sendFile(Path);
+
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Bio....")
+        if (!err && decodedToken != null) {
+            console.log("Verified: " + decodedToken.email);
+            user.findOne({username: decodedToken.email}, function(err, obj)
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    var Path=path.join(__dirname,obj.profilePic )
+                    console.log(obj.profilePic)
+                    console.log("Path: " + Path);
+                    console.log('HEREEE')
+                    res.sendFile(Path)
+
+                }
+            });
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+
+    console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/bio', function(req, res)
 {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -695,6 +708,14 @@ app.post('/bio', function(req, res)
         }
     });
 });
+
+
+
+
+
+
+
+
 
 
 /*
@@ -761,7 +782,8 @@ app.post('/organizer-events', async function (req, res) {
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
-                    evnDate: req.body.evnDate1,
+                    evnDate1: req.body.evnDate1,
+                    evnDate2:req.body.evnDate2,
                     evnIntersts: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
@@ -814,7 +836,6 @@ app.get('/events', async function (req, res) {
 
     })
 })
-
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
@@ -856,7 +877,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
     }
     else
     {   
-        console.log(req.body, req.files, req.files.uploads[0].path);
+        // console.log(req.body, req.files, req.files.uploads[0].path);
 
 
         jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -867,7 +888,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
                     ({
                         CategoryId: achCat,
                         SubCategoryId: achSubCat,
-                        Image: req.files.uploads[0].path
+                        Image:path.join(__dirname,req.files.uploads[0].path)
                     })
                 newAch.save(function (err, achobj) {
                     if (err) {
@@ -928,6 +949,7 @@ app.post('/delete-achievement', function (req, res) {
         }
     })
 })
+
 
 
 //INTERESTS
@@ -1038,18 +1060,13 @@ app.post('/organizerdashboard', async function (req, res) {
 })
 
 app.post('/event-search', function (req, res) {
-    //Running an event search with the given keywords in the database
-    // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
-        if (err) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if(err) {
             console.log(err)
         }
         else {
-            //TODO: Make sure that the RD engine works on this dataset as well
-            console.log(obj)
-            res.json(obj)
+            daVinci.explore(decodedToken)
         }
-    })
 })
 
 app.post('/events_search', function(req, res) {
@@ -1388,28 +1405,6 @@ app.get('/eventsss', function(req, res) {
                     }
                     else {
                         
-                        //Have the rd Engine in here :)
-                        //Binary Search Function
-                        function binarySearch(arr, x, start, end) { 
-                            // Base Condtion 
-                            if (start > end) return false; 
-                        
-                            // Find the middle index 
-                            let mid=Math.floor((start + end)/2); 
-                        
-                            // Compare mid with given key x 
-                            if (arr[mid]===x) return true; 
-                                
-                            // If element at mid is greater than x, 
-                            // search in the left half of mid 
-                            if(arr[mid] > x)  
-                                return binarySearch(arr, x, start, mid-1); 
-                            else
-                        
-                                // If element at mid is smaller than x, 
-                                // search in the right half of mid 
-                                return binarySearch(arr, x, mid+1, end); 
-                        } 
                         //This will have to be wrapped inside a function when its possible
                         //tot_length = MONGO_RETURN.length;
                         tot_length = sample_event_arr.length;
@@ -1759,7 +1754,7 @@ app.post('/add-categories', function(err, obj) {
 
 app.get('/getCategoriesAll', function(req, res)
 {
-    CatE.find({}, function(err, obj)
+    CatE.find({}, {subCat: 0}, function(err, obj)
     {
         if(err)
         {

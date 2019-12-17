@@ -46,7 +46,8 @@
         </div>
       </div> -->
     </nav>
-    <button id="dp" data-toggle="modal" data-target="#exampleModal"></button>
+    <img [src]="imageToShow" *ngIf="profileUrlExists" data-toggle="modal" data-target="#exampleModal">
+    <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
     
     <h2 style="color: white;">Welcome, {{ username }}</h2>
 
@@ -74,8 +75,7 @@
         </div>
       </div>
     </div>
-
-    <img [src]="imageToShow">
+    <!-- <img [src]="imageToShow"> -->
     <p></p>
     <!-- <div class="table" style="overflow: hidden;
     max-width: 50%;">

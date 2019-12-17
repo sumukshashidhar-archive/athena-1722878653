@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 export var email
+export var school
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
@@ -55,6 +56,8 @@ export class SignupComponent implements OnInit {
     this.test = (document.getElementById('bio') as HTMLTextAreaElement).value
     form.value['bio']=this.test;
     email=form.value['email']
+    school=form.value['studentSchool']
+    console.log(school)
     console.log(email)
     this.userService.postUser(form.value).subscribe(
       res => {

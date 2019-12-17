@@ -32,10 +32,12 @@
     "@angular/router": "~8.2.11",
     "@auth0/angular-jwt": "^3.0.0",
     "@ng-toolkit/universal": "^8.0.3",
+    "@nguniversal/common": "8.1.0",
     "@nguniversal/express-engine": "v8.2.6",
     "@nguniversal/module-map-ngfactory-loader": "v8.2.6",
     "angular-popper": "^2.0.1",
     "bootstrap": "^4.3.1",
+    "domino": "^2.1.3",
     "express": "^4.15.2",
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
@@ -43,12 +45,11 @@
     "ng-recaptcha": "^5.0.0",
     "ngx-captcha": "^7.0.0",
     "ngx-cookie-service": "^2.2.0",
+    "ngx-select-dropdown": "^1.2.1",
     "popper.js": "^1.16.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "@nguniversal/common": "8.1.0",
-    "domino": "^2.1.3"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.12",

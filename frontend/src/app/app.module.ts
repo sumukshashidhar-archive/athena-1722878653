@@ -48,6 +48,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
 import { OrgverifyemailComponent } from './components/orgverifyemail/orgverifyemail.component';
 import { SelectDropDownModule} from 'ngx-select-dropdown';
+import { YoureventsComponent } from './components/organizers/yourevents/yourevents.component';
 
 
 
@@ -60,6 +61,7 @@ export const appRoutes: Routes = [
     path: "",
     component: HomePageComponent
   },
+  
   {
     path: "verifyemail",
     component: VerifyemailComponent
@@ -202,6 +204,7 @@ export const appRoutes: Routes = [
     PagenotfoundComponent,
     VerifyemailComponent,
     OrgverifyemailComponent,
+    YoureventsComponent
 
   ],
   imports: [

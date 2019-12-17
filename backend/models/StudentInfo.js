@@ -8,7 +8,7 @@ var StudentInfoSchema = new mongoose.Schema({
     EmailId: String,
     Age: String,
     Bio: String, 
-    interests: [], 
+    Interests: [], 
     DOB: String,
     studentSchool: String, 
     studentSchoolId: Number, 

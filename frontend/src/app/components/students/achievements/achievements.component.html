@@ -1,170 +1,170 @@
 <div class="bg" style="background-color: #00c2ff;">
-<link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-<app-loading *ngIf="showSpinner"></app-loading>
-
-<body *ngIf="!showSpinner">
-  <nav class="navbar navbar-expand-sm bg-light navbar-light">
-    <div class="navbar-collapse collapse justify-content-between">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">LOGO</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
-      </ul>
-      <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-          <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   
-          <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
-            Interests</a>
-          <a routerLink="/delete" class="nav-item nav-link">Settings</a>
-          <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
-          <a class="nav-item nav-link"  routerLinkActive="router-link-active">
-            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
-        </div>
-    </div>
-  </nav>
-  <div class="reqMargin"></div>
-  <div class="box1">
-    <p>Add Your Achievements</p>
+  <app-loading *ngIf="showSpinner"></app-loading>
+  
+  <body *ngIf="!showSpinner">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+      <div class="navbar-collapse collapse justify-content-between">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">LOGO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
+        </ul>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+            <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
     
-    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      Add new achievement
-    </button>
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Add new Achievement
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
-            <div class="form-group">
-              <label class="control-label">Category</label>
-              <div>
-                <input maxlength="32" type="text" class="form-control input-lg"
-                  placeholder="Enter Achievement Category. Eg: Music, Sports, Technology" required ngModel name="achCat"
-                  #achCat="ngModel" [(ngModel)]="achService.selectedAchievements.achCat" />
-                <span class="help-block" *ngIf="!achCat.valid && achCat.touched">Enter achievement category</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Subcategory</label>
-              <div>
-                <input maxlength="32" type="text" class="form-control input-lg"
-                  placeholder="Enter Achievement Sub Category. Eg: Piano, Football, Web Development" required ngModel
-                  name="achSubCat" #achSubCat="ngModel" [(ngModel)]="achService.selectedAchievements.achSubCat" />
-                <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter achievement
-                  subcategory</span>
-              </div>
-              <!-- <img [src]="url" height="200"> <br/> -->
-              <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
-             
-            </div>
-            <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
-              <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
-              
-              <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
-            <!-- </form> -->
-            <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
-              (click)="onSubmit(f)">
-              Add Achievement
-            </button>
-          </form>
-        </div>
+            <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
+              Interests</a>
+            <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+            <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
+            <a class="nav-item nav-link"  routerLinkActive="router-link-active">
+              <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+          </div>
       </div>
+    </nav>
+    <div class="reqMargin"></div>
+    <div class="box1">
+      <p>Add Your Achievements</p>
+      
+      <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Add new achievement
+      </button>
     </div>
-  </div>
-
-  <!-- <div class="modal" id="myModal1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">New Achievement</h2>
-                    <button class="close" type="button" data-dismiss="modal">x</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Add new Achievement
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
+              <div class="form-group">
+                <label class="control-label">Category</label>
+                <div>
+                  <input maxlength="32" type="text" class="form-control input-lg"
+                    placeholder="Enter Achievement Category. Eg: Music, Sports, Technology" required ngModel name="achCat"
+                    #achCat="ngModel" [(ngModel)]="achService.selectedAchievements.achCat" />
+                  <span class="help-block" *ngIf="!achCat.valid && achCat.touched">Enter achievement category</span>
                 </div>
-                <div class="modal-body">
-                    <p>Attach a file</p>
-                    <form>
-                        <input maxlength="32" type="file" id="file-upload" required class="inputfile">
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"
-                        data-dismiss="modal">Prev</button>
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" type="button" data-dismiss="modal">Send Achievements</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-<!--  -->
-<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
-
-<div class="container">
-    <div class="row">
-      <div class="newsItem col-12 col-sm-6 col-md-4 col-lg-4 " *ngFor="let ach of this.ach_list">
-        <div class="column"></div>
-        <div class="card" >
-          <div class="container">
-              <div class="image">
-                  <img src="https://previews.123rf.com/images/donikz/donikz1802/donikz180200493/95624624-tree-stumps-under-the-snow-in-the-winter-forest.jpg" />
               </div>
-              <div class="card-block">
+              <div class="form-group">
+                <label class="control-label">Subcategory</label>
+                <div>
+                  <input maxlength="32" type="text" class="form-control input-lg"
+                    placeholder="Enter Achievement Sub Category. Eg: Piano, Football, Web Development" required ngModel
+                    name="achSubCat" #achSubCat="ngModel" [(ngModel)]="achService.selectedAchievements.achSubCat" />
+                  <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter achievement
+                    subcategory</span>
+                </div>
+                <!-- <img [src]="url" height="200"> <br/> -->
+                <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
+               
+              </div>
+              <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
+                <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
                 
-              <h2>{{ ach.CategoryId }}</h2>
-              <div class="summary">
-              <div class="hr"></div>
-                <h3>{{ ach.SubCategoryId }}</h3>
-                <div class="hr"></div>
-                <p>Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. estas porttitor. Morbi lectus risus, iaculis vel, suscipit quis.
-                </p>
-                <a href="" class="read-more">READ MORE</a>
-              </div>
+                <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
+              <!-- </form> -->
+              <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
+                (click)="onSubmit(f)">
+                Add Achievement
+              </button>
+            </form>
           </div>
         </div>
       </div>
-      </div>
-      
-      
+    </div>
+  
+    <!-- <div class="modal" id="myModal1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h2 class="modal-title">New Achievement</h2>
+                      <button class="close" type="button" data-dismiss="modal">x</button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Attach a file</p>
+                      <form>
+                          <input maxlength="32" type="file" id="file-upload" required class="inputfile">
+                      </form>
+  
+                  </div>
+                  <div class="modal-footer">
+  
+                      <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                          data-dismiss="modal">Prev</button>
+                      <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+                      <button class="btn btn-success" type="button" data-dismiss="modal">Send Achievements</button>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  
+  <!--  -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+  
+  <div class="container">
+      <div class="row">
+        <div class="newsItem col-12 col-sm-6 col-md-4 col-lg-4 " *ngFor="let ach of this.ach_list">
+          <div class="column"></div>
+          <div class="card" >
+            <div class="container">
+                <div class="image">
+                    <img src="https://previews.123rf.com/images/donikz/donikz1802/donikz180200493/95624624-tree-stumps-under-the-snow-in-the-winter-forest.jpg" />
+                </div>
+                <div class="card-block">
+                  
+                <h2>{{ ach.CategoryId }}</h2>
+                <div class="summary">
+                <div class="hr"></div>
+                  <h3>{{ ach.SubCategoryId }}</h3>
+                  <div class="hr"></div>
+                  <p>Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. estas porttitor. Morbi lectus risus, iaculis vel, suscipit quis.
+                  </p>
+                  <a href="" class="read-more">READ MORE</a>
+                </div>
+            </div>
+          </div>
         </div>
-      
         </div>
+        
+        
+          </div>
+        
+          </div>
+        
+   </body>
+  </div>
+  
+  
+    
+    
+    
       
- </body>
-</div>
-
-
+      
+      
+      
+      
+  
+    
+  
+    
   
   
   
     
-    
-    
-    
-    
-
   
-
   
-
-
-
-  
-
-

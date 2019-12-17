@@ -19,6 +19,7 @@ export var decoded :any
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
+  profileUrlExists=false
   imageToShow:any
   uploadedFiles: Array < File > ;
   username: any;
@@ -37,6 +38,9 @@ export class DashboardComponent implements OnInit {
     private ach:AchievementsService
   ) {
     decoded= localStorage.getItem('access_token');
+    var decodedtoken= jwt_decode(decoded)
+    var email=decodedtoken['email']
+    this.postToIt()
     this.refreshAchievements();
   }
   refreshAchievements() {
@@ -54,6 +58,7 @@ createImageFromBlob(image:Blob){
   reader.addEventListener("load",()=>{
     this.imageToShow=reader.result;
   },false);
+  this.profileUrlExists=true
   if(image){
     reader.readAsDataURL(image)
   }
@@ -70,7 +75,6 @@ createImageFromBlob(image:Blob){
 
 
 
-
   send(){
     let formData = new FormData();
     for (var i = 0; i < this.uploadedFiles.length; i++) {
@@ -81,23 +85,43 @@ createImageFromBlob(image:Blob){
             console.log('response received is ', response);
             this.path= response['path']
             console.log(this.path)
-         this.getImage(this.path);
+            // this.setPath(this.path)
+        //  this.getImage(this.path);
         });
 
         this.postEvents();
         this.http.post('http://localhost:3000/uploadProfile',this.uploadedFiles)
   }
 
-  getImage(path) {
 
-    this.http.get('http://localhost:3000/getImage' + '?url=' + path,{ responseType:'blob'}).subscribe
-    ((response:Blob)=>{
-      console.log('response as blob');
-      console.log(response);
-       this.createImageFromBlob(response);
-    }); 
 
-  }
+  // setPath(path:string){
+  //   console.log(path)
+  //   this.http.post('http://localhost:3000/setPath',path).subscribe(res=>{
+  //     console.log(res)
+  //   })
+  // }
+
+  postToIt(){
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+      this.http.get('http://localhost:3000/imageUpload',{ responseType:'blob'}).subscribe
+      ((response:Blob)=>{
+        console.log('response as blob');
+        console.log(response);
+         this.createImageFromBlob(response);
+      }); 
+    }
+
+  // getImage(path) {
+  //   this.http.get('http://localhost:3000/getImage' + '?url=' + path,{ responseType:'blob'}).subscribe
+  //   ((response:Blob)=>{
+  //     console.log('response as blob');
+  //     console.log(response);
+  //      this.createImageFromBlob(response);
+  //   }); 
+
+  // }
 
 
 

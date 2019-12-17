@@ -11,8 +11,8 @@ var mongoose = require('mongoose');
 var eventSchema = new mongoose.Schema({
     //BASICS
     evnName: String, 
-    evnStartDate: Date,
-    evnEndDate: Date,
+    evnDate1: String,
+    evnDate2: String,
     evnInterests: [], 
     evnOrganizerName: String,
     evnOrganizerPage: String,

@@ -9,6 +9,72 @@ const enc = require('./../config/encryptionConfig.js');
 var event = require('./../models/event.js')
 var archevent = require('./../models/archived-event.js')
 var admin_logs = require('./admin_controller.js')
+
+
+var sum_array = [];
+var total_length;
+function rd(decodedToken, evns) {
+    //o_l_counter_evns => outer loop events counters
+    console.log("REACHED: RD")
+    total_length = evns.length
+    for(let i=0; i<total_length; i++) {
+        var ev = evns[i] //To sesdlect an event
+        var sum = 0.0
+        console.log("REACHED: OUTER LOOP")
+        if (decodedToken.Pincode!=undefined && ev.evnPincode!=undefined) {
+            sum += (Math.abs(decodedToken.Pincode - ev.evnPincode)*0.7)
+            console.log((Math.abs(decodedToken.Pincode - ev.evnPincode)*0.7))
+            console.log('Sum at step 1: ', sum)
+            console.log("REACHED: COMPARISON STEP FOR PINCODE")
+        }
+        if (ev.evnTargetAge!=undefined && decodedToken.age!=undefined) {
+        
+            //Subtracting Raw Target Age Difference
+            sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
+            console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
+            console.log('Sum at step 2: ', sum)
+        }
+
+        //BASIC RECOMMENDATIONS
+
+        // => Further comes the events searching
+        var n = 1;
+        var event_interests = ev.evnInterests;
+        var userinterests = decodedToken.interests;
+        var tot_event_interests = ev.evnInterests.length;
+        for(let j=0; j < tot_event_interests; j++) {
+            console.log('Entering loop ' , j)
+            console.log("REACHED: INNER EVENT COMPARISON LOOP")
+            for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
+                if(event_interests[j]==userinterests[k]) {
+                    sum +=10
+                }
+            }
+        }
+        console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
+        sum_array.push(sum)
+        evns[i].evnPincode = sum;
+        
+    }
+    evns.sort(GetSortOrder('evnPincode'))
+    console.log(sum_array)
+    console.log(evns)
+    
+    console.log("REACHED: SENT EVENTS")
+}
+
+function GetSortOrder(prop) {
+    return function(a, b) {
+        if(a[prop]  < b[prop]) {
+            return 1
+        }
+        else if (a[prop] > b[prop]) {
+            return -1;
+        }
+        return 0
+    }
+}
+
 module.exports = {
     //This must be sent the authorization header, else it will not work
     searchHandler: function searchHandler(useCase, keyword, tokenObject) {
@@ -47,7 +113,7 @@ module.exports = {
         })
     }, 
 
-    deepSearch: function deepSearch(keyword, USER) {
+    deepSearch: function deepSearch(USER) {
         //Search using the keyword
         event.find({} ,function(err, EVNSOBJ) {
             if(err) {
@@ -91,59 +157,6 @@ module.exports = {
             }
         })
     },
-
-    rd: function rd(decodedToken, evns) {
-        //o_l_counter_evns => outer loop events counter
-        total_length = evns.length
-        for(let o_l_counter_evns=0; o_l_counter_evns< total_length; o_l_counter_evns++) {
-            var ev = evns[i] //To select an event
-            var sum = 0.0
-            if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
-                sum += (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7)
-                console.log((Math.abs(decodedToken.pincode - ev.evnPincode)*0.7))
-                console.log('Sum at step 1: ', sum)
-            }
-            if (ev.evnTargetAge!=undefined && decodedToken.age!=undefined) {
-            
-                //Subtracting Raw Target Age Difference
-                sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
-                console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
-                console.log('Sum at step 2: ', sum)
-            }
-
-            //BASIC RECOMMENDATIONS
-
-            // => Further comes the events searching
-            var n = 1;
-            var event_interests = ev.evnInterests;
-            var userinterests = decodedToken.interests;
-            var tot_event_interests = ev.evnInterests.length;
-            for(let j=0; j < tot_event_interests; j++) {
-                console.log('Entering loop ' , j)
-                for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
-                    if(event_interests[j]==userinterests[k]) {
-                        sum +=10
-                    }
-                }
-            }
-            sum_array.push(sum)
-            evns[i]['score'] = sum;
-            evns.sort(GetSortOrder('score'))
-            res.status(200).send(evns)
-            
-        }
-    },
-    GetSortOrder: function GetSortOrder(prop) {
-        return function(a, b) {
-            if(a[prop] > b[prop]) {
-                return 1
-            }
-            else if (a[prop] < b[prop]) {
-                return -1;
-            }
-            return 0
-        }
-    }, 
     eventsArchive: function eventsArchive(authentication) {
         var events_to_delete;
         admin_logs.log_module_run(authentication, "Archiver Function")

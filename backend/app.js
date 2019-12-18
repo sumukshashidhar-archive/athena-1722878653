@@ -784,7 +784,7 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2:req.body.evnDate2,
-                    evnIntersts: req.body.evnInterests,
+                    evnInterests: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
@@ -1375,11 +1375,7 @@ var sample_event_arr = [
         'evnScore' : 3, 
         'evnPincode': 560072,
         'evnTargetAge': 12, 
-        'evnInterests': [
-            'dancing', 
-            'singing', 
-            'playing'
-        ]
+        'evnInterests': ['dancing', 'singing', 'playing']
     },
     {
         'evnScore' : 5, 

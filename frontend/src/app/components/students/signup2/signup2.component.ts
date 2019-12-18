@@ -18,7 +18,7 @@ export class Signup2Component implements OnInit {
     search: true,
     height: 'auto',
     placeholder: 'Select',
-      displayKey: 'catName'
+    displayKey: 'catName'
 
   };
 

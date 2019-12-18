@@ -1,6 +1,5 @@
-<div class="container">
+<!-- <div class="container">
     <h1 class="text-center">Big Events Page</h1>
-    <!-- MUST ADD STYLING LATER -->
     <p>Event Name: {{ x.evnName }}</p>
     <p>Event Starting Date: {{x.evnDate1}} </p>
     <p>Event Ending Date: {{x.evnDate2}}</p>
@@ -12,4 +11,25 @@
     <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
     <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
     <button class="text-justify btn btn-primary">Follow Event</button>
+</div> -->
+<!-- ------------------------------------------------------- New Big Events Page ------------------------------------------------------------ -->
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Event Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Event Name: {{ x.evnName }}</p>
+            <p>Event Starting Date: {{x.evnDate1}} </p>
+            <p>Event Ending Date: {{x.evnDate2}}</p>
+            <p>Event Organizer Page : <a href="{{ x.evnOrganizerPage }}" target="_blank">{{ x.evnOrganizerPage }}</a>
+            </p>
+            <p>Event Description : {{ x.evnDescription }}</p>
+            <p>Event Target Age: {{ x.evnTargetAge }}</p>
+            <p>Event Interests</p>
+            <p>Event Address : {{ x.evnLocation }}</p>
+            <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
+            <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
+        </mat-card-content>
+    </mat-card>
 </div>

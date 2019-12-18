@@ -814,7 +814,7 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
-app.post('/addInterest', function(req, res)
+app.post('/addInterestOrganizer', function(req, res)
 {
 
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body); 
@@ -826,7 +826,7 @@ app.post('/addInterest', function(req, res)
 
             var newInterests = req.body;
 
-            Event.findOne({_id: eventId}, function(err, obj)
+            event.findOne({_id: eventId}, function(err, obj)
             {
                 if(err || obj == null || obj == undefined)
                 {
@@ -845,6 +845,14 @@ app.post('/addInterest', function(req, res)
                         else
                         {
                             obj.evnInterests.push(newInterests[i]);
+                            event.updateOne({ EmailId: decodedToken.email }, { $set: { Interests: obj.Interests } }, function (err, updateobj) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                                else {
+                                    
+                                }
+                            })
                         }
                     }
 
@@ -1055,6 +1063,15 @@ app.post('/addInterest', function(req, res)
                         else
                         {
                             obj.Interests.push(newInterests[i]);
+                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Interests: obj.Interests } }, function (err, updateobj) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                                else {
+                                    
+                                }
+                            })
+
                         }
                     }
 

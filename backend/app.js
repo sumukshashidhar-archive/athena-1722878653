@@ -965,7 +965,7 @@ app.get('/interests', async function (req, res) {
                 }
                 else {
                     console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests);
+                    res.send(mongoObj.Interests.sort());
                 }
             })
         }
@@ -978,12 +978,16 @@ app.get('/interests', async function (req, res) {
 
 app.post('/addInterest', function(req, res)
 {
+
+    console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body); 
+    
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            var newInterests = req.body.userInterest;
+            var newInterests = req.body;
 
             Student.findOne({EmailId: decodedToken.email}, function(err, obj)
             {
@@ -1006,6 +1010,8 @@ app.post('/addInterest', function(req, res)
                             obj.Interests.push(newInterests[i]);
                         }
                     }
+
+                    console.log(obj);
 
                 }
             });

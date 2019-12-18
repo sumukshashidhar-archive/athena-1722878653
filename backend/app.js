@@ -784,7 +784,7 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2:req.body.evnDate2,
-                    evnInterests: req.body.evnInterests,
+                    evnInterests: [],
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
@@ -814,6 +814,52 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
+app.post('/addInterest', function(req, res)
+{
+
+    console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body); 
+    
+
+    // jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    //     if (!err && decodedToken != null) {
+            console.log("Verified")
+
+            var newInterests = req.body;
+
+            Event.findOne({_id: eventId}, function(err, obj)
+            {
+                if(err || obj == null || obj == undefined)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    var currentInterests = obj.evnInterests;
+
+                    for(var i = 0; i < newInterests.length; i++)
+                    {
+                        if(currentInterests.includes(newInterests[i]))
+                        {
+                            console.log("Already there");
+                        }
+                        else
+                        {
+                            obj.evnInterests.push(newInterests[i]);
+                        }
+                    }
+
+                    console.log(obj);
+
+                }
+            });
+
+        }
+    //     else {
+    //         console.log(err)
+    //         console.log("Something went wrong")
+    //     }
+    // });
+});
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")

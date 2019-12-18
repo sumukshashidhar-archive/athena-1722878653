@@ -983,7 +983,7 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            var newInterests = req.body.interests;
+            var newInterests = req.body.userInterest;
 
             Student.findOne({EmailId: decodedToken.email}, function(err, obj)
             {

@@ -112,10 +112,7 @@ function generate(n) {
 
 
 /*
-
 INITIALIZATIONS
-
-
 */
 
 //Express app instantiation
@@ -719,11 +716,7 @@ app.post('/bio', function(req, res)
 
 
 /*
-
-
 UNDERDEVELOPED ROUTES
-
-
 */
 
 
@@ -752,11 +745,7 @@ app.post('/auth', function (req, res) {
 });
 
 /*
-
-
 ROUTES THAT NEED BUG SQUISHING
-
-
 */
 
 
@@ -782,8 +771,7 @@ app.post('/organizer-events', async function (req, res) {
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
-                    evnDate1: req.body.evnDate1,
-                    evnDate2:req.body.evnDate2,
+                    evnDate: req.body.evnDate1,
                     evnIntersts: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
@@ -983,7 +971,7 @@ app.post('/addInterest', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified")
 
-            var newInterests = req.body.userInterest;
+            var newInterests = req.body.interests;
 
             Student.findOne({EmailId: decodedToken.email}, function(err, obj)
             {
@@ -1060,19 +1048,13 @@ app.post('/organizerdashboard', async function (req, res) {
 })
 
 app.post('/event-search', function (req, res) {
-    //Running an event search with the given keywords in the database
-    // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
-        if (err) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if(err) {
             console.log(err)
         }
         else {
             daVinci.explore(decodedToken)
-            //TODO: Make sure that the RD engine works on this dataset as well
-            console.log(obj)
-            res.json(obj)
         }
-    })
 })
 
 app.post('/events_search', function(req, res) {
@@ -1881,4 +1863,5 @@ app.post('/addCat', function(req, res)
             res.redirect("file:///C:/Users/Dell/Documents/main/athena-pvt/addCat.html");
         }
     });
-});
+}); 
+})

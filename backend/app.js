@@ -861,13 +861,13 @@ app.post('/addInterestOrganizer', function(req, res)
                 }
             });
 
-        }
+        })
     //     else {
     //         console.log(err)
     //         console.log("Something went wrong")
     //     }
     // });
-});
+
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")

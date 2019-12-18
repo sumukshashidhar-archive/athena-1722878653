@@ -784,12 +784,13 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2:req.body.evnDate2,
-                    evnIntersts: req.body.evnInterests,
+                    evnInterests: req.body.evnInterests,
                     evnLocation: req.body.evnLocation,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
                     evnOrganizerContact: req.body.evnOrganizerContact,
                     evnLocation: req.body.evnLocation,
+                    evnPincode: req.body.evnPincode, 
                     evnTargetAge: req.body.evnTargetAge,
                     evnDescription: req.body.evnDescription,
                     evnCost: req.body.cost,
@@ -1068,17 +1069,15 @@ app.post('/organizerdashboard', async function (req, res) {
 app.post('/event-search', function (req, res) {
     //Running an event search with the given keywords in the database
     // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    event.find({ $or: [{ evnName: req.body.evnName }] }, function (err, obj) { //TODO: Make it so that someone can search for date, organizer or time as well
-        if (err) {
-            console.log(err)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function(err, DECODEDTOKEN) {
+        if(err){
+
         }
         else {
-            daVinci.explore(decodedToken)
-            //TODO: Make sure that the RD engine works on this dataset as well
-            console.log(obj)
-            res.json(obj)
+            daVinci.deepSearch(DECODEDTOKEN)
         }
     })
+    
 })
 
 app.post('/events_search', function(req, res) {
@@ -1382,11 +1381,7 @@ var sample_event_arr = [
         'evnScore' : 3, 
         'evnPincode': 560072,
         'evnTargetAge': 12, 
-        'evnInterests': [
-            'dancing', 
-            'singing', 
-            'playing'
-        ]
+        'evnInterests': ['dancing', 'singing', 'playing']
     },
     {
         'evnScore' : 5, 
@@ -1677,6 +1672,7 @@ app.post('/click-on-events', function(req, res) {
                                 if(EVNobj) {
                                     console.log(EVNobj)
                                     res.send(EVNobj)
+                                    console.log("Inside the click on events method")
                                     MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
                                     event.findOneAndUpdate({_id: EVNobj._id}, {$set: {uservector: MONGO_OBJ_RETURN.uservector}}, function(err, UPDATED_OBJ){
                                         if(err) {
@@ -1706,6 +1702,10 @@ app.post('/click-on-events', function(req, res) {
     
 })
 
+app.post('/')
+
+
+
 app.post('/student-search', function(req, res) {
 
 
@@ -1717,17 +1717,6 @@ app.post('/student-search', function(req, res) {
 
 app.post('/organizer-search', function(req, res){
 
-})
-
-app.post('/event-search', function(req, res) {
-    //This is the event search functionality
-    //1 is for the regular search
-    //2 is the deep search
-    //3 is the archive search
-
-
-
-    ///ROUTE HANDLING
 })
 
 app.post('/add-categories', function(err, obj) {

@@ -1,9 +1,10 @@
 //This should take care of almost everything
 //All recommendation requests have to be redirected here
 
+var fs = require('fs');
 var mongoose = require('mongoose')
-var tokenExtractor = require()
-var publicKEY = fs.readFileSync('./../keys/public.key', 'utf8'); 
+// var tokenExtractor = require()
+var publicKEY = fs.readFileSync(__dirname+'./../keys/public.key', 'utf8'); 
 const enc = require('./../config/encryptionConfig.js');
 var event = require('./../models/event.js')
 var archevent = require('./../models/archived-event.js')

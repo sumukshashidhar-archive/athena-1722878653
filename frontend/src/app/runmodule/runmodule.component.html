@@ -1,7 +1,13 @@
+
+<body>
+  <div class="content">
 <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
     <div class="form-group">
         <div>
           <input
+            style="background-color: black;
+            text-shadow: 0 0 1.2px white;"
+
             maxlength="32"
             class="form-control"
             type="text"
@@ -13,7 +19,9 @@
             #module="ngModel"
           />
           <span
-            style="color: red;"
+            style="
+            color: red;
+            text-shadow: 0 0 5px red;"
             class="help-block"
             *ngIf="!module.valid && module.touched"
             >Enter a module</span
@@ -23,6 +31,11 @@
       <div class="form-group">
           <div>
             <input
+            style="background-color: black;
+            text-shadow: 0 0 1.2px white;
+            border-radius:10px;"
+           
+              
               maxlength="5000"
               class="form-control"
               type="text"
@@ -34,15 +47,20 @@
               #key="ngModel"
             />
             <span
-              style="color: red;"
+              style="color: red;
+               text-shadow: 0 0 5px red;
+               border-radius: 10px; "
               class="help-block"
               *ngIf="!key.valid && key.touched"
               >Enter a KEY</span
             >
           </div>
         </div>
+        <br/>
         <button
-        style="margin-left: 40%;"
+        style="background-color: black;
+        border-radius: 10px;
+        border-width: 2px;"
         class="btn btn-secondary"
         type="submit"
         [disabled]="!f.valid"
@@ -50,3 +68,5 @@
         SUBMIT
       </button>
 </form>
+</div>
+</body>

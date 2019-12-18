@@ -65,6 +65,7 @@ export class EventService {
     const options = {
       headers : headers
     };
+    console.log(userInterest)
     return this.http.post("http://localhost:3000/addInterest", userInterest,options);
   }
 }

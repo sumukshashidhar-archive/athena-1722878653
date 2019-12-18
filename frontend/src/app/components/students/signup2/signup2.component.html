@@ -1,35 +1,39 @@
-
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
+
 <body>
 
 
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
         <div class="navbar-collapse collapse justify-content-between">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">LOGO</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
-          </ul>
-          <div class="navbar-nav">
-              <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-              <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
-      
-              <a class="nav-item nav-link" [routerLink]="['/achievements']" routerLinkActive="router-link-active">Achievements
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">LOGO</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <a class="nav-item nav-link" [routerLink]="['/dashboard']"
+                    routerLinkActive="router-link-active">Dashboard</a>
+            </ul>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
+                <a class="nav-item nav-link" [routerLink]="['/discover']"
+                    routerLinkActive="router-link-active">Discover</a>
+
+                <a class="nav-item nav-link" [routerLink]="['/achievements']"
+                    routerLinkActive="router-link-active">Achievements
                 </a>
-              <a routerLink="/delete" class="nav-item nav-link">Settings</a>
-              <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
-              <a class="nav-item nav-link"  routerLinkActive="router-link-active">
-                <button class="btn btn-danger" (click)="logout()">Logout</button></a>
+                <a routerLink="/delete" class="nav-item nav-link">Settings</a>
+                <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User
+                    Profile</a>
+                <a class="nav-item nav-link" routerLinkActive="router-link-active">
+                    <button class="btn btn-danger" (click)="logout()">Logout</button></a>
             </div>
         </div>
-      </nav>
+    </nav>
 
     <div>
         <div class="row" style="padding-left: 300px;padding-top: 200px;">
@@ -51,16 +55,18 @@
                         <div class="row">
 
                             <div class="col-xs-6">
-                                <label ><strong>Category Name</strong></label>
-                                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption"></ngx-select-dropdown>
+                                <label><strong>Category Name</strong></label>
+                                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
+                                    [options]="categoryOption"></ngx-select-dropdown>
                             </div>
                             <div class="col-xs-6">
                                 <label> Sub category Name </label>
-                                <ngx-select-dropdown  [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat" [options]="subcatOptions"></ngx-select-dropdown>
+                                <ngx-select-dropdown [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat"
+                                    [options]="subcatOptions"></ngx-select-dropdown>
 
                             </div>
 
-                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row text-center">
@@ -76,4 +82,4 @@
         </div>
     </div>
 
-    </body>
+</body>

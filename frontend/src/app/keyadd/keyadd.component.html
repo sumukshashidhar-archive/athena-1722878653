@@ -1,7 +1,14 @@
+
+<body>
+  <div class="content">
 <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
     <div class="form-group">
         <div>
           <input
+          style="background-color: black;
+            text-shadow: 0 0 1.2px white;
+            border-radius:10px"
+
             maxlength="32"
             class="form-control"
             type="email"
@@ -13,16 +20,19 @@
             #username="ngModel"
           />
           <span
-            style="color: red;"
+            style="color: red;
+            text-shadow: 0 0 5px red;"   
             class="help-block"
             *ngIf="!username.valid && username.touched"
-            >Enter a username</span
-          >
+            >Enter a username</span>
         </div>
       </div>
     <div class="form-group">
         <div>
           <input
+          style="background-color: black;
+            text-shadow: 0 0 1.2px white;
+            border-radius:10px"
             maxlength="32"
             class="form-control"
             type="password"
@@ -34,7 +44,8 @@
             #password="ngModel"
           />
           <span
-            style="color: red;"
+            style="color: red;
+             text-shadow: 0 0 5px red;"   
             class="help-block"
             *ngIf="!password.valid && password.touched"
             >Enter a password</span
@@ -44,10 +55,14 @@
       <div class="form-group">
           <div>
             <input
+            style="background-color: black;
+            text-shadow: 0 0 1.2px white;
+            border-radius:10px"
+            maxlength="32"
               maxlength="5000"
               class="form-control"
               type="text"
-              placeholder="key"
+              placeholder="Key"
               required
               ngModel
               name="key"
@@ -55,7 +70,8 @@
               #key="ngModel"
             />
             <span
-              style="color: red;"
+              style="color: red;
+               text-shadow: 0 0 5px red;"
               class="help-block"
               *ngIf="!key.valid && key.touched"
               >Enter a KEY</span
@@ -63,7 +79,9 @@
           </div>
         </div>
         <button
-        style="margin-left: 40%;"
+        style="background-color: black;
+        border-radius: 10px;
+        border-width: 2px;"
         class="btn btn-secondary"
         type="submit"
         [disabled]="!f.valid"
@@ -71,3 +89,5 @@
         SUBMIT
       </button>
 </form>
+</div>
+</body>

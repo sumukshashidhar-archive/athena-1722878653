@@ -2,9 +2,7 @@
   <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   
-  <app-loading *ngIf="showSpinner"></app-loading>
-  
-  <body *ngIf="!showSpinner">
+  <body >
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <div class="navbar-collapse collapse justify-content-between">
         <ul class="navbar-nav mr-auto">
@@ -52,27 +50,29 @@
           <div class="modal-body">
             <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
               <div class="form-group">
-                <label class="control-label">Category</label>
-                <div>
-                  <input maxlength="32" type="text" class="form-control input-lg"
-                    placeholder="Enter Achievement Category. Eg: Music, Sports, Technology" required ngModel name="achCat"
-                    #achCat="ngModel" [(ngModel)]="achService.selectedAchievements.achCat" />
-                  <span class="help-block" *ngIf="!achCat.valid && achCat.touched">Enter achievement category</span>
-                </div>
+                <h4> User Interest </h4>
+
+                <div class="col-xs-6">
+                  <label><strong>Category Name</strong></label>
+                  <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" name="category"
+                      [options]="categoryOption"></ngx-select-dropdown>
               </div>
-              <div class="form-group">
-                <label class="control-label">Subcategory</label>
-                <div>
-                  <input maxlength="32" type="text" class="form-control input-lg"
-                    placeholder="Enter Achievement Sub Category. Eg: Piano, Football, Web Development" required ngModel
-                    name="achSubCat" #achSubCat="ngModel" [(ngModel)]="achService.selectedAchievements.achSubCat" />
-                  <span class="help-block" *ngIf="!achSubCat.valid && achSubCat.touched">Please enter achievement
-                    subcategory</span>
-                </div>
+              <div class="col-xs-6">
+                  <label> Sub category Name </label>
+                  <ngx-select-dropdown  [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
+                      [options]="subcatOptions"></ngx-select-dropdown>
+
+
+              </div>
+            
+                
                 <!-- <img [src]="url" height="200"> <br/> -->
                 <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
                
               </div>
+              <button type="button" class="btn btn-success" (click)="adduserInterestList()">
+                Submit
+            </button>
               <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
                 <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
                 
@@ -123,7 +123,7 @@
           <div class="card" >
             <div class="container">
                 <div class="image">
-                    <img src="https://previews.123rf.com/images/donikz/donikz1802/donikz180200493/95624624-tree-stumps-under-the-snow-in-the-winter-forest.jpg" />
+                  <img [src]="imageToShow"  data-toggle="modal" data-target="#exampleModal">
                 </div>
                 <div class="card-block">
                   

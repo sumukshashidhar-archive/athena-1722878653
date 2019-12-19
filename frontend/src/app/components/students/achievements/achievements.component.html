@@ -70,18 +70,14 @@
                 <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
                
               </div>
-              <button type="button" class="btn btn-success" (click)="adduserInterestList()">
+              <button type="button" class="btn btn-success" (click)="adduserInterestList()" [disabled]="!enableClose"  data-dismiss="modal" data-target="#exampleModal"  >
                 Submit
             </button>
               <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
                 <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
                 
                 <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
-              <!-- </form> -->
-              <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
-                (click)="onSubmit(f)">
-                Add Achievement
-              </button>
+              <!-- </form> -->    
             </form>
           </div>
         </div>
@@ -91,7 +87,7 @@
     <!-- <div class="modal" id="myModal1">
           <div class="modal-dialog">
               <div class="modal-content">
-                  <div class="modal-header">
+                  <div class="modal -header">
                       <h2 class="modal-title">New Achievement</h2>
                       <button class="close" type="button" data-dismiss="modal">x</button>
                   </div>

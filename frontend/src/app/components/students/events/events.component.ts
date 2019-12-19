@@ -15,7 +15,8 @@ export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
   x: string;
 
-  constructor(public eventService: EventService, private router: Router) {}
+  constructor(public eventService: EventService, private router: Router) {
+  }
 
   ngOnInit() {
     this.refreshEvents();
@@ -29,7 +30,7 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  sendDetails(form: NgForm, _id: string){
+  sendDetails(form: NgForm, _id: string) {
     form.value['_id'] = _id;
     console.log(form.value);
     this.eventService.getEventDetails(form.value).subscribe(

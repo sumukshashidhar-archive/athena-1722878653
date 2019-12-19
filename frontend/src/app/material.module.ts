@@ -10,6 +10,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTabsModule, MatTab } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     MatFormFieldModule,
     MatInputModule,
     MatStepperModule,
+    MatTabsModule,
     MatProgressSpinnerModule
   ],
   exports: [
@@ -34,6 +36,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     MatFormFieldModule,
     MatInputModule,
     MatStepperModule,
+    MatTabsModule,
     MatProgressSpinnerModule
   ]
 })

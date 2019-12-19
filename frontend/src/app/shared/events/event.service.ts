@@ -68,4 +68,21 @@ export class EventService {
     console.log(userInterest)
     return this.http.post("http://localhost:3000/addInterest", userInterest,options);
   }
+
+  postEventInterest(eventInterest, eventId){
+    const token = localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
+    console.log(eventInterest)
+    console.log(eventId)
+    const obj = {
+      eventId: eventId,
+      options: options,
+      eventInterest: eventInterest
+    }
+    console.log(obj)
+    return this.http.post("http://localhost:3000/addInterestOrganizer", obj)
+  }
 }

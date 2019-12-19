@@ -99,15 +99,6 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Target Interests (Comma separated)</label>
-                      <div>
-                        <input type="text" id="interests" class="form-control" required ngModel name="evnInterests"
-                          #evnInterests="ngModel" [(ngModel)]="eventService.selectedEvent.evnInterests">
-                        <span class="help-block" *ngIf="!evnInterests.valid && evnInterests.touched">Please Add Event
-                          Interests</span>
-                      </div>
-                    </div>
-                    <div class="form-group">
                       <label class="control-label">Event Address Line 1</label>
                       <div>
                         <input maxlength="32" type="text" id="evn" class="form-control" name="evnAdd1" required ngModel
@@ -196,16 +187,16 @@
     </div>
   </body>
   <!-- /.modal -->
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
   <div class="body2" *ngIf="match">
     <div class="cont">
       <!-- <div class="box" *ngFor="let evn of eventService.events"> -->

@@ -62,10 +62,10 @@ On the second terminal, you should have an output saying that the server has sta
 ## Authors
 
 
-- **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT. _ (@anirudhlakhotia)
+- **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT and Achievements_ (@anirudhlakhotia)
 - **Sumuk Shashidhar**  -  _Request management and Authentication. Implementation of JWT. Recommendation Algorithm for Events_ (@sumukshashidhar)
 - **Vijay Dharmaji**  -  _File Upload and Node Mailer_ (@vijaydharmaji29)
--  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Achievements_   (@anandrajaram21)
+-  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Searching_   (@anandrajaram21)
 
 See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.
 
@@ -92,3 +92,10 @@ sudo npm install npm@latest -g
 ```
 
 It should, theoretically, do the trick. If it does not, then you will have to compile the brain.js libraries yourself before deployment
+
+## EVENT INTERESTS
+1. Go about adding a new event as usual.
+2. Open the modal again.
+3. Click on the "Reach out to more people" tab.
+4. Add the interests you need.
+5. Voila, you have now added interests to your events.

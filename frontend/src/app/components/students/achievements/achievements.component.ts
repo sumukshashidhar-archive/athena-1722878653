@@ -27,10 +27,10 @@ export class AchievementsComponent implements OnInit {
   uploadedFiles: Array < File > ;
   showSpinner: boolean = true;
   ach_list: any;
+  enableClose=false
    link:string
    actualLink:any
    path:''
-  
 
 
 
@@ -88,6 +88,7 @@ export class AchievementsComponent implements OnInit {
     Achievement.achCat=event.value['catName']
     this.catService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
+     
     });
   }
 
@@ -191,6 +192,7 @@ export class AchievementsComponent implements OnInit {
 
   fileChange(element) {
     this.uploadedFiles = element.target.files;
+    this.enableClose=true
 }
 
 }

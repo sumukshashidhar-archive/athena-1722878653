@@ -1,8 +1,8 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { KeyaddService } from './keyadd.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-keyadd',

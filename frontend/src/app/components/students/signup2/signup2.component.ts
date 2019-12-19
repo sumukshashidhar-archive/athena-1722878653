@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { InterestSendingService } from './../../../shared/interests/interest-sending.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {EventService} from '../../../shared/events/event.service';
+import { EventService } from '../../../shared/events/event.service';
 export let bio;
 @Component({
   selector: 'app-signup2',
@@ -22,23 +22,23 @@ export class Signup2Component implements OnInit {
 
   };
 
-    configSubCat = {
+  configSubCat = {
 
-        search: true,
-        height: 'auto',
-        placeholder: 'Select',
-        displayKey: 'subCatName'
+    search: true,
+    height: 'auto',
+    placeholder: 'Select',
+    displayKey: 'subCatName'
 
-    };
-    subCatName: any;
+  };
+  subCatName: any;
   categoryOption: any;
   subcatOptions: any;
-  noOfChoice = new Array<string>() ;
+  noOfChoice = new Array<string>();
 
 
   constructor(public interestsendingservice: InterestSendingService, public auth: AuthService, private catService: EventService) {
 
-      this.noOfChoice.push('1');
+    this.noOfChoice.push('1');
   }
   // onClick() {
   //   this.interests.push({
@@ -52,9 +52,9 @@ export class Signup2Component implements OnInit {
     this.auth.logout();
   }
   onSubmit(form: NgForm) {
-  bio = (form.value.bio);
-  console.log(bio);
-  this.interestsendingservice.postInterest(form.value).subscribe(
+    bio = (form.value.bio);
+    console.log(bio);
+    this.interestsendingservice.postInterest(form.value).subscribe(
       res => {
         console.log('Auth is successful');
         console.log(res);
@@ -71,36 +71,36 @@ export class Signup2Component implements OnInit {
 
   getAllCategory() {
 
-     this.catService.getcategoryDetails().subscribe(res => {
-     this.categoryOption = res;
-     console.log(this.categoryOption);
-     });
+    this.catService.getcategoryDetails().subscribe(res => {
+      this.categoryOption = res;
+      console.log(this.categoryOption);
+    });
   }
 
 
   selectionChanged(event) {
-      this.subCatName = null;
+    this.subCatName = null;
     console.log(event);
     this.catService.getSubCategory(event.value.catId).subscribe(res => {
-       this.subcatOptions = res;
+      this.subcatOptions = res;
     });
   }
 
-    adduserInterestList() {
+  adduserInterestList() {
 
-      let arr =[];
-      for (let i=0; i < this.subCatName.length; i++) {
-          arr.push(this.subCatName[i].subCatName);
-      }
-
-      this.catService.postUserInterest(arr).subscribe(res =>{
-           console.log('done');
-           this.subCatName = null;
-           alert('User Interest added');
-
-      });
-
-
-
+    let arr = [];
+    for (let i = 0; i < this.subCatName.length; i++) {
+      arr.push(this.subCatName[i].subCatName);
     }
+
+    this.catService.postUserInterest(arr).subscribe(res => {
+      console.log('done');
+      this.subCatName = null;
+      alert('User Interest added');
+
+    });
+
+
+
+  }
 }

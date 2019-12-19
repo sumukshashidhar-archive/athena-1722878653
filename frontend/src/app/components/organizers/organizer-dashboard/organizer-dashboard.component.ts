@@ -41,16 +41,16 @@ export class OrganizerDashboardComponent implements OnInit {
     var decodedtoken= jwt_decode(decoded)
     var email=decodedtoken['email']
     this.postToIt()
-    this.refreshAchievements();
+    // this.refreshAchievements();
   }
-  refreshAchievements() {
-    this.ach.getAchievements().subscribe(res => {
-      this.ach_list = res as Achievements[];
-      console.log(this.ach_list);
-      this.ach_list=this.ach_list.slice(0,5);
-      console.log(this.ach_list)
-    });
-  }
+  // refreshAchievements() {
+  //   this.ach.getAchievements().subscribe(res => {
+  //     this.ach_list = res as Achievements[];
+  //     console.log(this.ach_list);
+  //     this.ach_list=this.ach_list.slice(0,5);
+  //     console.log(this.ach_list)
+  //   });
+  // }
 
 
 createImageFromBlob(image:Blob){

@@ -5,8 +5,8 @@ import * as jwt_decode from 'jwt-decode';
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventService } from "./../../../shared/events/event.service";
-export var decoded:any
-import {MatToolbarModule} from '@angular/material/toolbar';
+export var decoded: any
+import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: "app-events-organizer",
   templateUrl: "./events-organizer.component.html",
@@ -17,17 +17,59 @@ export class EventsOrganizerComponent implements OnInit {
   maxDate: string;
   newDate: string;
   username: any;
-  match=false
-  arr:any
+  match = false
+  arr: any
+
+  config = {
+
+    search: true,
+    height: 'auto',
+    placeholder: 'Select',
+    displayKey: 'catName'
+
+  };
+
+  configSubCat = {
+
+    search: true,
+    height: 'auto',
+    placeholder: 'Select',
+    displayKey: 'subCatName'
+
+  };
+  subCatName: any;
+  categoryOption: any;
+  subcatOptions: any;
+  noOfChoice = new Array<string>();
 
   constructor(public eventService: EventService, private router: Router, private data: DatasharingService) {
-    decoded= localStorage.getItem('access_token');
+    decoded = localStorage.getItem('access_token');
+    this.noOfChoice.push('1');
   }
 
   ngOnInit() {
     this.refreshEvents();
-    this.maxDateSet()
+    this.maxDateSet();
+    this.getAllCategory();
   }
+
+  getAllCategory() {
+
+    this.eventService.getcategoryDetails().subscribe(res => {
+      this.categoryOption = res;
+      console.log(this.categoryOption);
+    });
+  }
+
+
+  selectionChanged(event) {
+    this.subCatName = null;
+    console.log(event);
+    this.eventService.getSubCategory(event.value.catId).subscribe(res => {
+      this.subcatOptions = res;
+    });
+  }
+  
   onSubmit(form: NgForm) {
     form.value['evnLocation'] = form.value['evnAdd1'] + '\n' + form.value['evnAdd2']
     this.eventService.postEvents(form.value).subscribe(
@@ -43,25 +85,25 @@ export class EventsOrganizerComponent implements OnInit {
       }
     );
 
-    
-   
+
+
   }
 
-  maxDateSet(){
+  maxDateSet() {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
-    var newmm; 
+    var newmm;
     var newdd;
     var yyyy = today.getFullYear();
     if (dd < 10) {
-        newdd = '0' + dd.toString();
+      newdd = '0' + dd.toString();
     }
     else {
       newdd = dd.toString();
     }
     if (mm < 10) {
-        newmm = '0' + mm.toString(mm);
+      newmm = '0' + mm.toString(mm);
     }
     else {
       newmm = mm.toString();
@@ -73,7 +115,7 @@ export class EventsOrganizerComponent implements OnInit {
 
 
   refreshEvents() {
-    var decodedtoken= jwt_decode(decoded)
+    var decodedtoken = jwt_decode(decoded)
     console.log(decoded)
     this.data.currentName.subscribe((res: Response) => {
       if (decodedtoken["role"] == "Org") {
@@ -83,15 +125,14 @@ export class EventsOrganizerComponent implements OnInit {
     });
     this.eventService.getEvents().subscribe(res => {
       this.eventService.events = res as Event[];
-    
+
       console.log(this.eventService.events);
-      for ( var index = 0; index < this.eventService.events.length; index++) { 
-       
-       if  (this.eventService.events[index]['evnOrganizerName']== this.username){
-          this.match=true
-          this.arr=this.eventService.events[index]
-          
-       }
+      for (var index = 0; index < this.eventService.events.length; index++) {
+
+        if (this.eventService.events[index]['evnOrganizerName'] == this.username) {
+          this.match = true
+          this.arr = this.eventService.events[index]
+        }
       }
     });
   }

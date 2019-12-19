@@ -814,60 +814,42 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
-app.post('/addInterestOrganizer', function(req, res)
-{
+app.post("/addInterestOrganizer", function(req, res) {
+  console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
 
-    console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body); 
-    
+  jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+  if (!err && decodedToken != null) {
+  console.log("Verified");
+  var newInterests = req.body.eventInterest;
+  event.findOne({ _id: req.body.eventId }, function(err, obj) {
+    if (err || obj == null || obj == undefined) {
+      console.log(err);
+    } else {
+      var currentInterests = obj.evnInterests;
 
-    // jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-    //     if (!err && decodedToken != null) {
-            console.log("Verified")
-
-            var newInterests = req.body;
-
-            event.findOne({_id: eventId}, function(err, obj)
-            {
-                if(err || obj == null || obj == undefined)
-                {
-                    console.log(err);
-                }
-                else
-                {
-                    var currentInterests = obj.evnInterests;
-
-                    for(var i = 0; i < newInterests.length; i++)
-                    {
-                        if(currentInterests.includes(newInterests[i]))
-                        {
-                            console.log("Already there");
-                        }
-                        else
-                        {
-                            obj.evnInterests.push(newInterests[i]);
-                            event.updateOne({ EmailId: decodedToken.email }, { $set: { Interests: obj.Interests } }, function (err, updateobj) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                                else {
-                                    
-                                }
-                            })
-                        }
-                    }
-
-                    console.log(obj);
-
-                }
-            });
-
-        })
-    //     else {
-    //         console.log(err)
-    //         console.log("Something went wrong")
-    //     }
-    // });
-
+      for (var i = 0; i < newInterests.length; i++) {
+        if (currentInterests.includes(newInterests[i])) {
+          console.log("Already there");
+        } else {
+          obj.evnInterests.push(newInterests[i]);
+          event.updateOne(
+            { EmailId: decodedToken.email },
+            { $set: { Interests: obj.Interests } },
+            function(err, updateobj) {
+              if (err) {
+                console.log(err);
+              } else {
+              }
+            }
+          );
+        }
+      }
+      console.log(obj);
+    }
+  });
+}
+});
+});
 
 app.get('/events', async function (req, res) {
     console.log("Getting events......")

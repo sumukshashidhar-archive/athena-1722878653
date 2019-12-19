@@ -19,6 +19,8 @@ export class EventsOrganizerComponent implements OnInit {
   username: any;
   match = false
   arr: any
+  y: any;
+  x: any;
 
   config = {
 
@@ -75,6 +77,8 @@ export class EventsOrganizerComponent implements OnInit {
     this.eventService.postEvents(form.value).subscribe(
       res => {
         console.log(res);
+        this.y = res
+        this.x = this.y._id;
       },
       err => {
         if (err.status === 422) {
@@ -134,6 +138,20 @@ export class EventsOrganizerComponent implements OnInit {
           this.arr = this.eventService.events[index]
         }
       }
+    });
+  }
+
+  addEvnInterests(){
+    let arr = [];
+    for (let i = 0; i < this.subCatName.length; i++) {
+      arr.push(this.subCatName[i].subCatName);
+    }
+
+    this.eventService.postEventInterest(arr, this.x).subscribe(res => {
+      console.log('done');
+      this.subCatName = null;
+      alert('User Interest added');
+
     });
   }
 

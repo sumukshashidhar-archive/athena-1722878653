@@ -635,7 +635,6 @@ app.get('/getImage', function(req, res)
 });
 
 
-
 app.get('/imageUpload', function(req, res)
 {   
     // console.log(req.url);
@@ -900,21 +899,45 @@ var achCat = '';
 var achSubCat = '';
 
 
+
+app.post('/abcd',  multipartMiddleware, (req, res) => {
+
+    console.log("ABCD METHOD");
+    console.log(req.body)
+
+  
+        console.log(req.body );
+        
+
+
+        jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+            if (!err && decodedToken != null) {
+                console.log("Verified");
+                console.log(decodedToken);
+                console.log(req.files.uploads[0]['path'])
+                res.send({Image:req.files.uploads[0]['path']})
+                          
+            }
+        });
+
+        flag = 0;
+    // }
+    
+
+
+});
+
+
 // ACHIEVEMENTS ROUTE
 app.post('/achievements',  multipartMiddleware, (req, res) => {
 
-    console.log("HSSSSSSSSSSS\N\N");
+    console.log("\N\N");
+    console.log(req.body)
 
-    if(flag == 0)
-    {
-        achCat = req.body.achCat;
-        achSubCat = req.body.achSubCat;
-
-        flag = 1;
-    }
-    else
-    {   
-        // console.log(req.body, req.files, req.files.uploads[0].path);
+    
+        console.log(req.body );
+        console.log(req.body.uploadedFiles)
+        console.log('PRINTED IT')
 
 
         jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -923,9 +946,9 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
                 console.log(decodedToken);
                 var newAch = new achievements
                     ({
-                        CategoryId: achCat,
-                        SubCategoryId: achSubCat,
-                        Image:path.join(__dirname,req.files.uploads[0].path)
+                        CategoryId: req.body.achCat,
+                        SubCategoryId: req.body.achSubCat,
+                        Image:req.body.uploadedFiles
                     })
                 newAch.save(function (err, achobj) {
                     if (err) {
@@ -958,12 +981,57 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
             }
         });
 
-        flag = 0;
-    }
+        
+    
     
 
 
 });
+
+
+
+app.post('/achImg', async function (req, res) {
+    console.log('REQUEEST BODY is'+req.body)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                    // console.log(mongoObj.Achievement[0]['Image'])
+                    for(var i=0;i<mongoObj.Achievement.length;i++){
+                        console.log(mongoObj.Achievement[i]['Image'])   
+                        
+                        
+                    }
+                    console.log(req.body)
+                    res.sendFile(path.join(__dirname+'',mongoObj.Achievement[2]['Image']))
+                   
+                    
+                    
+
+
+                    
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    })
+})
+
+
+
+
+
+
+
 
 
 app.post('/delete-achievement', function (req, res) {

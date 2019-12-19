@@ -71,24 +71,21 @@ createImageFromBlob(image:Blob){
 
 
 
-
-
   
-
-
 
   send(){
     let formData = new FormData();
     for (var i = 0; i < this.uploadedFiles.length; i++) {
         formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
     }
+    console.log(formData)
     this.http.post('http://localhost:3000/uploadProfile', formData)
         .subscribe((response) => {
             console.log('response received is ', response);
             this.path= response['path']
             console.log(this.path)
-            // this.setPath(this.path)
-        //  this.getImage(this.path);
+
+
         });
 
         this.postEvents();
@@ -97,16 +94,9 @@ createImageFromBlob(image:Blob){
 
 
 
-  // setPath(path:string){
-  //   console.log(path)
-  //   this.http.post('http://localhost:3000/setPath',path).subscribe(res=>{
-  //     console.log(res)
-  //   })
-  // }
+
 
   postToIt(){
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
       this.http.get('http://localhost:3000/imageUpload',{ responseType:'blob'}).subscribe
       ((response:Blob)=>{
         console.log('response as blob');
@@ -115,15 +105,6 @@ createImageFromBlob(image:Blob){
       }); 
     }
 
-  // getImage(path) {
-  //   this.http.get('http://localhost:3000/getImage' + '?url=' + path,{ responseType:'blob'}).subscribe
-  //   ((response:Blob)=>{
-  //     console.log('response as blob');
-  //     console.log(response);
-  //      this.createImageFromBlob(response);
-  //   }); 
-
-  // }
 
 
 

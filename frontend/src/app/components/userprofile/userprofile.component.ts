@@ -1,10 +1,10 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { Achievements } from '../shared/achievements/achievements.model';
-import { AchievementsService } from '../shared/achievements/achievements.service';
+import { Achievements } from '../../shared/achievements/achievements.model';
+import { AchievementsService } from '../../shared/achievements/achievements.service';
 import * as jwt_decode from 'jwt-decode';
 import { LOCAL_STORAGE } from '@ng-toolkit/universal';
 

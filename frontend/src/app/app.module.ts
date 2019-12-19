@@ -38,9 +38,9 @@ import { DeleteUserComponent } from "./components/students/delete-user/delete-us
 import { LoadingComponent } from "./components/loading/loading.component";
 import { BigeventsComponent } from './components/students/bigevents/bigevents.component';
 import { DiscoverComponent } from './components/discover/discover.component';
-import { KeyaddComponent } from './keyadd/keyadd.component';
-import { RunmoduleComponent } from './runmodule/runmodule.component';
-import { UserprofileComponent } from './userprofile/userprofile.component';
+import { KeyaddComponent } from './components/keyadd/keyadd.component';
+import { RunmoduleComponent } from './components/runmodule/runmodule.component';
+import { UserprofileComponent } from './components/userprofile/userprofile.component';
 import { SearchresComponent } from './components/searchres/searchres.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { CommonModule } from '@angular/common';

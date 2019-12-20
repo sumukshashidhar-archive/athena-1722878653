@@ -60,10 +60,16 @@
                   <label> Sub category Name </label>
                   <ngx-select-dropdown  [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
                       [options]="subcatOptions"></ngx-select-dropdown>
-
-
+                
               </div>
+              <div class="col-xs-6">
+                <label> Rank </label>
+                <ngx-select-dropdown [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
+                    [options]="list"></ngx-select-dropdown>
+              
+            </div>
               <br/>
+              
               <input type="text" maxlength=150 class="form-control"  id="description"  placeholder="Enter Description">
              
                 <!-- <img [src]="url" height="200"> <br/> -->

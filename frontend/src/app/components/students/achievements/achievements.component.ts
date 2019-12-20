@@ -14,7 +14,8 @@ export var Achievement: Achievements = {
   uploadedFiles: [], 
   achCat: "",
   achSubCat: "",
-  description:""
+  description:"",
+  rank:""
 };
 
 @Component({
@@ -32,6 +33,7 @@ export class AchievementsComponent implements OnInit {
    link:string
    actualLink:any
    path:''
+   list=[{id:1, name:"School"},{id:2, name:"City"},{id:3, name:"State"},{id:4, name:"National"}]
 
 
 
@@ -41,6 +43,16 @@ export class AchievementsComponent implements OnInit {
     height: 'auto',
     placeholder: 'Select',
     displayKey: 'catName'
+
+  };
+
+
+  configRank = {
+
+    search: true,
+    height: 'auto',
+    placeholder: 'Select',
+    displayKey: 'name'
 
   };
 
@@ -57,7 +69,7 @@ export class AchievementsComponent implements OnInit {
   subcatOptions: any;
   noOfChoice = new Array<string>();
   localStorage: any;
-
+  rank:any
 
 
   constructor(public achService: AchievementsService, private router: Router,private http: HttpClient, public auth:AuthService
@@ -68,7 +80,6 @@ export class AchievementsComponent implements OnInit {
   ngOnInit() {
     this.refreshAchievements();
     this.getAllCategory();
-    
   }
 
   
@@ -99,12 +110,13 @@ export class AchievementsComponent implements OnInit {
 
 
   adduserInterestList() {
-
     let arr = [];
     for (let i = 0; i < this.subCatName.length; i++) {
       arr.push(this.subCatName[i].subCatName);
     }
     console.log(arr)
+    console.log(this.rank['name'])
+    Achievement.rank=this.rank['name']
     console.log(this.subCatName['subCatName'])
     Achievement.achSubCat=this.subCatName['subCatName']
   

@@ -10,7 +10,8 @@ export class AchievementsService {
     uploadedFiles: [], 
     achCat: "",
     achSubCat: "" ,
-    description:""
+    description:"",
+    rank:""
   };
   
   achievements: Achievements[];

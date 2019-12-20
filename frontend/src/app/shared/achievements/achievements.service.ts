@@ -9,7 +9,8 @@ export class AchievementsService {
   selectedAchievements: Achievements = {
     uploadedFiles: [], 
     achCat: "",
-    achSubCat: "" 
+    achSubCat: "" ,
+    description:""
   };
   
   achievements: Achievements[];

@@ -13,7 +13,8 @@ import { EventService } from 'src/app/shared/events/event.service';
 export var Achievement: Achievements = {
   uploadedFiles: [], 
   achCat: "",
-  achSubCat: "" 
+  achSubCat: "",
+  description:""
 };
 
 @Component({
@@ -119,6 +120,7 @@ export class AchievementsComponent implements OnInit {
           .subscribe((response) => {
               console.log('response received is ', response);
               Achievement.uploadedFiles=response['Image']
+              Achievement.description=(document.getElementById('description') as HTMLInputElement).value
               console.log(Achievement)
               this.achService.postAchievements(Achievement).subscribe((res)=>{
                 console.log(res)
@@ -172,8 +174,9 @@ export class AchievementsComponent implements OnInit {
   
   
 
-  postToIt(id:string){
-    this.http.post('http://localhost:3000/achImg',id,{ responseType:'blob'}).subscribe
+  postToIt(url:string){
+    console.log(url)
+    this.http.post('http://localhost:3000/achImg',url,{ responseType:'blob'}).subscribe
     ((response:Blob)=>{
       console.log('response as blob');
       console.log(response);

@@ -63,12 +63,15 @@
 
 
               </div>
-            
-                
+              <br/>
+              <input type="text" maxlength=150 class="form-control"  id="description"  placeholder="Enter Description">
+             
                 <!-- <img [src]="url" height="200"> <br/> -->
                 <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
                
               </div>
+            
+          
               <button type="button" class="btn btn-success" (click)="adduserInterestList()" [disabled]="!enableClose"  data-dismiss="modal" data-target="#exampleModal"  >
                 Submit
             </button>
@@ -127,7 +130,7 @@
                 <div class="hr"></div>
                   <h3>{{ ach.SubCategoryId }}</h3>
                   <div class="hr"></div>
-                  <p>Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. estas porttitor. Morbi lectus risus, iaculis vel, suscipit quis.
+                  <p>{{ach.Description}}
                   </p>
                   <a href="" class="read-more">READ MORE</a>
                 </div>

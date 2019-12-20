@@ -3,4 +3,5 @@ export class Achievements {
   achSubCat: string;
   uploadedFiles:any;
   description:string;
+  rank:string
 }

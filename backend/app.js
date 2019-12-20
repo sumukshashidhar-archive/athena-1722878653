@@ -944,12 +944,15 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
             if (!err && decodedToken != null) {
                 console.log("Verified");
                 console.log(decodedToken);
+                console.log('THIS IS TH EAHIEVEMENT'+req.body.achCat+req.body.achSubCat+req.body.uploadedFiles+req.body.rank+req.body.description)
                 var newAch = new achievements
                     ({
                         CategoryId: req.body.achCat,
                         SubCategoryId: req.body.achSubCat,
                         Image:req.body.uploadedFiles,
-                        Description:req.body.description
+                        Description: req.body.description,
+                        achRank: req.body.rank
+                        
                     })
                 newAch.save(function (err, achobj) {
                     if (err) {
@@ -958,6 +961,7 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
                     else {
                         console.log(decodedToken)
                         console.log(achobj["id"])
+                        console.log(achobj)
                         res.status(200).json(achobj)
                         Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                             if (err) {
@@ -1010,7 +1014,7 @@ app.post('/achImg', function (req, res) {
                         
                     }
                     console.log(req.body)
-                    res.sendFile(path.join(__dirname+'',mongoObj.Achievement[0]['Image']))
+                    res.sendFile(path.join(__dirname+'',mongoObj.Achievement[1]['Image']))
                    
                     
                     

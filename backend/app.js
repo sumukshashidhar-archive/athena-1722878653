@@ -948,7 +948,8 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
                     ({
                         CategoryId: req.body.achCat,
                         SubCategoryId: req.body.achSubCat,
-                        Image:req.body.uploadedFiles
+                        Image:req.body.uploadedFiles,
+                        Description:req.body.description
                     })
                 newAch.save(function (err, achobj) {
                     if (err) {
@@ -990,8 +991,8 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
 
 
 
-app.post('/achImg', async function (req, res) {
-    console.log('REQUEEST BODY is'+req.body)
+app.post('/achImg', function (req, res) {
+    console.log('REQUEEST  is'+ req)
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
@@ -1009,7 +1010,7 @@ app.post('/achImg', async function (req, res) {
                         
                     }
                     console.log(req.body)
-                    res.sendFile(path.join(__dirname+'',mongoObj.Achievement[2]['Image']))
+                    res.sendFile(path.join(__dirname+'',mongoObj.Achievement[0]['Image']))
                    
                     
                     

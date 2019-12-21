@@ -288,7 +288,7 @@ body {
 
 }
 
-.container .card .face.face2 .content a{
+.container .card .face.face2 .content button{
 margin: 15 px 0 0;
 display: inline-block;
 text-decoration: none;
@@ -296,9 +296,10 @@ font-weight: 900;
 color:#333;
 padding: 5px;
 border: 1px solid #333;
+border-radius: 10px;
 }
 
-.container .card .face.face2 .content a:hover{
+.container .card .face.face2 .content button:hover{
 background: #333;
 color: aliceblue;
 

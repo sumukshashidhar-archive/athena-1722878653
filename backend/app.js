@@ -996,15 +996,38 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
 
 
 app.post('/achImg', function (req, res) {
-    // console.log('REQUEEST  is'+ req)
-    console.log("ACH IMG");
-    console.log('REQUEEST  is esrdtfjgyuhjiokphgyufcjgvuhijopuygfguhijopuygfcgvhijopuygfcghu: '+ req.body);
-    console.log(req.url);
+    console.log('REQUEEST  is'+ req.body.url)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    // console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                    // console.log(mongoObj.Achievement[0]['Image'])
+                    for(var i=0;i<mongoObj.Achievement.length;i++){
+                        // console.log(mongoObj.Achievement[i]['Image'])   
 
-    // var Path=path.join(__dirname,  )
 
-    // res.sendFile(Path);
+                    }
+                    console.log("WORKINGG ANIRUDHHHH"+req.body.url)
+                    res.sendFile(path.join(__dirname+'',req.body.url))
+
+
+
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    })
 })
+
 
 
 
@@ -1049,8 +1072,8 @@ app.get('/interests', async function (req, res) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests.sort());
+                    console.log("Mongo Object is" + mongoObj.Interests);zzz
+                    res.send(mongoObj.Interests);
                 }
             })
         }

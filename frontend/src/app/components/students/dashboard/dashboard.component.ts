@@ -44,6 +44,9 @@ export class DashboardComponent implements OnInit {
     var email=decodedtoken['email']
     this.postToIt()
     this.refreshAchievements();
+    this.getInterersts().subscribe(res=>{
+      console.log(res)
+    })
   }
   refreshAchievements() {
     this.ach.getAchievements().subscribe(res => {
@@ -53,7 +56,9 @@ export class DashboardComponent implements OnInit {
       console.log(this.ach_list)
     });
   }
-
+getInterersts(){
+  return this.http.get('http://localhost:3000/interests')
+}
 
 createImageFromBlob(image:Blob){
   let reader= new FileReader();

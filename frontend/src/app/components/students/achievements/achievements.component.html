@@ -127,7 +127,7 @@
           <div class="card" >
             <div class="container">
                 <div class="image">
-                  <img [src]="imageToShow"  data-toggle="modal" data-target="#exampleModal">
+                  <img [src]="element" *ngFor="let element of imageArr" data-toggle="modal" data-target="#exampleModal">
                 </div>
                 <div class="card-block">
                   

@@ -1067,13 +1067,13 @@ app.get('/interests', async function (req, res) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {
             console.log("Verified")
-            user.findOne({ username: decodedToken.email }, function (err, mongoObj) {
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Interests);zzz
-                    res.send(mongoObj.Interests);
+                    console.log("Mongo Object is" + mongoObj.Interests);
+                    res.send(mongoObj.Interests.sort());
                 }
             })
         }

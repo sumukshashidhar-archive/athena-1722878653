@@ -30,13 +30,12 @@ export class AchievementsComponent implements OnInit {
   showSpinner: boolean = true;
   ach_list: any;
   enableClose=false
-   link:string
-   actualLink:any
    path:''
+   numbers=[1,2,3,4,5]
    list=[{id:1, name:"School"},{id:2, name:"City"},{id:3, name:"State"},{id:4, name:"National"}]
-
-
-
+  imageArr=[]
+  allset=false
+  
    config = {
 
     search: true,
@@ -159,7 +158,7 @@ export class AchievementsComponent implements OnInit {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
       console.log(this.ach_list);
-      for ( var i=0;i<3;i++){
+      for ( var i=0;i<this.ach_list.length;i++){
        console.log((this.ach_list[i].Image))
        var pa=this.ach_list[i].Image
        console.log(pa) 
@@ -177,22 +176,29 @@ export class AchievementsComponent implements OnInit {
     let reader= new FileReader();
     reader.addEventListener("load",()=>{
       this.imageToShow=reader.result;
+      console.log(typeof(this.imageToShow))
+      this.imageArr.push(this.imageToShow)
+  
+
+   
     },false);
-    this.profileUrlExists=true
+    console.log(this.imageArr)
     if(image){
       reader.readAsDataURL(image)
     }
     }
   
   
-
+    
   postToIt(url:string){
+    
     console.log(url)
-    this.http.post('http://localhost:3000/achImg',url,{ responseType:'blob'}).subscribe
+    this.http.post('http://localhost:3000/achImg',{url},{ responseType:'blob'}).subscribe
     ((response:Blob)=>{
       console.log('response as blob');
       console.log(response);
        this.createImageFromBlob(response);
+
     }); 
   }
 

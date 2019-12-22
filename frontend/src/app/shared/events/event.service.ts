@@ -69,6 +69,7 @@ export class EventService {
     return this.http.post("http://localhost:3000/addInterest", userInterest,options);
   }
 
+
   postEventInterest(eventInterest, eventId){
     const token = localStorage.getItem('access_token')
     const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;

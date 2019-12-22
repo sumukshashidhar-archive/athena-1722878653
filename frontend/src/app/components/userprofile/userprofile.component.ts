@@ -20,6 +20,7 @@ export class UserprofileComponent implements OnInit {
   username:any
   imageToShow:any
   profileUrlExists=false
+  interestlist:any
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any,  private auth: AuthService,
     private router: Router,private http:HttpClient,public achService: AchievementsService) {
       this.decoded = localStorage.getItem('access_token');
@@ -39,6 +40,12 @@ export class UserprofileComponent implements OnInit {
       }); 
     }
 
+    getInterersts(){
+      return this.http.get('http://localhost:3000/interests').subscribe(res=>{
+        this.interestlist=res
+        console.log(this.interestlist)
+      })
+    }
 
     createImageFromBlob(image:Blob){
       let reader= new FileReader();
@@ -75,6 +82,7 @@ export class UserprofileComponent implements OnInit {
     }
     console.log(this.decoded)
     this.getAch()
+    this.getInterersts()
   }
   logout() {
     this.auth.logout();

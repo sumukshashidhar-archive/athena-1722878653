@@ -29,7 +29,6 @@ import { CommonsignupComponent } from "./components/commonsignup/commonsignup.co
 import { OrganizerDashboardComponent } from "./components/organizers/organizer-dashboard/organizer-dashboard.component";
 import { EventsOrganizerComponent } from "./components/organizers/events-organizer/events-organizer.component";
 import { AdminLoginComponent } from "./components/admin/admin-login/admin-login.component";
-import { AdminDashComponent } from "./components/admin/admin-dash/admin-dash.component";
 import { SecurityComponent } from "./components/students/security/security.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
@@ -124,10 +123,6 @@ export const appRoutes: Routes = [
     component: EventsOrganizerComponent
   },
   {
-    path: "admindash",
-    component: AdminDashComponent
-  },
-  {
     path: "adminlog",
     component: AdminLoginComponent
   },
@@ -191,7 +186,6 @@ export const appRoutes: Routes = [
     OrganizerDashboardComponent,
     EventsOrganizerComponent,
     AdminLoginComponent,
-    AdminDashComponent,
     SecurityComponent,
     DeleteUserComponent,
     LoadingComponent,

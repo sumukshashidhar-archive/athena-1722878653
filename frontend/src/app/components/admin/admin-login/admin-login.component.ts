@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { FormsModule, NgForm } from '@angular/forms';
+import { AdminService } from './../../../shared/admin/admin.service'
 
 @Component({
   selector: "app-admin-login",
@@ -7,7 +9,18 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AdminLoginComponent implements OnInit {
   
-  constructor() {}
+  constructor(public adminService:AdminService) {}
 
   ngOnInit() {}
+
+  onSubmit(form: NgForm){
+    this.adminService.postAdmin(form.value).subscribe(
+      res => {
+        console.log(res)
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
 }

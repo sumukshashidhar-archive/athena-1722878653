@@ -23,7 +23,6 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
 
-
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')

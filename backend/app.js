@@ -161,25 +161,26 @@ conn.once('open', () => {
     console.log('Connection Successful')
   })
 
-
+// Create storage engine
 const storage = new GridFsStorage({
     url: db.mongoURI,
     file: (req, file) => {
       return new Promise((resolve, reject) => {
         crypto.randomBytes(16, (err, buf) => {
           if (err) {
-            return reject(err);
+            return reject(err)
           }
-          const filename = buf.toString("hex") + path.extname(file.originalname);
+          const filename = file.originalname
           const fileInfo = {
             filename: filename,
-            bucketName: "uploads"
-          };
-          resolve(fileInfo);
-        });
-      });
-    }
+            bucketName: 'uploads',
+          }
+          resolve(fileInfo)
+        })
+      })
+    },
   });
+  
   const upLoad = multer({
     storage
   });
@@ -222,6 +223,8 @@ var upload = multer({
 
 app.get('/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+        console.log(req.params)
+        console.log(file)
       // Check if file
       if (!file || file.length === 0) {
         return res.status(404).json({
@@ -232,12 +235,15 @@ app.get('/:filename', (req, res) => {
       // Check if image
       if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
         // Read output to browser
+        console.log('REached this point')
         const readstream = gfs.createReadStream(file.filename)
         readstream.pipe(res)
+    
       } else {
         res.status(404).json({
           err: 'Not an image',
         })
+
       }
     })
   })

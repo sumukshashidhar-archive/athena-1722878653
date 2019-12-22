@@ -223,55 +223,6 @@ var upload = multer({
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
 
 
-app.get('/:filename', (req, res) => {
-    // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    //     console.log(req.params)
-    //     console.log(file)
-    //   // Check if file
-    //   if (!file || file.length === 0) {
-    //     return res.status(404).json({
-    //       err: 'No file exists',
-    //     })
-    //   }
-  
-    //   // Check if image
-    //   if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-    //     // Read output to browser
-    //     console.log('REached this point')
-    //     const readstream = gfs.createReadStream(file.filename)
-    //     readstream.pipe(res)
-    //     return({files:file})
-    
-    //   } else {
-    //     res.status(404).json({
-    //       err: 'Not an image',
-    //     })
-
-    //   }
-    // })
-  const file = gfs
-  .find({
-    filename: req.params.filename
-  })
-  .toArray((err, files) => {
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: "no files exist"
-      });
-    }
-    console.log(files)
-    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-  });
-  })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -280,7 +231,7 @@ app.get('/:filename', (req, res) => {
 
 app.post("/upload",upLoad.single('img'), (req, res) => {
     console.log(req.body)
-    console.log()
+    console.log('ADDED IMAGE TO DATABASE')
     res.status(201).send('YES')
   });
 
@@ -973,7 +924,14 @@ app.get('/events', async function (req, res) {
         }
 
     })
+
 })
+
+
+
+
+
+
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
@@ -2095,3 +2053,46 @@ app.post('/addCat', function(req, res)
         }
     });
 });
+
+app.get('/:filename', (req, res) => {
+    // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    //     console.log(req.params)
+    //     console.log(file)
+    //   // Check if file
+    //   if (!file || file.length === 0) {
+    //     return res.status(404).json({
+    //       err: 'No file exists',
+    //     })
+    //   }
+  
+    //   // Check if image
+    //   if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+    //     // Read output to browser
+    //     console.log('REached this point')
+    //     const readstream = gfs.createReadStream(file.filename)
+    //     readstream.pipe(res)
+    //     return({files:file})
+    
+    //   } else {
+    //     res.status(404).json({
+    //       err: 'Not an image',
+    //     })
+
+    //   }
+    // })
+  const file = gfs
+  .find({
+    filename: req.params.filename
+  })
+  .toArray((err, files) => {
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: "no files exist"
+      });
+    console.log('NO SUCH FILE')
+    }
+    console.log(files)
+    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    // return res.json({File:files})
+  });
+  })

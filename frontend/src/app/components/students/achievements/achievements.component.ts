@@ -10,6 +10,7 @@ import { NgForm } from "@angular/forms";
 import { LoadingComponent } from "./../../loading/loading.component";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventService } from 'src/app/shared/events/event.service';
+export var File
 export var Achievement: Achievements = {
   uploadedFiles: [], 
   achCat: "",
@@ -32,6 +33,7 @@ export class AchievementsComponent implements OnInit {
   ach_list: any;
   enableClose=false
    path:''
+   link:any
    numbers=[1,2,3,4,5]
    list=[{id:1, name:"School"},{id:2, name:"City"},{id:3, name:"State"},{id:4, name:"National"}]
   imageArr=[]
@@ -109,7 +111,6 @@ export class AchievementsComponent implements OnInit {
 
 
 
-
   adduserInterestList() {
     let arr = [];
     for (let i = 0; i < this.subCatName.length; i++) {
@@ -133,7 +134,7 @@ export class AchievementsComponent implements OnInit {
           .subscribe((response) => {
               console.log('response received is ', response);
               Achievement.uploadedFiles=response['Image']
-              Achievement.description=(document.getElementById('description') as HTMLInputElement).value
+              
               console.log(Achievement)
               this.achService.postAchievements(Achievement).subscribe((res)=>{
                 console.log(res)
@@ -154,12 +155,24 @@ export class AchievementsComponent implements OnInit {
 }
 
   onSubmit(form: NgForm) {
+
     console.log('UPLOAD METHOD');
+    Achievement.description=(document.getElementById('description') as HTMLInputElement).value
+    console.log(this.rank['name'])
+    Achievement.rank=this.rank['name']
+    console.log(this.subCatName['subCatName'])
+    Achievement.achSubCat=this.subCatName['subCatName']
+   
   
-const File = (document.getElementById('file1') as HTMLInputElement).files;
+ File = (document.getElementById('file1') as HTMLInputElement).files;
 const frmData = new FormData()
 console.log(File[0]);
 console.log(File[0].name)
+Achievement.uploadedFiles=File[0].name
+console.log(Achievement)
+this.achService.postAchievements(Achievement).subscribe((res)=>{
+  console.log(res)
+})
 console.log(`http://localhost:3000/${File[0].name}`)
 frmData.append("img", File[0])
 
@@ -168,10 +181,11 @@ frmData.append("img", File[0])
       console.log(res)
 
     })
-this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
-  console.log(res)
-  console.log('ANIRUDH LAKHOTIA')
-})   
+    this.link='http://localhost:3000/'+`${File[0].name}`
+    console.log(this.link)
+// this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
+//   console.log(res)
+// })   
   }
   
 
@@ -183,11 +197,12 @@ this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
       console.log(this.ach_list);
+      File=this.ach_list[2].Image
       for ( var i=0;i<this.ach_list.length;i++){
        console.log((this.ach_list[i].Image))
        var pa=this.ach_list[i].Image
        console.log(pa) 
-       this.postToIt(pa)
+      //  this.postToIt(pa)
       }
       
       this.showSpinner = false;
@@ -227,6 +242,13 @@ this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
     }); 
   }
 
+  setAttr(){
+    console.log(File)
+    console.log(`http://localhost:3000/${File}`)
+    document
+  .getElementById('i1')
+  .setAttribute('src', `http://localhost:3000/${File}`)
+  }
   onDelete(_id: string) {
     if (confirm('Do you want to delete this record ?') == true) {
       this.achService.deleteAchievement(_id).subscribe((res) => {

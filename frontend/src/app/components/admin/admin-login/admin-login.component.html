@@ -1,32 +1,23 @@
-<!-- <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
-
 <body>
-  <div class="login-page">
-    <div class="form">
-      <form #f="ngForm" class="login-form" (ngSubmit)="f.valid && onSubmit(f)">
-        <input maxlength="32" type="email" placeholder="Email" required ngModel name="username" email #email="ngModel"
-          [(ngModel)]="loginService.selectedUser.email" />
-        <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email</span>
-        <p></p>
-        <input maxlength="32" type="password" placeholder="Password" required ngModel name="password" minlength="8"
-          id="password" #password="ngModel" [(ngModel)]="loginService.selectedUser.password" />
-        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">
-          Log In
-        </button>
-        <p></p>
-        <div class="success" *ngIf="showSuccessmessage">
-          Works till here
-        </div>
-        <div class="fail" *ngIf="loginFailed === 'true'">LOGIN FAILED</div>
-        <div class="alert" *ngIf="serverErrormessage">
-          {{ serverErrormessage }}
-        </div>
-
-        <p>
-          Not Registered?
-          <a routerLink="/signup" routerLinkActive="active">Sign Up</a>
-        </p>
-      </form>
-    </div>
+  <div class="container">
+    <form #f="ngForm">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter email" name="email" #email="ngModel" [(ngModel)]="adminService.admin.username" />
+        <span class="help-block" *ngIf="!email.valid && email.touched">Please enter email</span>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  name="password" #password="ngModel" [(ngModel)]="adminService.admin.password">
+      </div>
+      <span class="help-block" *ngIf="!password.valid && password.touched">Please enter password</span>
+      <div class="form-group">
+        <label for="exampleInputPassword2">Key</label>
+        <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Key"  name="key" #key="ngModel" [(ngModel)]="adminService.admin.key">
+        <span class="help-block" *ngIf="!key.valid && key.touched">Please enter key</span>
+      </div>
+      <button class="btn btn-success" [disabled]="!f.valid" (click)="onSubmit(f)">Submit</button>
+    </form>
   </div>
-</body> -->
+</body>

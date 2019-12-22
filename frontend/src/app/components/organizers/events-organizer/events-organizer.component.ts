@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Event } from './../../../shared/events/event';
 import { Component, OnInit } from "@angular/core";
 import { DatasharingService } from 'src/app/shared/search/datasharing.service';
@@ -6,6 +7,22 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventService } from "./../../../shared/events/event.service";
 export var decoded: any
+export var File;
+export var name;
+export var  selectedEvent: Event = {
+  evnPincode: "",
+  evnName: "",
+  evnOrganizerContact: "",
+  evnDate1: "",
+  evnDate2: "",
+  evnOrganizerPage: "",
+  evnTargetAge: 0,
+  evnDescription: "",
+  evnInterests: "",
+  evnAdd1: "",
+  evnAdd2: "",
+  Image:""
+};
 import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: "app-events-organizer",
@@ -13,6 +30,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   styleUrls: ["./events-organizer.component.css"]
 })
 export class EventsOrganizerComponent implements OnInit {
+  
   returnedEvents: any;
   maxDate: string;
   newDate: string;
@@ -39,12 +57,13 @@ export class EventsOrganizerComponent implements OnInit {
     displayKey: 'subCatName'
 
   };
+  file:any
   subCatName: any;
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
 
-  constructor(public eventService: EventService, private router: Router, private data: DatasharingService) {
+  constructor(public eventService: EventService, private router: Router,private http:HttpClient, private data: DatasharingService) {
     decoded = localStorage.getItem('access_token');
     this.noOfChoice.push('1');
   }
@@ -53,6 +72,13 @@ export class EventsOrganizerComponent implements OnInit {
     this.refreshEvents();
     this.maxDateSet();
     this.getAllCategory();
+  }
+
+  readSingleFile(e) {
+    // const name = e[0].name;
+    name = e.target.files[0].name;
+    
+    document.getElementById("file-label").textContent = name;
   }
 
   getAllCategory() {
@@ -73,6 +99,14 @@ export class EventsOrganizerComponent implements OnInit {
   }
   
   onSubmit(form: NgForm) {
+    File = (document.getElementById("file1") as HTMLInputElement).files;
+    form.value['Image']=File[0].name
+    const frmData = new FormData();
+    frmData.append("img", File[0]);
+    console.log(frmData);
+    this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
+      console.log(res);
+    });
     form.value['evnLocation'] = form.value['evnAdd1'] + '\n' + form.value['evnAdd2']
     this.eventService.postEvents(form.value).subscribe(
       res => {

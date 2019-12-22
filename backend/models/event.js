@@ -27,7 +27,8 @@ var eventSchema = new mongoose.Schema({
     evnScore: Number, 
     evnCost: Number, 
     evnRating: Number,
-    evnAttendees: Array //Specifically not something like [user.Schema]
+    evnAttendees: Array, //Specifically not something like [user.Schema]
+    Image:String
 });
 
 module.exports = mongoose.model("event", eventSchema);

@@ -19,7 +19,8 @@ export class EventService {
     evnDescription: "",
     evnInterests: "",
     evnAdd1: "",
-    evnAdd2: ""
+    evnAdd2: "",
+    Image:""
   };
   events: Event[];
 

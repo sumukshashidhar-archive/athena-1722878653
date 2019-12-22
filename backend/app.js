@@ -831,6 +831,7 @@ app.post('/organizer-events', async function (req, res) {
             console.log(err)
         }
         else {
+            console.log(req.body.Image)
             if (decodedToken["role"] == "Org") {
                 var newEvent = new event({
                     evnName: req.body.evnName,
@@ -846,6 +847,7 @@ app.post('/organizer-events', async function (req, res) {
                     evnTargetAge: req.body.evnTargetAge,
                     evnDescription: req.body.evnDescription,
                     evnCost: req.body.cost,
+                    Image:req.body.Image
                 });
                 newEvent.save(function (err, obj) {
                     if (err) {

@@ -165,6 +165,7 @@ ul{
 
 ul li{
   background: rgba(255,255,255,.1);
+  border-radius: 10px;
   display: flex;
   padding: 10px 20px;
   color: #000;
@@ -302,5 +303,6 @@ border-radius: 10px;
 .container .card .face.face2 .content button:hover{
 background: #333;
 color: aliceblue;
+
 
 }

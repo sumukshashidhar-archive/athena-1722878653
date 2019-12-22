@@ -10,4 +10,5 @@ export class Event {
   evnDescription: string;
   evnAdd1: string; //
   evnAdd2: string; //
+  Image:string;
 }

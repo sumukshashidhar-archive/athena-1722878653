@@ -10,6 +10,7 @@ import { NgForm } from "@angular/forms";
 import { LoadingComponent } from "./../../loading/loading.component";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventService } from 'src/app/shared/events/event.service';
+export var File
 export var Achievement: Achievements = {
   uploadedFiles: [], 
   achCat: "",
@@ -17,6 +18,7 @@ export var Achievement: Achievements = {
   description:"",
   rank:""
 };
+
 
 @Component({
   selector: "app-achievements",
@@ -30,13 +32,13 @@ export class AchievementsComponent implements OnInit {
   showSpinner: boolean = true;
   ach_list: any;
   enableClose=false
-   link:string
-   actualLink:any
    path:''
+   link:any
+   numbers=[1,2,3,4,5]
    list=[{id:1, name:"School"},{id:2, name:"City"},{id:3, name:"State"},{id:4, name:"National"}]
-
-
-
+  imageArr=[]
+  allset=false
+  
    config = {
 
     search: true,
@@ -70,6 +72,7 @@ export class AchievementsComponent implements OnInit {
   noOfChoice = new Array<string>();
   localStorage: any;
   rank:any
+  file:any
 
 
   constructor(public achService: AchievementsService, private router: Router,private http: HttpClient, public auth:AuthService
@@ -108,7 +111,6 @@ export class AchievementsComponent implements OnInit {
 
 
 
-
   adduserInterestList() {
     let arr = [];
     for (let i = 0; i < this.subCatName.length; i++) {
@@ -132,7 +134,7 @@ export class AchievementsComponent implements OnInit {
           .subscribe((response) => {
               console.log('response received is ', response);
               Achievement.uploadedFiles=response['Image']
-              Achievement.description=(document.getElementById('description') as HTMLInputElement).value
+              
               console.log(Achievement)
               this.achService.postAchievements(Achievement).subscribe((res)=>{
                 console.log(res)
@@ -146,10 +148,46 @@ export class AchievementsComponent implements OnInit {
   }
 
 
+ readSingleFile (e)   {
+    // const name = e[0].name;
+    const name=e.target.files[0].name
+    document.getElementById("file-label").textContent = name;
+}
+
   onSubmit(form: NgForm) {
+
     console.log('UPLOAD METHOD');
-    console.log(form.value)  
+    Achievement.description=(document.getElementById('description') as HTMLInputElement).value
+    console.log(this.rank['name'])
+    Achievement.rank=this.rank['name']
+    console.log(this.subCatName['subCatName'])
+    Achievement.achSubCat=this.subCatName['subCatName']
+   
+  
+ File = (document.getElementById('file1') as HTMLInputElement).files;
+const frmData = new FormData()
+console.log(File[0]);
+console.log(File[0].name)
+Achievement.uploadedFiles=File[0].name
+console.log(Achievement)
+this.achService.postAchievements(Achievement).subscribe((res)=>{
+  console.log(res)
+})
+console.log(`http://localhost:3000/${File[0].name}`)
+frmData.append("img", File[0])
+
+    console.log(frmData) 
+    this.http.post('http://localhost:3000/upload',frmData).subscribe(res=>{
+      console.log(res)
+
+    })
+    this.link='http://localhost:3000/'+`${File[0].name}`
+    console.log(this.link)
+// this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
+//   console.log(res)
+// })   
   }
+  
 
 
     logout(){
@@ -159,11 +197,12 @@ export class AchievementsComponent implements OnInit {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
       console.log(this.ach_list);
-      for ( var i=0;i<3;i++){
+      File=this.ach_list[2].Image
+      for ( var i=0;i<this.ach_list.length;i++){
        console.log((this.ach_list[i].Image))
        var pa=this.ach_list[i].Image
        console.log(pa) 
-       this.postToIt(pa)
+      //  this.postToIt(pa)
       }
       
       this.showSpinner = false;
@@ -177,25 +216,39 @@ export class AchievementsComponent implements OnInit {
     let reader= new FileReader();
     reader.addEventListener("load",()=>{
       this.imageToShow=reader.result;
+      console.log(typeof(this.imageToShow))
+      this.imageArr.push(this.imageToShow)
+  
+
+   
     },false);
-    this.profileUrlExists=true
+    console.log(this.imageArr)
     if(image){
       reader.readAsDataURL(image)
     }
     }
   
   
-
+    
   postToIt(url:string){
+    
     console.log(url)
-    this.http.post('http://localhost:3000/achImg',url,{ responseType:'blob'}).subscribe
+    this.http.post('http://localhost:3000/achImg',{url},{ responseType:'blob'}).subscribe
     ((response:Blob)=>{
       console.log('response as blob');
       console.log(response);
        this.createImageFromBlob(response);
+
     }); 
   }
 
+  setAttr(){
+    console.log(File)
+    console.log(`http://localhost:3000/${File}`)
+    document
+  .getElementById('i1')
+  .setAttribute('src', `http://localhost:3000/${File}`)
+  }
   onDelete(_id: string) {
     if (confirm('Do you want to delete this record ?') == true) {
       this.achService.deleteAchievement(_id).subscribe((res) => {

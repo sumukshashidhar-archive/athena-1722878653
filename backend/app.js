@@ -9,6 +9,7 @@ const cors = require('cors');
 var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
+const GridFsStorage = require("multer-gridfs-storage");
 // var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
@@ -20,6 +21,7 @@ const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
+var Grid = require('gridfs-stream');
 
 
 //var brain = require('brain.js')
@@ -137,6 +139,10 @@ app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
 //DB CONNECTION
+const conn = mongoose.createConnection(db.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 // This is an async funtion
 mongoose.connect(db.mongoURI,
     {
@@ -147,11 +153,45 @@ mongoose.connect(db.mongoURI,
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 
-//STARTING SERVER HERE
+// init gfs
+let gfs;
+conn.once("open", () => {
+  // init stream
+  console.log('Connection Successful to GFS')
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+});
+
+// Create storage engine
+const storage = new GridFsStorage({
+    url: db.mongoURI,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err)
+          }
+          const filename = file.originalname
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'uploads',
+          }
+          resolve(fileInfo)
+        })
+      })
+    },
+  });
+  
+  const upLoad = multer({
+    storage
+  });
+
+//STARTING SERVER HERE  
 app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is from a config file
 {
     console.log("SERVER STARTED");
-});
+}); 
 
 //FILE UPLOAD CODE, DON'T TOUCH, FOR HELP CONTACT VIJAY
 
@@ -178,9 +218,22 @@ var upload = multer({
 //     return res.end("File uploaded sucessfully!.");
 // });
 
+
+
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
 
 
+
+
+
+
+
+
+app.post("/upload",upLoad.single('img'), (req, res) => {
+    console.log(req.body)
+    console.log('ADDED IMAGE TO DATABASE')
+    res.status(201).send('YES')
+  });
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
@@ -871,7 +924,14 @@ app.get('/events', async function (req, res) {
         }
 
     })
+
 })
+
+
+
+
+
+
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
@@ -996,15 +1056,38 @@ app.post('/achievements',  multipartMiddleware, (req, res) => {
 
 
 app.post('/achImg', function (req, res) {
-    // console.log('REQUEEST  is'+ req)
-    console.log("ACH IMG");
-    console.log('REQUEEST  is esrdtfjgyuhjiokphgyufcjgvuhijopuygfguhijopuygfcgvhijopuygfcghu: '+ req.body);
-    console.log(req.url);
+    console.log('REQUEEST  is'+ req.body.url)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    // console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                    // console.log(mongoObj.Achievement[0]['Image'])
+                    for(var i=0;i<mongoObj.Achievement.length;i++){
+                        // console.log(mongoObj.Achievement[i]['Image'])   
 
-    // var Path=path.join(__dirname,  )
 
-    // res.sendFile(Path);
+                    }
+                    console.log("WORKINGG ANIRUDHHHH"+req.body.url)
+                    res.sendFile(path.join(__dirname+'',req.body.url))
+
+
+
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    })
 })
+
 
 
 
@@ -1044,7 +1127,7 @@ app.get('/interests', async function (req, res) {
         console.log("Getting Interests....")
         if (!err && decodedToken != null) {
             console.log("Verified")
-            user.findOne({ username: decodedToken.email }, function (err, mongoObj) {
+            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
@@ -1970,3 +2053,46 @@ app.post('/addCat', function(req, res)
         }
     });
 });
+
+app.get('/:filename', (req, res) => {
+    // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    //     console.log(req.params)
+    //     console.log(file)
+    //   // Check if file
+    //   if (!file || file.length === 0) {
+    //     return res.status(404).json({
+    //       err: 'No file exists',
+    //     })
+    //   }
+  
+    //   // Check if image
+    //   if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+    //     // Read output to browser
+    //     console.log('REached this point')
+    //     const readstream = gfs.createReadStream(file.filename)
+    //     readstream.pipe(res)
+    //     return({files:file})
+    
+    //   } else {
+    //     res.status(404).json({
+    //       err: 'Not an image',
+    //     })
+
+    //   }
+    // })
+  const file = gfs
+  .find({
+    filename: req.params.filename
+  })
+  .toArray((err, files) => {
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: "no files exist"
+      });
+    console.log('NO SUCH FILE')
+    }
+    console.log(files)
+    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    // return res.json({File:files})
+  });
+  })

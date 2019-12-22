@@ -219,7 +219,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #003e46;
+  background: #000046;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1CB5E0, #000046);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #1CB5E0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  
 }
 
 .cont  {
@@ -303,10 +307,18 @@ body {
  }  
 
  .cont .content button {
-  display: inline-block;
-  margin-top: 15px;
-  color:  #000;
-  text-decoration: none;
-  padding: 10px;
-  border: 1px solid #000;
+margin-top: 15px;
+display: inline-block;
+text-decoration: none;
+font-weight: 900;
+color:#333;
+padding: 10px;
+border: 1px solid #333;
+border-radius: 10px;
  }
+
+.cont .content button:hover{
+  background: #333;
+  color: aliceblue;
+  
+  }

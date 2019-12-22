@@ -9,6 +9,7 @@ const cors = require('cors');
 var bcrypt = require('bcrypt');
 const crypto = require("crypto");
 var multer = require('multer');
+const GridFsStorage = require("multer-gridfs-storage");
 // var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
@@ -20,6 +21,7 @@ const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
+var Grid = require('gridfs-stream');
 
 
 //var brain = require('brain.js')
@@ -137,6 +139,10 @@ app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
 //DB CONNECTION
+const conn = mongoose.createConnection(db.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 // This is an async funtion
 mongoose.connect(db.mongoURI,
     {
@@ -147,7 +153,38 @@ mongoose.connect(db.mongoURI,
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
 
-//STARTING SERVER HERE
+   // init gfs
+let gfs;
+conn.once('open', () => {
+    gfs = Grid(conn.db, mongoose.mongo)
+    gfs.collection('uploads')
+    console.log('Connection Successful')
+  })
+
+
+const storage = new GridFsStorage({
+    url: db.mongoURI,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString("hex") + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: "uploads"
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+  });
+  const upLoad = multer({
+    storage
+  });
+
+//STARTING SERVER HERE  
 app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is from a config file
 {
     console.log("SERVER STARTED");
@@ -178,9 +215,52 @@ var upload = multer({
 //     return res.end("File uploaded sucessfully!.");
 // });
 
+
+
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
 
 
+app.get('/:filename', (req, res) => {
+    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+      // Check if file
+      if (!file || file.length === 0) {
+        return res.status(404).json({
+          err: 'No file exists',
+        })
+      }
+  
+      // Check if image
+      if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+        // Read output to browser
+        const readstream = gfs.createReadStream(file.filename)
+        readstream.pipe(res)
+      } else {
+        res.status(404).json({
+          err: 'Not an image',
+        })
+      }
+    })
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post("/upload",upLoad.single('img'), (req, res) => {
+    console.log(req.body)
+    console.log()
+    res.status(201).send('YES')
+  });
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {

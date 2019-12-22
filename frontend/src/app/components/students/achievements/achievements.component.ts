@@ -18,6 +18,7 @@ export var Achievement: Achievements = {
   rank:""
 };
 
+
 @Component({
   selector: "app-achievements",
   templateUrl: "./achievements.component.html",
@@ -69,6 +70,7 @@ export class AchievementsComponent implements OnInit {
   noOfChoice = new Array<string>();
   localStorage: any;
   rank:any
+  file:any
 
 
   constructor(public achService: AchievementsService, private router: Router,private http: HttpClient, public auth:AuthService
@@ -145,10 +147,33 @@ export class AchievementsComponent implements OnInit {
   }
 
 
+ readSingleFile (e)   {
+    // const name = e[0].name;
+    const name=e.target.files[0].name
+    document.getElementById("file-label").textContent = name;
+}
+
   onSubmit(form: NgForm) {
     console.log('UPLOAD METHOD');
-    console.log(form.value)  
+  
+const File = (document.getElementById('file1') as HTMLInputElement).files;
+const frmData = new FormData()
+console.log(File[0]);
+console.log(File[0].name)
+console.log(`http://localhost:3000/${File[0].name}`)
+frmData.append("img", File[0])
+
+    console.log(frmData) 
+    this.http.post('http://localhost:3000/upload',frmData).subscribe(res=>{
+      console.log(res)
+
+    })
+this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
+  console.log(res)
+  console.log('ANIRUDH LAKHOTIA')
+})   
   }
+  
 
 
     logout(){

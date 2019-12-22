@@ -31,6 +31,7 @@ var student_functions = require('./controllers/student_controller');
 var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
 const enc = require('./config/encryptionConfig.js');
+const apiTokenSign = require('./config/API_TOKEN_SIGNATURE.js')
 var serv = require('./config/severConfig.js');
 var user = require("./models/user.js");
 var Student = require("./models/StudentInfo.js");
@@ -50,6 +51,13 @@ var daVinci = require ('./controllers/recommendation-engine.js')
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
+
+
+var API_SIGNATORY = require('./controllers/API_SIGN')
+
+
+var admin = require('./models/admin.js')
+var ADMIN_CONTROLLER = require('./controllers/admin_controller')
 
 ///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
 
@@ -1826,7 +1834,26 @@ function arrAdderCircuit(uservecobj, event_interests, userid) {
     })
 }
 
+app.post('/module-execution', function(req, res){
+    //You have to send me an API token. Ideally the RSA Key that I would have given you
+    //Instead of this, I can give you a JWT signed by An Admin
+    
+})
 
+app.post('/admin_add', function(req, res) {
+    if(req.body.key == 'hello') {
+        ADMIN_CONTROLLER.ADMIN_ADD(req.body.username, req.body.passowrd)
+    }
+    else {
+        res.status(404).send('wrong key')
+    }
+})
+
+app.post('/api-key-signature', function(req, res) {
+    //This has to be signed by an admin account. Each Admin Account should be secured with an RSA key
+    //Have to send in an admin account and an admin password
+    
+})
 
 //NOT TESTED
 app.post('/click-on-events', function(req, res) {
@@ -2097,3 +2124,10 @@ app.get('/:filename', (req, res) => {
     // return res.json({File:files})
   });
   })
+
+
+
+
+
+
+

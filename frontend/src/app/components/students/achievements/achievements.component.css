@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 .box1 {
+  border-radius: 10px;
   position: relative;
   z-index: 1;
   background: rgba(255, 255, 255, 0.6);
@@ -98,7 +99,21 @@ body {
 [hidden] {
   display: none !important;
 }
+.box1 button{
+  margin: 15 px 0 0;
+display: inline-block;
+text-decoration: none;
+font-weight: 900;
+color:#333;
+padding: 5px;
+border: 1px solid;
+border-radius: 10px;
+}
 
+.box1 button:hover{
+  background: #000428;
+  color: aliceblue;
+  }
 .spinning {
   margin-left: 50%;
   margin-top: 20%;

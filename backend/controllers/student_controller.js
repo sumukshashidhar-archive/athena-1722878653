@@ -33,5 +33,10 @@ module.exports = {
             }
         });
     },
+
+
+    FINDR: async function FINDR(username) {
+
+    }
     
 }

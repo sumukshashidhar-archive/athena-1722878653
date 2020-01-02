@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1", 
-    "start": "node backend/app.js"
+    "start": "node /backend/app.js"
   },
   "author": "Sri Kumaran Children's Home",
   "license": "ISC",

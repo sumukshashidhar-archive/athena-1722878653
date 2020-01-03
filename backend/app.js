@@ -901,31 +901,6 @@ app.post("/addInterestOrganizer", function (req, res) {
     });
 });
 
-app.get('/events', async function (req, res) {
-    console.log("Getting events......")
-    console.log(req)
-    console.log(req.header)
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            console.log("")
-        }
-        else {
-            event.find({}, function (err, MONGO_EVENTS_RETURN) {
-                if (err) {
-
-                }
-                else {
-                    console.log(decodedToken)
-                    res.send(MONGO_EVENTS_RETURN)
-                }
-            })
-        }
-
-    })
-
-})
-
-
 
 
 
@@ -1346,7 +1321,7 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
     })
 })
 
-app.post('/events', async (req, res) => {
+app.get('/events', async (req, res) => {
     //Gets a request from the user
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, (err, DECODEDTOKEN) => {
         if (err) {

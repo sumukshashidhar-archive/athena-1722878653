@@ -11,6 +11,11 @@ module.exports = {
     }, 
     testexplore: async function(student) {
         var callback = new Promise((res, rej) => {
+            var PRCSEvns = await sr.cityspecific(student.Location)
+            //These are the events to process
+
+
+
             
         })
 

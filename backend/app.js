@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken')
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 const cors = require('cors');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
@@ -1034,7 +1034,7 @@ app.post('/achImg', function (req, res) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
             console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+            Student.findOne({ EmailId: decodedToken.EmailId }, function (err, mongoObj) {
                 if (err) {
                     console.log(err)
                 }
@@ -1323,7 +1323,7 @@ app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', fu
 
 app.get('/events', async (req, res) => {
     //Gets a request from the user
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, (err, DECODEDTOKEN) => {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err,decodedToken) => {
         if (err) {
             console.log(err)
         }
@@ -1332,7 +1332,7 @@ app.get('/events', async (req, res) => {
                 console.log('INTERNAL ERROR. ', err);
             }
             else {
-                Student.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
+                Student.findOne({ _id: decodedToken.usrid }, async function(err, MONGO_OBJ_RETURN) {
                     if (err) {
                         console.log(err)
                     }
@@ -1340,7 +1340,9 @@ app.get('/events', async (req, res) => {
                         if (MONGO_OBJ_RETURN) {
                             //This implies that I found a user like this
                             //Now I need to process recommendations for this user
-                            var evns_to_return = await dms.explore(MONGO_OBJ_RETURN)
+                            var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            console.log("Being sent is: \n", evns_to_return)
+                            res.send(evns_to_return)
                         }
 
                         else {
@@ -1605,8 +1607,7 @@ app.get('/:filename', (req, res) => {
 
 function getFrndInt(email)
 {
-    Student.findOne({EmailId: email), function(err, obj)
-    {
+    Student.findOne({EmailId: email}, function(err, obj){
 
     var frnds = obj.Friends
 

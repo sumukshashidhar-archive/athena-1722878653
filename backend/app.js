@@ -1407,7 +1407,6 @@ app.post('/click-on-events', function (req, res) {
 
 })
 
-app.post('/')
 
 
 
@@ -1602,6 +1601,30 @@ app.get('/:filename', (req, res) => {
             // return res.json({File:files})
         });
 })
+
+
+function getFrndInt(email)
+{
+    Student.findOne({EmailId: email), function(err, obj)
+    {
+
+    var frnds = obj.Friends
+
+    var interests = []
+
+        for(var i = 0; i < frnds.length; i++)
+        {
+            Student.findOne({EmailId: frnds[i]}, function(err, obj1){
+
+                interests.concat(obj1.interests);
+
+            });
+        }
+
+    return interests;
+    });
+}
+
 
 
 

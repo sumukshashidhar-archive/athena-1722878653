@@ -2,7 +2,7 @@ var sr = require('./evn-micro')
 var rdms = require('./rd-micro.js')
 
 async function gateway(student, PRCSEvns){
-    var callback = new Promise(async (req, res)=> {
+    var callback = new Promise(async (res, rej)=> {
         //This gateway is needed if in the future someone needs to further process these events.
         //This also limits redundant code.
         var fin = await rdms.handler(student, PRCSEvns)

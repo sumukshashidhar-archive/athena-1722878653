@@ -62,11 +62,59 @@ On the second terminal, you should have an output saying that the server has sta
 ## Authors
 
 
-- **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT and Achievements_ (@anirudhlakhotia)
-- **Sumuk Shashidhar**  -  _Request management and Authentication. Implementation of JWT. Recommendation Algorithm for Events_ (@sumukshashidhar)
-- **Vijay Dharmaji**  -  _Mailer_
 
--  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Searching_   (@anandrajaram21)
+- **Sumuk Shashidhar**  - 
+1. Login
+2. Signup
+3. Home Page and Dashboard
+4. Achievements Initial Posting
+5. Events 
+6. DaVinci Recommendation System
+7. Reset password, except NODEMAILER
+8. Searching for Users and Events and all that
+9. JWT sessions management and Authentication
+10. API Key Signatory and Verification Process
+11. Admin Console set up - Deployed at athena-admin.herokuapp.com
+12. Microservice Backend Architecture Design
+13. Database design and Implementation
+14. Update Information of Students
+15. Data collection
+16. Organizer Services
+17. Module Run Requests
+18. Implementation of Machine Learning Models with Brain.Js
+
+
+-  **Anand Rajaram**
+1. Login with form validation
+2. Signup for users and organizers
+3. Reset Password functionality in frontend
+4. Event display
+5. Event organization
+6. Discover page with event search and user search
+7. Organizer and Student interests( fixed Anuj's stuff and made everything proper )
+8. UI DESIGN
+9. Form validation everywhere
+10. Angular deployment to AWS S3
+11. Captcha verification for Crucial Pages
+
+**Anirudh Lakhotia*
+
+1. JWT based authentication
+2.Dashboard
+3.Achievements
+4.User Profile 
+5.Image upload by GridFS 
+6.Everything related to Images
+7.Module run request
+8.UI design
+9. Data collection from Frontend
+
+**Vijay Dharmaji**
+1. Mailing
+2. Interests
+
+
+
 
 See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.
 

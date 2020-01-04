@@ -1,6 +1,6 @@
 import { AuthService } from "src/app/auth/auth.service";
 import { Component, OnInit } from "@angular/core";
-
+import * as $ from "jquery";
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
 import { Achievements } from "../../../shared/achievements/achievements.model";
 import { Router } from "@angular/router";
@@ -10,6 +10,7 @@ import { LoadingComponent } from "./../../loading/loading.component";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { EventService } from "src/app/shared/events/event.service";
 export var File;
+export var achlist;
 export var Achievement: Achievements = {
   uploadedFiles: [],
   achCat: "",
@@ -24,6 +25,8 @@ export var Achievement: Achievements = {
   styleUrls: ["./achievements.component.css"]
 })
 export class AchievementsComponent implements OnInit {
+  desc:any;
+  img:any;
   profileUrlExists = false;
   imageToShow: any;
   uploadedFiles: Array<File>;
@@ -32,6 +35,7 @@ export class AchievementsComponent implements OnInit {
   enableClose = false;
   path: "";
   link: any;
+  Rank:any
   numbers = [1, 2, 3, 4, 5];
   list = [
     { id: 1, name: "School" },
@@ -84,6 +88,7 @@ export class AchievementsComponent implements OnInit {
   ngOnInit() {
     this.refreshAchievements();
     this.getAllCategory();
+    
   }
 
   getAllCategory() {
@@ -92,7 +97,21 @@ export class AchievementsComponent implements OnInit {
       console.log(this.categoryOption);
     });
   }
+  DoIt(id:any){
+    console.log(id)
+    console.log(achlist)
+    for(var i=0;i<achlist.length;i++){
+      if(achlist[i]._id==id){
+       this.desc=achlist[i].Description
+       this.img=achlist[i].Image
+       console.log(this.desc)
+       console.log(this.img)
+       this.Rank=achlist[i].achRank
+       
+      }
+    }
 
+  }
   selectionChanged(event) {
     this.subCatName = null;
     console.log(event);
@@ -185,6 +204,7 @@ export class AchievementsComponent implements OnInit {
   refreshAchievements() {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
+      achlist=this.ach_list;
       console.log(this.ach_list);
       File = this.ach_list[2].Image;
       for (var i = 0; i < this.ach_list.length; i++) {

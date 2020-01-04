@@ -101,54 +101,65 @@
     <div class="container">
       <div class="row">
         <div class="newsItem col-12 col-sm-6 col-md-4 col-lg-4 " *ngFor="let ach of this.ach_list">
-          <div class="column"></div>
-          <div class="card">
-            <div class="container">
-              <div class="image">
-                <img src="http://localhost:3000/{{ ach.Image }}" />
-              </div>
-              <input id="testimg123" type="hidden" readonly value="{{ ach.Image }}">
-              <div class="card-block">
-                <h2>{{ ach.CategoryId }}</h2>
-                <div class="summary">
-                  <div class="hr"></div>
-                  <h3>{{ ach.SubCategoryId }}</h3>
-                  <div class="hr"></div>
-                  <p>{{ ach.Description }}</p>
-                  <a (click)="setAttr()" data-toggle="modal" data-target="#myModal1" class="read-more">READ MORE</a>
+          <div class="modal" id="myModal1"  *ngFor="let ach of this.ach_list">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line" id="des">
+                  <img src="http://localhost:3000/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
+                  <br/>
+                  {{desc}}
+                  <br/>
+                  <div class="container" *ngIf="Rank=='State'" style="background-color: lawngreen; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='National'" style="background-color: black; color: white;">
+                    Rank: {{Rank}}
+                  </div>
+                </div>
+                <div class="modal-footer" >
+                  <button class="btn btn-primary" type="button" data-dismiss="modal">
+                    Close
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="column"></div>
+          <div class="flip-card" >
+            <div class="flip-card-inner">
+              <div class="flip-card-front"  >
+                <h2 style="font-weight: 100;color: white;background-color: black;">{{ach.CategoryId}}</h2>
+                <br/>
+                <br/>
+                <p style="font-weight: 700;color: grey;text-align: center;font-size: 200%;">{{ach.SubCategoryId}}</p>
+               <br>
+              </div>
+              <div class="flip-card-back" style="align-items: center;">
+                <button data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" style="border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center;">
+                  Click to view Description
+                 </button>
+                
+                <br/>
+               
+              </div>
+              <p></p>
+              
+
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
+    </div> 
+    
+
   </body>
 </div>
-<div class="modal" id="myModal1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal -header">
-        <h2 class="modal-title">Your Picture</h2>
-        <button class="close" type="button" data-dismiss="myModal1">
-          x
-        </button>
-      </div>
-      <div class="modal-body">
-        <img id="imagetoshow" src="http://localhost:3000/{{ test123 }}" alt="{{ test123 }}" />
-        <p>This is the image</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal1" data-dismiss="myModal1">
-          Prev
-        </button>
-        <button class="btn btn-primary" type="button" data-dismiss="modal">
-          Close
-        </button>
-        <button class="btn btn-success" type="button" data-dismiss="modal">
-          Send Achievements
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+

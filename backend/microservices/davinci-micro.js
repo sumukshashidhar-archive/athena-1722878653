@@ -19,6 +19,11 @@ module.exports = {
         var callback = new Promise(async (res, rej) => {
             var PRCSEvns = await sr.all()
             //These are the events to process
+
+            //Here comes the recommendations
+
+            
+
             res(PRCSEvns)
             
         })

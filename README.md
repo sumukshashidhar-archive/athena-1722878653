@@ -97,7 +97,7 @@ On the second terminal, you should have an output saying that the server has sta
 10. Angular deployment to AWS S3
 11. Captcha verification for Crucial Pages
 
-**Anirudh Lakhotia*
+**Anirudh Lakhotia**
 
 1. JWT based authentication
 2.Dashboard
@@ -107,6 +107,7 @@ On the second terminal, you should have an output saying that the server has sta
 6.Everything related to Images
 7.Module run request
 8.UI design
+
 9. Data collection from Frontend
 
 **Vijay Dharmaji**

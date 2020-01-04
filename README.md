@@ -98,16 +98,14 @@ On the second terminal, you should have an output saying that the server has sta
 11. Captcha verification for Crucial Pages
 
 **Anirudh Lakhotia**
-
 1. JWT based authentication
-2.Dashboard
-3.Achievements
-4.User Profile 
-5.Image upload by GridFS 
-6.Everything related to Images
-7.Module run request
-8.UI design
-
+2. Dashboard
+3. Achievements
+4. User Profile 
+5. Image upload by GridFS 
+6. Everything related to Images
+7. Module run request
+8. UI design
 9. Data collection from Frontend
 
 **Vijay Dharmaji**

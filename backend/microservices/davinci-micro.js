@@ -6,6 +6,7 @@ async function gateway(student, PRCSEvns){
         //This gateway is needed if in the future someone needs to further process these events.
         //This also limits redundant code.
         var fin = await rdms.handler(student, PRCSEvns)
+        res(fin)
     })
     let r = await callback
     return r
@@ -30,6 +31,7 @@ module.exports = {
             //These are the events to process
             //Here comes the recommendations
             var returner = await gateway(student, PRCSEvns)
+            console.log("These are the events from the gateway", returner)
             res(returner)
             
         })

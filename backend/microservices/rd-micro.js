@@ -40,8 +40,8 @@ async function rd(decodedToken, evns) {
             console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
             sum_array.push(sum)
             evns[i].evnScore = sum;
-            console.log(evns)
-            console.log(decodedToken)
+            // console.log(evns)
+            // console.log(decodedToken)
             res(evns)
             
         }
@@ -64,8 +64,10 @@ module.exports = {
     //just a handler for the RD
     handler: async (decodedToken, evns) => {
         var ret = await rd(decodedToken, evns)
-        var final = await evns.sort((await GetSortOrder('evnScore')))
-        console.log("This is the final callback: Sending the frontend this. \n ", final)
+        var final = await ret.sort((await GetSortOrder('evnScore')))
+        // console.log("This is the final callback: Sending the frontend this. \n ", final)
         return final;
     }
 }
+
+//Uncomment the commented lines if you need to test the DaVinci System

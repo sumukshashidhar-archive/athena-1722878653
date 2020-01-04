@@ -94,7 +94,7 @@ On the second terminal, you should have an output saying that the server has sta
 7. UI DESIGN
 8. Form validation everywhere
 9. Angular deployment to AWS S3 
-10.Captcha verification for Crucial Pages
+10. Captcha verification
 
 **Anirudh Lakhotia**
 1. JWT based authentication

@@ -8,7 +8,7 @@ async function rd(decodedToken, evns) {
             var sum = 0.0
             console.log("REACHED: OUTER LOOP")
             if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
-                sum += (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7)
+                sum -= (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7) //0.7 because the pincode should not be given that much weightage
                 console.log((Math.abs(decodedToken.pincode - ev.evnPincode)*0.7))
                 console.log('Sum at step 1: ', sum)
                 console.log("REACHED: COMPARISON STEP FOR PINCODE")

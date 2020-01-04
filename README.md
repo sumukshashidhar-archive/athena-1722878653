@@ -64,7 +64,8 @@ On the second terminal, you should have an output saying that the server has sta
 
 - **Anirudh Lakhotia**  -  _Project functionality with Angular. Implementation of JWT and Achievements_ (@anirudhlakhotia)
 - **Sumuk Shashidhar**  -  _Request management and Authentication. Implementation of JWT. Recommendation Algorithm for Events_ (@sumukshashidhar)
-- **Vijay Dharmaji**  -  _File Upload and Node Mailer_ (@vijaydharmaji29)
+- **Vijay Dharmaji**  -  _Mailer_
+
 -  **Anand Rajaram**  -  _Project functionality with Angular. Implementation of Events and Searching_   (@anandrajaram21)
 
 See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.

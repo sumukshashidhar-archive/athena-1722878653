@@ -44,14 +44,6 @@ async function rd(decodedToken, evns) {
             
         }
     })
-    //o_l_counter_evns => outer loop events counters
-    console.log("REACHED: RD")
-
-    evns.sort(GetSortOrder('evnPincode'))
-    console.log(sum_array)
-    console.log(evns)
-    
-    console.log("REACHED: SENT EVENTS")
 }
 
 async function GetSortOrder(prop) {

@@ -112,11 +112,6 @@ On the second terminal, you should have an output saying that the server has sta
 1. Mailing
 2. Interests
 
-
-
-
-See also the list of  [contributors](https://github.com/your/project/contributors)  who participated in this project.
-
 ## License
 
 This project is licensed under the MIT License

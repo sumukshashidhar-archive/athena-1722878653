@@ -29,26 +29,29 @@ async function rd(decodedToken, evns) {
             var userinterests = decodedToken.interests;
             var tot_event_interests = ev.evnInterests.length;
             for(let j=0; j < tot_event_interests; j++) {
-                console.log('Entering loop ' , j)
-                console.log("REACHED: INNER EVENT COMPARISON LOOP")
+                // console.log('Entering loop ' , j)
+                // console.log("REACHED: INNER EVENT COMPARISON LOOP")
                 for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
                     if(event_interests[j]==userinterests[k]) {
                         sum +=10
                     }
                 }
             }
-            console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
+            // console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
             sum_array.push(sum)
             evns[i].evnScore = sum;
             // console.log(evns)
             // console.log(decodedToken)
-            res(evns)
             
         }
+        res(evns)
     })
+
+    let r = await callback;
+    return r
 }
 
-async function GetSortOrder(prop) {
+function GetSortOrder(prop) {
     return function(a, b) {
         if(a[prop]  < b[prop]) {
             return 1
@@ -64,9 +67,11 @@ module.exports = {
     //just a handler for the RD
     handler: async (decodedToken, evns) => {
         var ret = await rd(decodedToken, evns)
-        var final = await ret.sort((await GetSortOrder('evnScore')))
+        console.log("these areasdsadsadsadsad", ret)
+        ret.sort(GetSortOrder('evnScore'))
         // console.log("This is the final callback: Sending the frontend this. \n ", final)
-        return final;
+        console.log("FINALLY RETYEEDS", ret)
+        return ret;
     }
 }
 

@@ -1233,18 +1233,6 @@ app.post('/events_search', function (req, res) {
     }
 })
 
-function achievementDelete(achID, studentID) {
-    Student.findOne({ "_id": studentID }, function (err, MONGO_STUDENT_OBJ) {
-        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
-            console.log('SUCCESS >>> FOUND STUDENT OBJ');
-        }
-        else {
-
-        }
-    }
-    )
-}
-
 
 //SHA256 hash of add_keys. Done for the anonyminity of the post URL
 app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', function (req, res) {
@@ -1410,22 +1398,6 @@ app.post('/click-on-events', function (req, res) {
 
 })
 
-
-
-
-app.post('/student-search', function (req, res) {
-
-
-
-
-
-
-})
-
-app.post('/organizer-search', function (req, res) {
-
-})
-
 app.post('/add-categories', function (err, obj) {
     category.findOne({ catName: req.body.catName }, function (err, obj) {
         if (err) {
@@ -1487,41 +1459,6 @@ app.get('/getCategoriesId', function (req, res) {
             res.send(obj.subCat)
         }
     });
-});
-
-app.post('/deleteUser/35467890euyfgvbwhdj9w8eygdvbsiudhgijd', function (req, res) {
-    var email = 'sanjeev196945@outlook.com';
-    console.log(email);
-
-    user.deleteMany({ username: email }, function (err, obj) {
-        if (err) {
-            console.log("ERROR " + err);
-        }
-        else {
-            console.log("Deleted user in 'users': " + obj);
-        }
-    });
-
-    Student.deleteMany({ EmailId: email }, function (err, obj) {
-        if (err) {
-            console.log("ERROR " + err);
-        }
-        else {
-            console.log("Deleted user in 'Student': " + obj);
-        }
-    });
-
-    Organiser.deleteMany({ OrganiserEmail: email }, function (err, obj) {
-        if (err) {
-            console.log("ERROR " + err);
-        }
-        else {
-            console.log("Deleted user in 'Organiser': " + obj);
-        }
-    });
-
-
-    console.log("FINISHED DELETING WITH EMAIL ID " + email);
 });
 
 app.post('/addCat', function (req, res) {
@@ -1626,11 +1563,3 @@ function getFrndInt(email)
     return interests;
     });
 }
-
-
-
-
-
-
-
-

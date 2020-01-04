@@ -7,9 +7,9 @@ async function rd(decodedToken, evns) {
             var ev = evns[i] //To sesdlect an event
             var sum = 0.0
             console.log("REACHED: OUTER LOOP")
-            if (decodedToken.Pincode!=undefined && ev.evnPincode!=undefined) {
-                sum += (Math.abs(decodedToken.Pincode - ev.evnPincode)*0.7)
-                console.log((Math.abs(decodedToken.Pincode - ev.evnPincode)*0.7))
+            if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
+                sum += (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7)
+                console.log((Math.abs(decodedToken.pincode - ev.evnPincode)*0.7))
                 console.log('Sum at step 1: ', sum)
                 console.log("REACHED: COMPARISON STEP FOR PINCODE")
             }

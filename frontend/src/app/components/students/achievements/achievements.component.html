@@ -3,35 +3,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
-    <nav class="navbar navbar-expand-sm bg-light navbar-light">
-      <div class="navbar-collapse collapse justify-content-between">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">LOGO</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
-          </li>
-          <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">Dashboard</a>
-        </ul>
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-          <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active">Discover</a>
-
-          <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
-            Interests</a>
-          <a routerLink="/delete" class="nav-item nav-link">Settings</a>
-          <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User
-            Profile</a>
-          <a class="nav-item nav-link" routerLinkActive="router-link-active">
-            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
-        </div>
-      </div>
-    </nav>
     <div class="reqMargin"></div>
     <div class="box1">
-      <p>Add Your Achievements</p>
-
       <button data-toggle="modal" data-target="#exampleModal">
         Add new achievement
       </button>
@@ -159,6 +132,79 @@
       </div>
     </div> 
     
+    <div class="area"></div><nav class="main-menu">
+      <ul >
+          <li >
+              <a href="dashboard">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+            
+          </li>
+          <li class="has-subnav">
+              <a href="achievements">
+                <i class="fa fa-trophy"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Achievements
+                  </span>
+              </a>
+              
+          </li>
+
+          <li class="has-subnav">
+              <a href="events">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+              
+          </li>
+
+          <li class="has-subnav">
+              <a href="signup2">
+                <i class="fa fa-plus"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Add Interests
+                  </span>
+              </a>
+             
+          </li>
+
+          <li>
+
+              <a href="userprofile">
+                <i class="fa fa-user"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                      User Profile
+                  </span>
+              </a>
+          </li>
+          <li>
+              <a href="discover">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+      <ul class="logout">
+          <li>
+             <a href="login" class="nav-item nav-link" (click)="logout()">
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>  
+      </ul>
+  </nav>
+ 
+   
 
   </body>
 </div>

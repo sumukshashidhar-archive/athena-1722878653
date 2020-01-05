@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from "@angular/core";
 import { EventService } from "./../../../shared/events/event.service";
 import { Event } from "./../../../shared/events/event";
@@ -15,9 +16,10 @@ export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
   x: string;
 
-  constructor(public eventService: EventService, private router: Router) {
+  constructor(public eventService: EventService, private router: Router,private auth:AuthService) {
   }
 
+  
   ngOnInit() {
     this.refreshEvents();
   }
@@ -28,6 +30,10 @@ export class EventsComponent implements OnInit {
       this.showSpinner = false;
       console.log(this.eventService.events);
     });
+  }
+
+  logout() {
+    this.auth.logout();
   }
 
   sendDetails(form: NgForm, _id: string) {

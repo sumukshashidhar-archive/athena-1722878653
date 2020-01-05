@@ -21,6 +21,7 @@ export var decoded :any
 })
 export class DashboardComponent implements OnInit {
   profileUrlExists=false
+  interestlist:any
   imageToShow:any
   uploadedFiles: Array < File > ;
   username: any;
@@ -44,12 +45,11 @@ export class DashboardComponent implements OnInit {
     var email=decodedtoken['email']
     this.postToIt()
     this.refreshAchievements();
+    this.getInterests();
   }
   refreshAchievements() {
     this.ach.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
-      console.log(this.ach_list);
-      this.ach_list=this.ach_list.slice(0,5);
       console.log(this.ach_list)
     });
   }
@@ -70,6 +70,12 @@ createImageFromBlob(image:Blob){
 
 
 
+  getInterests(){
+    return this.http.get('http://localhost:3000/interests').subscribe(res=>{
+      this.interestlist=res
+      console.log(this.interestlist)
+    })
+  }
 
   
 

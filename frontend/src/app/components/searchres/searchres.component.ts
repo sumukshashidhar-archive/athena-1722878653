@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
   styleUrls: ['./searchres.component.css']
 })
 export class SearchresComponent implements OnInit {
+  results: any = this.data.results;
 
   constructor(public data: DatasharingService, private router: Router) { }
 

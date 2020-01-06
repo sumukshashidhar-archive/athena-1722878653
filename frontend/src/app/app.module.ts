@@ -60,7 +60,10 @@ export const appRoutes: Routes = [
     path: "",
     component: HomePageComponent
   },
-  
+  {
+    path: "searchres",
+    component: SearchresComponent
+  },
   {
     path: "verifyemail",
     component: VerifyemailComponent

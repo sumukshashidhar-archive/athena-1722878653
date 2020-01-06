@@ -2,55 +2,29 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
-    <nav class="navbar navbar-expand-sm bg-light navbar-light">
-      <div class="navbar-collapse collapse justify-content-between">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">LOGO</a>
-          </li>
-          <!--->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>---->
-        </ul>
-
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-          <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
-          <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
-         
-          <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
-            Interests</a>
-          <a routerLink="/delete" class="nav-item nav-link">Settings</a>
-          <a class="nav-item nav-link" [routerLink]="['/userprofile']" routerLinkActive="router-link-active">User Profile</a>
-          <a class="nav-item nav-link"  routerLinkActive="router-link-active">
-            <button class="btn btn-danger" (click)="logout()">Logout</button></a>
-        </div>
-      </div>
-      <!-- Search functionality below -->
-      <!-- <div class="wrap">
-        <div class="search">
-          <form #f="ngForm">
-            <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" required ngModel name="search" #search="ngModel" [(ngModel)]="datasharingService.selSearch.keyword" />
-            <button type="submit" class="searchButton" [disabled]="!search.valid && search.touched" (click)="onSubmit(f)">
-              <i class="fa fa-search"></i>
-            </button>
-            <p>Type of search:</p>
-            <input type="radio" id="1" value="1" [(ngModel)]="datasharingService.selSearch.searchType">
-            <label for="1">Normal search</label>
-            <input type="radio" name="" id="2" value="2" [(ngModel)]="datasharingService.selSearch.searchType">
-            <label for="2">Deep Search</label>
-            <input type="radio" name="" id="3" value="3" [(ngModel)]="datasharingService.selSearch.searchType">
-            <label for="3">Archive Search</label>
-          </form>
-        </div>
-      </div> -->
-    </nav>
-    <img [src]="imageToShow" *ngIf="profileUrlExists" data-toggle="modal" data-target="#exampleModal">
-    <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-    
+  
     <h2 style="color: white;">Welcome, {{ username }}</h2>
+    <div class="container" style="display:flex;">
+    <div class="card text-white "  style="max-width: 18rem; position: relative;margin-left: 10%; margin-top: 8%;border-radius: 10px;">
+ <a class="card-body" href="achievements"  >
+        <h5 class="card-title" style="font-weight:800; color:black; font-size:50px;">{{ach_list.length}}</h5>
+        <p class="card-text" style="font-size:20px; color:black;">Achievements <br/>  <i class="fa fa-trophy" style="font-size: 200%; color:black; padding-left: 180px" aria-hidden="true" ></i> </p>
+ </a>
+    </div>
+    <div class="card text-white " style="max-width: 18rem;margin-left: 10%; margin-top: 8%;border-radius: 10px;">
+      <a class="card-body" href="signup2">
+        <h5 class="card-title" style="font-weight:800; color:black; font-size:50px">{{interestlist.length}}</h5>
+        <p class="card-text" style="font-size:20px; color:black;">Interests <br/>  <i class="fa fa-plus" style="font-size: 200%; color:black; padding-left: 180px" aria-hidden="true" ></i> </p>
+      </a>
+    </div>
+    <div class="card text-white" style="max-width: 18rem;margin-left: 10%; margin-top: 8%;border-radius: 10px;">
+      <a class="card-body" href="events">
+        <h5 class="card-title" style="font-weight:800; color:black; font-size:50px">0</h5>
+        <p class="card-text" style="font-size:20px; color:black;">Events <br/>  <i class="fa fa-calendar" style="font-size: 200%; color:black; padding-left: 180px" aria-hidden="true" ></i> </p>
+      </a>
+    </div>
 
+  </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -90,4 +64,92 @@
       </div>
      </div>
     </div> -->
+    <div class="area"></div><nav class="main-menu">
+
+      <ul >
+            
+
+  <li class="has-subnav">
+    <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
+      <img [src]="imageToShow" *ngIf="profileUrlExists">
+      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+        <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+        </span>
+    </a> 
+</li>
+<br/>
+<br/>
+          <li >
+              <a href="dashboard">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+            
+          </li>
+          <li class="has-subnav">
+              <a href="achievements">
+                <i class="fa fa-trophy"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Achievements
+                  </span>
+              </a>
+              
+          </li>
+
+          <li class="has-subnav">
+              <a href="events">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+              
+          </li>
+
+          <li class="has-subnav">
+              <a href="signup2">
+                <i class="fa fa-plus"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Add Interests
+                  </span>
+              </a>
+             
+          </li>
+
+          <li>
+
+              <a href="userprofile">
+                <i class="fa fa-user"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                      User Profile
+                  </span>
+              </a>
+          </li>
+          <li>
+              <a href="discover">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+   
+
+  
+      <ul class="logout">
+          <li>
+             <a href="login" class="nav-item nav-link" (click)="logout()">
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>  
+      </ul>
+  </nav>
   </body>

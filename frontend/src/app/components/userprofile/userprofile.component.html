@@ -1,32 +1,7 @@
 <div class="background">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    <nav class="navbar navbar-expand-sm bg-light navbar-light">
-        <div class="navbar-collapse collapse justify-content-between">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">LOGO</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active" >Dashboard</a>
-          </ul>
-  
-          <div class="navbar-nav">
-              <a class="nav-item nav-link" href="#" routerLink="/events">Events</a>
-              <a class="nav-item nav-link" [routerLink]="['/discover']" routerLinkActive="router-link-active" >Discover</a>
-      
-              <a class="nav-item nav-link" [routerLink]="['/signup2']" routerLinkActive="router-link-active">Add
-                Interests</a>
-              <a routerLink="/delete" class="nav-item nav-link">Settings</a>
-              <a class="nav-item nav-link" [routerLink]="['/achievements']" routerLinkActive="router-link-active">Achievements</a>
-              <a class="nav-item nav-link"  routerLinkActive="router-link-active">
-                <button class="btn btn-danger" (click)="logout()">Logout</button></a>
-            </div>
-        </div>
-      </nav>
-
+   
 
       <section>
         <div class="cont">
@@ -42,9 +17,9 @@
               </p>
               <a href="#" class="btn">Contact</a>
               <ul class="social-media">
-                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li class="other"><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                <li class="other"><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+                <li class="other"><a href="#"><i class="fab fa-instagram"></i> </a>
               </ul>
       
             </div>
@@ -55,7 +30,7 @@
       <!-- <p style=" color: rgb(0, 0, 0);margin-left: 25%; background: #00c2ff;">{{bio}}</p> -->
     <body>
       
-      <div class="container">
+      <div class="container" style="margin-left: 18%;">
           <div class="card">
               <div class="face face1">
                   <div class="content">
@@ -112,7 +87,7 @@
             </div>
             <div class="modal-body" *ngFor="let int of this.interestlist">
               <ul>
-                  <li>
+                  <li class="other">
                       <span class="name">{{ int }}</span>
                       <!-- <span class="points">95</span> -->
                   </li>
@@ -138,7 +113,7 @@
               </div>
               <div class="modal-body" *ngFor="let ach of this.ach_list">
                 <ul>
-                    <li>
+                    <li class="other">
                         <span class="name">{{ ach.SubCategoryId }}</span>
                         <!-- <span class="points">95</span> -->
                     </li>
@@ -152,5 +127,79 @@
             </div>
           </div>
         </div>
-    </body>
-  </div>
+        <div class="area"></div><nav class="main-menu">
+          <ul >
+              <li >
+                  <a href="dashboard">
+                      <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                      <span class="nav-text">
+                          Dashboard
+                      </span>
+                  </a>
+                
+              </li>
+              <li class="has-subnav">
+                  <a href="achievements">
+                    <i class="fa fa-trophy"  aria-hidden="true"></i>
+                      <span class="nav-text">
+                         Achievements
+                      </span>
+                  </a>
+                  
+              </li>
+    
+              <li class="has-subnav">
+                  <a href="events">
+                    <i class="fa fa-calendar"   aria-hidden="true"></i>
+                      <span class="nav-text">
+                          Events
+                      </span>
+                  </a>
+                  
+              </li>
+    
+              <li class="has-subnav">
+                  <a href="signup2">
+                    <i class="fa fa-plus"  aria-hidden="true"></i>
+                      <span class="nav-text">
+                         Add Interests
+                      </span>
+                  </a>
+                 
+              </li>
+    
+              <li>
+    
+                  <a href="userprofile">
+                    <i class="fa fa-user"  aria-hidden="true"></i>
+                      <span class="nav-text">
+                          User Profile
+                      </span>
+                  </a>
+              </li>
+              <li>
+                  <a href="discover">
+                    <i class="fa fa-search"  aria-hidden="true"></i>
+                      <span class="nav-text">
+                         Discover
+                      </span>
+                  </a>
+              </li>
+          </ul>
+    
+          <ul class="logout">
+              <li>
+                 <a href="login" class="nav-item nav-link" (click)="logout()">
+                       <i class="fa fa-power-off fa-2x" ></i>
+                      <span class="nav-text">
+                          Logout
+                      </span>
+                  </a>
+              </li>  
+          </ul>
+      </nav>
+     
+       
+    
+      </body>
+    </div>

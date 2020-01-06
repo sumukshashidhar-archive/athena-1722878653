@@ -1202,16 +1202,17 @@ app.post('/organizerdashboard', async function (req, res) {
     })
 })
 
-app.post('/event-search', function (req, res) {
+app.post('/event-search', async function (req, res) {
     //Running an event search with the given keywords in the database
     // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, DECODEDTOKEN) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, DECODEDTOKEN) {
         if (err) {
 
         }
         else {
+            
             var query = req.body.keyword
-            var evns = dms.testexplore3(query)
+            var evns = await dms.testexplore3(query)
             console.log(evns)
             res.send(evns)
         }

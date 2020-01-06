@@ -144,7 +144,7 @@ text-align:center;
 vertical-align:middle;
 font-size:50px;
 }
- .card-body .card-text .icons{
+ .card-body .card-text .icons00c{
    color: blue;
    
   
@@ -155,8 +155,12 @@ font-size:50px;
   margin-left: 70%;
 }
 
+.card:hover{
+  transform: scale(1.1);
+}
 body {
-  background-color: #00c2ff;
+  background-color: 
+  #b6f2ec;
   height: 170vh;
   background-size: cover;
   background-position: center;

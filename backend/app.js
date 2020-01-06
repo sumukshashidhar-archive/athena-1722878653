@@ -1212,7 +1212,7 @@ app.post('/event-search', async function (req, res) {
         else {
             
             var query = req.body.keyword
-            var evns = await dms.testexplore3(query)
+            var evns = await dms.testexplore2()
             console.log(evns)
             res.send(evns)
         }

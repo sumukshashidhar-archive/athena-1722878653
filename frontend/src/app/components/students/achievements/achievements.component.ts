@@ -41,7 +41,8 @@ export class AchievementsComponent implements OnInit {
     { id: 1, name: "School" },
     { id: 2, name: "City" },
     { id: 3, name: "State" },
-    { id: 4, name: "National" }
+    { id: 4, name: "National" },
+    {id:5,name:"International"}
   ];
   imageArr = [];
   allset = false;

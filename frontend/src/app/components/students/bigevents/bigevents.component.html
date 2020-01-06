@@ -30,8 +30,81 @@
             <p>Event Address : {{ x.evnLocation }}</p>
             <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
             <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
-            <img src="http://localhost:3000/{{ x.Image }}" />
+            <!-- <img src="http://localhost:3000/{{ x.Image }}" /> -->
         </mat-card-content>
         
     </mat-card>
 </div>
+<div class="area"></div><nav class="main-menu">
+    <ul >
+        <li >
+            <a href="dashboard">
+                <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                <span class="nav-text">
+                    Dashboard
+                </span>
+            </a>
+          
+        </li>
+        <li class="has-subnav">
+            <a href="achievements">
+              <i class="fa fa-trophy"  aria-hidden="true"></i>
+                <span class="nav-text">
+                   Achievements
+                </span>
+            </a>
+            
+        </li>
+
+        <li class="has-subnav">
+            <a href="events">
+              <i class="fa fa-calendar"   aria-hidden="true"></i>
+                <span class="nav-text">
+                    Events
+                </span>
+            </a>
+            
+        </li>
+
+        <li class="has-subnav">
+            <a href="signup2">
+              <i class="fa fa-plus"  aria-hidden="true"></i>
+                <span class="nav-text">
+                   Add Interests
+                </span>
+            </a>
+           
+        </li>
+
+        <li>
+
+            <a href="userprofile">
+              <i class="fa fa-user"  aria-hidden="true"></i>
+                <span class="nav-text">
+                    User Profile
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="discover">
+              <i class="fa fa-search"  aria-hidden="true"></i>
+                <span class="nav-text">
+                   Discover
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <ul class="logout">
+        <li>
+           <a href="login" class="nav-item nav-link" (click)="logout()">
+                 <i class="fa fa-power-off fa-2x" ></i>
+                <span class="nav-text">
+                    Logout
+                </span>
+            </a>
+        </li>  
+    </ul>
+</nav>
+
+ 

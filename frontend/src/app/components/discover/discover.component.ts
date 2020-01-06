@@ -5,7 +5,7 @@ import { DatasharingService } from '../../shared/search/datasharing.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
-
+import * as jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.component.html',
@@ -15,8 +15,18 @@ export class DiscoverComponent implements OnInit {
   normal: any;
   deep: any;
   archive: any;
-
-  constructor(public data: DatasharingService, private router: Router,public  auth:AuthService) { }
+  isStudent=false
+  isOrg=false
+  constructor(public data: DatasharingService, private router: Router,public  auth:AuthService) {
+   var  decoded= localStorage.getItem('access_token');
+    var decodedtoken= jwt_decode(decoded)
+    if (decodedtoken["role"] == "Student") {
+      this.isStudent=true
+    }
+    if(decodedtoken["role"]== "Org"){
+      this.isOrg=true
+    }
+   }
 
   ngOnInit() {
     

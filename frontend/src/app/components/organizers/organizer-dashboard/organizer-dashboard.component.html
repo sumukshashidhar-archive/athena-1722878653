@@ -2,9 +2,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
-    <nav class="navbar navbar-expand-sm bg-light navbar-light"> <div class="navbar-collapse collapse justify-content-between"> <ul class="navbar-nav mr-auto"> <li class="nav-item active"> <a class="nav-link" href="#">LOGO</a> </li> <!---> <li class="nav-item"> <a class="nav-link" href="#">Home</a> </li>----> </ul> <div class="navbar-nav"> <a class="nav-item nav-link" href="#" routerLink="/eventsorg" >Events</a > <a class="nav-item nav-link" href="#" routerLink="/eventsorg" >Verification</a > <a class="nav-item nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" > <button class="btn btn-danger" (click)="logout()">Logout</button></a > </div> </div> <div class="wrap"> <div class="search"> <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" maxlength="32" /> <button type="submit" class="searchButton"> <i class="fa fa-search"></i> </button> </div> </div> </nav>
-    <img [src]="imageToShow" *ngIf="profileUrlExists" data-toggle="modal" data-target="#exampleModal">
-    <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
     
     <h2 style="color: white;">Welcome, {{ username }}</h2>
 
@@ -47,4 +44,67 @@
       </div>
      </div>
     </div> -->
+    <div class="area"></div><nav class="main-menu">
+
+      <ul >
+            
+
+  <li class="has-subnav">
+    <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
+      <img [src]="imageToShow" *ngIf="profileUrlExists">
+      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+        <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+        </span>
+    </a> 
+</li>
+<br/>
+<br/>
+          <li >
+              <a href="organizerdashboard">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+            
+          </li>
+
+          <li class="has-subnav">
+              <a href="eventsorg">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+              
+          </li>
+
+          <li>
+              <a href="discover">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+   
+
+  
+      <ul class="logout">
+          <li>
+             <a href="login" class="nav-item nav-link" (click)="logout()">
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>  
+      </ul>
+  </nav>
+
+
+  
   </body>

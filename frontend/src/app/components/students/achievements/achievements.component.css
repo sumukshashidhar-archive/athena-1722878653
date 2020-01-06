@@ -167,7 +167,7 @@ height: 100%;
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   border-radius: 10px;
-  background-color: #fff;
+  background-color:#fff;
   color: black;
   height:250px;
 }

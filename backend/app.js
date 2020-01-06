@@ -1105,8 +1105,9 @@ app.get('/interests', async function (req, res) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj.Interests);
-                    res.send(mongoObj.Interests.sort());
+                    console.log("Mongo Object is" + mongoObj);
+                
+                    res.send(mongoObj.Interests);
                 }
             })
         }

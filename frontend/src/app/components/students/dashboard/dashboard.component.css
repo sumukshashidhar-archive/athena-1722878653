@@ -3,6 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
 .fa-2x {
 font-size: 2em;
 }
@@ -23,8 +24,8 @@ overflow:visible;
 }
 
 .main-menu {
-background:#fff;
-border-right:1px solid #e5e5e5;
+background:#f8f8f8f8;
+border-right:1px solid #dddddd;
 position:absolute;
 top:0;
 bottom:0;
@@ -155,12 +156,18 @@ font-size:50px;
   margin-left: 70%;
 }
 
+.card{
+  background-color: #fff;
+}
+
 .card:hover{
   transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
 }
+
 body {
   background-color: 
-  #b6f2ec;
+  #00c2ff;
   height: 170vh;
   background-size: cover;
   background-position: center;
@@ -209,15 +216,12 @@ body {
 }
 
 #dp {
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  border-radius:50%;
+  width: 50%;
+  height: 50%  ;
   background-image: url("https://www.w3schools.com/howto/img_avatar.png");
   background-repeat: no-repeat;
   background-size: 100%;
-  text-align: center;
-  margin: 25px auto;
-  display: block;
 }
 .table{
   margin-left: 50%;

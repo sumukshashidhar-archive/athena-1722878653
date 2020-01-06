@@ -70,7 +70,58 @@
             </form>
         </div>
     </div>
-    <div class="area"></div><nav class="main-menu">
+    <div class="area" *ngIf="isOrg"></div><nav class="main-menu" *ngIf="isOrg" >
+
+        <ul >
+
+  <br/>
+  <br/>
+            <li >
+                <a href="organizerdashboard">
+                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                    <span class="nav-text">
+                        Dashboard
+                    </span>
+                </a>
+              
+            </li>
+  
+            <li class="has-subnav">
+                <a href="eventsorg">
+                  <i class="fa fa-calendar"   aria-hidden="true"></i>
+                    <span class="nav-text">
+                        Events
+                    </span>
+                </a>
+                
+            </li>
+  
+            <li>
+                <a href="discover">
+                  <i class="fa fa-search"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Discover
+                    </span>
+                </a>
+            </li>
+        </ul>
+  
+     
+  
+    
+        <ul class="logout">
+            <li>
+               <a href="login" class="nav-item nav-link" (click)="logout()">
+                     <i class="fa fa-power-off fa-2x" ></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>  
+        </ul>
+    </nav>
+  
+    <div class="area" *ngIf="isStudent"></div><nav class="main-menu" *ngIf="isStudent">
         <ul >
             <li >
                 <a href="dashboard">

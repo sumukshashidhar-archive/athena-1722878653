@@ -11,6 +11,7 @@ import { User_Search } from './user_search.model'
 export class DatasharingService {
   private name = new BehaviorSubject(null);
   currentName = this.name.asObservable();
+  results: any;
 
   selSearch: Search = {
     keyword: '',

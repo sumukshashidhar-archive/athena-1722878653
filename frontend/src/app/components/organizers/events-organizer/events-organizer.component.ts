@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Event } from './../../../shared/events/event';
 import { Component, OnInit } from "@angular/core";
@@ -63,7 +64,7 @@ export class EventsOrganizerComponent implements OnInit {
   subcatOptions: any;
   noOfChoice = new Array<string>();
 
-  constructor(public eventService: EventService, private router: Router,private http:HttpClient, private data: DatasharingService) {
+  constructor(public eventService: EventService, private router: Router,private http:HttpClient, private data: DatasharingService,private auth:AuthService) {
     decoded = localStorage.getItem('access_token');
     this.noOfChoice.push('1');
   }
@@ -73,7 +74,9 @@ export class EventsOrganizerComponent implements OnInit {
     this.maxDateSet();
     this.getAllCategory();
   }
-
+  logout(){
+    this.auth.logout()
+  }
   readSingleFile(e) {
     // const name = e[0].name;
     name = e.target.files[0].name;

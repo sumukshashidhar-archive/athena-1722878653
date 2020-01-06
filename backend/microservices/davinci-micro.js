@@ -52,4 +52,18 @@ module.exports = {
         let r = await callback; 
         return r;
     },
+
+
+    testexplore3: async function(student) {
+        var callback = new Promise(async (res, rej) => {
+            var PRCSEvns = await sr.search_deep()
+            //These are the events to process
+            //Here comes the recommendations
+            res(PRCSEvns)
+            
+        })
+
+        let r = await callback; 
+        return r;
+    },
 }

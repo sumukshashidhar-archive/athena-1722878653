@@ -1210,7 +1210,9 @@ app.post('/event-search', function (req, res) {
 
         }
         else {
-            daVinci.deepSearch(DECODEDTOKEN)
+            var evns = dms.testexplore3()
+            console.log(evns)
+            res.send(evns)
         }
     })
 

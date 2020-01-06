@@ -91,7 +91,10 @@
                   <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
                     Rank: {{Rank}}
                   </div>
-                  <div class="container" *ngIf="Rank=='National'" style="background-color: black; color: white;">
+                  <div class="container" *ngIf="Rank=='International'" style="background-color: black; color: white;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='National'" style="background-color: blue; color: white;">
                     Rank: {{Rank}}
                   </div>
                 </div>
@@ -117,7 +120,7 @@
                <br>
               </div>
               <div class="flip-card-back" style="align-items: center;">
-                <button data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" style="border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center;">
+                <button data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" style="border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center;background-color: black;">
                   Click to view Description
                  </button>
                 

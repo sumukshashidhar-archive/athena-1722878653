@@ -288,7 +288,7 @@ app.post('/register', function (req, res) {
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/lak.png",
                                     Bio: req.body.bio,
-                                    Interests: "",
+                                    Interests: " ",
                                     studentSchool: req.body.studentSchool,
                                     Verified: false
                                 });
@@ -1101,11 +1101,11 @@ app.get('/interests', async function (req, res) {
         if (!err && decodedToken != null) {
             console.log("Verified")
             Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
-                if (err) {
+                if (err || mongoObj == null) {
                     console.log(err)
                 }
                 else {
-                    console.log("Mongo Object is" + mongoObj);
+                    console.log("Mongo Object is" + mongoObj.Interests);
                 
                     res.send(mongoObj.Interests);
                 }

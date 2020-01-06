@@ -1210,7 +1210,8 @@ app.post('/event-search', function (req, res) {
 
         }
         else {
-            var evns = dms.testexplore3()
+            var query = req.body.keyword
+            var evns = dms.testexplore3(query)
             console.log(evns)
             res.send(evns)
         }

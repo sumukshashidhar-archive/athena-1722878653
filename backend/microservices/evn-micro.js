@@ -34,9 +34,9 @@ module.exports = {
         let r = await callback;
         return r
     }, 
-    search_normal: async function() {
+    search_normal: async function(city, query) {
         var callback = new Promise((res, rej)=> {
-            event.find({}, async function(err, OBJ) {
+            event.find({evnLocation: city}, {$or: [{"evnName": {"$in":query}}, {evnOrganizerName: {"$in": query}}]}, async function(err, OBJ) {
                 if (err) {
                     console.log(err)
                 } else {
@@ -47,9 +47,9 @@ module.exports = {
             return r
         })
     },
-    search_deep: async function() {
+    search_deep: async function(query) {
         var callback = new Promise((res, rej)=> {
-            event.find({}, async function(err, OBJ) {
+            event.find( {$or: [{"evnName": {"$in":query}}, {evnOrganizerName: {"$in": query}}]}, async function(err, OBJ) {
                 if (err) {
                     console.log(err)
                 } else {

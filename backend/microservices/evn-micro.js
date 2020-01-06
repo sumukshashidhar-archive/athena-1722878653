@@ -43,12 +43,13 @@ module.exports = {
                     res(OBJ)
                 }
             })
-            let r = await callback;
-            return r
         })
+
+        let r = await callback;
+        return r
     },
     search_deep: async function(query) {
-        var callback = new Promise((res, rej)=> {
+        var callback = new Promise(async (res, rej)=> {
             event.find( {$or: [{"evnName": {"$in":query}}, {evnOrganizerName: {"$in": query}}]}, async function(err, OBJ) {
                 if (err) {
                     console.log(err)
@@ -69,9 +70,10 @@ module.exports = {
                     res(OBJ)
                 }
             })
-            let r = await callback;
-            return r
+
         })
+        let r = await callback;
+        return r
     }, 
 }
 

@@ -1,0 +1,41 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Reset Password</h1>
+    </mat-card-header>
+    <mat-vertical-stepper #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Enter email address</ng-template>
+        <form #a="ngForm">
+          <mat-form-field>
+            <input maxlength="32" matInput type="email" placeholder="Email ID" required ngModel name="email"
+              #email="ngModel" [(ngModel)]="passService.selectedEmail.email" />
+            <mat-error class="help-block" *ngIf="!email.valid && email.touched">Please enter email
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <button mat-button matStepperNext [disabled]="!a.valid" (click)="onSubmit(a)">
+            Next
+          </button>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Enter Security Code</ng-template>
+        <form #g="ngForm">
+          <!-- <mat-form-field>
+            <p>Email Id</p>
+            <input type="email" maxlength="32" matInput required ngModel name="email1" #email1="ngModel" [(ngModel)]="answerService.selectedAnswer.email1">
+            <mat-error class="help-block" *ngIf="!email1.valid && email1.touched">Enter email id</mat-error>
+          </mat-form-field> -->
+          <mat-form-field>
+            <p>You have received a 6 digit code on your email. Please enter it below</p>
+            <input type="text" maxlength="6" matInput required ngModel name="code" ngModel #code="ngModel" [(ngModel)]="answerService.selectedAnswer.code">
+            <mat-error class="help-block" *ngIf="!code.valid && code.touched">Please enter the code</mat-error>
+          </mat-form-field>
+          <br>
+          <button mat-button [disabled]="!g.valid" (click)="onsubmit(g)">Submit</button>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card>
+</div>

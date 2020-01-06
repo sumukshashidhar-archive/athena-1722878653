@@ -1,0 +1,13 @@
+body{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font: 1.3rem Inconsolata, monospace;
+    background-color: black;
+    background-size: cover;
+
+}
+
+.content{
+    padding-left: 37%;
+}

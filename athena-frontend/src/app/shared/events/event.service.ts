@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { EventFollow } from './eventfollow.model'
 
 import { Event } from "./event.model";
 import { Details } from './details.model';
@@ -27,6 +28,10 @@ export class EventService {
 
   details: Details = {
     _id: ""
+  }
+
+  id: EventFollow = {
+    id: ""
   }
 
   details1: any;
@@ -87,5 +92,10 @@ export class EventService {
     }
     console.log(obj)
     return this.http.post("http://localhost:3000/addInterestOrganizer", obj)
+  }
+
+  postFollow(_id: EventFollow){
+    console.log(_id)
+    return this.http.post("http://localhost:3000/api/follow", _id);
   }
 }

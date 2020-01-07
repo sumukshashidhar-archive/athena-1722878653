@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './../../../shared/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Search } from '../../../shared/search/search.model';
@@ -17,20 +18,58 @@ export class DiscoverComponent implements OnInit {
   archive: any;
   isStudent=false
   isOrg=false
-  constructor(public data: SearchService, private router: Router,public  auth:AuthService) {
+  username: any;
+  imageToShow:any
+  profileUrlExists=false
+  decoded:any;
+  constructor(public data: SearchService, private router: Router,public  auth:AuthService,private http:HttpClient) {
    var  decoded= localStorage.getItem('access_token');
     var decodedtoken= jwt_decode(decoded)
     if (decodedtoken["role"] == "Student") {
+      this.username = decodedtoken["given_name"]
       this.isStudent=true
+
+
     }
     if(decodedtoken["role"]== "Org"){
       this.isOrg=true
+      this.username = decodedtoken["name"]
+
     }
-   }
+    this.decoded = localStorage.getItem("access_token");
+  }
 
   ngOnInit() {
-    
+    this.postToIt();
+
   }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
+  }
+
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);

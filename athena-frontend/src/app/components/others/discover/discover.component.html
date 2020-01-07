@@ -2,8 +2,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-   
+<body style="background-color: #FBF7F3;">
+
     <div class="container">
         <h1 style="text-align: center;">Discover Something New</h1>
         <!-- Events searching below -->
@@ -73,31 +73,40 @@
     <div class="area" *ngIf="isOrg"></div><nav class="main-menu" *ngIf="isOrg" >
 
         <ul >
+          <li class="has-subnav">
+            <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+              <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+              <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+                <span class="nav-text" style="padding-left: 10px;">
+                    {{username}}
+                </span>
+            </a>
+            </li>
 
   <br/>
   <br/>
             <li >
-                <a routerlink="organizerdashboard">
+                <a [routerLink]="['/organizerdashboard']">
                     <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
                     <span class="nav-text">
                         Dashboard
                     </span>
                 </a>
-              
+
             </li>
-  
+
             <li class="has-subnav">
-                <a routerlink="eventsorg">
+                <a [routerLink]="['/eventsorg']">
                   <i class="fa fa-calendar"   aria-hidden="true"></i>
                     <span class="nav-text">
                         Events
                     </span>
                 </a>
-                
+
             </li>
-  
+
             <li>
-                <a routerlink="discover">
+                <a [routerLink]="['/discover']">
                   <i class="fa fa-search"  aria-hidden="true"></i>
                     <span class="nav-text">
                        Discover
@@ -105,105 +114,108 @@
                 </a>
             </li>
         </ul>
-  
-     
-  
-    
+
+
+
+
         <ul class="logout">
             <li>
-               <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+               <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
                      <i class="fa fa-power-off fa-2x" ></i>
                     <span class="nav-text">
                         Logout
                     </span>
                 </a>
-            </li>  
+            </li>
         </ul>
     </nav>
-  
+
     <div class="area" *ngIf="isStudent"></div><nav class="main-menu" *ngIf="isStudent">
-            <ul >
-                  
-      
-        <li class="has-subnav">
-          <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
-              <span class="nav-text" style="padding-left: 10px;">
-                  {{username}}
-              </span>
-          </a> 
-      </li>
-      <br/>
-      <br/>
-                <li >
-                    <a [routerLink]="['/dashboard']">
-                        <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-                        <span class="nav-text">
-                            Dashboard
-                        </span>
-                    </a>
-                  
-                </li>
-                <li class="has-subnav">
-                    <a [routerLink]="['/achievements']">
-                      <i class="fa fa-trophy"  aria-hidden="true"></i>
-                        <span class="nav-text">
-                           Achievements
-                        </span>
-                    </a>
-                    
-                </li>
-      
-                <li class="has-subnav">
-                    <a [routerLink]="['/events']">
-                      <i class="fa fa-calendar"   aria-hidden="true"></i>
-                        <span class="nav-text">
-                            Events
-                        </span>
-                    </a>
-                    
-                </li>
-      
-                <li class="has-subnav">
-                    <a [routerLink]="['/interests']">
-                      <i class="fa fa-plus"  aria-hidden="true"></i>
-                        <span class="nav-text">
-                           Add Interests
-                        </span>
-                    </a>
-                   
-                </li>
-      
-                <li>
-      
-                    <a [routerLink]="['/userprofile']">
-                      <i class="fa fa-user"  aria-hidden="true"></i>
-                        <span class="nav-text">
-                            User Profile
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/discover']">
-                      <i class="fa fa-search"  aria-hidden="true"></i>
-                        <span class="nav-text">
-                           Discover
-                        </span>
-                    </a>
-                </li>
-            </ul>
-      
-         
-      
-        
-            <ul class="logout">
-                <li>
-                   <a routerlink="login" class="nav-item nav-link" (click)="logout()">
-                         <i class="fa fa-power-off fa-2x" ></i>
-                        <span class="nav-text">
-                            Logout
-                        </span>
-                    </a>
-                </li>  
-            </ul>
-        </nav>
-</body>
+
+      <ul >
+
+
+    <li class="has-subnav">
+    <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+      <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+        <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+        </span>
+    </a>
+    </li>
+    <br/>
+    <br/>
+          <li >
+              <a [routerLink]="['/dashboard']">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+
+          </li>
+          <li class="has-subnav">
+              <a [routerLink]="['/achievements']">
+                <i class="fa fa-trophy"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Achievements
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/events']">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/interests']">
+                <i class="fa fa-plus"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Add Interests
+                  </span>
+              </a>
+
+          </li>
+
+          <li>
+
+              <a [routerLink]="['/userprofile']">
+                <i class="fa fa-user"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                      User Profile
+                  </span>
+              </a>
+          </li>
+          <li>
+              <a [routerLink]="['/discover']">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+
+
+
+      <ul class="logout">
+          <li>
+             <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>
+      </ul>
+    </nav>
+    </body>

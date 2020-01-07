@@ -6,7 +6,7 @@
             <h3>{{ evn.evnName }}</h3>
             <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
             <p>{{ evn.evnDate1 }}</p>
-            
+
             <form #f="ngForm">
               <button (click)="sendDetails(f, evn._id)">Read More</button>
             </form>
@@ -35,7 +35,7 @@
           </div>
         </div> -->
       </div>
-  
+
     <div class="area"></div><nav class="main-menu">
       <ul >
           <li >
@@ -45,7 +45,7 @@
                       Dashboard
                   </span>
               </a>
-            
+
           </li>
           <li class="has-subnav">
               <a routerlink="achievements">
@@ -54,9 +54,9 @@
                      Achievements
                   </span>
               </a>
-              
+
           </li>
-  
+
           <li class="has-subnav">
               <a routerlink="events">
                 <i class="fa fa-calendar"   aria-hidden="true"></i>
@@ -64,9 +64,9 @@
                       Events
                   </span>
               </a>
-              
+
           </li>
-  
+
           <li class="has-subnav">
               <a routerlink="signup2">
                 <i class="fa fa-plus"  aria-hidden="true"></i>
@@ -74,11 +74,11 @@
                      Add Interests
                   </span>
               </a>
-             
+
           </li>
-  
+
           <li>
-  
+
               <a routerlink="userprofile">
                 <i class="fa fa-user"  aria-hidden="true"></i>
                   <span class="nav-text">
@@ -87,7 +87,7 @@
               </a>
           </li>
           <li>
-              <a routerlink="discover">
+              <a [routerLink]="['/discover']">
                 <i class="fa fa-search"  aria-hidden="true"></i>
                   <span class="nav-text">
                      Discover
@@ -95,15 +95,15 @@
               </a>
           </li>
       </ul>
-  
+
       <ul class="logout">
           <li>
-             <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+             <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout
                   </span>
               </a>
-          </li>  
+          </li>
       </ul>
   </nav>

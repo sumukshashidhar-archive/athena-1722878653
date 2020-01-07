@@ -42,7 +42,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './shared/auth/auth.guard'
 import { AuthService } from './shared/auth/auth.service'
 import { EventService } from './shared/events/event.service';
-import { TransferHttpCacheModule } from '@nguniversal/common'
+import { TransferHttpCacheModule } from '@nguniversal/common';
+import { SearchresComponent } from './components/others/searchres/searchres.component'
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { TransferHttpCacheModule } from '@nguniversal/common'
     ResetpassComponent,
     RunmoduleComponent,
     UserprofileComponent,
-    VerifyemailComponent
+    VerifyemailComponent,
+    SearchresComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

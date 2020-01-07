@@ -8,6 +8,7 @@ import { SignupComponent } from './components/students/signup/signup.component';
 import { InterestsComponent } from './components/students/interests/interests.component';
 import { EventsOrganizerComponent } from './components/organizers/events-organizer/events-organizer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchresComponent }from './components/others/searchres/searchres.component'
 import { OrganizerDashboardComponent } from './components/organizers/organizer-dashboard/organizer-dashboard.component';
 import { SignupOrganizerComponent } from './components/organizers/signup-organizer/signup-organizer.component';
 import { CommonsignupComponent } from './components/others/commonsignup/commonsignup.component';
@@ -113,7 +114,10 @@ const routes: Routes = [
     path: "commonsignup",
     component: CommonsignupComponent
   },
-
+  {
+    path:'searchres',
+    component: SearchresComponent
+  },
   {
     path: "userprofile",
     component: UserprofileComponent

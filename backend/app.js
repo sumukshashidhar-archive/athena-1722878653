@@ -163,7 +163,7 @@ mongoose.Promise = global.Promise;
 //DB CONNECTION
 const conn = mongoose.createConnection(db.mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 });
 // This is an async funtion
 mongoose.connect(db.mongoURI,
@@ -1220,10 +1220,10 @@ app.post('/event-search', async function (req, res) {
 
         }
         else {
-
+            console.log(req.body.keyword)
             var query = req.body.keyword
-            var evns = await dms.testexplore2()
-            console.log(evns)
+            var evns = await dms.testexplore3(query, DECODEDTOKEN)
+            console.log("HELSOF S", evns)
             res.send(evns)
         }
     })
@@ -1608,6 +1608,27 @@ app.post('/api/follow', async function (req, res) {
 
                         })
                     }
+                }
+            })
+        }
+    })
+})
+
+
+
+app.get('/api/getevents', async function(req, res){
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+        }
+        else {
+            console.log(decodedToken)
+            Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
+                if (err) {
+                    res.status(403).send("No such student");
+                }
+                else {
+                    res.status(200).send(obj.evnFollowing);
                 }
             })
         }

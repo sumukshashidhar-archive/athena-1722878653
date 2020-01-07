@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
-    
+
     <h2 style="color: white;">Welcome, {{ username }}</h2>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -37,7 +37,7 @@
       <div class="col-4" >
         <div class="list-group" id="list-tab" role="tablist">
             <h3 class = "list-group-item-heading" style="background-color:#ff3d00;
-            
+
             color:#f0a904;">Achievements</h3>
       <div class="list-group-item" *ngFor="let ach of ach_list" id="list-profile-list"  routerlink="#list-profile" role="tab" aria-controls="profile">{{ach.SubCategoryId }}</div>
         </div>
@@ -47,41 +47,41 @@
     <div class="area"></div><nav class="main-menu">
 
       <ul >
-            
+
 
   <li class="has-subnav">
     <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
-      <img [src]="imageToShow" *ngIf="profileUrlExists">
+      <img [src]="imageToShow" *ngIf="profileUrlExists"  style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
       <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
         <span class="nav-text" style="padding-left: 10px;">
             {{username}}
         </span>
-    </a> 
+    </a>
 </li>
 <br/>
 <br/>
           <li >
-              <a routerlink="organizerdashboard">
+              <a [routerLink]="['/organizerdashboard']">
                   <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
                   <span class="nav-text">
                       Dashboard
                   </span>
               </a>
-            
+
           </li>
 
           <li class="has-subnav">
-              <a routerlink="eventsorg">
+              <a [routerLink]="['/eventsorg']">
                 <i class="fa fa-calendar"   aria-hidden="true"></i>
                   <span class="nav-text">
                       Events
                   </span>
               </a>
-              
+
           </li>
 
           <li>
-              <a routerlink="discover">
+              <a [routerLink]="['/discover']">
                 <i class="fa fa-search"  aria-hidden="true"></i>
                   <span class="nav-text">
                      Discover
@@ -90,21 +90,21 @@
           </li>
       </ul>
 
-   
 
-  
+
+
       <ul class="logout">
           <li>
-             <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+             <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout
                   </span>
               </a>
-          </li>  
+          </li>
       </ul>
   </nav>
 
 
-  
+
   </body>

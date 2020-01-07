@@ -1,4 +1,4 @@
-<div class="bg" style="background-color: #00c2ff;">
+
   <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -120,24 +120,24 @@
                 <button data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" style="border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center;">
                   Click to view Description
                  </button>
-                
+
                 <br/>
-               
+
               </div>
               <p></p>
-              
+
 
             </div>
           </div>
 
         </div>
       </div>
-    </div> 
-    
+    </div>
+
     <div class="area"></div><nav class="main-menu">
 
       <ul >
-            
+
 
   <li class="has-subnav">
     <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
@@ -146,7 +146,7 @@
         <span class="nav-text" style="padding-left: 10px;">
             {{username}}
         </span>
-    </a> 
+    </a>
 </li>
 <br/>
 <br/>
@@ -157,7 +157,7 @@
                       Dashboard
                   </span>
               </a>
-            
+
           </li>
           <li class="has-subnav">
               <a [routerLink]="['/achievements']">
@@ -166,7 +166,7 @@
                      Achievements
                   </span>
               </a>
-              
+
           </li>
 
           <li class="has-subnav">
@@ -176,7 +176,7 @@
                       Events
                   </span>
               </a>
-              
+
           </li>
 
           <li class="has-subnav">
@@ -186,7 +186,7 @@
                      Add Interests
                   </span>
               </a>
-             
+
           </li>
 
           <li>
@@ -208,22 +208,22 @@
           </li>
       </ul>
 
-   
 
-  
+
+
       <ul class="logout">
           <li>
-             <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+             <a  [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout
                   </span>
               </a>
-          </li>  
+          </li>
       </ul>
   </nav>
-   
+
 
   </body>
-</div>
+
 

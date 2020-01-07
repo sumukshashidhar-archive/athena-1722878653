@@ -39,7 +39,8 @@ export class EventsOrganizerComponent implements OnInit {
   arr: any;
   y: any;
   x: any;
-
+  profileUrlExists=false;
+  imageToShow:any
   config = {
     search: true,
     height: "auto",
@@ -58,7 +59,7 @@ export class EventsOrganizerComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
-
+  decoded:any;
   constructor(
     public eventService: EventService,
     private router: Router,
@@ -68,12 +69,18 @@ export class EventsOrganizerComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
+    this.postToIt()
   }
 
   ngOnInit() {
+    var decodedtoken = jwt_decode(decoded);
     this.refreshEvents();
     this.maxDateSet();
     this.getAllCategory();
+    if (decodedtoken["role"] == "Org") {
+      this.username = decodedtoken["name"];
+    }
+
   }
   logout() {
     this.auth.logout();
@@ -127,6 +134,31 @@ export class EventsOrganizerComponent implements OnInit {
     );
   }
 
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
+  }
   maxDateSet() {
     var today = new Date();
     var dd = today.getDate();

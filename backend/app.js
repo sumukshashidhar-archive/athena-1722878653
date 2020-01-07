@@ -1248,81 +1248,6 @@ app.post('/events_search', function (req, res) {
 })
 
 
-//SHA256 hash of add_keys. Done for the anonyminity of the post URL
-app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', function (req, res) {
-    //SHA512 of 'admin'
-    console.log("Recieved the post request")
-    console.log(req.body)
-    user.findOne({ "username": req.body.username, "userType": "c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec" }, function (err, MONGO_ADMIN_OBJ) {
-        if (err) {
-            console.log('INTERNAL ERROR. FOUND NO ADMIN');
-            res.status(404).send("No user found")
-        }
-        else if (MONGO_ADMIN_OBJ) {
-            bcrypt.compare(req.body.password, MONGO_ADMIN_OBJ.password, function (err, BCRYPT_RES) {
-                if (err) {
-                    console.log('INTERNAL ERROR. ');
-                    res.status(403).send("Hash Error")
-                }
-                else if (BCRYPT_RES) {
-                    console.log('SUCCESS >>> VERIFIED');
-                    bcrypt.hash(req.body.key, 0, function (err, BCRYPT_KEY_HASH) {
-                        if (err) {
-                            console.log('INTERNAL ERROR. FAILED TO HASH');
-                            res.status(500)
-                        }
-                        else {
-                            key_controller.key_add(BCRYPT_KEY_HASH, MONGO_ADMIN_OBJ.username)
-                            res.status(200).send("Added Key")
-                        }
-                    })
-                }
-                else {
-                    console.log('INTERNAL ERROR. WRONG PASSWORD');
-                    res.status(403).send("Wrong Password")
-                }
-            })
-        }
-    })
-})
-
-app.post('/f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e', function (req, res) {
-    console.log("Recieved a module run request")
-    console.log(req.body) //dev test
-    //Very very slow, but since we have a small number of keys, should not take much time
-    keystore.find({}, function (err, MONGO_KEYS_OBJ) {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            var notfound = true
-            total_length = MONGO_KEYS_OBJ.length
-            for (i = 0; i < total_length; i++) {
-                keycheck = MONGO_KEYS_OBJ[i]
-                bcrypt.compare(req.body.key, keycheck['keyHash'], function (err, BCRYPT_RESP) {
-                    if (err) {
-                        console.log(err)
-
-                    }
-                    else {
-                        if (BCRYPT_RESP) {
-                            notfound = false
-                            //This implies that the key has been found, and hence the desired module can be then run
-                            console.log("YAY. KEY FOUND")
-                        }
-                        else {
-                            console.log("Searching Record ", i, "of ", total_length)
-                        }
-                    }
-                })
-            }
-            if (notfound) {
-                res.status(403).send("No Such Key in DB")
-            }
-        }
-    })
-})
-
 app.get('/events', async (req, res) => {
     //Gets a request from the user
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err, decodedToken) => {
@@ -1380,6 +1305,7 @@ app.post('/click-on-events', function (req, res) {
                             }
                             else {
                                 if (EVNobj) {
+                                    if(EVNobj._id)
                                     console.log(EVNobj)
                                     res.send(EVNobj)
                                     console.log("Inside the click on events method")
@@ -1628,6 +1554,11 @@ app.get('/api/getevents', async function(req, res){
                     res.status(403).send("No such student");
                 }
                 else {
+                    event.find({"_id" : { "$in" : obj.evnFollowing}}, function(err, obj){
+                        if(err) {
+                            res.status(404).send("Something went wrong");
+                        }
+                    })
                     res.status(200).send(obj.evnFollowing);
                 }
             })

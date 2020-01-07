@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './../../../shared/auth/auth.service'
 import { EventDetails } from './../events/events.component';
 import { Component, OnInit } from '@angular/core';
@@ -5,7 +6,7 @@ import { EventService } from './../../../shared/events/event.service'
 import { ThrowStmt } from '@angular/compiler';
 import { subscribeOn } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
-
+import * as jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-bigevents',
   templateUrl: './bigevents.component.html',
@@ -13,14 +14,51 @@ import { NgForm } from '@angular/forms';
 })
 export class BigeventsComponent implements OnInit {
   x: any =  this.eventService.details1;
-  
-  constructor(public eventService: EventService,private auth:AuthService) { }
+  username: any;
+  imageToShow:any
+  profileUrlExists=false
+  decoded:any;
+  constructor(public eventService: EventService,private auth:AuthService,private http:HttpClient) {
+    this.decoded = localStorage.getItem("access_token");
+   }
 
   ngOnInit() {
     console.log(this.x)
+    this.postToIt();
+    var decodedtoken = jwt_decode(this.decoded);
+    console.log(decodedtoken)
+    if (decodedtoken["role"] == "Student") {
+      console.log(decodedtoken["given_name"])
+      this.username = decodedtoken["given_name"];}
+
   }
   logout(){
     this.auth.logout()
+  }
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
   }
 
   sendDetails(form: NgForm, _id: string) {

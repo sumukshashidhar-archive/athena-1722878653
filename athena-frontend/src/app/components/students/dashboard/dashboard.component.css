@@ -63,7 +63,7 @@ text-decoration:none;
 -webkit-transform:translateZ(0) scale(1,1);
 -webkit-transition:all .1s linear;
 transition:all .1s linear;
-  
+
 }
 
 .main-menu .nav-icon {
@@ -84,7 +84,7 @@ vertical-align:middle;
 width:190px;
   font-family: 'Titillium Web', sans-serif;
   font-size: large;
-  
+
 }
 
 .main-menu>ul.logout {
@@ -147,8 +147,8 @@ font-size:50px;
 }
  .card-body .card-text .icons00c{
    color: blue;
-   
-  
+
+
 }
 
 .es {
@@ -166,8 +166,8 @@ font-size:50px;
 }
 
 body {
-  background-color: 
-  #FBF7F3;
+  background-color:
+  #ecdac7;
   height: 170vh;
   background-size: cover;
   background-position: center;

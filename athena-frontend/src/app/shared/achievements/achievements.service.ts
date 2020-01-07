@@ -21,14 +21,14 @@ export class AchievementsService {
   postAchievements(ach: Achievements) {
     console.log("Post achievements method");
     console.log(ach);
-    return this.http.post("http://localhost:3000/achievements", ach);
+    return this.http.post("https://backend-athena.herokuapp.com/achievements", ach);
   }
 
   getAchievements() {
-    return this.http.get("http://localhost:3000/achievements");
+    return this.http.get("https://backend-athena.herokuapp.com/achievements");
   }
 
   deleteAchievement(_id: string) {
-    return this.http.delete("http://localhost:3000/delete-achievement")
+    return this.http.delete("https://backend-athena.herokuapp.com/delete-achievement")
   }
 }

@@ -21,8 +21,8 @@ overflow:visible;
 }
 
 .main-menu {
-background:#fff;
-border-right:1px solid #e5e5e5;
+  background:#030409;
+  border-right:1px solid #030409  ;
 position:absolute;
 top:0;
 bottom:0;
@@ -195,14 +195,14 @@ height: 100%;
 }
 .bg{
   background-position: center center;
-  background-color: #00c2ff;
+  background-color:  #FBF7F3;
   height:1000%;
   background-size: cover;
 }
 html { height: 100% }
 
 body {
-  background-color: #00c2ff;
+  background-color:  #FBF7F3;
   border: 1px solid transparent;
   padding-bottom: 20px;
   height: 170vh;

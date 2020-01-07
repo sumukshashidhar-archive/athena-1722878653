@@ -54,9 +54,9 @@ module.exports = {
     },
 
 
-    testexplore3: async function(student) {
+    testexplore3: async function(query, student) {
         var callback = new Promise(async (res, rej) => {
-            var PRCSEvns = await sr.search_deep()
+            var PRCSEvns = sr.search_deep(query)
             //These are the events to process
             //Here comes the recommendations
             res(PRCSEvns)

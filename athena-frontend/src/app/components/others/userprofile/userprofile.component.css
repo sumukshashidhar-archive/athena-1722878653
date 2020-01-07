@@ -24,8 +24,8 @@ overflow:visible;
 }
 
 .main-menu {
-background:#fff;
-border-right:1px solid #e5e5e5;
+  background:#030409;
+  border-right:1px solid #030409  ;
 position:absolute;
 top:0%;
 bottom:0%;
@@ -137,14 +137,14 @@ height: 100%;
 .modal-body{
   margin: 0;
   padding: 0;
-  background: #00c2ff;
+  background:  #FBF7F3;
   font-family: sans-serif;
 
 }
 
 section{
   padding: 10px 0;
-  background: #00c2ff;
+  background:  #FBF7F3;
 }
 
 
@@ -284,7 +284,7 @@ clip-path: polygon(0 0, 100% 0, 100% 78%, 0% 100%);
 
 
 .background{
-  background: #00c2ff;
+  background:  #FBF7F3;
 }
 ul{
   position: relative;
@@ -345,7 +345,7 @@ body {
   margin:0;
   padding: 0;
   min-height: 100vh;
-  background: #00c2ff;
+  background:  #FBF7F3;
   display: flex;
   justify-content: center;
   align-items: center;

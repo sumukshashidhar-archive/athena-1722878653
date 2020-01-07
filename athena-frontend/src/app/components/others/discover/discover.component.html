@@ -122,74 +122,88 @@
     </nav>
   
     <div class="area" *ngIf="isStudent"></div><nav class="main-menu" *ngIf="isStudent">
-        <ul >
-            <li >
-                <a routerlink="dashboard">
-                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-                    <span class="nav-text">
-                        Dashboard
-                    </span>
-                </a>
-              
-            </li>
-            <li class="has-subnav">
-                <a routerlink="achievements">
-                  <i class="fa fa-trophy"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Achievements
-                    </span>
-                </a>
-                
-            </li>
-  
-            <li class="has-subnav">
-                <a routerlink="events">
-                  <i class="fa fa-calendar"   aria-hidden="true"></i>
-                    <span class="nav-text">
-                        Events
-                    </span>
-                </a>
-                
-            </li>
-  
-            <li class="has-subnav">
-                <a routerlink="signup2">
-                  <i class="fa fa-plus"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Add Interests
-                    </span>
-                </a>
-               
-            </li>
-  
-            <li>
-  
-                <a routerlink="userprofile">
-                  <i class="fa fa-user"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                        User Profile
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a routerlink="discover">
-                  <i class="fa fa-search"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Discover
-                    </span>
-                </a>
-            </li>
-        </ul>
-  
-        <ul class="logout">
-            <li>
-               <a routerlink="login" class="nav-item nav-link" (click)="logout()">
-                     <i class="fa fa-power-off fa-2x" ></i>
-                    <span class="nav-text">
-                        Logout
-                    </span>
-                </a>
-            </li>  
-        </ul>
-    </nav>
+            <ul >
+                  
+      
+        <li class="has-subnav">
+          <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+              <span class="nav-text" style="padding-left: 10px;">
+                  {{username}}
+              </span>
+          </a> 
+      </li>
+      <br/>
+      <br/>
+                <li >
+                    <a [routerLink]="['/dashboard']">
+                        <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                        <span class="nav-text">
+                            Dashboard
+                        </span>
+                    </a>
+                  
+                </li>
+                <li class="has-subnav">
+                    <a [routerLink]="['/achievements']">
+                      <i class="fa fa-trophy"  aria-hidden="true"></i>
+                        <span class="nav-text">
+                           Achievements
+                        </span>
+                    </a>
+                    
+                </li>
+      
+                <li class="has-subnav">
+                    <a [routerLink]="['/events']">
+                      <i class="fa fa-calendar"   aria-hidden="true"></i>
+                        <span class="nav-text">
+                            Events
+                        </span>
+                    </a>
+                    
+                </li>
+      
+                <li class="has-subnav">
+                    <a [routerLink]="['/interests']">
+                      <i class="fa fa-plus"  aria-hidden="true"></i>
+                        <span class="nav-text">
+                           Add Interests
+                        </span>
+                    </a>
+                   
+                </li>
+      
+                <li>
+      
+                    <a [routerLink]="['/userprofile']">
+                      <i class="fa fa-user"  aria-hidden="true"></i>
+                        <span class="nav-text">
+                            User Profile
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['/discover']">
+                      <i class="fa fa-search"  aria-hidden="true"></i>
+                        <span class="nav-text">
+                           Discover
+                        </span>
+                    </a>
+                </li>
+            </ul>
+      
+         
+      
+        
+            <ul class="logout">
+                <li>
+                   <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+                         <i class="fa fa-power-off fa-2x" ></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>  
+            </ul>
+        </nav>
 </body>

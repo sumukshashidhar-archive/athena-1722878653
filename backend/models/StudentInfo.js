@@ -8,7 +8,7 @@ var StudentInfoSchema = new mongoose.Schema({
     EmailId: String,
     Age: String,
     Bio: String, 
-    Interests: [], 
+    Interests: Array, 
     DOB: String,
     studentSchool: String, 
     studentSchoolId: Number, 
@@ -16,7 +16,8 @@ var StudentInfoSchema = new mongoose.Schema({
     Location: String,
     Achievement: [Achievements.schema], 
     pincode: Number,
-    uservector: []
+    uservector: Array, 
+    evnFollowing: Array
 });
 
 module.exports = mongoose.model("StudentInfo", StudentInfoSchema);

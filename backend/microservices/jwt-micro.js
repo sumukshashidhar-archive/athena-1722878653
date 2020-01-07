@@ -1,5 +1,12 @@
-var privateKEY = fs.readFileSync('./../keys/private.key', 'utf8');
-var publicKEY = fs.readFileSync('./../keys/public.key', 'utf8');
+const path = require('path')
+
+const certPath = path.join(__dirname, './../keys/private.key');
+const certPath2 = path.join(__dirname, './../keys/public.key');
+
+var fs = require('fs');
+var jwt = require('jsonwebtoken')
+var privateKEY = fs.readFileSync(certPath, 'utf8');
+var publicKEY = fs.readFileSync(certPath2, 'utf8');
 var enc = require('./../config/encryptionConfig')
 
 
@@ -16,6 +23,9 @@ async function tokenExtractor(tokenHeader) {
             res(toke)
         }
     })
+
+    let r = await callback;
+    return r
 
 }
 
@@ -45,8 +55,8 @@ module.exports = {
 
     verify: async (header_file) => {
         var callback = new Promise((res, rej) => {
-            var extracted = await tokenExtractor(header_file)
-            jwt.verify(extracted, publicKEY, enc.verifyOptions, (err, DECODED_TOKEN) => {
+            var extracted = tokenExtractor(header_file)
+            jwt.verify(extracted, publicKEY, enc.verifyOptions, function (err, DECODED_TOKEN){
                 if(err) {
                     console.log(err)
                     res(false)

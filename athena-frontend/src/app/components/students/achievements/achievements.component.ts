@@ -5,7 +5,7 @@ import { AchievementsService } from "./../../../shared/achievements/achievements
 import { Achievements } from "../../../shared/achievements/achievements.model";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
-
+import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { EventService } from "src/app/shared/events/event.service";
@@ -74,7 +74,8 @@ export class AchievementsComponent implements OnInit {
   localStorage: any;
   rank: any;
   file: any;
-
+  username: any;
+  decoded:any
   constructor(
     public achService: AchievementsService,
     private router: Router,
@@ -82,12 +83,19 @@ export class AchievementsComponent implements OnInit {
     public auth: AuthService,
     private catService: EventService
   ) {
+    this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
   }
 
   ngOnInit() {
     this.refreshAchievements();
     this.getAllCategory();
+    this.postToIt();
+    var decodedtoken = jwt_decode(this.decoded);
+    console.log(decodedtoken)
+    if (decodedtoken["role"] == "Student") {
+      console.log(decodedtoken["given_name"])
+      this.username = decodedtoken["given_name"];}
     
   }
 
@@ -220,34 +228,32 @@ export class AchievementsComponent implements OnInit {
       );
     });
   }
-
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener(
       "load",
       () => {
         this.imageToShow = reader.result;
-        console.log(typeof this.imageToShow);
-        this.imageArr.push(this.imageToShow);
       },
       false
     );
-    console.log(this.imageArr);
+    this.profileUrlExists = true;
     if (image) {
       reader.readAsDataURL(image);
     }
   }
-
-  postToIt(url: string) {
-    console.log(url);
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
     this.http
-      .post("http://localhost:3000/achImg", { url }, { responseType: "blob" })
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
         this.createImageFromBlob(response);
       });
   }
+
 
   setAttr() {
     // console.log(File);

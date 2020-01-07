@@ -129,7 +129,7 @@
         </div>
         <div class="area"></div><nav class="main-menu">
 
-          <ul >
+          <ul style="color: black">
                 
     
       <li class="has-subnav">
@@ -206,7 +206,7 @@
       
           <ul class="logout">
               <li>
-                 <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+                 <a [routerLink]="['/login ']" class="nav-item nav-link" (click)="logout()">
                        <i class="fa fa-power-off fa-2x" ></i>
                       <span class="nav-text">
                           Logout

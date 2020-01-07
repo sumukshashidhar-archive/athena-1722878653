@@ -1,1 +1,125 @@
-<p>interests works!</p>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body>
+
+    <div>
+        <div class="row" style="padding-left: 300px;padding-top: 200px;">
+            <div class="col-xs-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <div class="row">
+                                <div class="col-xs-4">
+
+                                </div>
+                                <div class="col-xs-6">
+                                    <h4> User Interest </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-xs-6">
+                                <label><strong>Category Name</strong></label>
+                                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
+                                    [options]="categoryOption"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-xs-6">
+                                <label> Sub category Name </label>
+                                <ngx-select-dropdown [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat"
+                                    [options]="subcatOptions"></ngx-select-dropdown>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row text-center">
+                            <div class="col-xs-3">
+                                <button type="button" class="btn btn-success btn-block" (click)="adduserInterestList()">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="area"></div><nav class="main-menu">
+        <ul >
+            <li >
+                <a href="dashboard">
+                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                    <span class="nav-text">
+                        Dashboard
+                    </span>
+                </a>
+              
+            </li>
+            <li class="has-subnav">
+                <a href="achievements">
+                  <i class="fa fa-trophy"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Achievements
+                    </span>
+                </a>
+                
+            </li>
+  
+            <li class="has-subnav">
+                <a href="events">
+                  <i class="fa fa-calendar"   aria-hidden="true"></i>
+                    <span class="nav-text">
+                        Events
+                    </span>
+                </a>
+                
+            </li>
+  
+            <li class="has-subnav">
+                <a href="signup2">
+                  <i class="fa fa-plus"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Add Interests
+                    </span>
+                </a>
+               
+            </li>
+  
+            <li>
+  
+                <a href="userprofile">
+                  <i class="fa fa-user"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                        User Profile
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="discover">
+                  <i class="fa fa-search"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Discover
+                    </span>
+                </a>
+            </li>
+        </ul>
+  
+        <ul class="logout">
+            <li>
+               <a href="login" class="nav-item nav-link" (click)="logout()">
+                     <i class="fa fa-power-off fa-2x" ></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>  
+        </ul>
+    </nav>
+</body>

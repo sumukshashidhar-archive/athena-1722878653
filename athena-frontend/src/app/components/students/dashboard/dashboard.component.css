@@ -24,8 +24,8 @@ overflow:visible;
 }
 
 .main-menu {
-background:#f8f8f8f8;
-border-right:1px solid #dddddd;
+background:#030409;
+border-right:1px solid #030409  ;
 position:absolute;
 top:0;
 bottom:0;
@@ -167,7 +167,7 @@ font-size:50px;
 
 body {
   background-color: 
-  #00c2ff;
+  #FBF7F3;
   height: 170vh;
   background-size: cover;
   background-position: center;

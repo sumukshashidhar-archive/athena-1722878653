@@ -1452,9 +1452,36 @@ function getFrndInt(email)
 }
 
 
-
+var jwms = require('./microservices/jwt-micro')
 
 
 app.post('/api/follow', async function (req, res ){
-    
+    var toke = jwms.verify(req.headers.authorization)
+    if(!toke) {
+        console.log('Invalid JWT')
+        res.status(403).send("Invalid Authenticaton")
+    }
+    else {
+        Student.findOne({id: toke['usrid']}, function (err, obj){
+            if(err) {
+                res.status(403).send("No such student");
+            }
+            else {
+                var id = req.body._id
+                if (obj.evnFollowing.includes(id)) {
+                    res.status(403).send("Already Exists");
+                } else {
+                    obj.evnFollowing.push(id)
+                    Student.updateOne({_id: toke["usrid"]}, {$set: {evnFollowing: obj.evnFollowing}}, function(err, obj) {
+                        if (err) {
+                            res.status(500).send("Something went wrong");
+                        } else {
+                            res.status(200).send(obj);
+                        }
+
+                    })
+                }
+            }
+        })
+    }
 })

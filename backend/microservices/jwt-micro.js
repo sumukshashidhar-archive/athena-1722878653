@@ -1,6 +1,5 @@
-var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
-var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
-var privateKEY = require('./../keys/private.key')
+var privateKEY = fs.readFileSync('./../keys/private.key', 'utf8');
+var publicKEY = fs.readFileSync('./../keys/public.key', 'utf8');
 var enc = require('./../config/encryptionConfig')
 
 
@@ -47,7 +46,7 @@ module.exports = {
     verify: async (header_file) => {
         var callback = new Promise((res, rej) => {
             var extracted = await tokenExtractor(header_file)
-            jwt.verify(extracted, publicKey, enc.verifyOptions, (err, DECODED_TOKEN) => {
+            jwt.verify(extracted, publicKEY, enc.verifyOptions, (err, DECODED_TOKEN) => {
                 if(err) {
                     console.log(err)
                     res(false)

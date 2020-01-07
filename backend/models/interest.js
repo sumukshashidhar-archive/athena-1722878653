@@ -4,8 +4,8 @@
 var mongoose = require('mongoose');
 
 var interestSchema = new mongoose.Schema({
-    interestName: String,
-    interestRank: String,
+    subCat: String,
+    users: []
 });
 
 module.exports = mongoose.model("interest", interestSchema);

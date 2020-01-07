@@ -1,3 +1,4 @@
+  
 //CHANGE ALL TOKENS TO JWT AUTH
 //Imports - Needed Packages for Running
 var express = require("express");
@@ -7,16 +8,23 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 const cors = require('cors');
 var bcrypt = require('bcryptjs');
+const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
+// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
+// const category = require('./models/category-model')
+// const subcat = require('./models/subcategory-model')
 const algorithm = 'aes-256-cbc';
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
-var InterestSchema = require('./models/interest.js');
 
+//var brain = require('brain.js')
 //Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
@@ -131,10 +139,7 @@ function generate(n) {
 
 
 /*
-
 INITIALIZATIONS
-
-
 */
 
 //Express app instantiation
@@ -211,6 +216,29 @@ app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is fro
 });
 
 //FILE UPLOAD CODE, DON'T TOUCH, FOR HELP CONTACT VIJAY
+
+
+var Storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, "./Images");
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
+    }
+});
+
+var upload = multer({
+    storage: Storage
+}).array("imgUploader", 1); //Field name and max count
+
+//USAGE DOWN BELOW
+
+// upload(req, res, function(err) {
+//     if (err) {
+//         return res.end("Something went wrong!");
+//     }
+//     return res.end("File uploaded sucessfully!.");
+// });
 
 
 
@@ -413,6 +441,8 @@ app.get('/verifyuser/*', function (req, res) {
 //////UPLOAD PROFILE PIC
 app.post('/uploadProfile', multipartMiddleware, (req, res) => {
 
+    console.log("HSSSSSSSSSSS\N\N");
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
@@ -473,6 +503,7 @@ app.post('/login', async function (req, res) {
                                         })
                                     }
                                     else {
+                                        console.log("vhjk");
                                         console.log(err);
                                     }
 
@@ -483,6 +514,7 @@ app.post('/login', async function (req, res) {
                                 //Repeating for Organizer
                                 Organiser.findOne({ OrganiserEmail: req.body.username }, function (err, obj) {
                                     if (usrobj.Verified) {
+                                        console.log("vhjk fghuio");
 
                                         console.log(obj)
                                         token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
@@ -571,7 +603,7 @@ app.post('/resetPasswordCode', function (req, res) {
                 res.send(true);
             }
             else {
-                console.log("ERROR")
+                console.log("PROBLEMMM")
                 res.send(false);
             }
         }
@@ -647,6 +679,59 @@ app.get('/dashboard', async function (req, res) {
 
 });
 
+app.get('/getImage', function (req, res) {
+    console.log(req.query.url);
+    var Path = path.join(__dirname, req.query.url)
+    console.log(Path)
+    res.sendFile(Path);
+});
+
+
+app.get('/imageUpload', function (req, res) {
+    // console.log(req.url);
+    // var Path=path.join(__dirname, req.query.url)
+    // console.log(Path)
+    // res.sendFile(Path);
+
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Bio....")
+        if (!err && decodedToken != null) {
+            console.log("Verified: " + decodedToken.email);
+            user.findOne({ username: decodedToken.email }, function (err, obj) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    var Path = path.join(__dirname, obj.profilePic)
+                    console.log(obj.profilePic)
+                    console.log("Path: " + Path);
+                    console.log('HEREEE')
+                    res.sendFile(Path)
+
+                }
+            });
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+
+    console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/bio', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -672,12 +757,15 @@ app.post('/bio', function (req, res) {
 
 
 
+
+
+
+
+
+
+
 /*
-
-
 UNDERDEVELOPED ROUTES
-
-
 */
 
 
@@ -706,11 +794,7 @@ app.post('/auth', function (req, res) {
 });
 
 /*
-
-
 ROUTES THAT NEED BUG SQUISHING
-
-
 */
 
 
@@ -833,6 +917,11 @@ app.get('/achievements', async function (req, res) {
     })
 })
 
+var flag = 0;
+var achCat = '';
+var achSubCat = '';
+
+
 
 app.post('/abcd', multipartMiddleware, (req, res) => {
 
@@ -927,6 +1016,50 @@ app.post('/achievements', multipartMiddleware, (req, res) => {
 
 });
 
+
+
+app.post('/achImg', function (req, res) {
+    console.log('REQUEEST  is' + req.body.url)
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            console.log("Verified")
+            Student.findOne({ EmailId: decodedToken.EmailId }, function (err, mongoObj) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    // console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                    // console.log(mongoObj.Achievement[0]['Image'])
+                    for (var i = 0; i < mongoObj.Achievement.length; i++) {
+                        // console.log(mongoObj.Achievement[i]['Image'])   
+
+
+                    }
+                    console.log("WORKINGG ANIRUDHHHH" + req.body.url)
+                    res.sendFile(path.join(__dirname + '', req.body.url))
+
+
+
+                }
+            })
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    })
+})
+
+
+
+
+
+
+
+
+
+
 app.post('/delete-achievement', function (req, res) {
     //This is for deleting achievements
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -1007,32 +1140,7 @@ app.post('/addInterest', function (req, res) {
                                 else {
 
                                 }
-                            });
-                            
-                            InterestSchema.findOne({subCat: newInterests[i]}, function(err, intObj)
-                            {
-                                if(err)
-                                {
-                                    console.log(err);
-                                }
-                                else
-                                {
-                                    console.log("adding to interest");
-                                    intObj.users.push(obj._id);
-
-                                    InterestSchema.updateOne({subCat: newInterests[i]}, {$set: { users: intObj.users } }, function(err, lObj)
-                                    {
-                                        if(err)
-                                        {
-                                            console.log(err);
-                                        }
-                                        else
-                                        {
-                                            console.log("added successfully");
-                                        }
-                                    });
-                                }
-                            }); 
+                            })
 
                         }
                     }
@@ -1120,35 +1228,6 @@ app.post('/events_search', function (req, res) {
     }
 })
 
-
-app.get('/getCategoriesAll', function (req, res) {
-    CatE.find({}, { subCat: 0 }, function (err, obj) {
-        if (err) {
-            console.log()
-        }
-        else {
-            console.log(obj);
-            res.send(obj);
-        }
-    });
-});
-
-app.get('/getCategoriesId', function (req, res) {
-    console.log(req.query.catId);
-    var id = parseInt(req.query.catId);
-    console.log(id);
-
-    CatE.findOne({ catId: id }, function (err, obj) {
-        if (err) {
-            console.log()
-        }
-        else {
-            console.log(obj);
-            console.log(obj.catId);
-            res.send(obj.subCat)
-        }
-    });
-});
 
 //SHA256 hash of add_keys. Done for the anonyminity of the post URL
 app.post('/1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e', function (req, res) {
@@ -1348,13 +1427,42 @@ app.post('/add-categories', function (err, obj) {
     })
 });
 
+app.get('/getCategoriesAll', function (req, res) {
+    CatE.find({}, { subCat: 0 }, function (err, obj) {
+        if (err) {
+            console.log()
+        }
+        else {
+            console.log(obj);
+            res.send(obj);
+        }
+    });
+});
+
+app.get('/getCategoriesId', function (req, res) {
+    console.log(req.query.catId);
+    var id = parseInt(req.query.catId);
+    console.log(id);
+
+    CatE.findOne({ catId: id }, function (err, obj) {
+        if (err) {
+            console.log()
+        }
+        else {
+            console.log(obj);
+            console.log(obj.catId);
+            res.send(obj.subCat)
+        }
+    });
+});
+
 app.post('/addCat', function (req, res) {
 
 
     var catId = generate(6);
     var catName = "Adventerous Journey";
 
-    var subCatNameArray = ["Nature", "Historic", "Investigation", "Survival", "Adult Literacy", "Fund Raising", "Helping at old age home", "Hospital Volunteering", "Looking after old", "Animal Care", "promoting enivronmental sustainability", "clean up campaign", "Conserve public", "Debating", "Drama", "Speech", "Reading", "Card Games", "Chess", "Darts", "Draughts", "Badminton", "Football", "Hockey", "Cricket"];
+    var subCatNameArray = ["Nature", "Historic", "Investigation", "Survival"];
     var subCat = new Array();
 
     for (var i = 0; i < subCatNameArray.length; i++) {
@@ -1450,11 +1558,3 @@ function getFrndInt(email)
     return interests;
     });
 }
-
-
-
-
-
-app.post('/api/follow', async function (req, res ){
-    
-})

@@ -26,6 +26,6 @@ export class UserService {
 
   postUser(user: User) {
     console.log(user)
-    return this.http.post("https://backend-athena.herokuapp.com/register", user);
+    return this.http.post("http://localhost:3000/register", user);
   }
 }

@@ -79,7 +79,7 @@
     <div class="cont">
       <div class="box" *ngFor="let evn of eventService.events" style="display: flex;">
         <div class="imgBx">
-          <img src="https://backend-athena.herokuapp.com/{{ evn.Image }}" alt="Image">
+          <img src="http://localhost:3000/{{ evn.Image }}" alt="Image">
         </div>
         <div class="content">
           <h3>{{ evn.evnName }}</h3>

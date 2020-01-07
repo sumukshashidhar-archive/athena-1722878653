@@ -93,6 +93,12 @@ export class DiscoverComponent implements OnInit {
       res => {
         this.data.results = res;
         console.log(res);
+        if (this.data.results.length === 0) {
+          this.data.message = "Sorry, no results found"
+        }
+        else {
+          this.data.message = "We found these results"
+        }
         this.router.navigate(['/searchres'])
       },
       err => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from './../../../shared/events/event.service'
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms'
 
 @Component({
   selector: 'app-eventfollow',
@@ -19,6 +20,7 @@ export class EventfollowComponent implements OnInit {
   getEvents(){
     this.eventService.getFollowEvents().subscribe(
       res => {
+        console.log(res)
         this.results = res;
       },
       err => {

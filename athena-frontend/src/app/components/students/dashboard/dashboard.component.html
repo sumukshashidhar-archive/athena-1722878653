@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <body>
-  
+
     <h2 style="color: white;">Welcome, {{ username }}</h2>
     <div class="container" style="display:flex;">
     <div class="card text-white "  style="max-width: 18rem; position: relative;margin-left: 10%; margin-top: 8%;border-radius: 10px;">
@@ -59,7 +59,7 @@
       <div class="col-4" >
         <div class="list-group" id="list-tab" role="tablist">
             <h3 class = "list-group-item-heading" style="background-color:#ff3d00;
-            
+
             color:#f0a904;">Achievements</h3>
       <div class="list-group-item" *ngFor="let ach of ach_list" id="list-profile-list"  routerlink="#list-profile" role="tab" aria-controls="profile">{{ach.SubCategoryId }}</div>
         </div>
@@ -69,7 +69,7 @@
     <div class="area"></div><nav class="main-menu">
 
       <ul >
-            
+
 
   <li class="has-subnav">
     <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
@@ -78,7 +78,7 @@
         <span class="nav-text" style="padding-left: 10px;">
             {{username}}
         </span>
-    </a> 
+    </a>
 </li>
 <br/>
 <br/>
@@ -89,7 +89,7 @@
                       Dashboard
                   </span>
               </a>
-            
+
           </li>
           <li class="has-subnav">
               <a [routerLink]="['/achievements']">
@@ -98,7 +98,7 @@
                      Achievements
                   </span>
               </a>
-              
+
           </li>
 
           <li class="has-subnav">
@@ -108,7 +108,7 @@
                       Events
                   </span>
               </a>
-              
+
           </li>
 
           <li class="has-subnav">
@@ -118,7 +118,7 @@
                      Add Interests
                   </span>
               </a>
-             
+
           </li>
 
           <li>
@@ -140,18 +140,18 @@
           </li>
       </ul>
 
-   
 
-  
+
+
       <ul class="logout">
           <li>
-             <a routerlink="login" class="nav-item nav-link" (click)="logout()">
+             <a [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout
                   </span>
               </a>
-          </li>  
+          </li>
       </ul>
   </nav>
   </body>

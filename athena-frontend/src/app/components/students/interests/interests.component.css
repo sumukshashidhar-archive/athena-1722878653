@@ -60,7 +60,7 @@ text-decoration:none;
 -webkit-transform:translateZ(0) scale(1,1);
 -webkit-transition:all .1s linear;
 transition:all .1s linear;
-  
+
 }
 
 .main-menu .nav-icon {
@@ -81,7 +81,7 @@ vertical-align:middle;
 width:190px;
   font-family: 'Titillium Web', sans-serif;
   font-size: large;
-  
+
 }
 
 .main-menu>ul.logout {
@@ -130,7 +130,7 @@ height: 100%;
   font-style: normal;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
-} 
+}
 .login-page {
   width: 400px;
   padding: 10% 0 0;
@@ -138,7 +138,7 @@ height: 100%;
 }
 
 body {
- background-color:  #FBF7F3;
+ background-color:  #ecdac7;
   height: 170vh;
   background-size: cover;
   background-position: center;

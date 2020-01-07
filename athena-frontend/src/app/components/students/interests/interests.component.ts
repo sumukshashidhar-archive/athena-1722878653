@@ -3,6 +3,8 @@ import { InterestSendingService } from './../../../shared/interests/interest-sen
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EventService } from '../../../shared/events/event.service';
+import { HttpClient } from '../../../../../node_modules/@angular/common/http';
+import * as jwt_decode from "jwt-decode";
 export let bio;
 @Component({
   selector: 'app-interests',
@@ -34,10 +36,12 @@ export class InterestsComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
-
-
-  constructor(public interestsendingservice: InterestSendingService, public auth: AuthService, private catService: EventService) {
-
+  profileUrlExists:any
+  imageToShow:any;
+  decoded:any
+  username:any
+  constructor(public interestsendingservice: InterestSendingService,private http:HttpClient, public auth: AuthService, private catService: EventService) {
+    this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push('1');
   }
   // onClick() {
@@ -47,7 +51,31 @@ export class InterestsComponent implements OnInit {
   //   this.interest = "";
 
 
-
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
+  }
   logout() {
     this.auth.logout();
   }
@@ -65,7 +93,13 @@ export class InterestsComponent implements OnInit {
     );
   }
   ngOnInit() {
-
+    this.postToIt();
+    var decodedtoken = jwt_decode(this.decoded);
+    console.log(decodedtoken)
+    if (decodedtoken["role"] == "Student") {
+      console.log(decodedtoken["given_name"])
+      this.username = decodedtoken["given_name"];}
+    
     this.getAllCategory();
   }
 

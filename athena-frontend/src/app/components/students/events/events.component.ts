@@ -2,10 +2,11 @@ import { AuthService } from './../../../shared/auth/auth.service'
 import { Component, OnInit } from "@angular/core";
 import { EventService } from "./../../../shared/events/event.service";
 import { Event } from "./../../../shared/events/event";
-
+import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient } from '../../../../../node_modules/@angular/common/http';
 export var EventDetails;
 @Component({
   selector: "app-events",
@@ -15,13 +16,23 @@ export var EventDetails;
 export class EventsComponent implements OnInit {
   showSpinner: boolean = true;
   x: string;
-
-  constructor(public eventService: EventService, private router: Router,private auth:AuthService) {
+  username:string;
+  decoded:any
+  imageToShow:any;
+  profileUrlExists:any
+  constructor(public eventService: EventService, private router: Router,private auth:AuthService, private http:HttpClient) {
+    this.decoded = localStorage.getItem("access_token");
   }
 
   
   ngOnInit() {
     this.refreshEvents();
+    this.postToIt();
+    var decodedtoken = jwt_decode(this.decoded);
+    console.log(decodedtoken)
+    if (decodedtoken["role"] == "Student") {
+      console.log(decodedtoken["given_name"])
+      this.username = decodedtoken["given_name"];}
   }
 
   refreshEvents() {
@@ -34,6 +45,31 @@ export class EventsComponent implements OnInit {
 
   logout() {
     this.auth.logout();
+  }
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  postToIt() {
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
   }
 
   sendDetails(form: NgForm, _id: string) {

@@ -18,7 +18,7 @@ export class ResetcodeService {
   postAnswer(securityAnswer: Resetcode) {
     console.log(securityAnswer);
     return this.http.post(
-      "http://localhost:3000/resetPasswordCode",
+      "https://backend-athena.herokuapp.com/resetPasswordCode",
       securityAnswer
     );
   }

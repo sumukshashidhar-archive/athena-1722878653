@@ -23,6 +23,7 @@ const iv = crypto.randomBytes(16);
 var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
+var InterestSchema = require('./models/interest.js');
 
 //var brain = require('brain.js')
 //Requirements - Needed Files for Running

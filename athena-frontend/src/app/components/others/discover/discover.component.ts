@@ -59,10 +59,10 @@ export class DiscoverComponent implements OnInit {
     }
   }
   postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    // this.http.get('https://backend-athena.herokuapp.com/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .get("https://backend-athena.herokuapp.com/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
@@ -93,6 +93,12 @@ export class DiscoverComponent implements OnInit {
       res => {
         this.data.results = res;
         console.log(res);
+        if (this.data.results.length === 0) {
+          this.data.message = "Sorry, no results found"
+        }
+        else {
+          this.data.message = "We found these results"
+        }
         this.router.navigate(['/searchres'])
       },
       err => {
@@ -109,6 +115,7 @@ export class DiscoverComponent implements OnInit {
     this.data.postUserSearch(form.value).subscribe(
       res => {
         console.log(res);
+        this.router.navigate(['/userres'])
       },
       err => {
         if (err.status === 422) {

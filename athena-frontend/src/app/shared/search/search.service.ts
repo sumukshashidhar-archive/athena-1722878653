@@ -12,6 +12,7 @@ export class SearchService {
   private name = new BehaviorSubject(null);
   currentName = this.name.asObservable();
   results: any;
+  message: any;
 
   selSearch: Search = {
     keyword: '',

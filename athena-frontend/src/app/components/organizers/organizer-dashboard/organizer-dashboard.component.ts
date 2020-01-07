@@ -76,7 +76,7 @@ export class OrganizerDashboardComponent implements OnInit {
       );
     }
     this.http
-      .post("https://backend-athena.herokuapp.com/uploadProfile", formData)
+      .post("http://localhost:3000/uploadProfile", formData)
       .subscribe(response => {
         console.log("response received is ", response);
         this.path = response["path"];
@@ -86,21 +86,21 @@ export class OrganizerDashboardComponent implements OnInit {
       });
 
     this.postEvents();
-    this.http.post("https://backend-athena.herokuapp.com/uploadProfile", this.uploadedFiles);
+    this.http.post("http://localhost:3000/uploadProfile", this.uploadedFiles);
   }
 
   // setPath(path:string){
   //   console.log(path)
-  //   this.http.post('https://backend-athena.herokuapp.com/setPath',path).subscribe(res=>{
+  //   this.http.post('http://localhost:3000/setPath',path).subscribe(res=>{
   //     console.log(res)
   //   })
   // }
 
   postToIt() {
-    // this.http.get('https://backend-athena.herokuapp.com/imageUpload').subscribe(res=>{
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("https://backend-athena.herokuapp.com/imageUpload", { responseType: "blob" })
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
@@ -109,7 +109,7 @@ export class OrganizerDashboardComponent implements OnInit {
   }
 
   // getImage(path) {
-  //   this.http.get('https://backend-athena.herokuapp.com/getImage' + '?url=' + path,{ responseType:'blob'}).subscribe
+  //   this.http.get('http://localhost:3000/getImage' + '?url=' + path,{ responseType:'blob'}).subscribe
   //   ((response:Blob)=>{
   //     console.log('response as blob');
   //     console.log(response);
@@ -128,7 +128,7 @@ export class OrganizerDashboardComponent implements OnInit {
     const options = {
       headers: headers
     };
-    return this.http.post("https://backend-athena.herokuapp.com/uploadProfile", options);
+    return this.http.post("http://localhost:3000/uploadProfile", options);
   }
   logout() {
     this.auth.logout();
@@ -137,7 +137,7 @@ export class OrganizerDashboardComponent implements OnInit {
   getIP() {
     this.auth.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
-      this.http.post("https://backend-athena.herokuapp.com/api/ip", this.ipAddress);
+      this.http.post("http://localhost:3000/api/ip", this.ipAddress);
       console.log("IP POSTED");
     });
   }

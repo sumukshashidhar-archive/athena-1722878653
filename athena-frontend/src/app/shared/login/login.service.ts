@@ -29,6 +29,6 @@ export class LoginService {
     console.log(Object);
     send=user.bio
     console.log(`BIO is {send}`)
-    return this.http.post("https://backend-athena.herokuapp.com/login", user);
+    return this.http.post("http://localhost:3000/login", user);
   }
 }

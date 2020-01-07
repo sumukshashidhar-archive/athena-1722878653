@@ -17,6 +17,6 @@ export class NewpassService {
 
   postPassword(pass: NewPass) {
     console.log(pass);
-    return this.http.post("https://backend-athena.herokuapp.com/resetpassword", pass);
+    return this.http.post("http://localhost:3000/resetpassword", pass);
   }
 }

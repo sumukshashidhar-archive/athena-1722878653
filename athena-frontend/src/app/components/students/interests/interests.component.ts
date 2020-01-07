@@ -66,10 +66,10 @@ export class InterestsComponent implements OnInit {
     }
   }
   postToIt() {
-    // this.http.get('https://backend-athena.herokuapp.com/imageUpload').subscribe(res=>{
+    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("https://backend-athena.herokuapp.com/imageUpload", { responseType: "blob" })
+      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);

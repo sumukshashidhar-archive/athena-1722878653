@@ -60,7 +60,7 @@ text-decoration:none;
 -webkit-transform:translateZ(0) scale(1,1);
 -webkit-transition:all .1s linear;
 transition:all .1s linear;
-  
+
 }
 
 .main-menu .nav-icon {
@@ -81,7 +81,7 @@ vertical-align:middle;
 width:190px;
   font-family: 'Titillium Web', sans-serif;
   font-size: large;
-  
+
 }
 
 .main-menu>ul.logout {
@@ -185,7 +185,7 @@ height: 100%;
   border-radius: 10px;
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.6); 
+  background: rgba(255, 255, 255, 0.6);
   max-width: 450px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -195,14 +195,14 @@ height: 100%;
 }
 .bg{
   background-position: center center;
-  background-color:  #FBF7F3;
+  background-color:  #ecdac7;
   height:1000%;
   background-size: cover;
 }
 html { height: 100% }
 
 body {
-  background-color:  #FBF7F3;
+  background-color:  #ecdac7;
   border: 1px solid transparent;
   padding-bottom: 20px;
   height: 170vh;
@@ -295,7 +295,7 @@ border-radius: 10px;
   background: #000428;
   color: aliceblue;
   }
-  
+
 
   .flip-card-inner button{
     margin: 15 px 0 0;
@@ -307,7 +307,7 @@ border-radius: 10px;
   border: 1px solid;
   border-radius: 10px;
   }
-  
+
   .flip-card-inner button:hover{
     background: #000428;
     color: aliceblue;
@@ -333,7 +333,7 @@ border-radius: 10px;
 img{
   float: left;
   max-width: 100%;
- 
+
 }
 
 @media screen and (max-width: 600px) {
@@ -414,7 +414,7 @@ h3 {
   border: 2px solid #0A7261;
   border-radius: 4px;
   padding: 3px 5px;
-  
+
    font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 0.8rem;

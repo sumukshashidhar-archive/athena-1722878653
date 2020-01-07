@@ -1544,26 +1544,49 @@ app.post('/api/follow', async function (req, res) {
 
 
 app.get('/api/getevents', async function(req, res){
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    console.log("SHHSHSHDHASAISASSO")
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
         if (err) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
             console.log(decodedToken)
-            Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
+            Student.findOne({_id: decodedToken['usrid'] }, async function (err, obj) {
                 if (err) {
                     res.status(403).send("No such student");
                 }
                 else {
-                    event.find({"_id" : { "$in" : obj.evnFollowing}}, function(err2, EVNS){
-                        if(err2) {
-                            res.status(404).send("Something went wrong");
+                    var callback = new Promise((res, rej)=> {
+                        var appen = [""]
+                        for(let i=1; i< obj.evnFollowing.length; i++){
+                            event.findOne({"_id":obj.evnFollowing[i]}, function(err1, obj1){
+                                if(err1){
+                                    console.log(err)
+                                }
+                                else {
+                                    console.log("OBJECT IS ", obj1)
+                                    appen.push(obj1)
+                                }
+                            })
                         }
-                        else{
-                            res.status(200).send(EVNS);
-                        }
+                        console.log("APPEN IS", appen)
+                        res(appen) 
                     })
-                    res.status(200).send(obj.evnFollowing);
+                    let r = await callback
+                    res.status(200).send(r);
+
+
+                    // console.log(obj.evnFollowing)
+                    // event.find({"_id" : { "$in" : obj['evnFollowing']}}, function(err2, EVNS){
+                    //     if(err2) {
+                    //         res.status(404).send("Something went wrong");
+                    //     }
+                    //     else{
+                    //         console.log("HHSHHSHSHSHSHSHSSHHSHS")
+                    //         console.log(EVNS)
+                    //         res.status(200).send(EVNS);
+                    //     }
+                    // })
                 }
             })
         }

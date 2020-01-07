@@ -18,6 +18,6 @@ export class PassResetEmailService {
 
   postEmail(email: PassResetEmail) {
     console.log(email);
-    return this.http.post("http://localhost:3000/reset", email);
+    return this.http.post("https://backend-athena.herokuapp.com/reset", email);
   }
 }

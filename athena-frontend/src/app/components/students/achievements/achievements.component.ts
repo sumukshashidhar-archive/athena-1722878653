@@ -155,7 +155,7 @@ export class AchievementsComponent implements OnInit {
 
     console.log(formData);
     this.http
-      .post("http://localhost:3000/abcd", formData)
+      .post("https://backend-athena.herokuapp.com/abcd", formData)
       .subscribe(response => {
         console.log("response received is ", response);
         Achievement.uploadedFiles = response["Image"];
@@ -192,16 +192,16 @@ export class AchievementsComponent implements OnInit {
     this.achService.postAchievements(Achievement).subscribe(res => {
       console.log(res);
     });
-    console.log(`http://localhost:3000/${File[0].name}`);
+    console.log(`https://backend-athena.herokuapp.com/${File[0].name}`);
     frmData.append("img", File[0]);
 
     console.log(frmData);
-    this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
+    this.http.post("https://backend-athena.herokuapp.com/upload", frmData).subscribe(res => {
       console.log(res);
     });
-    this.link = "http://localhost:3000/" + `${File[0].name}`;
+    this.link = "https://backend-athena.herokuapp.com/" + `${File[0].name}`;
     console.log(this.link);
-    // this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
+    // this.http.get(`https://backend-athena.herokuapp.com/${File[0].name}`).subscribe(res=>{
     //   console.log(res)
     // })
   }
@@ -243,10 +243,10 @@ export class AchievementsComponent implements OnInit {
     }
   }
   postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    // this.http.get('https://backend-athena.herokuapp.com/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .get("https://backend-athena.herokuapp.com/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
@@ -257,10 +257,10 @@ export class AchievementsComponent implements OnInit {
 
   setAttr() {
     // console.log(File);
-    // console.log(`http://localhost:3000/${File}`);
+    // console.log(`https://backend-athena.herokuapp.com/${File}`);
     // document
     //   .getElementById("i1")
-    //   .setAttribute("src"", `http://localhost:3000/${File}`);
+    //   .setAttribute("src"", `https://backend-athena.herokuapp.com/${File}`);
     var x = (document.getElementById("testimg123") as HTMLInputElement).value;
     console.log(x)
     this.test123 = x;

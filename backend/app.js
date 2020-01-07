@@ -1554,9 +1554,12 @@ app.get('/api/getevents', async function(req, res){
                     res.status(403).send("No such student");
                 }
                 else {
-                    event.find({"_id" : { "$in" : obj.evnFollowing}}, function(err, obj){
-                        if(err) {
+                    event.find({"_id" : { "$in" : obj.evnFollowing}}, function(err2, EVNS){
+                        if(err2) {
                             res.status(404).send("Something went wrong");
+                        }
+                        else{
+                            res.status(200).send(EVNS);
                         }
                     })
                     res.status(200).send(obj.evnFollowing);

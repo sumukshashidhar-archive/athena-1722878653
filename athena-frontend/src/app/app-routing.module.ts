@@ -24,14 +24,18 @@ import { ResetpassComponent } from './components/others/resetpass/resetpass.comp
 import { RunmoduleComponent } from './components/others/runmodule/runmodule.component';
 import { UserprofileComponent } from './components/others/userprofile/userprofile.component';
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
-import { AuthGuard } from './shared/auth/auth.guard'
+import { AuthGuard } from './shared/auth/auth.guard';
+import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component'
 
 const routes: Routes = [
   {
     path: "",
     component: HomePageComponent
   },
-
+  {
+    path: "eventfollow",
+    component: EventfollowComponent
+  },
   {
     path: "verifyemail",
     component: VerifyemailComponent

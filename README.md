@@ -91,10 +91,9 @@ On the second terminal, you should have an output saying that the server has sta
 4. Event display
 5. Event organization
 6. Discover page with event search and user search
-7. UI DESIGN
-8. Form validation everywhere
-9. Angular deployment to AWS S3 
-10. Captcha verification
+7. Form validation everywhere
+8. Angular deployment to AWS S3 
+9. Captcha verification
 
 **Anirudh Lakhotia**
 1. JWT based authentication

@@ -20,6 +20,6 @@ export class OrganizerService {
 
   postOrgUser(user: Organizer) {
     console.log(user)
-    return this.http.post("http://localhost:3000/registerorganizer", user);
+    return this.http.post("https://backend-athena.herokuapp.com/registerorganizer", user);
   }
 }

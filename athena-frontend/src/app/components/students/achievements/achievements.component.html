@@ -78,7 +78,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line" id="des">
-                  <img src="http://localhost:3000/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
+                  <img src="https://backend-athena.herokuapp.com/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
                   <br/>
                   {{desc}}
                   <br/>
@@ -213,7 +213,7 @@
 
       <ul class="logout">
           <li>
-             <a  [routerLink]="['/login']" class="nav-item nav-link" (click)="logout()">
+             <a  [routerLink]="['/login']" class="nav-item nav-link"     >
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout

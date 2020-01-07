@@ -15,6 +15,6 @@ export class InterestsService {
 
   postInterest(interests: Interests) {
     console.log(interests);
-    return this.http.post("http://localhost:3000/interests", interests);
+    return this.http.post("https://backend-athena.herokuapp.com/interests", interests);
   }
 }

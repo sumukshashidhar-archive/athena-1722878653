@@ -109,6 +109,7 @@ export class DiscoverComponent implements OnInit {
     this.data.postUserSearch(form.value).subscribe(
       res => {
         console.log(res);
+        this.router.navigate(['/userres'])
       },
       err => {
         if (err.status === 422) {

@@ -43,7 +43,8 @@ import { AuthGuard } from './shared/auth/auth.guard'
 import { AuthService } from './shared/auth/auth.service'
 import { EventService } from './shared/events/event.service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
-import { SearchresComponent } from './components/others/searchres/searchres.component'
+import { SearchresComponent } from './components/others/searchres/searchres.component';
+import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component'
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { SearchresComponent } from './components/others/searchres/searchres.comp
     RunmoduleComponent,
     UserprofileComponent,
     VerifyemailComponent,
-    SearchresComponent
+    SearchresComponent,
+    EventfollowComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

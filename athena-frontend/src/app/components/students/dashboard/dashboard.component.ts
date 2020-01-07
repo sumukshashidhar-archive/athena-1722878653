@@ -12,7 +12,7 @@ import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
 import { Achievements } from 'src/app/shared/achievements/achievements.model';
 import { LOCAL_STORAGE } from '@ng-toolkit/universal';
-import{school} from '../signup/signup.component'
+import { school } from '../signup/signup.component'
 export var decoded :any 
 @Component({
   selector: "app-dashboard",

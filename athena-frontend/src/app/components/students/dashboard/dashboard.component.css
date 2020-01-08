@@ -24,14 +24,14 @@ overflow:visible;
 }
 
 .main-menu {
-background:#030409;
-border-right:1px solid #030409  ;
+background:#fff;
+border-right:1px solid #fff  ;
 position:absolute;
-top:0;
+top:0;  
 bottom:0;
 height:100%;
 left:0;
-width:60px;
+width:4.1vw;
 overflow:hidden;
 -webkit-transition:width .05s linear;
 transition:width .05s linear;
@@ -139,11 +139,10 @@ img {
   border-radius: 100%;
 position: relative;
 display:table-cell;
-widows: 90px;
-height:54px;
+height:auto;
 text-align:center;
 vertical-align:middle;
-font-size:50px;
+max-width: 100%;
 }
  .card-body .card-text .icons00c{
    color: blue;
@@ -167,7 +166,7 @@ font-size:50px;
 
 body {
   background-color:
-  #ecdac7;
+  #f9fafe;
   height: 170vh;
   background-size: cover;
   background-position: center;

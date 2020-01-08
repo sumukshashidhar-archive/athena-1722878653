@@ -44,6 +44,7 @@ export class EventService {
     const options = {
       headers : headers
     };
+    console.log("Events")
     return this.http.get("http://localhost:3000/events",options);
   }
   postEvents(events: Event) {
@@ -58,10 +59,12 @@ export class EventService {
   }
 
   getcategoryDetails() {
+    console.log("Categories")
     return this.http.get("http://localhost:3000/getCategoriesAll");
   }
 
   getSubCategory(id) {
+    console.log("Subcategories")
     return this.http.get("http://localhost:3000/getCategoriesId?catId="+id);
   }
 

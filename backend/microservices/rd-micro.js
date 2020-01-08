@@ -28,15 +28,15 @@ async function rd(decodedToken, evns) {
             var event_interests = ev.evnInterests;
             var userinterests = decodedToken.interests;
             var tot_event_interests = ev.evnInterests.length;
-            for(let j=0; j < tot_event_interests; j++) {
-                // console.log('Entering loop ' , j)
-                // console.log("REACHED: INNER EVENT COMPARISON LOOP")
-                for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
-                    if(event_interests[j]==userinterests[k]) {
-                        sum +=10
-                    }
-                }
-            }
+            // for(let j=0; j < tot_event_interests; j++) {
+            //     // console.log('Entering loop ' , j)
+            //     // console.log("REACHED: INNER EVENT COMPARISON LOOP")
+            //     for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
+            //         if(event_interests[j]==userinterests[k]) {
+            //             sum +=10
+            //         }
+            //     }
+            // }
             // console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
             sum_array.push(sum)
             evns[i].evnScore = sum;

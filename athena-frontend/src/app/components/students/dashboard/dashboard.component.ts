@@ -1,3 +1,4 @@
+import { EventService } from './../../../shared/events/event.service';
 import { AchievementsService } from './../../../shared/achievements/achievements.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NameService } from "./../../../shared/name/name.service";
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   path:''
   ach_list:any
    School=school
+   evn_list:any
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any, 
     
     private auth: AuthService,
@@ -37,7 +39,8 @@ export class DashboardComponent implements OnInit {
     private uname: NameService,
     public SearchService: SearchService,
     private http:HttpClient,
-    private ach:AchievementsService
+    private ach:AchievementsService,
+    private eventService:EventService
   ) {
     
     decoded= localStorage.getItem('access_token');
@@ -46,6 +49,7 @@ export class DashboardComponent implements OnInit {
     this.postToIt()
     this.refreshAchievements();
     this.getInterests();
+    this.getEvents()
   }
   refreshAchievements() {
     this.ach.getAchievements().subscribe(res => {
@@ -66,7 +70,17 @@ createImageFromBlob(image:Blob){
   }
   }
 
-
+  getEvents(){
+    this.eventService.getFollowEvents().subscribe(
+      res => {
+        console.log(res)
+        this.evn_list = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
 
 
 

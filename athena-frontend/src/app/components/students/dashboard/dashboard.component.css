@@ -134,6 +134,9 @@ height: 100%;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
+.container{
+  display:flex;
+}
 img {
   margin-left: 10%;
   border-radius: 100%;
@@ -213,7 +216,10 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
+.card-text-a{
+  font-size:2vw; color:white;
+  white-space: nowrap;text-align:left
+}
 #dp {
   border-radius:50%;
   width: 50%;
@@ -229,4 +235,28 @@ body {
 
 h2 {
   text-align: center;
+}
+
+.card-title{
+  font-weight:800; color:white; font-size:5vw;
+}
+@media screen and (max-width:992px){
+  .card-text-a{
+    text-align:left;
+    font-size:7vw;
+    color: white;
+    white-space: nowrap;
+    margin-left: 0;
+    border-radius:5px;
+  }
+  .card-title{
+    font-weight:800; color:white; font-size:7vw;
+  }
+  .card-body-a{
+    width:100%
+  }
+  .container{
+    display:  block;
+    width:100%;
+  }
 }

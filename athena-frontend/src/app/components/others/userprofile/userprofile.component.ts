@@ -1,3 +1,4 @@
+import { EventService } from './../../../shared/events/event.service';
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, Inject } from "@angular/core";
 import { AuthService } from "../../../shared/auth/auth.service";
@@ -20,12 +21,14 @@ export class UserprofileComponent implements OnInit {
   imageToShow: any;
   profileUrlExists = false;
   interestlist: any;
+  evn_list:any
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
     private auth: AuthService,
     private router: Router,
     private http: HttpClient,
-    public achService: AchievementsService
+    public achService: AchievementsService,
+    private eventService:EventService
   ) {
     this.decoded = localStorage.getItem("access_token");
   }
@@ -47,6 +50,17 @@ export class UserprofileComponent implements OnInit {
       this.interestlist = res;
       console.log(this.interestlist);
     });
+  }
+  getEvents(){
+    this.eventService.getFollowEvents().subscribe(
+      res => {
+        console.log(res)
+        this.evn_list = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 
   createImageFromBlob(image: Blob) {
@@ -80,10 +94,12 @@ export class UserprofileComponent implements OnInit {
       console.log(BioInfo);
       console.log(EMAIL);
       this.postToIt();
+
     }
     console.log(this.decoded);
     this.getAch();
     this.getInterersts();
+    this.getEvents();
   }
   logout() {
     this.auth.logout();

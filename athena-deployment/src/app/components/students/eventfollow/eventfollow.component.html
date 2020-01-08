@@ -1,0 +1,119 @@
+<div>
+    <div>
+      <div class="cont">
+        <div class="box" *ngFor="let evn of results" style="display: flex;">
+          <div class="content">
+            <h3>{{ evn.evnName }}</h3>
+            <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
+            <p>{{ evn.evnDate1 }}</p>
+            <form #f="ngForm">
+              <button (click)="sendDetails(f, evn._id)">Read More</button>
+            </form>
+          </div>
+        </div>
+        <!-- <div class="box">
+          <div class="imgBx">
+            <img src="./../../../../assets/images/image2.jpg" alt="">
+          </div>
+          <div class="content">
+            <h3>Post Title Two</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+              ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+              quaerat?</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="imgBx">
+            <img src="./../../../../assets/images/image3.jpg" alt="">
+          </div>
+          <div class="content">
+            <h3>Post Title Three</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+              ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+              quaerat?</p>
+          </div>
+        </div> -->
+      </div>
+      <div class="area"></div><nav class="main-menu">
+  
+        <ul >
+  
+  
+    <li class="has-subnav">
+      
+  </li>
+  <br/>
+  <br/>
+            <li >
+                <a [routerLink]="['/dashboard']">
+                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                    <span class="nav-text">
+                        Dashboard
+                    </span>
+                </a>
+  
+            </li>
+            <li class="has-subnav">
+                <a [routerLink]="['/achievements']">
+                  <i class="fa fa-trophy"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Achievements
+                    </span>
+                </a>
+  
+            </li>
+  
+            <li class="has-subnav">
+                <a [routerLink]="['/events']">
+                  <i class="fa fa-calendar"   aria-hidden="true"></i>
+                    <span class="nav-text">
+                        Events
+                    </span>
+                </a>
+  
+            </li>
+  
+            <li class="has-subnav">
+                <a [routerLink]="['/interests']">
+                  <i class="fa fa-plus"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Add Interests
+                    </span>
+                </a>
+  
+            </li>
+  
+            <li>
+  
+                <a [routerLink]="['/userprofile']">
+                  <i class="fa fa-user"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                        User Profile
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['/discover']">
+                  <i class="fa fa-search"  aria-hidden="true"></i>
+                    <span class="nav-text">
+                       Discover
+                    </span>
+                </a>
+            </li>
+        </ul>
+  
+  
+  
+  
+        <ul class="logout">
+            <li>
+               <a [routerLink]="['/login']" class="nav-item nav-link"     >
+                     <i class="fa fa-power-off fa-2x" ></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+  

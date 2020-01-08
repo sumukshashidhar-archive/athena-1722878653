@@ -1306,19 +1306,41 @@ app.post('/click-on-events', function (req, res) {
                             }
                             else {
                                 if (EVNobj) {
-                                    if(EVNobj._id)
-                                    console.log(EVNobj)
-                                    res.send(EVNobj)
-                                    console.log("Inside the click on events method")
-                                    MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
-                                    event.findOneAndUpdate({ _id: EVNobj._id }, { $set: { uservector: MONGO_OBJ_RETURN.uservector } }, function (err, UPDATED_OBJ) {
-                                        if (err) {
-                                            console.log(err)
+                                    //This means that the event is found, we have to check if the uservector object already has the interests of the event
+                                    // the interests of the event are
+                                    var eint = EVNobj.evnInterests;
+                                    var usrvec = MONGO_OBJ_RETURN.uservector;
+                                    console.log("EVENT INTERESTS ARE: ", eint)  
+                                    console.log("MONGO USRVEC IS", eint)  
+                                    for(let i=0; i<eint.length; i++) {
+                                        var curInt = eint[i]
+                                        console.log("current int is , " , curInt)
+                                        if(usrvec.includes(curInt)) {
+                                            console.log("Already Included, have to do nothing")
                                         }
                                         else {
-                                            console.log(UPDATED_OBJ)
+                                            usrvec.push(eint[i])
                                         }
-                                    })
+                                    }
+                                    //After this, we check if usrvec and the returned mongo objects are the same, by this we know
+                                    //If there is need of updating the collection in the db
+
+                                    if(usrvec == MONGO_OBJ_RETURN.uservector) {
+                                        console.log("No new data")
+                                        res.status(200).send(EVNobj);
+                                    }
+                                    else {
+                                        //Have to now update the student object
+                                        Student.updateOne({_id: decodedToken.usrid}, {$set: {uservector: usrvec}},  function(err, obj) {
+                                            if(err) {
+                                                console.log(err)
+                                            }
+                                            else {
+                                                console.log("Updated successfully \n", obj)
+                                                res.status(200).send(EVNobj);
+                                            }
+                                        })
+                                    }
                                 }
                                 else {
                                     console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');

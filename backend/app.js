@@ -1545,6 +1545,7 @@ app.post('/api/follow', async function (req, res) {
 
 app.get('/api/getevents', async function(req, res){
     console.log("SHHSHSHDHASAISASSO")
+    var return_arr = [];
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
         if (err) {
             console.log('INTERNAL ERROR. ', err);
@@ -1556,24 +1557,17 @@ app.get('/api/getevents', async function(req, res){
                     res.status(403).send("No such student");
                 }
                 else {
-                    var callback = new Promise((res, rej)=> {
-                        var appen = [""]
-                        for(let i=1; i< obj.evnFollowing.length; i++){
-                            event.findOne({"_id":obj.evnFollowing[i]}, function(err1, obj1){
-                                if(err1){
-                                    console.log(err)
-                                }
-                                else {
-                                    console.log("OBJECT IS ", obj1)
-                                    appen.push(obj1)
-                                }
-                            })
-                        }
-                        console.log("APPEN IS", appen)
-                        res(appen) 
-                    })
-                    let r = await callback
-                    res.status(200).send(r);
+                    console.log(obj)
+                    for(let i=1; i < obj.evnFollowing.length; i++) {
+                        console.log(obj.evnFollowing.length)
+                        console.log(obj.evnFollowing[i])
+                        var evnFound = await evnFind(obj.evnFollowing[i])
+                        return_arr.push(evnFound)
+
+
+                    }
+                    console.log(return_arr)
+                    res.status(200).send(return_arr);
 
 
                     // console.log(obj.evnFollowing)
@@ -1592,3 +1586,21 @@ app.get('/api/getevents', async function(req, res){
         }
     })
 })
+
+
+async function evnFind(idx) {
+    var callback = new Promise(function (res, rej) {
+        event.findOne({_id: idx}, function(err, obj) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("FOUND EVENT IS: \n", obj)
+                res(obj)
+            }
+        })
+    })
+
+    let r = await callback;
+    return r;
+
+}

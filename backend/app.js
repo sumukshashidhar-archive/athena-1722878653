@@ -1306,19 +1306,7 @@ app.post('/click-on-events', function (req, res) {
                             }
                             else {
                                 if (EVNobj) {
-                                    if(EVNobj._id)
-                                    console.log(EVNobj)
-                                    res.send(EVNobj)
-                                    console.log("Inside the click on events method")
-                                    MONGO_OBJ_RETURN.uservector.push(EVNobj.evnInterests)
-                                    event.findOneAndUpdate({ _id: EVNobj._id }, { $set: { uservector: MONGO_OBJ_RETURN.uservector } }, function (err, UPDATED_OBJ) {
-                                        if (err) {
-                                            console.log(err)
-                                        }
-                                        else {
-                                            console.log(UPDATED_OBJ)
-                                        }
-                                    })
+                                    //This means that the event is found, we have to check if the interests of the 
                                 }
                                 else {
                                     console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');

@@ -113,7 +113,7 @@ export class EventsOrganizerComponent implements OnInit {
     const frmData = new FormData();
     frmData.append("img", File[0]);
     console.log(frmData);
-    this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
       console.log(res);
     });
     form.value["evnLocation"] =
@@ -149,10 +149,10 @@ export class EventsOrganizerComponent implements OnInit {
     }
   }
   postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);

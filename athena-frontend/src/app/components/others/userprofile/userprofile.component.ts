@@ -31,10 +31,10 @@ export class UserprofileComponent implements OnInit {
   }
 
   postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
+    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
+      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
@@ -43,7 +43,7 @@ export class UserprofileComponent implements OnInit {
   }
 
   getInterersts() {
-    return this.http.get("http://localhost:3000/interests").subscribe(res => {
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests").subscribe(res => {
       this.interestlist = res;
       console.log(this.interestlist);
     });
@@ -65,7 +65,7 @@ export class UserprofileComponent implements OnInit {
   }
 
   getBio(email: String) {
-    this.http.post("http://localhost:3000/bio", email).subscribe(res => {
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/bio", email).subscribe(res => {
       console.log("RESPONSE FOR BIO: ");
       console.log(res);
       this.bio = res;

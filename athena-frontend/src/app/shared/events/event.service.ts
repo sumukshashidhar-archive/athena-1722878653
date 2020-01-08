@@ -44,25 +44,25 @@ export class EventService {
     const options = {
       headers : headers
     };
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/events",options);
+    return this.http.get("http://localhost:3000/events",options);
   }
   postEvents(events: Event) {
     console.log("Post Events method");
     console.log(events)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/organizer-events", events);
+    return this.http.post("http://localhost:3000/organizer-events", events);
   }
 
   getEventDetails(_id: Details ){
     console.log(_id)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/click-on-events", _id)
+    return this.http.post("http://localhost:3000/click-on-events", _id)
   }
 
   getcategoryDetails() {
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getCategoriesAll");
+    return this.http.get("http://localhost:3000/getCategoriesAll");
   }
 
   getSubCategory(id) {
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getCategoriesId?catId="+id);
+    return this.http.get("http://localhost:3000/getCategoriesId?catId="+id);
   }
 
   postUserInterest(userInterest) {
@@ -73,7 +73,7 @@ export class EventService {
       headers : headers
     };
     console.log(userInterest)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/addInterest", userInterest,options);
+    return this.http.post("http://localhost:3000/addInterest", userInterest,options);
   }
 
 
@@ -91,15 +91,15 @@ export class EventService {
       eventInterest: eventInterest
     }
     console.log(obj)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/addInterestOrganizer", obj)
+    return this.http.post("http://localhost:3000/addInterestOrganizer", obj)
   }
 
   postFollow(_id: EventFollow){
     console.log(_id)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/follow", _id);
+    return this.http.post("http://localhost:3000/api/follow", _id);
   }
 
   getFollowEvents(){
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getevents")
+    return this.http.get("http://localhost:3000/api/getevents")
   }
 }

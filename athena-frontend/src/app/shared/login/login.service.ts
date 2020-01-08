@@ -29,6 +29,6 @@ export class LoginService {
     console.log(Object);
     send=user.bio
     console.log(`BIO is {send}`)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/login", user);
+    return this.http.post("http://localhost:3000/login", user);
   }
 }

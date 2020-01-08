@@ -16,27 +16,29 @@ font-size:20px;
 
 
 .main-menu:hover,nav.main-menu.expanded {
-width:250px;
-overflow:visible;
-}
+  width:250px;
+  overflow:visible;
+  }
+  
+  .main-menu {
+  background:#fff;
+  border-right:1px solid #fff  ;
+  position:absolute;
+  top:0;  
+  bottom:0;
+  height:100%;
+  left:0;
+  width:4.1vw;
+  overflow:hidden;
+  -webkit-transition:width .05s linear;
+  transition:width .05s linear;
+  -webkit-transform:translateZ(0) scale(1,1);
+  z-index:1000;
+  background-size: 100%;
+  
+  }
 
-.main-menu {
-  background:#030409;
-  border-right:1px solid #030409  ;
-position:absolute;
-top:0;
-bottom:0;
-height:70rem;
-left:0;
-width:60px;
-overflow:hidden;
--webkit-transition:width .05s linear;
-transition:width .05s linear;
--webkit-transform:translateZ(0) scale(1,1);
-z-index:1000;
-background-size: 100%;
-
-}
+  
 
 .main-menu>ul {
 margin:7px 0;
@@ -136,8 +138,8 @@ height: 100%;
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card {
   background-color: transparent;
-  width: 300px;
-  height: 200px;
+  width: 20vw;
+  height: 20vw;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
@@ -164,21 +166,24 @@ height: 100%;
   backface-visibility: hidden;
 }
 
+
+
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   border-radius: 10px;
   background-color:#fff;
   color: black;
-  height:250px;
+  height:14vw;
 }
 
 /* Style the back side */
 .flip-card-back {
   color: black;
   transform: rotateY(180deg);
-  background-size: 60%;
+  background-size: 100%;
   background-color: #FFF;
   border-radius: 10px;
+  height:14vw;
 }
 
 .box1 {
@@ -195,17 +200,17 @@ height: 100%;
 }
 .bg{
   background-position: center center;
-  background-color:  #ecdac7;
+  background-color:  #11ABC1;
   height:1000%;
   background-size: cover;
 }
 html { height: 100% }
 
 body {
-  background-color:  #ecdac7;
+  background-color:  #11ABC1;
   border: 1px solid transparent;
   padding-bottom: 20px;
-  height: 170vh;
+  height: 100vh;
   background-size: cover;
   background-position: center;
 }
@@ -355,6 +360,7 @@ img{
   display: inline-block;
   cursor: pointer;
   border: 1px solid #eeeeee;
+
       border-radius: 6px;
   /* additional css to equalize the cards */
   display:table;

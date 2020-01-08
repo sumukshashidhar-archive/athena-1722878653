@@ -1,4 +1,4 @@
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -6,7 +6,7 @@
     <div class="reqMargin"></div>
     <div class="box1">
       <button data-toggle="modal" data-target="#exampleModal">
-        Add new achievement
+        Add a new achievement
       </button>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -73,7 +73,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="newsItem col-12 col-sm-6 col-md-4 col-lg-4 " *ngFor="let ach of this.ach_list">
+        <div class="newsItem  " *ngFor="let ach of this.ach_list">
           <div class="modal" id="myModal1"  *ngFor="let ach of this.ach_list">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -104,18 +104,16 @@
             </div>
           </div>
 
-          <div class="column"></div>
-        <br/>
-        <br/>
+    <div class="column">
           <div class="flip-card" >
             <div class="flip-card-inner">
               <div class="flip-card-front"  >
-                <h2 class="card-header" style="font-weight: 100;font-size:1.2vw; ">{{ach.CategoryId}}</h2>
-                <p style="text-align: center;font-size: 2vw;padding-bottom:10vw">{{ach.SubCategoryId}}</p>
+                <h2 class="card-header" style="font-weight: 100; ">{{ach.CategoryId}}</h2>
+                <p class="subcat" style="">{{ach.SubCategoryId}}</p>
                <br>
               </div>
               <div class="flip-card-back" style="align-items: center;">
-                <button  data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" style="border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center; height:14vw;width:16vw;font-size:2vw;">
+                <button  data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">
                   Click to view Description
                  </button>
 
@@ -124,14 +122,12 @@
               </div>
               <p></p>
 
-
+            </div>
             </div>
           </div>
-
-        </div>
       </div>
     </div>
-
+  </div>
     <div class="area"></div><nav class="main-menu">
 
       <ul >

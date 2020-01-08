@@ -90,7 +90,7 @@
             <br>
             <span style="color: red;" class="help-block" *ngIf="!password.valid && password.touched">Enter a
               password</span>
-            <p *ngIf="password.touched">Wrong Password</p>
+            <p *ngIf="password.touched && error">Wrong Password</p>
           </div>
         </div>
         <a [routerLink]="['/passcheck']" routerLinkActive="router-link-active" style="text-decoration: none;">Forgot

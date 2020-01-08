@@ -187,6 +187,7 @@ height: 100%;
   background-color: #FFF;
   border-radius: 10px;
   height:14vw;
+
 }
 
 .flip-card-inner button{
@@ -198,6 +199,8 @@ color:#333;
 padding: 5px;
 border: 1px solid;
 border-radius: 10px;
+height:14vw;
+width:10vw;
 border-radius: 10px;font-weight: 300; padding-top: 29%;padding-bottom:29% ; vertical-align: center;text-align: center; height:14vw;width:16vw;font-size:1.5vw;
 }
 .card-header{

@@ -21,14 +21,14 @@ export class AchievementsService {
   postAchievements(ach: Achievements) {
     console.log("Post achievements method");
     console.log(ach);
-    return this.http.post("http://localhost:3000/achievements", ach);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/achievements", ach);
   }
 
   getAchievements() {
-    return this.http.get("http://localhost:3000/achievements");
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/achievements");
   }
 
   deleteAchievement(_id: string) {
-    return this.http.delete("http://localhost:3000/delete-achievement")
+    return this.http.delete("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/delete-achievement")
   }
 }

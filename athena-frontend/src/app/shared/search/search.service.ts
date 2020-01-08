@@ -32,12 +32,12 @@ export class SearchService {
   postSearch(search: Search){
     console.log('Search method')
     console.log(search)
-    return this.http.post("http://localhost:3000/event-search", search)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/event-search", search)
   }
 
   postUserSearch(userSearch: User_Search) {
     console.log('User Search Method')
     console.log(userSearch)
-    return this.http.post('http://localhost:3000/user-search', userSearch)
+    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/user-search', userSearch)
   }
 }

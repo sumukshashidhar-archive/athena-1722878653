@@ -18,7 +18,7 @@ export class  AuthService {
 
   login(user: User): Observable<boolean> {
     console.log('Reached login method')
-    return this.http.post<JSON>('http://localhost:3000/login',user)
+    return this.http.post<JSON>('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/login',user)
       .pipe(
         map(res => {
           console.log(`RESPONSE IS ${res}`)
@@ -35,7 +35,7 @@ export class  AuthService {
     posttoken(token:JSON) {
       console.log('Entered posttoken method')
       console.log(token)
-      this.http.post('http://localhost:3000/dashboard', token )
+      this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/dashboard', token )
       
     }
     public getIPAddress()
@@ -43,7 +43,7 @@ export class  AuthService {
       return this.http.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");
     }
   logout() {
-    this.http.post('http://localhost:3000/logout', logout)
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/logout', logout)
     console.log(logout)
     this.localStorage.removeItem('access_token');
     this.router.navigate(['/login']);

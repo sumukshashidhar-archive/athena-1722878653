@@ -177,7 +177,7 @@ height: 150vh;
               <input maxlength="32" readonly matInput type="text" placeholder="Security Answer" required ngModel
                 name="securityAnswer" #securityAnswer="ngModel" [(ngModel)]="userService.selectedUser.securityAnswer" />
             </mat-form-field>
-            <re-captcha (resolved)="resolved($event)" siteKey="6LdNCbYUAAAAAAtM-ojfBuOhVFcjnmsUEZFjjMNj"
+            <re-captcha (resolved)="resolved($event)" siteKey="6Lfqs80UAAAAABGNqXsBM82I3PVoooJnemamstPo"
               data-callback="recaptchaCallback"></re-captcha>
             <script>
               function recaptchaCallback() {

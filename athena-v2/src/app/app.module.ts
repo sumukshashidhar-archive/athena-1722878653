@@ -44,7 +44,8 @@ import { AuthService } from './shared/auth/auth.service'
 import { EventService } from './shared/events/event.service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
-import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component'
+import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component';
+import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { EventfollowComponent } from './components/students/eventfollow/eventfol
     UserprofileComponent,
     VerifyemailComponent,
     SearchresComponent,
-    EventfollowComponent
+    EventfollowComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

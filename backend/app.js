@@ -856,10 +856,6 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
-async function addToOrganiser() {
-
-}
-
 
 
 

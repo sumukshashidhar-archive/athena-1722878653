@@ -842,6 +842,8 @@ app.post('/organizer-events', async function (req, res) {
                     }
                     else {
                         console.log(obj);
+                        //have to append the newly created id to the organizer as well
+                        
                         res.json(obj)
                     };
                 });
@@ -853,6 +855,9 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
+
+
+
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1659,3 +1664,29 @@ async function evnFind(idx) {
     return r;
 
 }
+
+
+app.get('/api/retorgevents', async function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+            res.status(403).send("Wrong JWT");
+        }
+        else {
+            console.log(decodedToken) //testing
+            Organiser.findOne({_id: decodedToken['usrid']}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('Mongo Connect err') 
+                }
+                else {
+                    if(obj!=null) {
+
+                    }
+                    else {
+                        res.status(404).send('No user like this') 
+                    }
+                }
+            })
+        }
+    })
+})

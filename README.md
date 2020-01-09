@@ -107,8 +107,7 @@ On the second terminal, you should have an output saying that the server has sta
 9. Data collection from Frontend
 
 **Vijay Dharmaji**
-1. Mailing
-2. Interests
+1. Interests
 
 ## License
 

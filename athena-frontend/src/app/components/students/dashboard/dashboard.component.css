@@ -31,7 +31,7 @@ top:0;
 bottom:0;
 height:100%;
 left:0;
-width:4.1vw;
+width:3.5vw;
 overflow:hidden;
 -webkit-transition:width .05s linear;
 transition:width .05s linear;
@@ -70,8 +70,8 @@ transition:all .1s linear;
 position:relative;
 
 display:table-cell;
-widows: 90px;
-height:54px;
+widows:6.6vw;
+height:6vw;
 text-align:center;
 vertical-align:middle;
 font-size:50px;
@@ -158,9 +158,6 @@ max-width: 100%;
   margin-left: 70%;
 }
 
-.card{
-  background-color: #fff;
-}
 
 .card:hover{
   transform: scale(1.1);
@@ -249,6 +246,11 @@ h2 {
     margin-left: 0;
     border-radius:5px;
   }
+  
+  .main-menu{
+    width: 10vw;
+  }
+  
   .card-title{
     font-weight:800; color:white; font-size:7vw;
   }

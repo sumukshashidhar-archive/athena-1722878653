@@ -6,6 +6,7 @@ async function rd(decodedToken, evns) {
         for(let i=0; i<total_length; i++) {
             var ev = evns[i] //To sesdlect an event
             var sum = 0.0
+            console.log("THE TARGET AGE IS;", ev.evnTargetAge)
             console.log("REACHED: OUTER LOOP")
             if (decodedToken.pincode!=undefined && ev.evnPincode!=undefined) {
                 sum -= (Math.abs(decodedToken.pincode - ev.evnPincode)*0.7) //0.7 because the pincode should not be given that much weightage

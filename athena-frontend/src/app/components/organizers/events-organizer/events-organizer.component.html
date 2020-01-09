@@ -1,63 +1,66 @@
 <div class="background">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
   <body>
     <div class="container">
-      <div class="area"></div><nav class="main-menu">
-        <ul >
+      <div class="area"></div>
+      <nav class="main-menu">
+        <ul>
 
-  <li class="has-subnav">
-    <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
-      <img [src]="imageToShow" *ngIf="profileUrlExists"  style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
-      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-        <span class="nav-text" style="padding-left: 10px;">
-            {{username}}
-        </span>
-    </a>
-</li>
-            <li >
-                <a [routerLink]="['/organizerdashboard']">
-                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-                    <span class="nav-text">
-                        Dashboard
-                    </span>
-                </a>
+          <li class="has-subnav">
+            <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
+              <img [src]="imageToShow" *ngIf="profileUrlExists"
+                style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+              <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+              <span class="nav-text" style="padding-left: 10px;">
+                {{username}}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/organizerdashboard']">
+              <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+              <span class="nav-text">
+                Dashboard
+              </span>
+            </a>
 
-            </li>
+          </li>
 
-            <li class="has-subnav">
-                <a [routerLink]="['/eventsorg']">
-                  <i class="fa fa-calendar"   aria-hidden="true"></i>
-                    <span class="nav-text">
-                        Events
-                    </span>
-                </a>
+          <li class="has-subnav">
+            <a [routerLink]="['/eventsorg']">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <span class="nav-text">
+                Events
+              </span>
+            </a>
 
-            </li>
+          </li>
 
-            <li>
-                <a [routerLink]="['/discover']">
-                  <i class="fa fa-search"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Discover
-                    </span>
-                </a>
-            </li>
+          <li>
+            <a [routerLink]="['/discover']">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <span class="nav-text">
+                Discover
+              </span>
+            </a>
+          </li>
         </ul>
 
 
 
 
         <ul class="logout">
-            <li>
-               <a [routerLink]="['/login']" class="nav-item nav-link"     >
-                     <i class="fa fa-power-off fa-2x" ></i>
-                    <span class="nav-text">
-                        Logout
-                    </span>
-                </a>
-            </li>
+          <li>
+            <a [routerLink]="['/login']" class="nav-item nav-link">
+              <i class="fa fa-power-off fa-2x"></i>
+              <span class="nav-text">
+                Logout
+              </span>
+            </a>
+          </li>
         </ul>
-    </nav>
+      </nav>
 
       <div class="card" style="width: 18rem;">
         <div class="card-body">
@@ -107,7 +110,7 @@
                     <div class="form-group">
                       <label class="control-label">Event Starting Date</label>
                       <div>
-                        <input maxlength="32" type="date" id="evnDate1" required ngModel name="evnDate1"
+                        <input maxlength="32" (change)="setMaxDate()" type="date" id="evnDate1" required ngModel name="evnDate1"
                           #evnDate1="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate1" [min]="maxDate">
                         <p class="help-block" *ngIf="!evnDate1.valid && evnDate1.touched">
                           Please add Event date
@@ -118,7 +121,7 @@
                       <label class="control-label">Event Ending Date</label>
                       <div>
                         <input id="evnDate2" maxlength="32" type="date" id="evnDate2" required ngModel name="evnDate2"
-                          #evnDate2="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="maxDate">
+                          #evnDate2="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="newDate">
                         <span class="help-block" *ngIf="!evnDate2.valid && evnDate2.touched">
                           Please add Event date
                         </span>
@@ -145,7 +148,7 @@
                     <div class="form-group">
                       <label class="control-label">Pincode</label>
                       <div>
-                        <input type="text" maxlength="32" class="form-control" name="evnPincode" required ngModel
+                        <input type="text" maxlength="6" class="form-control" name="evnPincode" required ngModel
                           #evnPincode="ngModel" [(ngModel)]="eventService.selectedEvent.evnPincode">
                         <span class="help-block" *ngIf="!evnPincode.valid && evnPincode.touched">Please Enter Event
                           Pincode</span>
@@ -208,7 +211,7 @@
                   <label><strong>Sub category Name</strong></label>
                   <ngx-select-dropdown [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat"
                     [options]="subcatOptions"></ngx-select-dropdown>
-                    <br>
+                  <br>
                   <button class="btn btn-success" type="submit" (click)="addEvnInterests()">Add your interests</button>
                 </mat-tab>
               </mat-tab-group>

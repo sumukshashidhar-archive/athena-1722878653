@@ -842,6 +842,8 @@ app.post('/organizer-events', async function (req, res) {
                     }
                     else {
                         console.log(obj);
+                        //have to append the newly created id to the organizer as well
+                        
                         res.json(obj)
                     };
                 });
@@ -853,6 +855,13 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
+
+async function addToOrganiser() {
+
+}
+
+
+
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1675,7 +1684,7 @@ app.get('/api/retorgevents', async function(req, res) {
                 }
                 else {
                     if(obj!=null) {
-                        
+
                     }
                     else {
                         res.status(404).send('No user like this') 

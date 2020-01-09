@@ -1659,3 +1659,29 @@ async function evnFind(idx) {
     return r;
 
 }
+
+
+app.get('/api/retorgevents', async function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+            res.status(403).send("Wrong JWT");
+        }
+        else {
+            console.log(decodedToken) //testing
+            Organiser.findOne({_id: decodedToken['usrid']}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('Mongo Connect err') 
+                }
+                else {
+                    if(obj!=null) {
+                        
+                    }
+                    else {
+                        res.status(404).send('No user like this') 
+                    }
+                }
+            })
+        }
+    })
+})

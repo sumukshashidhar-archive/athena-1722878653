@@ -1,0 +1,36 @@
+<div class="container" style="background-color: #00c2ff;">
+  <mat-card>
+    <mat-card-header>
+      <h1>New Password</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="container">
+        <form #f="ngForm">
+          <form #g="ngForm">
+            <mat-form-field>
+              <input maxlength="32" matInput type="password" placeholder="Password" required id="password" minlength="8"
+                ngModel pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" #password="ngModel"
+                [(ngModel)]="newPass.selectedPass.password" />
+              <mat-error class="help-block" *ngIf="!password.valid && password.touched">Must contain at least one number
+                and one uppercase and lowercase
+                letter, 8 or more characters, and no special characters</mat-error>
+            </mat-form-field>
+          </form>
+          <br />
+          <mat-form-field>
+            <input maxlength="32" matInput type="password" placeholder="Confirm Password" required id="confirm_password"
+              minlength="8" ngModel name="cPassword" #cPassword="ngModel" pattern="{{ password.value }}" />
+            <mat-error class="help-block" *ngIf="!cPassword.valid && cPassword.touched">Passwords Do Not Match
+            </mat-error>
+          </mat-form-field>
+          <br>
+          <button mat-raised-button (click)="onSubmit(g)" [disabled]="!f.valid">
+            Change
+          </button>
+          <br>
+          <br>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

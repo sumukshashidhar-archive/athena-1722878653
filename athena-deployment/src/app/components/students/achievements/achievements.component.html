@@ -1,0 +1,223 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <body>
+    <div class="reqMargin"></div>
+    <div class="box1">
+      <button data-toggle="modal" data-target="#exampleModal">
+        Add a new achievement
+      </button>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Add new Achievement
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label><strong>Category Name</strong></label>
+                  <ngx-select-dropdown required (change)="selectionChanged($event)" [config]="config" name="category"
+                    [options]="categoryOption"></ngx-select-dropdown>
+                </div>
+                <div class="col-xs-6">
+                  <label> Sub category Name </label>
+                  <ngx-select-dropdown required [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
+                    [options]="subcatOptions"></ngx-select-dropdown>
+                </div>
+                <div class="col-xs-6">
+                  <label> Rank </label>
+                  <ngx-select-dropdown required [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
+                    [options]="list"></ngx-select-dropdown>
+                </div>
+                <br />
+
+                <input type="text" required maxlength="150" class="form-control" id="description"
+                  placeholder="Enter Description" />
+
+                <!-- <img [src]="url" height="200"> <br/> -->
+                <!-- <input type="file" (change)="fileChange($event)" id="inputGroupFile01"> -->
+                <div class="custom-file mb-3">
+                  <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
+                    (change)="readSingleFile($event)" />
+                  <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-success" (click)="onSubmit(f)" [disabled]="!f.valid"
+                data-dismiss="modal" data-target="#exampleModal">
+                Submit
+              </button>
+              <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
+              <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
+
+              <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
+              <!-- </form> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
+
+    <div class="container">
+      <div class="row">
+        <div class="newsItem  " *ngFor="let ach of this.ach_list">
+          <div class="modal" id="myModal1"  *ngFor="let ach of this.ach_list">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line" id="des">
+                  <img src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
+                  <br/>
+                  {{desc}}
+                  <br/>
+                  <div class="container" *ngIf="Rank=='State'" style="background-color: lawngreen; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
+                    Rank: {{Rank}}
+                  </div>
+                  <div class="container" *ngIf="Rank=='National'" style="background-color: black; color: white;">
+                    Rank: {{Rank}}
+                  </div>
+                </div>
+                <div class="modal-footer" >
+                  <button class="btn btn-primary" type="button" data-dismiss="modal">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    <div class="column">
+          <div class="flip-card" >
+            <div class="flip-card-inner">
+              <div class="flip-card-front"  >
+                <h2 class="card-header" style="font-weight: 100; ">{{ach.CategoryId}}</h2>
+                <p class="subcat" style="">{{ach.SubCategoryId}}</p>
+               <br>
+              </div>
+              <div class="flip-card-back" style="align-items: center;">
+                <button  data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">
+                  Click to view Description
+                 </button>
+
+                <br/>
+
+              </div>
+              <p></p>
+
+            </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+    <div class="area"></div><nav class="main-menu">
+
+      <ul >
+
+
+  <li class="has-subnav">
+    <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+      <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+        <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+        </span>
+    </a>
+</li>
+<br/>
+<br/>
+          <li >
+              <a [routerLink]="['/dashboard']">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+
+          </li>
+          <li class="has-subnav">
+              <a [routerLink]="['/achievements']">
+                <i class="fa fa-trophy"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Achievements
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/events']">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/interests']">
+                <i class="fa fa-plus"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Add Interests
+                  </span>
+              </a>
+
+          </li>
+
+          <li>
+
+              <a [routerLink]="['/userprofile']">
+                <i class="fa fa-user"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                      User Profile
+                  </span>
+              </a>
+          </li>
+          <li>
+              <a [routerLink]="['/discover']">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+
+
+
+      <ul class="logout">
+          <li>
+             <a  [routerLink]="['/login']" class="nav-item nav-link"     >
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>
+      </ul>
+  </nav>
+
+
+  </body>
+
+

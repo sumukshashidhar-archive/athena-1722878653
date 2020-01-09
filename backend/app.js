@@ -1360,6 +1360,40 @@ app.post('/click-on-events', function (req, res) {
 
 })
 
+app.post('//addInterestOrganizer', function(req, res)
+{
+    var eventId = req.body.eventId;
+    var eventInterest = req.body.eventInterest;
+
+    event.findOne({_id: eventId}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            obj.evnInterests.push(eventInterest);
+
+            event.findOneAndUpdate({_id: eventId}, {$set: {evnInterests: obj.evnInterests}}, function(err1, obj1)
+            {
+                if(err1)
+                {
+                    console.log(err1);
+                }
+                else
+                {
+                    console.log(obj1);
+                    console.log("DONE");
+                }
+            })
+        }
+    });
+
+    // console.log(req.body.eventInterest);
+    // console.log(req.body.eventId);
+});
+
 app.post('/add-categories', function (err, obj) {
     category.findOne({ catName: req.body.catName }, function (err, obj) {
         if (err) {

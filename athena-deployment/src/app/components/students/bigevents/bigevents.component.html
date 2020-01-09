@@ -1,0 +1,136 @@
+<!-- <div class="container">
+    <h1 class="text-center">Big Events Page</h1>
+    <p>Event Name: {{ x.evnName }}</p>
+    <p>Event Starting Date: {{x.evnDate1}} </p>
+    <p>Event Ending Date: {{x.evnDate2}}</p>
+    <p>Event Organizer Page : <a routerlink="{{ x.evnOrganizerPage }}" target="_blank">{{ x.evnOrganizerPage }}</a></p>
+    <p>Event Description : {{ x.evnDescription }}</p>
+    <p>Event Target Age: {{ x.evnTargetAge }}</p>
+    <p>Event Interests</p>
+    <p>Event Address : {{ x.evnLocation }}</p>
+    <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
+    <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
+    <button class="text-justify btn btn-primary">Follow Event</button>
+</div> -->
+
+<body>
+  <!-- ------------------------------------------------------- New Big Events Page ------------------------------------------------------------ -->
+  <div class="container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Event Details</mat-card-title>
+        <form #g="ngForm">
+          <button class="btn btn-primary" (click)="sendDetails(g, x._id)">Follow Event</button>
+        </form>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Event Name: {{ x.evnName }}</p>
+        <p>Event Starting Date: {{x.evnDate1}} </p>
+        <p>Event Ending Date: {{x.evnDate2}}</p>
+        <p>Event Organizer Page : <a href="{{ x.evnOrganizerPage }}" target="_blank">{{ x.evnOrganizerPage }}</a>
+        </p>
+        <p>Event Pincode : {{ x.evnPincode }}</p>
+        <p>Event Description : {{ x.evnDescription }}</p>
+        <p>Event Target Age: {{ x.evnTargetAge }}</p>
+        <ul *ngFor="let lol of x.evnInterests">
+          <li >{{lol}}</li>
+        </ul>
+        <p>Event Address : {{ x.evnLocation }}</p>
+        <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
+        <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
+        <!-- <img src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ x.Image }}" /> -->
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+  <div class="area"></div>
+  <nav class="main-menu">
+
+    <ul>
+
+
+      <li class="has-subnav">
+        <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+          <img [src]="imageToShow" *ngIf="profileUrlExists"
+            style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+          <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+          <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+          </span>
+        </a>
+      </li>
+      <br />
+      <br />
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+          <span class="nav-text">
+            Dashboard
+          </span>
+        </a>
+
+      </li>
+      <li class="has-subnav">
+        <a [routerLink]="['/achievements']">
+          <i class="fa fa-trophy" aria-hidden="true"></i>
+          <span class="nav-text">
+            Achievements
+          </span>
+        </a>
+
+      </li>
+
+      <li class="has-subnav">
+        <a [routerLink]="['/events']">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          <span class="nav-text">
+            Events
+          </span>
+        </a>
+
+      </li>
+
+      <li class="has-subnav">
+        <a [routerLink]="['/interests']">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <span class="nav-text">
+            Add Interests
+          </span>
+        </a>
+
+      </li>
+
+      <li>
+
+        <a [routerLink]="['/userprofile']">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span class="nav-text">
+            User Profile
+          </span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/discover']">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span class="nav-text">
+            Discover
+          </span>
+        </a>
+      </li>
+    </ul>
+
+
+
+
+    <ul class="logout">
+      <li>
+        <a [routerLink]="['/login']" class="nav-item nav-link">
+          <i class="fa fa-power-off fa-2x"></i>
+          <span class="nav-text">
+            Logout
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</body>

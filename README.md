@@ -1,5 +1,5 @@
 
-# Athena V0.1
+# Athena V1.0
 
 If you're a student in India, you've probably had struggles with consolidating your achievements and awards and finding events that you can attend, based on your interests. 
 

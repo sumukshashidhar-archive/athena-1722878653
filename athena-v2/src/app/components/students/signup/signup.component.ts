@@ -80,4 +80,5 @@ export class SignupComponent implements OnInit {
   testing(){
     console.log(this.test)
   }
+
 }

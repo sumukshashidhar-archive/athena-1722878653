@@ -95,7 +95,7 @@ On the second terminal, you should have an output saying that the server has sta
 8. Angular deployment to AWS S3 
 9. Captcha verification
 
-**Anirudh Lakhotia**
+-  **Anirudh Lakhotia**
 1. JWT based authentication
 2. Dashboard
 3. Achievements

@@ -21,8 +21,8 @@ overflow:visible;
 }
 
 .main-menu {
-  background:#030409;
-  border-right:1px solid #030409  ;
+  background:#fff;
+  border-right:1px solid #fff  ;
 position:absolute;
 top:0;
 bottom:0;
@@ -60,7 +60,7 @@ text-decoration:none;
 -webkit-transform:translateZ(0) scale(1,1);
 -webkit-transition:all .1s linear;
 transition:all .1s linear;
-  
+
 }
 
 .main-menu .nav-icon {
@@ -81,7 +81,7 @@ vertical-align:middle;
 width:190px;
   font-family: 'Titillium Web', sans-serif;
   font-size: large;
-  
+
 }
 
 .main-menu>ul.logout {

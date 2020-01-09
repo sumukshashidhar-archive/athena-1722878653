@@ -1,0 +1,169 @@
+<div>
+
+  <body style="background-color: #00c2ff;
+height: 150vh;
+">
+    <!-- Navbar starts here -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" routerLink="/">Logo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+    </nav>
+    <!-- Navbar ends here -->
+    <!-- Card for signup -->
+    <div class="container">
+      <mat-card>
+        <!-- Card header -->
+        <mat-card-header>
+          <h1>Student Signup</h1>
+        </mat-card-header>
+        <!-- Card header ends -->
+        <mat-vertical-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Enter Main Details</ng-template>
+            <form #f="ngForm">
+              <mat-form-field>
+                <input maxlength="32" matInput placeholder="First Name" type="text" required ngModel name="firstname"
+                  firstname #firstname="ngModel" [(ngModel)]="userService.selectedUser.firstname" />
+                <mat-error style="color: red;" class="help-block">Please
+                  Enter First Name</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input maxlength="32" matInput type="text" placeholder="Last Name" required ngModel name="lastname"
+                  #lastname="ngModel" [(ngModel)]="userService.selectedUser.lastname" />
+                <mat-error class="help-block">Please enter Last Name
+                </mat-error>
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input maxlength="32" matInput type="email" placeholder="Email" required ngModel name="email" email
+                  #email="ngModel" [(ngModel)]="userService.selectedUser.email" />
+                <mat-error class="help-block">Please enter a valid email
+                </mat-error>
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input maxlength="32" matInput type="password" placeholder="Password" required id="password"
+                  minlength="8" ngModel pattern=".{8,}" name="password"
+                  #password="ngModel" [(ngModel)]="userService.selectedUser.password" />
+                <mat-error class="help-block">Please Enter a Password with atleast 8 characters</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input maxlength="32" matInput type="password" placeholder="Confirm Password" required
+                  id="confirm_password" minlength="8" ngModel name="cPassword" #cPassword="ngModel"
+                  pattern="{{ password.value }}" />
+                <mat-error class="help-block" *ngIf="!cPassword.valid && cPassword.touched">Passwords Do Not Match
+                </mat-error>
+              </mat-form-field>
+            </form>
+            <br>
+            <div>
+              <button mat-button matStepperNext [disabled]="!f.valid" type="button">
+                Next
+              </button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Tell us more about yourself</ng-template>
+            <form #g="ngForm">
+              <mat-form-field>
+                <input maxlength="32" placeholder="Date of Birth" matInput type="date" required ngModel name="DOB"
+                  #DOB="ngModel" [(ngModel)]="userService.selectedUser.DOB" />
+                <mat-error class="help-block">Please Enter Date Of Birth</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input maxlength="32" matInput type="text" required ngModel name="city" #city="ngModel"
+                  [(ngModel)]="userService.selectedUser.city" placeholder="Enter your City" />
+                <mat-error class="help-block">Enter your city</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input type="text" maxlength="6" placeholder="Enter your pincode" matInput required ngModel
+                  name="pincode" #pincode="ngModel" [(ngModel)]="userService.selectedUser.pincode">
+                <mat-error class="help-block">Please Enter Pincode</mat-error>
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input type="text" maxlength="32" placeholder="Enter your school" matInput required ngModel
+                  name="studentSchool" #studentSchool="ngModel" [(ngModel)]="userService.selectedUser.studentSchool">
+                <mat-error class="help-block">Please Enter Your
+                  School</mat-error>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <textarea matInput placeholder="Enter bio" id="bio" cols="30" rows="2"></textarea>
+                <mat-error class="help-block">Please enter a bio</mat-error>
+              </mat-form-field>
+            </form>
+            <br />
+            <div>
+              <button mat-button matStepperPrevious type="button">Back</button>
+              <button mat-button matStepperNext [disabled]="!g.valid" id="newBtn" type="button">
+                Next
+              </button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="fourthFormGroup">
+            <ng-template matStepLabel>Confirm your Details</ng-template>
+            <form #h="ngForm" (ngSubmit)="h.valid && onSubmit(h)">
+              <mat-form-field>
+                <input maxlength="32" readonly matInput placeholder="First Name" type="text" required ngModel
+                  name="firstname" firstname #firstname="ngModel" [(ngModel)]="userService.selectedUser.firstname" />
+              </mat-form-field>
+              <mat-form-field>
+                <input maxlength="32" readonly matInput type="text" placeholder="Last Name" required ngModel
+                  name="lastname" #lastname="ngModel" [(ngModel)]="userService.selectedUser.lastname" />
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input maxlength="32" readonly matInput type="email" placeholder="Email" required ngModel name="email"
+                  email #email="ngModel" [(ngModel)]="userService.selectedUser.email" />
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input maxlength="32" readonly matInput type="password" placeholder="Password" required id="password"
+                  minlength="8" ngModel pattern=".{8,}" name="password"
+                  #password="ngModel" [(ngModel)]="userService.selectedUser.password" />
+              </mat-form-field>
+              <br />
+              <mat-form-field>
+                <input maxlength="32" readonly placeholder="Date of Birth" matInput type="text" required ngModel
+                  name="DOB" #DOB="ngModel" [(ngModel)]="userService.selectedUser.DOB" />
+              </mat-form-field>
+              <mat-form-field>
+                <input maxlength="32" readonly matInput type="text" required ngModel name="city" #city="ngModel"
+                  [(ngModel)]="userService.selectedUser.city" placeholder="Enter your City" />
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input type="text" maxlength="32" readonly placeholder="School Name" matInput required ngModel name="studentSchool" #studentSchool="ngModel" [(ngModel)]="userService.selectedUser.studentSchool">
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input type="text" maxlength="32" readonly matInput required ngModel placeholder="Pincode" name="pincode" #pincode="ngModel"
+                  [(ngModel)]="userService.selectedUser.pincode">
+              </mat-form-field>
+              <re-captcha (resolved)="resolved($event)" siteKey="6LdNCbYUAAAAAAtM-ojfBuOhVFcjnmsUEZFjjMNj"
+                data-callback="recaptchaCallback"></re-captcha>
+              <script>
+                function recaptchaCallback() {
+                  console.log("Hello World");
+                  if (grecaptcha.getResponse().length !== 0) {
+                    // ...
+                    document.getElementById("btnSubmit").disabled = false;
+                  }
+                }
+
+              </script>
+              <button id="btnSubmit" [disabled]="!h.valid || !Captchaval" mat-button type="submit">
+                Create
+              </button>
+            </form>
+          </mat-step>
+        </mat-vertical-stepper>
+      </mat-card>
+    </div>
+  </body>
+</div>

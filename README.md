@@ -1,5 +1,5 @@
 
-# Athena V0.1
+# Athena V1.0
 
 If you're a student in India, you've probably had struggles with consolidating your achievements and awards and finding events that you can attend, based on your interests. 
 
@@ -95,7 +95,7 @@ On the second terminal, you should have an output saying that the server has sta
 8. Angular deployment to AWS S3 
 9. Captcha verification
 
-**Anirudh Lakhotia**
+-  **Anirudh Lakhotia**
 1. JWT based authentication
 2. Dashboard
 3. Achievements
@@ -107,8 +107,7 @@ On the second terminal, you should have an output saying that the server has sta
 9. Data collection from Frontend
 
 **Vijay Dharmaji**
-1. Mailing
-2. Interests
+1. Interests
 
 ## License
 

@@ -1,0 +1,38 @@
+[{
+  "input": ["tabla", "veena"],
+  "output": [1]
+},
+{
+  "input": ["tabla", "dancing"],
+  "output": [0.5]
+},
+{
+  "input": ["dancing", "singing"],
+  "output": [1]
+},
+{
+  "input": ["tabla", "singing"],
+  "output": [1]
+},
+{
+  "input": ["tabla", "basketball"],
+  "output": [0]
+},
+{
+  "input": ["basketball", "football"],
+  "output": [1]
+},
+{
+  "input": ["football", "cricket"],
+  "output": [1]
+},
+{
+  "input": ["veena", "football"],
+  "output": [0]
+},
+{
+  "input": ["veena", "football"],
+  "output": [0]
+}
+
+]

@@ -1834,7 +1834,10 @@ function addToUserVector(userid, to_add) {
 
 
 app.get('/discoverUsers', async function(req, res) {
-    var decoded = await jwms.verify(req.headers.authorization)
+
+    var decoded = await jwms.verify(req.body.access_token)
+    
+    //var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {
         //Must add profile picture when you find it here
         //Must also refine to fit in good recommendations

@@ -794,6 +794,9 @@ app.post('/auth', function (req, res) {
     })
 });
 
+var oems = require('./microservices/event-org-micro')
+
+
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -807,8 +810,9 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2: req.body.evnDate2,
-                    evnInterests: [],
+                    evnInterests: req.body.interestArray,
                     evnLocation: req.body.evnLocation,
+                    evnCity: req.body.evnCity,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
                     evnOrganizerContact: req.body.evnOrganizerContact,
@@ -827,7 +831,7 @@ app.post('/organizer-events', async function (req, res) {
                     else {
                         console.log(obj);
                         //have to append the newly created id to the organizer as well
-                        
+                        oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
                     };
                 });
@@ -839,7 +843,6 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
-
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1309,7 +1312,19 @@ app.post('/event-search', async function (req, res) {
 
         }
         else {
-            console.log(req.body.keyword)
+            if(req.body.usecase == 1) {
+                var evns = await dms.reqular_city_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else  if (req.body.usecase == 2) {
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else  if (req.body.usecase == 3) {
+                ///DOES NOT WORK
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
             var query = req.body.keyword
             var evns = await dms.testexplore3(query, DECODEDTOKEN)
             console.log("HELSOF S", evns)
@@ -1809,3 +1824,18 @@ app.get('/api/getrecent', async function(req, res){
     console.log(evns)
     res.send(ret_arr)
 })
+
+app.get('/evnCity', function(req, res)
+{
+    event.updateMany({}, {$set: {evnCity: "Bengaluru"}}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log(obj);
+        }
+    })
+});

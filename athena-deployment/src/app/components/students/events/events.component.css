@@ -215,6 +215,9 @@ body {
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
+
+
 .fa-2x {
 font-size: 2em;
 }
@@ -227,7 +230,125 @@ text-align: center;
 vertical-align: middle;
 font-size:20px;
 }
+.card-view {
+  background: #ffffff;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: auto;
+  max-width: 17vw;
+  margin: 2em;
+  border-radius: 10px;
+  display: inline-block;
+}
 
+.card-header {
+  padding: 0;
+  margin: 0;
+  height: 15.8vw;
+   width: 100%;
+  display: block;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-view:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card--content {
+  padding: 18px 18px 24px 18px;
+  margin: 0;
+}
+
+.card--content-head,
+.card--info {
+  display: table;
+  width: 100%;
+}
+
+.card--title {
+  font-size: 22px;
+  margin: 0;
+  display: table-cell;
+}
+
+.ratings {
+  width: 50px;
+  height: 15px;
+  background-size: contain;
+  display: table-cell;
+  text-align: right;
+  position: relative;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.ratings span {
+  color: #2196F3;
+}
+
+.card--info {
+  margin-top: 1em;
+}
+
+.time-on {
+  display: table-cell;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.time-on:first-of-type {
+  text-align: left;
+}
+
+.time-on:last-of-type {
+  text-align: right;
+}
+
+.time-on label {
+  display: block;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: .5em;
+  font-size: 9px;
+}
+
+* {
+  -webkit-transition: 300ms;
+  transition: 300ms;
+}
+
+.time-on span {
+  font-weight: 700;
+  font-size: 11px;
+}
+
+@media(max-width: 500px) {
+  .card-view {
+      width: 95%;
+      max-width: 95%;
+      margin: 1em;
+      display: block;
+  }
+  .container {
+      padding: 0;
+      margin: 0;
+  }}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
 
 .main-menu:hover,nav.main-menu.expanded {
 width:250px;
@@ -236,8 +357,8 @@ overflow:visible;
 }
 
 .main-menu {
-  background:#030409;
-  border-right:1px solid #030409  ;
+  background:#fff;
+  border-right:1px solid #fff  ;
 position: absolute;
 top:0;
 bottom:0;
@@ -361,7 +482,7 @@ body {
 .cont  {
   max-width: 1000px;
   display: flex;
-  margin: 50px 0;
+  margin-left: 20vw;
   flex-wrap: wrap;
   justify-content: space-around;
 }

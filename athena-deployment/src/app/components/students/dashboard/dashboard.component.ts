@@ -14,7 +14,8 @@ import { Observable } from 'rxjs';
 import { Achievements } from 'src/app/shared/achievements/achievements.model';
 import { LOCAL_STORAGE } from '@ng-toolkit/universal';
 import { school } from '../signup/signup.component'
-export var decoded :any 
+export var decoded :any
+export var File
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -27,12 +28,13 @@ export class DashboardComponent implements OnInit {
   uploadedFiles: Array < File > ;
   username: any;
   ipAddress:string;
+  file: any;
   path:''
   ach_list:any
    School=school
    evn_list:any
-  constructor(@Inject(LOCAL_STORAGE) private localStorage: any, 
-    
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any,
+
     private auth: AuthService,
     private router: Router,
     private data: SearchService,
@@ -42,7 +44,7 @@ export class DashboardComponent implements OnInit {
     private ach:AchievementsService,
     private eventService:EventService
   ) {
-    
+
     decoded= localStorage.getItem('access_token');
     var decodedtoken= jwt_decode(decoded)
     var email=decodedtoken['email']
@@ -91,30 +93,29 @@ createImageFromBlob(image:Blob){
     })
   }
 
-  
+
 
   send(){
-    let formData = new FormData();
-    for (var i = 0; i < this.uploadedFiles.length; i++) {
-        formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-    }
-    console.log(formData)
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile', formData)
-        .subscribe((response) => {
-            console.log('response received is ', response);
-            this.path= response['path']
-            console.log(this.path)
+    File = (document.getElementById("file1") as HTMLInputElement).files;
+    const frmData = new FormData();
+    console.log(File[0]);
+    console.log(File[0].name);
+    var name=File[0].name;
+   frmData.append("img", File[0]);
+   frmData.append("name",File[0].name)
+   this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile", frmData).subscribe(res => {
+    console.log(res);
+  });
 
-
-        });
-
-        this.postEvents();
-        this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile',this.uploadedFiles)
   }
 
 
 
-
+  readSingleFile(e) {
+    // const name = e[0].name;
+    const name = e.target.files[0].name;
+    document.getElementById("file-label").textContent = name;
+  }
 
   postToIt(){
       this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload',{ responseType:'blob'}).subscribe
@@ -122,7 +123,7 @@ createImageFromBlob(image:Blob){
         console.log('response as blob');
         console.log(response);
          this.createImageFromBlob(response);
-      }); 
+      });
     }
 
 
@@ -135,20 +136,13 @@ createImageFromBlob(image:Blob){
 
 
 
-  
+
   fileChange(element) {
     this.uploadedFiles = element.target.files;
 }
 
 
-postEvents() {
-  const token=this.localStorage.getItem('access_token')
-  const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-  const options = {
-    headers: headers
-  };
-  return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile",options);
-}
+
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);

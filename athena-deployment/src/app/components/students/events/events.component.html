@@ -1,3 +1,4 @@
+
   <app-loading *ngIf="showSpinner"></app-loading>
 
   <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
@@ -74,7 +75,7 @@
 
   <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
   <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
-<div>
+<!-- <div>
   <div>
     <div class="cont">
       <div class="box" *ngFor="let evn of eventService.events" style="display: flex;">
@@ -91,7 +92,7 @@
           </form>
         </div>
 
-      </div>
+      </div> -->
       <!-- <div class="box">
         <div class="imgBx">
           <img src="./../../../../assets/images/image2.jpg" alt="">
@@ -114,7 +115,42 @@
             quaerat?</p>
         </div>
       </div> -->
-    </div>
+    <!-- </div> -->
+
+                     <div class="container">
+                      <div class="row" *ngFor="let evn of eventService.events">
+
+                        <!--  Card Start -->
+                        <a class="card-view"(click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;" >
+                            <img class="card-header" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}">
+
+                            <div class="card--content">
+                                <div class="card--content-head">
+
+                                <form #f="ngForm">
+                                  <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
+
+                                        <h3 class="card--title">{{evn.evnName}}</h3>
+                                    </a>
+                                  </form>
+                                    <div class="ratings"><span>8.8</span>/10</div>
+                                </div>
+                                <div class="card--info">
+                                    <div class="time-on">
+                                        <label>Last update</label>
+                                        <span>Sun 8 Sept - 10:00PM</span>
+                                    </div>
+                                    <div class="time-on">
+                                        <label>Running time</label>
+                                        <span>2hr 09min</span>
+                                    </div>
+                                </div>
+                            </div>
+                          </a>
+                        </div>
+                        <!--  Card End -->
+                     </div>
+
     <div class="area"></div><nav class="main-menu">
 
       <ul >
@@ -194,7 +230,7 @@
 
       <ul class="logout">
           <li>
-             <a [routerLink]="['/login']" class="nav-item nav-link"     >
+            <a [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link"     >
                    <i class="fa fa-power-off fa-2x" ></i>
                   <span class="nav-text">
                       Logout
@@ -203,4 +239,3 @@
           </li>
       </ul>
   </nav>
-

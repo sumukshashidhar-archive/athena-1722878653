@@ -26,11 +26,17 @@ import { UserprofileComponent } from './components/others/userprofile/userprofil
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component'
+import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
+
 
 const routes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path: "navbar",
+    component: NavbarComponent
   },
   {
     path: "eventfollow",

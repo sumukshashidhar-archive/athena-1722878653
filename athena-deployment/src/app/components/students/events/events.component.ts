@@ -37,7 +37,7 @@ export class EventsComponent implements OnInit {
 
   refreshEvents() {
     this.eventService.getEvents().subscribe(res => {
-      this.eventService.events = res as Event[];
+      this.eventService.events = res;
       this.showSpinner = false;
       console.log(this.eventService.events);
     });

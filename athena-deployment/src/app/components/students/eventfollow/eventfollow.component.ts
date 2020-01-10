@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from './../../../shared/events/event.service'
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms'
+import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-eventfollow',
@@ -11,12 +12,15 @@ import { NgForm } from '@angular/forms'
 export class EventfollowComponent implements OnInit {
   results: any
 
-  constructor(public eventService: EventService, private router: Router) { }
+  constructor(public eventService: EventService, private router: Router,private auth:AuthService) { }
 
   ngOnInit() {
     this.getEvents()
   }
-
+  logout() {
+    this.auth.logout();
+    this.router.navigate(["/login"]);
+  }
   getEvents(){
     this.eventService.getFollowEvents().subscribe(
       res => {

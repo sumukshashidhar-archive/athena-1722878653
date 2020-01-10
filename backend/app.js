@@ -794,23 +794,6 @@ app.post('/auth', function (req, res) {
     })
 });
 
-/*
-ROUTES THAT NEED BUG SQUISHING
-*/
-
-
-//LOGOUT ROUTE
-app.post('/logout', function (req, res) {
-    //Ask the frontend to send a value called logout in the form
-    if (req.body.logout) {
-        user["LastSeen"] = Math.floor(Date.now() / 1000);
-    }
-
-});
-
-
-
-
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -1692,9 +1675,6 @@ app.get('/api/retorgevents', async function(req, res) {
         }
     })
 })
-
-
-
 
 app.post('/logout', function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization)

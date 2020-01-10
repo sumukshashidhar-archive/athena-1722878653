@@ -794,6 +794,9 @@ app.post('/auth', function (req, res) {
     })
 });
 
+var oems = require('./microservices/event-org-micro')
+
+
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -827,7 +830,7 @@ app.post('/organizer-events', async function (req, res) {
                     else {
                         console.log(obj);
                         //have to append the newly created id to the organizer as well
-                        
+                        oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
                     };
                 });

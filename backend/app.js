@@ -1683,7 +1683,7 @@ app.get('/api/getevents', async function (req, res) {
                 }
                 else {
                     console.log(obj)
-                    for (let i = 1; i < obj.evnFollowing.length; i++) {
+                    for (let i = 0; i < obj.evnFollowing.length; i++) {
                         console.log(obj.evnFollowing.length)
                         console.log(obj.evnFollowing[i])
                         var evnFound = await evnFind(obj.evnFollowing[i])

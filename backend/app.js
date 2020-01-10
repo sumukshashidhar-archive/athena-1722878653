@@ -286,7 +286,7 @@ app.post('/register', function (req, res) {
                                     securityQuestion: req.body.securityQuestion,
                                     securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                                     profilePic: "/uploads/lak.png",
-                                    LastSeen: Date.now()
+                                    LastSeen: Date.now(),
                                     Bio: req.body.bio,
                                     Interests: " ",
                                     studentSchool: req.body.studentSchool,

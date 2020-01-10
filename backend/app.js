@@ -1,6 +1,4 @@
 
-//CHANGE ALL TOKENS TO JWT AUTH
-//Imports - Needed Packages for Running
 var express = require("express");
 var fs = require('fs');
 var jwt = require('jsonwebtoken')
@@ -11,12 +9,9 @@ var bcrypt = require('bcryptjs');
 const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
-// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-// const category = require('./models/category-model')
-// const subcat = require('./models/subcategory-model')
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
@@ -24,9 +19,6 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
 var InterestSchema = require('./models/interest.js');
-
-//var brain = require('brain.js')
-//Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
 var student_functions = require('./controllers/student_controller');
@@ -43,44 +35,20 @@ var event = require('./models/event');
 var key_controller = require('./controllers/keystore_control')
 var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
-// const alg = require('./controllers/algorithm_runtime')
-// var recommnedations = require("./recommendation/recommender");
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var daVinci = require('./controllers/recommendation-engine.js')
+const nanoid = require('nanoid')
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
-
-
 var API_SIGNATORY = require('./controllers/API_SIGN')
-
 
 var admin = require('./models/admin.js')
 var ADMIN_CONTROLLER = require('./controllers/admin_controller')
-
-
-
-
-
-
-
-
-
-
-
 var dms = require('./microservices/davinci-micro')
-
-
-
-
-
-
-
-///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
-
 function sendMail(output, to) {
 
     let transporter = nodemailer.createTransport({
@@ -117,28 +85,6 @@ function sendMail(output, to) {
         console.log('Email has been sent');
     });
 }
-
-//usage   
-//sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
-
-//RANDOM CODE GENERATOR
-
-function generate(n) {
-    var add = 1;
-    var max = 12 - add;
-
-    if (n > max) {
-        return generate(max) + generate(n - max);
-    }
-
-    max = Math.pow(10, n + add);
-    var min = max / 10;
-    var number = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    return ("" + number).substring(add);
-}
-
-
 /*
 INITIALIZATIONS
 */
@@ -195,7 +141,8 @@ const storage = new GridFsStorage({
                 if (err) {
                     return reject(err)
                 }
-                const filename = file.originalname
+                
+                const filename = nanoid(32)
                 const fileInfo = {
                     filename: filename,
                     bucketName: 'uploads',
@@ -244,9 +191,6 @@ var upload = multer({
 
 
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
-
-
-
 
 
 
@@ -1875,3 +1819,91 @@ async function findStudent(id) {
     return r
 
 }
+
+
+app.post('/api/tracker/click-on-user-event', async function(req, res) {
+    ///need to send in a student id here to find
+    var decoded = await jwms.verify(req.headers.authorization)
+    if (decoded != false) {
+        //We need to add the selected students interests to the user vector object
+        Student.findOne({_id: decoded['usrid']}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.send(500).send("Mongo Error")
+            } else {
+                if(obj!= null) {
+                    //Means that the user is found, here we search for the selected user
+                    Student.findOne({_id: req.body.studentid}, function(err2, obj2) {
+                        if(err) {
+                            res.status(500).send('Internal Mongo Error') 
+                        }
+
+                        else {
+                            if(obj2!=null) {
+                                //This means that the user object has also been found here
+                                //Now what matters is that I reuturn this
+                                addToUserVector(obj._id, obj2.interests)
+                                res.status(200).send(obj2)
+
+                            }
+                            else {
+                                res.status(404).send('User is not found') 
+                            }
+                        }
+                    })
+                }
+                else {
+                    res.status(404).send('user not found') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('Bad JWT')
+    }
+})
+
+
+
+function addToUserVector(userid, to_add) {
+
+}
+
+
+
+app.get('/discoverUsers', async function(req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        //Must add profile picture when you find it here
+        //Must also refine to fit in good recommendations
+        //Should be pretty good for a small dataset
+        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err) 
+            } else {
+                if(obj!=[]) {
+                    res.status(200).send(obj) 
+                }
+                else {
+                    res.status(404).send('users not found in this city') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('user might not be logged in. reqd to use our platform') 
+    }
+})
+
+
+app.post('/api/search/users', async function(req, res) {
+    var query = req.body.userKey
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+
+    }
+    else {
+        
+    }
+})

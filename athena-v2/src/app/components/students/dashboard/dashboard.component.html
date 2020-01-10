@@ -41,7 +41,11 @@
             </button>
           </div>
           <div class="modal-body">
-              <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
+            <div class="custom-file mb-3">
+              <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
+                (change)="readSingleFile($event)" />
+              <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">

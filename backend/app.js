@@ -1571,9 +1571,7 @@ app.post('/api/follow', async function (req, res) {
         }
     })
 })
-
-
-
+//This is for the personal stuff
 app.get('/api/getevents', async function (req, res) {
     console.log("SHHSHSHDHASAISASSO")
     var return_arr = [];
@@ -1656,7 +1654,7 @@ app.get('/api/retorgevents', async function (req, res) {
         })
     }
     else {
-
+        res.status(403).send('Invalid JWT') 
     }
 })
 

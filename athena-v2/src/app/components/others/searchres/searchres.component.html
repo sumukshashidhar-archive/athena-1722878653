@@ -147,6 +147,23 @@
       </div>
     </a>
   </div>
+  <div class="row" *ngFor="let y of userResults">
+    <a class="card-view" (click)="sendDetails1(g, evn._id)" [routerLink]="['/']" onclick="return false;">
+
+      <div class="card--content">
+        <div class="card--content-head">
+
+          <form #f="ngForm">
+            <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(g, evn._id)">
+
+              <h3 class="card--title">First Name : {{ y.FirstName }}</h3>
+              <h3 class="card--title">Last Name : {{ y.LastName }}</h3>
+            </a>
+          </form>
+        </div>
+      </div>
+    </a>
+  </div>
   <!--  Card End -->
 </div>
 

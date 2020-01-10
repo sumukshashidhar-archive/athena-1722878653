@@ -1912,6 +1912,24 @@ app.post('/api/search/users', async function(req, res) {
     var usecase  =req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {
+        if(usecase==1) {
+            Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+        else {
+
+        }
     }
     else {
         res.status(403).send('JWT is unauth or somehing') 

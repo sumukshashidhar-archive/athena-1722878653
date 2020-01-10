@@ -56,7 +56,7 @@ module.exports = {
 
     testexplore3: async function(query, student) {
         var callback = new Promise(async (res, rej) => {
-            var PRCSEvns = sr.search_deep(query)
+            var PRCSEvns = await sr.search_deep(query)
 
 
 

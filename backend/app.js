@@ -1638,28 +1638,26 @@ async function evnFind(idx) {
 
 
 app.get('/api/retorgevents', async function (req, res) {
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
-        if (err) {
-            console.log('INTERNAL ERROR. ', err);
-            res.status(403).send("Wrong JWT");
-        }
-        else {
-            console.log(decodedToken) //testing
-            Organiser.findOne({ _id: decodedToken['usrid'] }, function (err, obj) {
-                if (err) {
-                    res.status(500).send('Mongo Connect err')
+    var decoded = jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        Organiser.findOne({_id: id}, function(err, obj) {
+            if(err) {
+                console.log(err)
+                res.status(500).send(err) 
+            }
+            else {
+                if(obj!=null) {
+                    res.status(200).send(obj.evns) 
                 }
                 else {
-                    if (obj != null) {
-
-                    }
-                    else {
-                        res.status(404).send('No user like this')
-                    }
+                    res.status(404).send('This user is not found') 
                 }
-            })
-        }
-    })
+            }
+        })
+    }
+    else {
+
+    }
 })
 
 app.post('/logout', async function (req, res) {

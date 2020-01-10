@@ -198,8 +198,7 @@ export class EventsOrganizerComponent implements OnInit {
       console.log(this.username);
     });
     this.eventService.getEvents().subscribe(res => {
-      this.eventService.events = res as Event[];
-
+      this.eventService.events = res;
       console.log(this.eventService.events);
       for (var index = 0; index < this.eventService.events.length; index++) {
         if (

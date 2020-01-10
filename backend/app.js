@@ -1,4 +1,4 @@
-  
+
 //CHANGE ALL TOKENS TO JWT AUTH
 //Imports - Needed Packages for Running
 var express = require("express");
@@ -258,69 +258,56 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     res.status(201).send('YES')
 });
 
+
+app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
+    console.log('ADDED IMAGE TO DATABASE')
+    console.log(req.body.name)
+
+    res.status(201).send('ADDED')
+})
+
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
-    console.log(req.body)
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
         if (err) {
-            //CODE BELOW THIS IS PRODUCTION READY
-            bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send("Internal Server Error") //Sends an internal server err
-                }
-                else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
-
-                            console.log("registering user");
-                            var newUser = new user
-                                ({
-                                    username: req.body.email,
-                                    userType: "Student",
-                                    password: BCRYPT_PASSWORD_HASH,
-                                    securityQuestion: req.body.securityQuestion,
-                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    profilePic: "/uploads/lak.png",
-                                    LastSeen: Date.now(),
-                                    Bio: req.body.bio,
-                                    Interests: " ",
-                                    studentSchool: req.body.studentSchool,
-                                    Verified: false
-                                });
-
-                            newUser.save(function (err, obj) {
-                                if (err) {
-                                    console.log("ERROR, " + err);
-                                    res.status(422).send("Error in saving user");
-                                }
-                                else {
-                                    console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-                                    console.log(output);
-                                    sendMail(output, req.body.email);
-
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
-                                }
-                            });
-                        }
-                    })
-                }
-            })
-
+            console.log(err)
+            res.status(500).send("Internal Server Error") //Sends an internal server err
         }
         else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
+            console.log("registering user");
+            var newUser = new user
+                ({
+                    username: req.body.email,
+                    userType: "Student",
+                    password: BCRYPT_PASSWORD_HASH,
+                    securityQuestion: req.body.securityQuestion,
+                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                    profilePic: "/uploads/lak.png",
+                    LastSeen: Date.now(),
+                    Bio: req.body.bio,
+                    Interests: " ",
+                    studentSchool: req.body.studentSchool,
+                    Verified: false
+                });
+
+            newUser.save(function (err, obj) {
+                if (err) {
+                    console.log("ERROR, " + err);
+                    res.status(422).send("Error in saving user");
+                }
+                else {
+                    console.log(obj);
+                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
+                    console.log(output);
+                    sendMail(output, req.body.email);
+
+                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                }
+            });
         }
     })
-
-});
+})
 
 app.post('/updateinfo', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -369,60 +356,40 @@ app.post('/updateinfo', function (req, res) {
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function (req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
         if (err) {
-            console.log(req.body.Password)
-            //CODE BELOW THIS IS PRODUCTION READY
-            bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send("Internal Server Error") //Sends an internal server err
-                }
-                else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
-                            console.log("registering user");
-                            var newUser = new user({
-                                username: req.body.OrganizerEmail,
-                                userType: "Organizer",
-                                password: BCRYPT_PASSWORD_HASH,
-                                securityQuestion: req.body.securityQuestion,
-                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "/uploads/lak.png",
-                                Verified: false
-                            });
-
-                            newUser.save(function (err, obj) {
-                                if (err) {
-                                    console.log("ERROR, " + err);
-                                    res.status(422).send("Error in saving user");
-                                }
-                                else {
-                                    console.log(obj._id);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-
-                                    sendMail(output, req.body.OrganizerEmail);
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
-                                }
-                            });
-                        }
-                    })
-                }
-            })
-
+            console.log(err)
+            res.status(500).send("Internal Server Error") //Sends an internal server err
         }
         else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
+            console.log("registering user");
+            var newUser = new user({
+                username: req.body.OrganizerEmail,
+                userType: "Organizer",
+                password: BCRYPT_PASSWORD_HASH,
+                securityQuestion: req.body.securityQuestion,
+                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
+                profilePic: "/uploads/lak.png",
+                Verified: false
+            });
+
+            newUser.save(function (err, obj) {
+                if (err) {
+                    console.log("ERROR, " + err);
+                    res.status(422).send("Error in saving user");
+                }
+                else {
+                    console.log(obj._id);
+                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
+
+                    sendMail(output, req.body.OrganizerEmail);
+                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
+                }
+            });
         }
     })
-
-});
+})
 
 app.get('/verifyuser/*', function (req, res) {
     var idx = req.url.slice(12, 1000);
@@ -688,49 +655,6 @@ app.get('/getImage', function (req, res) {
 });
 
 
-// app.get('/imageUpload', function (req, res) {
-    // console.log(req.url);
-    // var Path=path.join(__dirname, req.query.url)
-    // console.log(Path)
-    // res.sendFile(Path);
-
-//     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-//         console.log("Getting Bio....")
-//         if (!err && decodedToken != null) {
-//             console.log("Verified: " + decodedToken.email);
-//             user.findOne({ username: decodedToken.email }, function (err, obj) {
-//                 if (err) {
-//                     console.log(err);
-//                 }
-//                 else {
-//                     var Path = path.join(__dirname, obj.profilePic)
-//                     console.log(obj.profilePic)
-//                     console.log("Path: " + Path);
-//                     console.log('HEREEE')
-//                     res.sendFile(Path)
-
-//                 }
-//             });
-//         }
-//         else {
-//             console.log(err)
-//             console.log("Something went wrong")
-//         }
-//     });
-
-//     console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
-// });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -794,6 +718,9 @@ app.post('/auth', function (req, res) {
     })
 });
 
+var oems = require('./microservices/event-org-micro')
+
+
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -828,7 +755,7 @@ app.post('/organizer-events', async function (req, res) {
                     else {
                         console.log(obj);
                         //have to append the newly created id to the organizer as well
-                        
+                        oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
                     };
                 });
@@ -840,9 +767,6 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
-
-
-
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1074,8 +998,7 @@ app.post('/delete-achievement', function (req, res) {
 
 //ACADEMICS
 
-app.post('/addAcademics', function(req, res)
-{
+app.post('/addAcademics', function (req, res) {
     // onsole.log("\N\N");
     // console.log(req.body)
 
@@ -1090,8 +1013,8 @@ app.post('/addAcademics', function(req, res)
             console.log("Verified");
             console.log(decodedToken);
             // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
-            
-            var newAc = 
+
+            var newAc =
             {
                 testName: req.body.testName,
                 testRank: req.body.testRank,
@@ -1099,40 +1022,29 @@ app.post('/addAcademics', function(req, res)
                 toShow: req.body.toShow
             }
 
-            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
-            {
-                if(err)
-                {
+            Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                if (err) {
                     console.log(err);
                 }
-                else
-                {
-                    if(obj.Academics)
-                    {
+                else {
+                    if (obj.Academics) {
                         obj.Academics.push(newAc);
 
-                        Student.update({EmailId: decodedToken.email}, {$set: {Academics: obj.Academics}}, function(err1, obj1)
-                        {
-                            if(err)
-                            {
+                        Student.update({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err1, obj1) {
+                            if (err) {
                                 console.log(err1);
                             }
-                            else
-                            {
+                            else {
                                 console.log(obj1);
                             }
                         });
                     }
-                    else
-                    {
-                        Student.update({EmailId: decodedToken.email}, {$set: {Academics: [newAc]}}, function(err, obj)
-                        {
-                            if(err)
-                            {
+                    else {
+                        Student.update({ EmailId: decodedToken.email }, { $set: { Academics: [newAc] } }, function (err, obj) {
+                            if (err) {
                                 console.log(err1);
                             }
-                            else
-                            {
+                            else {
                                 console.log(obj1);
                             }
                         });
@@ -1146,24 +1058,18 @@ app.post('/addAcademics', function(req, res)
     // var decoded = await jwms.verify(req.headers.authorization);
 });
 
-app.post('/getAcademics', async function(req, res)
-{
+app.post('/getAcademics', async function (req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
 
-    Student.findOne({EmailId: decoded.email}, function(err, obj)
-    {
-        if(err)
-        {
+    Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             var toShowAc = new Array();
 
-            for (var i = 0; i < obj.Academics.length; i++)
-            {
-                if(obj.Academics[i].toShow)
-                {
+            for (var i = 0; i < obj.Academics.length; i++) {
+                if (obj.Academics[i].toShow) {
                     toShowAc.push(obj.Academics[i]);
                 }
             }
@@ -1344,15 +1250,15 @@ app.post('/event-search', async function (req, res) {
 
         }
         else {
-            if(req.body.usecase == 1) {
+            if (req.body.usecase == 1) {
                 var evns = await dms.reqular_city_search(req.body.keyword, DECODEDTOKEN)
                 res.send(evns)
             }
-            else  if (req.body.usecase == 2) {
+            else if (req.body.usecase == 2) {
                 var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
                 res.send(evns)
             }
-            else  if (req.body.usecase == 3) {
+            else if (req.body.usecase == 3) {
                 ///DOES NOT WORK
                 var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
                 res.send(evns)
@@ -1445,12 +1351,12 @@ app.post('/click-on-events', function (req, res) {
                                     // the interests of the event are
                                     var eint = EVNobj.evnInterests;
                                     var usrvec = MONGO_OBJ_RETURN.uservector;
-                                    console.log("EVENT INTERESTS ARE: ", eint)  
-                                    console.log("MONGO USRVEC IS", eint)  
-                                    for(let i=0; i<eint.length; i++) {
+                                    console.log("EVENT INTERESTS ARE: ", eint)
+                                    console.log("MONGO USRVEC IS", eint)
+                                    for (let i = 0; i < eint.length; i++) {
                                         var curInt = eint[i]
-                                        console.log("current int is , " , curInt)
-                                        if(usrvec.includes(curInt)) {
+                                        console.log("current int is , ", curInt)
+                                        if (usrvec.includes(curInt)) {
                                             console.log("Already Included, have to do nothing")
                                         }
                                         else {
@@ -1460,14 +1366,14 @@ app.post('/click-on-events', function (req, res) {
                                     //After this, we check if usrvec and the returned mongo objects are the same, by this we know
                                     //If there is need of updating the collection in the db
 
-                                    if(usrvec == MONGO_OBJ_RETURN.uservector) {
+                                    if (usrvec == MONGO_OBJ_RETURN.uservector) {
                                         console.log("No new data")
                                         res.status(200).send(EVNobj);
                                     }
                                     else {
                                         //Have to now update the student object
-                                        Student.updateOne({_id: decodedToken.usrid}, {$set: {uservector: usrvec}},  function(err, obj) {
-                                            if(err) {
+                                        Student.updateOne({ _id: decodedToken.usrid }, { $set: { uservector: usrvec } }, function (err, obj) {
+                                            if (err) {
                                                 console.log(err)
                                             }
                                             else {
@@ -1496,29 +1402,22 @@ app.post('/click-on-events', function (req, res) {
 
 })
 
-app.post('//addInterestOrganizer', function(req, res)
-{
+app.post('//addInterestOrganizer', function (req, res) {
     var eventId = req.body.eventId;
     var eventInterest = req.body.eventInterest;
 
-    event.findOne({_id: eventId}, function(err, obj)
-    {
-        if(err)
-        {
+    event.findOne({ _id: eventId }, function (err, obj) {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             obj.evnInterests.push(eventInterest);
 
-            event.findOneAndUpdate({_id: eventId}, {$set: {evnInterests: obj.evnInterests}}, function(err1, obj1)
-            {
-                if(err1)
-                {
+            event.findOneAndUpdate({ _id: eventId }, { $set: { evnInterests: obj.evnInterests } }, function (err1, obj1) {
+                if (err1) {
                     console.log(err1);
                 }
-                else
-                {
+                else {
                     console.log(obj1);
                     console.log("DONE");
                 }
@@ -1739,7 +1638,7 @@ app.post('/api/follow', async function (req, res) {
         }
         else {
             console.log(decodedToken)
-            Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
+            Student.findOne({ _id: decodedToken['usrid'] }, function (err, obj) {
                 if (err) {
                     console.log(err)
                     res.status(403).send("No such student");
@@ -1769,7 +1668,7 @@ app.post('/api/follow', async function (req, res) {
 
 
 
-app.get('/api/getevents', async function(req, res){
+app.get('/api/getevents', async function (req, res) {
     console.log("SHHSHSHDHASAISASSO")
     var return_arr = [];
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
@@ -1778,13 +1677,13 @@ app.get('/api/getevents', async function(req, res){
         }
         else {
             console.log(decodedToken)
-            Student.findOne({_id: decodedToken['usrid'] }, async function (err, obj) {
+            Student.findOne({ _id: decodedToken['usrid'] }, async function (err, obj) {
                 if (err) {
                     res.status(403).send("No such student");
                 }
                 else {
                     console.log(obj)
-                    for(let i=1; i < obj.evnFollowing.length; i++) {
+                    for (let i = 1; i < obj.evnFollowing.length; i++) {
                         console.log(obj.evnFollowing.length)
                         console.log(obj.evnFollowing[i])
                         var evnFound = await evnFind(obj.evnFollowing[i])
@@ -1816,7 +1715,7 @@ app.get('/api/getevents', async function(req, res){
 
 async function evnFind(idx) {
     var callback = new Promise(function (res, rej) {
-        event.findOne({_id: idx}, function(err, obj) {
+        event.findOne({ _id: idx }, function (err, obj) {
             if (err) {
                 console.log(err)
             } else {
@@ -1832,7 +1731,7 @@ async function evnFind(idx) {
 }
 
 
-app.get('/api/retorgevents', async function(req, res) {
+app.get('/api/retorgevents', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
         if (err) {
             console.log('INTERNAL ERROR. ', err);
@@ -1840,16 +1739,16 @@ app.get('/api/retorgevents', async function(req, res) {
         }
         else {
             console.log(decodedToken) //testing
-            Organiser.findOne({_id: decodedToken['usrid']}, function(err, obj) {
-                if(err) {
-                    res.status(500).send('Mongo Connect err') 
+            Organiser.findOne({ _id: decodedToken['usrid'] }, function (err, obj) {
+                if (err) {
+                    res.status(500).send('Mongo Connect err')
                 }
                 else {
-                    if(obj!=null) {
+                    if (obj != null) {
 
                     }
                     else {
-                        res.status(404).send('No user like this') 
+                        res.status(404).send('No user like this')
                     }
                 }
             })
@@ -1859,13 +1758,13 @@ app.get('/api/retorgevents', async function(req, res) {
 
 app.post('/logout', async function (req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
-    if(decoded != false) {
+    if (decoded != false) {
         console.log(decoded)
         console.log("HSSSSSHSHHSHSSSS")
         var d = Date.now()
-        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: d}}, function(err, MONGOUPDTAE) {
+        user.updateOne({ _id: decoded['usrid'] }, { $set: { LastSeen: d } }, function (err, MONGOUPDTAE) {
             if (err) {
-                for(let i=0; i<10; i++) {
+                for (let i = 0; i < 10; i++) {
                     console.log("FAILED TO UPDATE LAST SEEN")
                 }
             } else {
@@ -1874,18 +1773,91 @@ app.post('/logout', async function (req, res) {
         })
     }
     else {
-        res.status(403).send('Bad JWT') 
+        res.status(403).send('Bad JWT')
     }
 })
 
 var sr = require('./microservices/evn-micro')
 
-app.get('/api/getrecent', function(req, res){
-    var evns = sr.all()
+app.get('/api/getrecent', async function (req, res) {
+    var evns = await sr.all()
     var ret_arr = []
-    for(let i=evns.length-1; i>evns.length-4; i--) {
+    for (let i = evns.length - 1; i > evns.length - 4; i--) {
         ret_arr.push(evns[i])
     }
     console.log(ret_arr)
+    console.log(evns)
     res.send(ret_arr)
+})
+
+app.get('/evnCity', function (req, res) {
+    event.updateMany({}, { $set: { evnCity: "Bengaluru" } }, function (err, obj) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(obj);
+        }
+    })
 });
+
+
+
+app.post('/api/searchbyinterests', async function (req, res) {
+    //req.body.keyword
+
+    InterestSchema.find({ subCat: req.body.keyword }, async function (err, obj) {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            if (obj != []) {
+                var finalret = []
+                var callback = new Promise(async (res, rej) => {
+                    for (let i = 0; i < obj.users.length; i++) {
+                        var response = await findStudent(obj.users[i])
+                        if (response != false) {
+                            finalret.push(response)
+                        }
+                        else {
+                            console.log("A Deleted user was skippeddss")
+                        }
+                    }
+                    res(finalret)
+                })
+
+                let r = await callback;
+                res.status(200).send(r)
+
+
+            }
+            else {
+                console.log("No other users have the same interest")
+            }
+        }
+    })
+})
+
+async function findStudent(id) {
+    var callback = new Promise((res, rej) => {
+        Student.findOne({ _id: id }, function (err, obj) {
+            if (err) {
+                console.log("MONGO ERROR")
+                res(false)
+            }
+            else {
+                if (obj != null) {
+                    res(obj)
+                }
+                else {
+                    console.log("NO USER LIKE THAT")
+                    res(false)
+                }
+            }
+        })
+    })
+
+    let r = await callback;
+    return r
+
+}

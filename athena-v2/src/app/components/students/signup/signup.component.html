@@ -145,7 +145,7 @@ height: 150vh;
                 <input type="text" maxlength="32" readonly matInput required ngModel placeholder="Pincode" name="pincode" #pincode="ngModel"
                   [(ngModel)]="userService.selectedUser.pincode">
               </mat-form-field>
-              <re-captcha (resolved)="resolved($event)" siteKey="6LdNCbYUAAAAAAtM-ojfBuOhVFcjnmsUEZFjjMNj"
+              <re-captcha (resolved)="resolved($event)" siteKey="6LdqJs4UAAAAAOekyVubj176pKyWSoRwE_0IOANa"
                 data-callback="recaptchaCallback"></re-captcha>
               <script>
                 function recaptchaCallback() {

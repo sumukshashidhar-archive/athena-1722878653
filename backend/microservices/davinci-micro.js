@@ -56,11 +56,7 @@ module.exports = {
 
     testexplore3: async function(query, student) {
         var callback = new Promise(async (res, rej) => {
-            var PRCSEvns = await sr.search_deep(query)
-
-
-
-
+            var PRCSEvns = sr.search_deep(query)
 
             console.log('EVENT IS NOW: ', PRCSEvns)
             //These are the events to process

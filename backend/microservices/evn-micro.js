@@ -61,7 +61,8 @@ module.exports = {
                 }
             })
             let r = await callback;
-            return r
+            console.log("IS IT GOING OUT?", r)
+            return r;
         })
     },
     search_archive: async function () {

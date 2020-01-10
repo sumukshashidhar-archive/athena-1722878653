@@ -924,8 +924,9 @@ app.post('/addAcademics', function (req, res) {
             {
                 testName: req.body.testName,
                 testRank: req.body.testRank,
-                Image: req.body.uploadedFiles,
-                toShow: req.body.toShow
+                Image: req.body.Image,
+                toShow: req.body.toShow,
+                testScore:req.body.testScore
             }
 
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {

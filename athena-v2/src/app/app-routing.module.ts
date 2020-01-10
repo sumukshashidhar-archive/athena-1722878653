@@ -1,3 +1,4 @@
+import { AcademicsComponent } from './components/academics/academics.component';
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AchievementsComponent } from './components/students/achievements/achievements.component';
@@ -56,6 +57,10 @@ const routes: Routes = [
   {
     path: "1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e",
     component: KeyaddComponent
+  },
+  {
+    path:"academics",
+    component:AcademicsComponent
   },
   {
     path: "f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e",

@@ -260,23 +260,12 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
-    console.log(req.body)
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            //CODE BELOW THIS IS PRODUCTION READY
             bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
                 if (err) {
                     console.log(err)
                     res.status(500).send("Internal Server Error") //Sends an internal server err
                 }
                 else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
-
                             console.log("registering user");
                             var newUser = new user
                                 ({
@@ -310,18 +299,7 @@ app.post('/register', function (req, res) {
                             });
                         }
                     })
-                }
-            })
-
-        }
-        else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
-        }
-    })
-
-});
-
+                })
 app.post('/updateinfo', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (err) {
@@ -369,22 +347,12 @@ app.post('/updateinfo', function (req, res) {
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function (req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            console.log(req.body.Password)
-            //CODE BELOW THIS IS PRODUCTION READY
             bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
                 if (err) {
                     console.log(err)
                     res.status(500).send("Internal Server Error") //Sends an internal server err
                 }
                 else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
                             console.log("registering user");
                             var newUser = new user({
                                 username: req.body.OrganizerEmail,
@@ -412,17 +380,7 @@ app.post('/registerorganizer', function (req, res) {
                             });
                         }
                     })
-                }
-            })
-
-        }
-        else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
-        }
-    })
-
-});
+                })
 
 app.get('/verifyuser/*', function (req, res) {
     var idx = req.url.slice(12, 1000);
@@ -1811,7 +1769,7 @@ app.post('/api/searchbyinterests', async function(req, res) {
                 var finalret = []
                 var callback = new Promise((res, rej) => {
                     for(let i=0; i < obj.users.length; i++) {
-                        var resposne = await findStudent(obj.users[i])
+                        var response = await findStudent(obj.users[i])
                         if(response!=false) {
                             finalret.push(response)
                         }

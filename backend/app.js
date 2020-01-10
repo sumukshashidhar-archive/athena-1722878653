@@ -1638,7 +1638,7 @@ async function evnFind(idx) {
 app.get('/api/retorgevents', async function (req, res) {
     var decoded = jwms.verify(req.headers.authorization)
     if(decoded!=false) {
-        Organiser.findOne({_id: id}, function(err, obj) {
+        Organiser.findOne({_id: decoded['usrid']}, function(err, obj) {
             if(err) {
                 console.log(err)
                 res.status(500).send(err) 

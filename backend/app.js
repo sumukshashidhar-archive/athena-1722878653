@@ -1145,6 +1145,33 @@ app.post('/addAcademics', function(req, res)
     // var decoded = await jwms.verify(req.headers.authorization);
 });
 
+app.post('/getAcademics', function(req, res)
+{
+    var decoded = await jwms.verify(req.headers.authorization);
+
+    Student.findOne({EmailId: decoded.email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            var toShowAc = new Array();
+
+            for (var i = 0; i < obj.Academics.length; i++)
+            {
+                if(obj.Academics[i].toShow)
+                {
+                    toShowAc.push(obj.Academics[i]);
+                }
+            }
+
+            res.send(toShowAc);
+        }
+    });
+
+})
 
 
 //INTERESTS

@@ -696,49 +696,6 @@ app.get('/getImage', function (req, res) {
 });
 
 
-// app.get('/imageUpload', function (req, res) {
-    // console.log(req.url);
-    // var Path=path.join(__dirname, req.query.url)
-    // console.log(Path)
-    // res.sendFile(Path);
-
-//     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-//         console.log("Getting Bio....")
-//         if (!err && decodedToken != null) {
-//             console.log("Verified: " + decodedToken.email);
-//             user.findOne({ username: decodedToken.email }, function (err, obj) {
-//                 if (err) {
-//                     console.log(err);
-//                 }
-//                 else {
-//                     var Path = path.join(__dirname, obj.profilePic)
-//                     console.log(obj.profilePic)
-//                     console.log("Path: " + Path);
-//                     console.log('HEREEE')
-//                     res.sendFile(Path)
-
-//                 }
-//             });
-//         }
-//         else {
-//             console.log(err)
-//             console.log("Something went wrong")
-//         }
-//     });
-
-//     console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
-// });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -802,6 +759,9 @@ app.post('/auth', function (req, res) {
     })
 });
 
+var oems = require('./microservices/event-org-micro')
+
+
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -836,7 +796,7 @@ app.post('/organizer-events', async function (req, res) {
                     else {
                         console.log(obj);
                         //have to append the newly created id to the organizer as well
-                        
+                        oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
                     };
                 });
@@ -848,9 +808,6 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
-
-
-
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1822,13 +1779,14 @@ app.post('/logout', async function (req, res) {
 
 var sr = require('./microservices/evn-micro')
 
-app.get('/api/getrecent', function(req, res){
-    var evns = sr.all()
+app.get('/api/getrecent', async function(req, res){
+    var evns = await sr.all()
     var ret_arr = []
     for(let i=evns.length-1; i>evns.length-4; i--) {
         ret_arr.push(evns[i])
     }
     console.log(ret_arr)
+    console.log(evns)
     res.send(ret_arr)
 })
 
@@ -1846,3 +1804,64 @@ app.get('/evnCity', function(req, res)
         }
     })
 });
+
+
+
+app.post('/api/searchbyinterests', async function(req, res) {
+    //req.body.keyword
+
+    InterestSchema.find({subCat: req.body.keyword}, function(err, obj) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(obj!=[]){
+                var finalret = []
+                var callback = new Promise((res, rej) => {
+                    for(let i=0; i < obj.users.length; i++) {
+                        var resposne = await findStudent(obj.users[i])
+                        if(response!=false) {
+                            finalret.push(response)
+                        }
+                        else {
+                            console.log("A Deleted user was skippeddss")
+                        }
+                    }
+                    res(finalret)
+                })
+
+                let r = await callback;
+                res.status(200).send(r) 
+
+
+            }
+            else {
+                console.log("No other users have the same interest")
+            }
+        }
+    })
+})
+
+async function findStudent(id) {
+    var callback = new Promise((res, rej) => {
+        Student.findOne({_id: id}, function(err, obj) {
+            if(err) {
+                console.log("MONGO ERROR")
+                res(false)
+            }
+            else {
+                if(obj!= null) {
+                    res(obj)
+                }
+                else {
+                    console.log("NO USER LIKE THAT")
+                    res(false)
+                }
+            }
+        }) 
+    })
+
+    let r = await callback; 
+    return r
+
+}

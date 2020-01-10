@@ -1697,7 +1697,7 @@ app.get('/api/retorgevents', async function(req, res) {
 
 
 app.post('/logout', function(req, res) {
-    var decoded = jwms.verify(req.headers.authorization)
+    var decoded = await jwms.verify(req.headers.authorization)
     if(decoded != false) {
         console.log(decoded)
         console.log("HSSSSSHSHHSHSSSS")

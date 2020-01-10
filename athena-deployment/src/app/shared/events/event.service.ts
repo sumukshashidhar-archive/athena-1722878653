@@ -22,9 +22,10 @@ export class EventService {
     evnInterests: "",
     evnAdd1: "",
     evnAdd2: "",
-    Image:""
+    evnCity: "",
+    Image:""  
   };
-  events: Event[];
+  events: any;
 
   details: Details = {
     _id: ""
@@ -104,5 +105,9 @@ export class EventService {
 
   getFollowEvents(){
     return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getevents")
+  }
+
+  getHomeEvents(){
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getrecent")
   }
 }

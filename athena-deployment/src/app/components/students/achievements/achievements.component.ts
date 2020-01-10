@@ -41,7 +41,8 @@ export class AchievementsComponent implements OnInit {
     { id: 1, name: "School" },
     { id: 2, name: "City" },
     { id: 3, name: "State" },
-    { id: 4, name: "National" }
+    { id: 4, name: "National" },
+    { id:5,name:"International"}
   ];
   imageArr = [];
   allset = false;
@@ -96,7 +97,7 @@ export class AchievementsComponent implements OnInit {
     if (decodedtoken["role"] == "Student") {
       console.log(decodedtoken["given_name"])
       this.username = decodedtoken["given_name"];}
-    
+
   }
 
   getAllCategory() {
@@ -115,7 +116,7 @@ export class AchievementsComponent implements OnInit {
        console.log(this.desc)
        console.log(this.img)
        this.Rank=achlist[i].achRank
-       
+
       }
     }
 

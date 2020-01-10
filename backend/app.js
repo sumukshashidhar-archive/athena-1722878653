@@ -142,7 +142,7 @@ var storage = new GridFsStorage({
                     return reject(err)
                 }
                 
-                const filename = nanoid(32)
+                const filename = file.originalname
                 const fileInfo = {
                     filename: filename,
                     bucketName: 'uploads',
@@ -206,7 +206,7 @@ app.post('/register', function (req, res) {
                 }
                 else {
                     console.log(obj);
-                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
+		    var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     console.log(output);
                     sendMail(output, req.body.email);
 
@@ -276,8 +276,6 @@ app.post('/registerorganizer', function (req, res) {
                 username: req.body.OrganizerEmail,
                 userType: "Organizer",
                 password: BCRYPT_PASSWORD_HASH,
-                securityQuestion: req.body.securityQuestion,
-                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                 profilePic: "/uploads/lak.png",
                 Verified: false
             });
@@ -289,8 +287,7 @@ app.post('/registerorganizer', function (req, res) {
                 }
                 else {
                     console.log(obj._id);
-                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-
+		var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     sendMail(output, req.body.OrganizerEmail);
                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                     res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
@@ -311,7 +308,7 @@ app.get('/verifyuser/*', function (req, res) {
 
             console.log("VERIFIED");
             console.log(obj1);
-            res.redirect("http://localhost:4200/login");
+            res.redirect("http://athena-v2.s3-website.ap-south-1.amazonaws.com/login");
         }
     });
 });

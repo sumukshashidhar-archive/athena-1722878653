@@ -75,7 +75,7 @@ export class EventsOrganizerComponent implements OnInit {
   ngOnInit() {
     var decodedtoken = jwt_decode(decoded);
     this.refreshEvents();
-    // this.maxDateSet();
+    this.maxDateSet();
     this.getAllCategory();
     if (decodedtoken["role"] == "Org") {
       this.username = decodedtoken["name"];
@@ -159,25 +159,34 @@ export class EventsOrganizerComponent implements OnInit {
         this.createImageFromBlob(response);
       });
   }
-  // maxDateSet() {
-  //   var today = new Date();
-  //   var dd = today.getDate();
-  //   var mm = today.getMonth() + 1;
-  //   var newmm;
-  //   var newdd;
-  //   var yyyy = today.getFullYear();
-  //   if (dd < 10) {
-  //     newdd = "0" + dd.toString();
-  //   } else {
-  //     newdd = dd.toString();
-  //   }
-  //   if (mm < 10) {
-  //     newmm = "0" + mm.toString(mm);
-  //   } else {
-  //     newmm = mm.toString();
-  //   }
-  //   this.maxDate = yyyy + "-" + newmm + "-" + newdd;
-  // }
+
+
+  setMaxDate(){
+    var x = (document.getElementById("evnDate1") as HTMLInputElement).value; 
+    console.log("variable x is ",x)
+    this.newDate = x;
+  }
+
+  maxDateSet() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var newmm;
+    var newdd;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      newdd = "0" + dd.toString();
+    } else {
+      newdd = dd.toString();
+    }
+    if (mm < 10) {
+      newmm = "0" + mm.toString();
+    } else {
+      newmm = mm.toString();
+    }
+    this.maxDate = yyyy + "-" + newmm + "-" + newdd;
+  }
+
 
   refreshEvents() {
     var decodedtoken = jwt_decode(decoded);
@@ -189,8 +198,7 @@ export class EventsOrganizerComponent implements OnInit {
       console.log(this.username);
     });
     this.eventService.getEvents().subscribe(res => {
-      this.eventService.events = res as Event[];
-
+      this.eventService.events = res;
       console.log(this.eventService.events);
       for (var index = 0; index < this.eventService.events.length; index++) {
         if (

@@ -6,6 +6,7 @@ export class Event {
     evnPincode: string; //
     evnOrganizerPage: string; //
     evnOrganizerContact: string; //
+    evnCity: string;
     evnTargetAge: number; //
     evnDescription: string;
     evnAdd1: string; //

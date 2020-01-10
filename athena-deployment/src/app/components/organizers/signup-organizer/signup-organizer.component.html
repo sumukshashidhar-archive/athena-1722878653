@@ -23,25 +23,22 @@
             <mat-form-field>
               <input maxlength="32" matInput type="text" placeholder="School Name" required ngModel name="OrganizerName"
                 #OrganizerName="ngModel" [(ngModel)]="organizeruserService.selectedUser.OrganizerName" />
-              <mat-error class="help-block" *ngIf="!OrganizerName.valid && OrganizerName.touched">Please enter School
+              <mat-error class="help-block">Please enter School
                 Name</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput type="email" placeholder="Email" required ngModel name="OrganizerEmail"
                 email #OrganizerEmail="ngModel" [(ngModel)]="organizeruserService.selectedUser.OrganizerEmail" />
-              <mat-error class="help-block" *ngIf="!OrganizerEmail.valid && OrganizerEmail.touched">Please enter a valid
+              <mat-error class="help-block">Please enter a valid
                 email</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput type="password" placeholder="Password" required id="password" minlength="8"
-                ngModel pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="Password" #Password="ngModel"
+                ngModel pattern=".{8,}" name="Password" #Password="ngModel"
                 [(ngModel)]="organizeruserService.selectedUser.Password" />
-              <mat-error class="help-block" *ngIf="!Password.valid && Password.touched">Must contain at least one number
-                and one uppercase and
-                lowercase letter, 8 or more characters, and no special
-                characters</mat-error>
+              <mat-error class="help-block">Please enter a valid password which is atleast 8 characters long</mat-error>
             </mat-form-field>
             <mat-form-field>
               <input maxlength="32" matInput type="password" placeholder="Confirm Password" required
@@ -50,25 +47,11 @@
               <mat-error class="help-block" *ngIf="!cPassword.valid && cPassword.touched">Passwords Do Not Match
               </mat-error>
             </mat-form-field>
-            <br>
-            <mat-form-field>
-              <input type="text" matInput placeholder="Security Question" required ngModel name="securityQuestion"
-                #securityQuestion="ngModel" [(ngModel)]="organizeruserService.selectedUser.securityQuestion">
-              <mat-error class="help-block" *ngIf="!securityQuestion.valid && securityQuestion.touched">Please Enter
-                Security Question</mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-              <input type="text" matInput placeholder="Security Answer" required ngModel name="securityAnswer"
-                #securityAnswer="ngModel" [(ngModel)]="organizeruserService.selectedUser.securityAnswer">
-              <mat-error class="help-block" *ngIf="!securityQuestion.valid && securityQuestion.touched">Please Enter
-                Security Question</mat-error>
-            </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput type="text" placeholder="Phone Number" pattern="[789][0-9]{9}" required
                 ngModel name="PhoneNo" #PhoneNo="ngModel" [(ngModel)]="organizeruserService.selectedUser.PhoneNo" />
-              <mat-error class="help-block" *ngIf="!PhoneNo.valid && PhoneNo.touched">Please enter Valid Phone Number
+              <mat-error class="help-block">Please enter Valid Phone Number
               </mat-error>
             </mat-form-field>
           </form>
@@ -85,50 +68,26 @@
               <input maxlength="32" readonly matInput type="text" placeholder="School Name" required ngModel
                 name="OrganizerName" #OrganizerName="ngModel"
                 [(ngModel)]="organizeruserService.selectedUser.OrganizerName" />
-              <mat-error class="help-block" *ngIf="!OrganizerName.valid && OrganizerName.touched">Please enter School
-                Name</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput readonly type="email" placeholder="Email" required ngModel
                 name="OrganizerEmail" email #OrganizerEmail="ngModel"
                 [(ngModel)]="organizeruserService.selectedUser.OrganizerEmail" />
-              <mat-error class="help-block" *ngIf="!OrganizerEmail.valid && OrganizerEmail.touched">Please enter a valid
-                email</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" readonly matInput readonly type="password" placeholder="Password" required
-                id="password" minlength="8" ngModel pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="Password"
+                id="password" minlength="8" ngModel pattern=".{8,}" name="Password"
                 #Password="ngModel" [(ngModel)]="organizeruserService.selectedUser.Password" />
-              <mat-error class="help-block" *ngIf="!Password.valid && Password.touched">Must contain at least one number
-                and one uppercase and
-                lowercase letter, 8 or more characters, and no special
-                characters</mat-error>
             </mat-form-field>
             <br />
-            <mat-form-field>
-              <input type="text" readonly matInput placeholder="Security Question" required ngModel name="securityQuestion"
-                #securityQuestion="ngModel" [(ngModel)]="organizeruserService.selectedUser.securityQuestion">
-              <mat-error class="help-block" *ngIf="!securityQuestion.valid && securityQuestion.touched">Please Enter
-                Security Question</mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-              <input type="password" matInput readonly placeholder="Security Answer" required ngModel name="securityAnswer"
-                #securityAnswer="ngModel" [(ngModel)]="organizeruserService.selectedUser.securityAnswer">
-              <mat-error class="help-block" *ngIf="!securityQuestion.valid && securityQuestion.touched">Please Enter
-                Security Question</mat-error>
-            </mat-form-field>
-            <br>
             <mat-form-field>
               <input maxlength="32" matInput type="text" readonly placeholder="Phone Number" pattern="[789][0-9]{9}"
                 required ngModel name="PhoneNo" #PhoneNo="ngModel"
                 [(ngModel)]="organizeruserService.selectedUser.PhoneNo" />
-              <mat-error class="help-block" *ngIf="!PhoneNo.valid && PhoneNo.touched">Please enter Valid Phone Number
-              </mat-error>
             </mat-form-field>
-            <re-captcha (resolved)="resolved($event)" siteKey="6Ld-uM0UAAAAABWBIsW4bbf3LzHR3B4D9GtV2IfG"
+            <re-captcha (resolved)="resolved($event)" siteKey="6LdNCbYUAAAAAAtM-ojfBuOhVFcjnmsUEZFjjMNj"
               data-callback="recaptchaCallback"></re-captcha>
             <script>
               function recaptchaCallback() {

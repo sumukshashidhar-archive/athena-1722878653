@@ -38,6 +38,6 @@ export class SearchService {
   postUserSearch(userSearch: User_Search) {
     console.log('User Search Method')
     console.log(userSearch)
-    return this.http.post('http://localhost:3000/user-search', userSearch)
+    return this.http.post('http://localhost:3000/api/search/users', userSearch)
   }
 }

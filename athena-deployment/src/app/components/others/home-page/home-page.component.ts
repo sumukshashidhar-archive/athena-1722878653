@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Event } from "../../../shared/events/event";
 import { EventService } from "../../../shared/events/event.service";
 
 @Component({
@@ -9,21 +8,24 @@ import { EventService } from "../../../shared/events/event.service";
 })
 export class HomePageComponent implements OnInit {
   opened = false;
-  Events: any = [];
+  events: any = [];
 
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-    console.log("we are in home-page.component.ts", this.Events);
-    this.setEvents();
-    console.log("After: ", this.Events);
+    this.getEvents();
+  }
+
+  getEvents(){
+    this.eventService.getHomeEvents().subscribe(
+      res => {
+        console.log(res)
+        this.events = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
   
-  setEvents(): void {
-    this.eventService.getEvents().subscribe(data => {
-      console.log(" data before: ", data);
-      this.Events = data;
-    });
-    console.log("This is from JSON: ", this.Events);
-  }
 }

@@ -39,8 +39,8 @@ export class EventsOrganizerComponent implements OnInit {
   arr: any;
   y: any;
   x: any;
-  profileUrlExists=false;
-  imageToShow:any
+  profileUrlExists = false;
+  imageToShow: any;
   config = {
     search: true,
     height: "auto",
@@ -59,7 +59,7 @@ export class EventsOrganizerComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
-  decoded:any;
+  decoded: any;
   constructor(
     public eventService: EventService,
     private router: Router,
@@ -69,7 +69,7 @@ export class EventsOrganizerComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
-    this.postToIt()
+    this.postToIt();
   }
 
   ngOnInit() {
@@ -80,7 +80,6 @@ export class EventsOrganizerComponent implements OnInit {
     if (decodedtoken["role"] == "Org") {
       this.username = decodedtoken["name"];
     }
-
   }
   logout() {
     this.auth.logout();
@@ -104,6 +103,7 @@ export class EventsOrganizerComponent implements OnInit {
     console.log(event);
     this.eventService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
+      console.log(this.subcatOptions)
     });
   }
 
@@ -116,6 +116,12 @@ export class EventsOrganizerComponent implements OnInit {
     this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
       console.log(res);
     });
+    let arr = [];
+    for (let i = 0; i < this.subCatName.length; i++) {
+      arr.push(this.subCatName[i].subCatName);
+    }
+    form.value["interestArray"] = arr;
+    console.log(form.value["interestArray"]);
     form.value["evnLocation"] =
       form.value["evnAdd1"] + "\n" + form.value["evnAdd2"];
     this.eventService.postEvents(form.value).subscribe(
@@ -160,10 +166,9 @@ export class EventsOrganizerComponent implements OnInit {
       });
   }
 
-
-  setMaxDate(){
-    var x = (document.getElementById("evnDate1") as HTMLInputElement).value; 
-    console.log("variable x is ",x)
+  setMaxDate() {
+    var x = (document.getElementById("evnDate1") as HTMLInputElement).value;
+    console.log("variable x is ", x);
     this.newDate = x;
   }
 
@@ -186,7 +191,6 @@ export class EventsOrganizerComponent implements OnInit {
     }
     this.maxDate = yyyy + "-" + newmm + "-" + newdd;
   }
-
 
   refreshEvents() {
     var decodedtoken = jwt_decode(decoded);
@@ -217,10 +221,7 @@ export class EventsOrganizerComponent implements OnInit {
       arr.push(this.subCatName[i].subCatName);
     }
 
-    this.eventService.postEventInterest(arr, this.x).subscribe(res => {
-      console.log("done");
-      this.subCatName = null;
-      alert("User Interest added");
-    });
+    console.log("this.x ", this.x)
+    console.log("subcatname", this.subCatName)
   }
 }

@@ -54,8 +54,8 @@ module.exports = {
     },
 
     verify: async (header_file) => {
-        var callback = new Promise((res, rej) => {
-            var extracted = tokenExtractor(header_file)
+        var callback = new Promise(async (res, rej) => {
+            var extracted = await tokenExtractor(header_file)
             jwt.verify(extracted, publicKEY, enc.verifyOptions, function (err, DECODED_TOKEN){
                 if(err) {
                     console.log(err)

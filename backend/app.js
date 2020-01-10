@@ -133,7 +133,7 @@ conn.once("open", () => {
 });
 
 // Create storage engine
-const storage = new GridFsStorage({
+var storage = new GridFsStorage({
     url: db.mongoURI,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
@@ -163,39 +163,6 @@ app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is fro
     console.log("SERVER STARTED");
 });
 
-//FILE UPLOAD CODE, DON'T TOUCH, FOR HELP CONTACT VIJAY
-
-
-var Storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, "./Images");
-    },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
-    }
-});
-
-var upload = multer({
-    storage: Storage
-}).array("imgUploader", 1); //Field name and max count
-
-//USAGE DOWN BELOW
-
-// upload(req, res, function(err) {
-//     if (err) {
-//         return res.end("Something went wrong!");
-//     }
-//     return res.end("File uploaded sucessfully!.");
-// });
-
-
-
-//Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
-
-
-
-
-
 app.post("/upload", upLoad.single('img'), (req, res) => {
     console.log(req.body)
     console.log('ADDED IMAGE TO DATABASE')
@@ -224,8 +191,6 @@ app.post('/register', function (req, res) {
                     username: req.body.email,
                     userType: "Student",
                     password: BCRYPT_PASSWORD_HASH,
-                    securityQuestion: req.body.securityQuestion,
-                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
                     profilePic: "/uploads/lak.png",
                     LastSeen: Date.now(),
                     Bio: req.body.bio,

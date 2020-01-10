@@ -23,9 +23,9 @@ export class EventService {
     evnAdd1: "",
     evnAdd2: "",
     evnCity: "",
-    Image:""
+    Image:""  
   };
-  events: Event[];
+  events: any;
 
   details: Details = {
     _id: ""

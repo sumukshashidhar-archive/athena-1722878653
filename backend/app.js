@@ -1143,7 +1143,7 @@ app.post('/addAcademics', function(req, res)
     // var decoded = await jwms.verify(req.headers.authorization);
 });
 
-app.post('/getAcademics', function(req, res)
+app.post('/getAcademics', async function(req, res)
 {
     var decoded = await jwms.verify(req.headers.authorization);
 

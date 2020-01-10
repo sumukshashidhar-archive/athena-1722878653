@@ -143,7 +143,14 @@
                           #evnAdd2="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd2" />
                         <span class="help-block" *ngIf="!evnAdd2.valid && evnAdd2.touched">Please Enter Event
                           Address Line 2</span>
-                      </div>*ngIf="!evnCity.valid && evnCity.touched">Please enter Event City</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Event City</label>
+                      <div>
+                        <input maxlength="32" type="text" id="evn" class="form-control" name="evnCity" required ngModel
+                          #evnCity="ngModel" [(ngModel)]="eventService.selectedEvent.evnCity" />
+                        <span class="help-block" *ngIf="!evnCity.valid && evnCity.touched">Please Enter Event City</span>
                       </div>
                     </div>
                     <div class="form-group">

@@ -71,7 +71,7 @@
           <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
           <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
         </ol>
-        <div class="carousel-inner">
+        <!-- <div class="carousel-inner">
           <div class="carousel-item active">
             <img src="./../../../../assets/images/image1.jpg" class="d-block w-100 img-fluid" style="height: 30rem;"
               alt="...">
@@ -96,6 +96,18 @@
               <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
             </div>
           </div>
+        </div> -->
+        <div class="carousel-inner">
+          <div *ngFor="let x of events">
+          <div class="carousel-item active">
+            <img src="./../../../../assets/images/image1.jpg" class="d-block w-100 img-fluid" style="height: 30rem;"
+              alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>{{ x.evnName }}</h5>
+              <p>{{ x.evnDescription }}</p>
+            </div>
+          </div>
+        </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>

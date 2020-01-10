@@ -688,10 +688,10 @@ app.get('/getImage', function (req, res) {
 
 
 // app.get('/imageUpload', function (req, res) {
-//     // console.log(req.url);
-//     // var Path=path.join(__dirname, req.query.url)
-//     // console.log(Path)
-//     // res.sendFile(Path);
+    // console.log(req.url);
+    // var Path=path.join(__dirname, req.query.url)
+    // console.log(Path)
+    // res.sendFile(Path);
 
 //     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
 //         console.log("Getting Bio....")
@@ -1576,6 +1576,7 @@ app.post('/api/follow', async function (req, res) {
             console.log(decodedToken)
             Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
                 if (err) {
+                    console.log(err)
                     res.status(403).send("No such student");
                 }
                 else {

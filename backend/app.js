@@ -1806,12 +1806,15 @@ app.get('/evnCity', function (req, res) {
 app.post('/api/searchbyinterests', async function (req, res) {
     //req.body.keyword
 
-    InterestSchema.find({ subCat: req.body.keyword }, async function (err, obj) {
+    var keyword = "BMX";
+
+    InterestSchema.findOne({ subCat: keyword }, async function (err, obj) {
         if (err) {
             console.log(err)
         }
         else {
-            if (obj != []) {
+            console.log(obj);
+            if (obj != null) {
                 var finalret = []
                 var callback = new Promise(async (res, rej) => {
                     for (let i = 0; i < obj.users.length; i++) {
@@ -1838,9 +1841,20 @@ app.post('/api/searchbyinterests', async function (req, res) {
     })
 })
 
+app.post("/searchbyint", function(req, res)
+{   
+
+    var keyword = "BMX"
+
+    InterestSchema.findOne({subCat: keyword}, function(err, obj)
+    {
+        console.log(obj);
+    });
+})
+
 async function findStudent(id) {
     var callback = new Promise((res, rej) => {
-        Student.findOne({ _id: id }, function (err, obj) {
+        Student.findOne({ _id: id }, { FirstName: 1, LastName: 1, _id: 1 }, function (err, obj) {
             if (err) {
                 console.log("MONGO ERROR")
                 res(false)

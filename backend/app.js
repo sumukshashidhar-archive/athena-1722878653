@@ -1871,7 +1871,7 @@ function addToUserVector(userid, to_add) {
 
 
 
-app.get('/discoverUsers', function(req, res) {
+app.get('/discoverUsers', async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {
         //Must add profile picture when you find it here

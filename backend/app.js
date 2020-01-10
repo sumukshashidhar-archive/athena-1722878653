@@ -1088,7 +1088,7 @@ app.post('/addAcademics', function(req, res)
         if (!err && decodedToken != null) {
             console.log("Verified");
             console.log(decodedToken);
-            console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
+            // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
             
             var newAc = 
             {

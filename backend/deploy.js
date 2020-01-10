@@ -102,7 +102,7 @@ function sendMail(output, to) {
         from: '"Athena Contact" <developersatathena@gmail.com>', // sender address
         to: to, // list of receivers
         subject: 'Athena Contact', // Subject line
-        text: 'Computer generated email, please do not reply', // plain text body
+        text: 'Com[puter generated email, please do not reply', // plain text body
         html: output // html body
     };
 
@@ -299,7 +299,7 @@ app.post('/register', function (req, res) {
                                 }
                                 else {
                                     console.log(obj);
-                                    var output = 'Click on below link to verify<b> => ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
                                     console.log(output);
                                     sendMail(output, req.body.email);
 
@@ -687,38 +687,38 @@ app.get('/getImage', function (req, res) {
 });
 
 
-app.get('/imageUpload', function (req, res) {
+// app.get('/imageUpload', function (req, res) {
     // console.log(req.url);
     // var Path=path.join(__dirname, req.query.url)
     // console.log(Path)
     // res.sendFile(Path);
 
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Bio....")
-        if (!err && decodedToken != null) {
-            console.log("Verified: " + decodedToken.email);
-            user.findOne({ username: decodedToken.email }, function (err, obj) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    var Path = path.join(__dirname, obj.profilePic)
-                    console.log(obj.profilePic)
-                    console.log("Path: " + Path);
-                    console.log('HEREEE')
-                    res.sendFile(Path)
+//     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+//         console.log("Getting Bio....")
+//         if (!err && decodedToken != null) {
+//             console.log("Verified: " + decodedToken.email);
+//             user.findOne({ username: decodedToken.email }, function (err, obj) {
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//                 else {
+//                     var Path = path.join(__dirname, obj.profilePic)
+//                     console.log(obj.profilePic)
+//                     console.log("Path: " + Path);
+//                     console.log('HEREEE')
+//                     res.sendFile(Path)
 
-                }
-            });
-        }
-        else {
-            console.log(err)
-            console.log("Something went wrong")
-        }
-    });
+//                 }
+//             });
+//         }
+//         else {
+//             console.log(err)
+//             console.log("Something went wrong")
+//         }
+//     });
 
-    console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
-});
+//     console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
+// });
 
 
 
@@ -842,6 +842,8 @@ app.post('/organizer-events', async function (req, res) {
                     }
                     else {
                         console.log(obj);
+                        //have to append the newly created id to the organizer as well
+                        
                         res.json(obj)
                     };
                 });
@@ -853,6 +855,9 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
+
+
+
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -1571,6 +1576,7 @@ app.post('/api/follow', async function (req, res) {
             console.log(decodedToken)
             Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
                 if (err) {
+                    console.log(err)
                     res.status(403).send("No such student");
                 }
                 else {
@@ -1659,3 +1665,36 @@ async function evnFind(idx) {
     return r;
 
 }
+
+
+app.get('/api/retorgevents', async function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+            res.status(403).send("Wrong JWT");
+        }
+        else {
+            console.log(decodedToken) //testing
+            Organiser.findOne({_id: decodedToken['usrid']}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('Mongo Connect err') 
+                }
+                else {
+                    if(obj!=null) {
+
+                    }
+                    else {
+                        res.status(404).send('No user like this') 
+                    }
+                }
+            })
+        }
+    })
+})
+
+
+
+
+app.post('/logout', function(req, res) {
+    
+})

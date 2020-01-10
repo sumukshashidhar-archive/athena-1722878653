@@ -6,7 +6,7 @@ var UserSchema = new mongoose.Schema({
     userType: String, 
     securityQuestion: String,
     securityAnswer: String, 
-    LastSeen: String,
+    LastSeen: Date,
     AuthCode: String,
     lastUpdatedOn: Date,
     user_Activity: Number,

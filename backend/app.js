@@ -687,38 +687,38 @@ app.get('/getImage', function (req, res) {
 });
 
 
-app.get('/imageUpload', function (req, res) {
-    // console.log(req.url);
-    // var Path=path.join(__dirname, req.query.url)
-    // console.log(Path)
-    // res.sendFile(Path);
+// app.get('/imageUpload', function (req, res) {
+//     // console.log(req.url);
+//     // var Path=path.join(__dirname, req.query.url)
+//     // console.log(Path)
+//     // res.sendFile(Path);
 
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Bio....")
-        if (!err && decodedToken != null) {
-            console.log("Verified: " + decodedToken.email);
-            user.findOne({ username: decodedToken.email }, function (err, obj) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    var Path = path.join(__dirname, obj.profilePic)
-                    console.log(obj.profilePic)
-                    console.log("Path: " + Path);
-                    console.log('HEREEE')
-                    res.sendFile(Path)
+//     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+//         console.log("Getting Bio....")
+//         if (!err && decodedToken != null) {
+//             console.log("Verified: " + decodedToken.email);
+//             user.findOne({ username: decodedToken.email }, function (err, obj) {
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//                 else {
+//                     var Path = path.join(__dirname, obj.profilePic)
+//                     console.log(obj.profilePic)
+//                     console.log("Path: " + Path);
+//                     console.log('HEREEE')
+//                     res.sendFile(Path)
 
-                }
-            });
-        }
-        else {
-            console.log(err)
-            console.log("Something went wrong")
-        }
-    });
+//                 }
+//             });
+//         }
+//         else {
+//             console.log(err)
+//             console.log("Something went wrong")
+//         }
+//     });
 
-    console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
-});
+//     console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
+// });
 
 
 

@@ -12,7 +12,7 @@ var logout:Boolean;
 logout=true
 @Injectable()
 export class  AuthService {
- 
+
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any, private http: HttpClient, private router:Router) { }
 
 
@@ -24,7 +24,7 @@ export class  AuthService {
           console.log(`RESPONSE IS ${res}`)
           this.localStorage.setItem('access_token', JSON.stringify(res))
           var decodedT = this.localStorage.getItem('access_token');
-           decoded = jwt_decode(decodedT); 
+           decoded = jwt_decode(decodedT);
           console.log(decoded);
           this.posttoken(res)
           console.log('Printed')
@@ -36,18 +36,20 @@ export class  AuthService {
       console.log('Entered posttoken method')
       console.log(token)
       this.http.post('http://localhost:3000/dashboard', token )
-      
+
     }
     public getIPAddress()
     {
       return this.http.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");
     }
   logout() {
-    this.http.post('http://localhost:3000/logout', logout)
+    var token=localStorage.getItem('access-token')
+    console.log('LOGGING OUT')
+    this.http.post('http://localhost:3000/logout', token)
     console.log(logout)
     this.localStorage.removeItem('access_token');
     this.router.navigate(['/login']);
-    
+
   }
   getToken(){
     return this.localStorage.getItem('access_token')

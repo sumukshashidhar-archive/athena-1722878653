@@ -215,8 +215,10 @@ body {
 }
 .card-text-a{
   font-size:2vw; color:white;
-  white-space: nowrap;text-align:left
+  white-space: nowrap;text-align:left;
+  margin-left: 10%;
 }
+
 #dp {
   border-radius:50%;
   width: 50%;

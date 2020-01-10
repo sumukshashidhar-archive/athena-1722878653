@@ -45,7 +45,9 @@ export class  AuthService {
   logout() {
     var token=localStorage.getItem('access-token')
     console.log('LOGGING OUT')
-    this.http.post('http://localhost:3000/logout', token)
+    this.http.post('http://localhost:3000/logout', token).subscribe(res=>{
+      console.log(res)
+    })
     console.log(logout)
     this.localStorage.removeItem('access_token');
     this.router.navigate(['/login']);

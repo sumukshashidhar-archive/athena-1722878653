@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { Router } from '@angular/router';
+import * as jwt_decode from "jwt-decode";
+
+export var decoded: any;
 
 @Component({
   selector: 'app-sidenav',
@@ -10,7 +15,14 @@ export class SidenavComponent implements OnInit {
   imageToShow:any
   username: any;
   
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {
+    decoded = localStorage.getItem("access_token");
+    var decodedtoken = jwt_decode(decoded);
+    var email = decodedtoken["email"];
+   }
 
   ngOnInit() {
   }

@@ -44,7 +44,6 @@ import { AuthService } from './shared/auth/auth.service'
 import { EventService } from './shared/events/event.service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
-import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
 
@@ -74,7 +73,6 @@ import { SidenavComponent } from './components/ui-components/sidenav/sidenav.com
     UserprofileComponent,
     VerifyemailComponent,
     SearchresComponent,
-    EventfollowComponent,
     NavbarComponent,
     SidenavComponent
   ],

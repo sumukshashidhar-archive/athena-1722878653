@@ -1696,3 +1696,15 @@ app.post('/logout', async function (req, res) {
         res.status(403).send('Bad JWT') 
     }
 })
+
+var sr = require('./microservices/evn-micro')
+
+app.get('/api/getrecent', function(req, res){
+    var evns = sr.all()
+    var ret_arr = []
+    for(let i=evns.length-1; i>evns.length-4; i--) {
+        ret_arr.push(evns[i])
+    }
+    console.log(ret_arr)
+    res.send(ret_arr)
+})

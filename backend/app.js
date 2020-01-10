@@ -1312,7 +1312,19 @@ app.post('/event-search', async function (req, res) {
 
         }
         else {
-            console.log(req.body.keyword)
+            if(req.body.usecase == 1) {
+                var evns = await dms.reqular_city_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else  if (req.body.usecase == 2) {
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else  if (req.body.usecase == 3) {
+                ///DOES NOT WORK
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
             var query = req.body.keyword
             var evns = await dms.testexplore3(query, DECODEDTOKEN)
             console.log("HELSOF S", evns)

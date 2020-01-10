@@ -54,13 +54,10 @@ module.exports = {
     },
 
 
-    testexplore3: async function(query, student) {
+    deep_search: async function(query, student) {
         var callback = new Promise(async (res, rej) => {
             var PRCSEvns = sr.search_deep(query)
-
             console.log('EVENT IS NOW: ', PRCSEvns)
-
-
             var returner = await gateway(student, PRCSEvns)
             //These are the events to process
             //Here comes the recommendations
@@ -71,4 +68,13 @@ module.exports = {
         let r = await callback; 
         return r;
     },
+
+
+    reqular_city_search: async function(query, student) {
+        var callback = new Promise( async (res, rej) => {
+            var PRCSEvns = sr.search_normal(student.Location, query)
+            var returner = await gateway(student, PRCSEvns)
+            res(returner)
+        })
+    }
 }

@@ -25,7 +25,6 @@ import { RunmoduleComponent } from './components/others/runmodule/runmodule.comp
 import { UserprofileComponent } from './components/others/userprofile/userprofile.component';
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
 import { AuthGuard } from './shared/auth/auth.guard';
-import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component'
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
 
 
@@ -37,10 +36,6 @@ const routes: Routes = [
   {
     path: "navbar",
     component: NavbarComponent
-  },
-  {
-    path: "eventfollow",
-    component: EventfollowComponent
   },
   {
     path: "verifyemail",

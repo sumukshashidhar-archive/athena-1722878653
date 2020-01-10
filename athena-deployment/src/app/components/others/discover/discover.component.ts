@@ -40,34 +40,7 @@ export class DiscoverComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.postToIt();
 
-  }
-
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
-  postToIt() {
-    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
   }
 
   logout() {
@@ -115,7 +88,8 @@ export class DiscoverComponent implements OnInit {
     this.data.postUserSearch(form.value).subscribe(
       res => {
         console.log(res);
-        this.router.navigate(['/userres'])
+        this.data.userResults = res;
+        this.router.navigate(['/searchres'])
       },
       err => {
         if (err.status === 422) {

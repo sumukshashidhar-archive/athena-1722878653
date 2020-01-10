@@ -258,6 +258,14 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     res.status(201).send('YES')
 });
 
+
+app.post("/uploadProfile",upLoad.single('img'), (req,res)=>{
+    console.log('ADDED IMAGE TO DATABASE')
+    console.log(req.body.name)
+    
+    res.status(201).send('ADDED')
+})
+
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
     console.log(req.body)

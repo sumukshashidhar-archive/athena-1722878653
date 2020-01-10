@@ -1810,14 +1810,14 @@ app.get('/evnCity', function(req, res)
 app.post('/api/searchbyinterests', async function(req, res) {
     //req.body.keyword
 
-    InterestSchema.find({subCat: req.body.keyword}, function(err, obj) {
+    InterestSchema.find({subCat: req.body.keyword}, async function(err, obj) {
         if(err) {
             console.log(err)
         }
         else {
             if(obj!=[]){
                 var finalret = []
-                var callback = new Promise((res, rej) => {
+                var callback = new Promise(async (res, rej) => {
                     for(let i=0; i < obj.users.length; i++) {
                         var resposne = await findStudent(obj.users[i])
                         if(response!=false) {

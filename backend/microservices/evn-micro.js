@@ -36,10 +36,11 @@ module.exports = {
     },
     search_normal: async function (city, query) {
         var callback = new Promise((res, rej) => {
-            event.find({ evnLocation: city }, { $or: [{ "evnName": { "$in": query } }, { evnOrganizerName: { "$in": query } }] }, async function (err, OBJ) {
+            event.find({evnName: {$regex: query, $options: 'i'}, evnCity: city}, function(err, OBJ) {
                 if (err) {
-                    console.log(err)
+                    console.log("Mongo Error")
                 } else {
+                    console.log(OBJ)
                     res(OBJ)
                 }
             })

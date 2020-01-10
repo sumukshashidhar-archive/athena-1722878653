@@ -59,9 +59,12 @@ module.exports = {
             var PRCSEvns = sr.search_deep(query)
 
             console.log('EVENT IS NOW: ', PRCSEvns)
+
+
+            var returner = await gateway(student, PRCSEvns)
             //These are the events to process
             //Here comes the recommendations
-            res(PRCSEvns)
+            res(returner)
             
         })
 

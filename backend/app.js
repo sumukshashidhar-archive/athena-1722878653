@@ -807,8 +807,9 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2: req.body.evnDate2,
-                    evnInterests: [],
+                    evnInterests: req.body.interestArray,
                     evnLocation: req.body.evnLocation,
+                    evnCity: req.body.evnCity,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
                     evnOrganizerContact: req.body.evnOrganizerContact,
@@ -1145,7 +1146,7 @@ app.post('/addAcademics', function(req, res)
     // var decoded = await jwms.verify(req.headers.authorization);
 });
 
-app.post('/getAcademics', function(req, res)
+app.post('/getAcademics', async function(req, res)
 {
     var decoded = await jwms.verify(req.headers.authorization);
 
@@ -1810,3 +1811,18 @@ app.get('/api/getrecent', function(req, res){
     console.log(ret_arr)
     res.send(ret_arr)
 })
+
+app.get('/evnCity', function(req, res)
+{
+    event.updateMany({}, {$set: {evnCity: "Bengaluru"}}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log(obj);
+        }
+    })
+});

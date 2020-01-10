@@ -1897,7 +1897,7 @@ app.get('/discoverUsers', async function(req, res) {
 })
 
 
-app.post('/api/search/users', function(req, res) {
+app.post('/api/search/users', async function(req, res) {
     var query = req.body.userKey
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {

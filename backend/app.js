@@ -1071,6 +1071,81 @@ app.post('/delete-achievement', function (req, res) {
 })
 
 
+//ACADEMICS
+
+app.post('/addAcademics', function(req, res)
+{
+    // onsole.log("\N\N");
+    // console.log(req.body)
+
+
+    // console.log(req.body);
+    // console.log(req.body.uploadedFiles)
+    console.log('PRINTED IT')
+
+
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified");
+            console.log(decodedToken);
+            console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
+            
+            var newAc = 
+            {
+                testName: req.body.testName,
+                testRank: req.body.testRank,
+                Image: req.body.uploadedFiles,
+                toShow: req.body.toShow
+            }
+
+            Student.findOne({EmailId: decodedToken.email}, function(err, obj)
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    if(obj.Academics)
+                    {
+                        obj.Academics.push(newAc);
+
+                        Student.update({EmailId: decodedToken.email}, {$set: {Academics: obj.Academics}}, function(err1, obj1)
+                        {
+                            if(err)
+                            {
+                                console.log(err1);
+                            }
+                            else
+                            {
+                                console.log(obj1);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Student.update({EmailId: decodedToken.email}, {$set: {Academics: [newAc]}}, function(err, obj)
+                        {
+                            if(err)
+                            {
+                                console.log(err1);
+                            }
+                            else
+                            {
+                                console.log(obj1);
+                            }
+                        });
+                    }
+                }
+            });
+
+        }
+    });
+
+    // var decoded = await jwms.verify(req.headers.authorization);
+});
+
+
 
 //INTERESTS
 

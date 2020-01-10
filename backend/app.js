@@ -258,6 +258,14 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     res.status(201).send('YES')
 });
 
+
+app.post("/uploadProfile",upLoad.single('img'), (req,res)=>{
+    console.log('ADDED IMAGE TO DATABASE')
+    console.log(req.body.name)
+    
+    res.status(201).send('ADDED')
+})
+
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
             bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
@@ -1760,14 +1768,14 @@ app.get('/evnCity', function(req, res)
 app.post('/api/searchbyinterests', async function(req, res) {
     //req.body.keyword
 
-    InterestSchema.find({subCat: req.body.keyword}, function(err, obj) {
+    InterestSchema.find({subCat: req.body.keyword}, async function(err, obj) {
         if(err) {
             console.log(err)
         }
         else {
             if(obj!=[]){
                 var finalret = []
-                var callback = new Promise((res, rej) => {
+                var callback = new Promise(async (res, rej) => {
                     for(let i=0; i < obj.users.length; i++) {
                         var response = await findStudent(obj.users[i])
                         if(response!=false) {

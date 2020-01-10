@@ -258,6 +258,14 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     res.status(201).send('YES')
 });
 
+
+app.post("/uploadProfile",upLoad.single('img'), (req,res)=>{
+    console.log('ADDED IMAGE TO DATABASE')
+    console.log(req.body.name)
+    
+    res.status(201).send('ADDED')
+})
+
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
     console.log(req.body)
@@ -1796,3 +1804,64 @@ app.get('/evnCity', function(req, res)
         }
     })
 });
+
+
+
+app.post('/api/searchbyinterests', async function(req, res) {
+    //req.body.keyword
+
+    InterestSchema.find({subCat: req.body.keyword}, function(err, obj) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(obj!=[]){
+                var finalret = []
+                var callback = new Promise((res, rej) => {
+                    for(let i=0; i < obj.users.length; i++) {
+                        var resposne = await findStudent(obj.users[i])
+                        if(response!=false) {
+                            finalret.push(response)
+                        }
+                        else {
+                            console.log("A Deleted user was skippeddss")
+                        }
+                    }
+                    res(finalret)
+                })
+
+                let r = await callback;
+                res.status(200).send(r) 
+
+
+            }
+            else {
+                console.log("No other users have the same interest")
+            }
+        }
+    })
+})
+
+async function findStudent(id) {
+    var callback = new Promise((res, rej) => {
+        Student.findOne({_id: id}, function(err, obj) {
+            if(err) {
+                console.log("MONGO ERROR")
+                res(false)
+            }
+            else {
+                if(obj!= null) {
+                    res(obj)
+                }
+                else {
+                    console.log("NO USER LIKE THAT")
+                    res(false)
+                }
+            }
+        }) 
+    })
+
+    let r = await callback; 
+    return r
+
+}

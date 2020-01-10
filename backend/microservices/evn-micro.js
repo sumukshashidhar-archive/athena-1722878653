@@ -60,10 +60,10 @@ module.exports = {
                     res(OBJ)
                 }
             })
-            let r = await callback;
-            console.log("IS IT GOING OUT?", r)
-            return r;
         })
+        let r = await callback;
+        console.log("IS IT GOING OUT?", r)
+        return r;
     },
     search_archive: async function () {
         var callback = new Promise((res, rej) => {

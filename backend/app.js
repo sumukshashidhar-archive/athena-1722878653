@@ -794,23 +794,6 @@ app.post('/auth', function (req, res) {
     })
 });
 
-/*
-ROUTES THAT NEED BUG SQUISHING
-*/
-
-
-//LOGOUT ROUTE
-app.post('/logout', function (req, res) {
-    //Ask the frontend to send a value called logout in the form
-    if (req.body.logout) {
-        user["LastSeen"] = Math.floor(Date.now() / 1000);
-    }
-
-});
-
-
-
-
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post('/organizer-events', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -856,8 +839,6 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
-
-
 
 
 app.post("/addInterestOrganizer", function (req, res) {
@@ -1693,16 +1674,13 @@ app.get('/api/retorgevents', async function(req, res) {
     })
 })
 
-
-
-
-app.post('/logout', function(req, res) {
-    var decoded = jwms.verify(req.headers.authorization)
+app.post('/logout', async function (req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
     if(decoded != false) {
         console.log(decoded)
         console.log("HSSSSSHSHHSHSSSS")
-        var Date = Date.now()
-        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: Date}}, function(err, MONGOUPDTAE) {
+        var d = Date.now()
+        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: d}}, function(err, MONGOUPDTAE) {
             if (err) {
                 for(let i=0; i<10; i++) {
                     console.log("FAILED TO UPDATE LAST SEEN")
@@ -1715,4 +1693,17 @@ app.post('/logout', function(req, res) {
     else {
         res.status(403).send('Bad JWT') 
     }
+})
+
+var sr = require('./microservices/evn-micro')
+
+app.get('/api/getrecent', async function(req, res){
+    var evns = await sr.all()
+    var ret_arr = []
+    for(let i=evns.length-1; i>evns.length-4; i--) {
+        ret_arr.push(evns[i])
+    }
+    console.log(ret_arr)
+    console.log(evns)
+    res.send(ret_arr)
 })

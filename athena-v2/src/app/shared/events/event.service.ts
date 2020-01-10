@@ -22,6 +22,7 @@ export class EventService {
     evnInterests: "",
     evnAdd1: "",
     evnAdd2: "",
+    evnCity: "",
     Image:""
   };
   events: Event[];
@@ -104,5 +105,9 @@ export class EventService {
 
   getFollowEvents(){
     return this.http.get("http://localhost:3000/api/getevents")
+  }
+
+  getHomeEvents(){
+    return this.http.get("http://localhost:3000/api/getrecent")
   }
 }

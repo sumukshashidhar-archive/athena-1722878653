@@ -13,7 +13,7 @@ var eventSchema = new mongoose.Schema({
     evnName: String, 
     evnDate1: String,
     evnDate2: String,
-    evnInterests: [], 
+    evnInterests: Array, 
     evnOrganizerName: String,
     evnOrganizerPage: String,
     evnOrganizerContact: String,
@@ -21,6 +21,7 @@ var eventSchema = new mongoose.Schema({
     evnPincode: Number,
     evnAddress: String, 
     evnTargetAge: String,
+    evnCity: String,
     // CONTACT SUMUK BELOW THIS
     evnDescription: String, 
     evnComments: Array,

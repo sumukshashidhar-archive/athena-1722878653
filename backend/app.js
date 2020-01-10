@@ -1211,6 +1211,7 @@ app.post('/addInterest', function (req, res) {
             console.log("Verified")
 
             var newInterests = req.body;
+            console.log(newInterests);
 
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err || obj == null || obj == undefined) {
@@ -1230,28 +1231,59 @@ app.post('/addInterest', function (req, res) {
                                     console.log(err)
                                 }
                                 else {
-
+                                    console.log("UPDATED!1");
                                 }
                             });
+
+                            console.log("NEW INTEREST NAMEMM: " + newInterests[i]);
+                            var subCat = newInterests[i]
 
                             InterestSchema.findOne({ subCat: newInterests[i] }, function (err, intObj) {
                                 if (err) {
                                     console.log(err);
                                 }
                                 else {
-                                    console.log("adding to interest");
-                                    intObj.users.push(obj._id);
+                                    console.log("adding to interest schema");
 
-                                    InterestSchema.updateOne({ subCat: newInterests[i] }, { $set: { users: intObj.users } }, function (err, lObj) {
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                        else {
-                                            console.log("added successfully");
-                                        }
-                                    });
+                                    if(intObj == null)
+                                    {
+                                        var interestSchema = new InterestSchema(
+                                        {
+                                            subCat: subCat,
+                                            users: [obj._id]
+                                        });
+
+                                        interestSchema.save(function(err, obj)
+                                        {
+                                            if(err)
+                                            {
+                                                console.log(err);
+                                            }
+                                            else
+                                            {
+                                                console.log("SUCCESSFULLY DONE!!");
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {   
+                                        console.log(intObj);
+                                        intObj.users.push(obj._id);
+
+                                        InterestSchema.updateOne({ subCat: subCat }, { $set: { users: intObj.users } }, function (err, lObj) {
+                                            if (err) {
+                                                console.log(err);
+                                            }
+                                            else {
+                                                console.log("added successfully");
+                                            }
+                                        });
+                                    }
+ 
                                 }
                             });
+
+
 
                         }
                     }
@@ -1544,6 +1576,25 @@ app.get('/getCategoriesAll', function (req, res) {
     });
 });
 
+app.get('/evnCity1234', function(req, res)
+{   
+
+    console.log("Hello, world");
+
+    event.updateMany({}, {$set: {evnCity: "Bangalore"}}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log(obj);
+            res.send("DONE!!");
+        }
+    })
+});
+
 app.get('/getCategoriesId', function (req, res) {
     console.log(req.query.catId);
     var id = parseInt(req.query.catId);
@@ -1560,6 +1611,21 @@ app.get('/getCategoriesId', function (req, res) {
         }
     });
 });
+
+// app.get('/addInterestArray', function(req, res)
+// {   
+//     CatE.updateMany({}, {$set: {users: [1]}}, function(err, obj)
+//     {
+//         if(err)
+//         {
+//             console.log(err);
+//         }
+//         else
+//         {
+//             res.send("DONE!!");
+//         }
+//     });
+// });
 
 app.post('/addCat', function (req, res) {
 
@@ -1822,19 +1888,4 @@ app.get('/api/getrecent', function(req, res){
     }
     console.log(ret_arr)
     res.send(ret_arr)
-})
-
-app.get('/evnCity', function(req, res)
-{
-    event.updateMany({}, {$set: {evnCity: "Bengaluru"}}, function(err, obj)
-    {
-        if(err)
-        {
-            console.log(err);
-        }
-        else
-        {
-            console.log(obj);
-        }
-    })
 });

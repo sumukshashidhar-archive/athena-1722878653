@@ -45,7 +45,8 @@ import { EventService } from './shared/events/event.service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
 import { EventfollowComponent } from './components/students/eventfollow/eventfollow.component';
-import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
+import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
+import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { NavbarComponent } from './components/ui-components/navbar/navbar.compon
     VerifyemailComponent,
     SearchresComponent,
     EventfollowComponent,
-    NavbarComponent
+    NavbarComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

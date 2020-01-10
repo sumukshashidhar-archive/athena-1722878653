@@ -1,118 +1,241 @@
-<div>
-    <div>
-      <div class="cont">
-        <div class="box" *ngFor="let evn of results" style="display: flex;">
-          <div class="content">
-            <h3>{{ evn.evnName }}</h3>
-            <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
-            <p>{{ evn.evnDate1 }}</p>
-            <form #f="ngForm">
-              <button (click)="sendDetails(f, evn._id)">Read More</button>
-            </form>
-          </div>
+
+  <app-loading *ngIf="showSpinner"></app-loading>
+
+  <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
+
+  <!-- <body *ngIf="!showSpinner">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+      <div class="navbar-collapse collapse justify-content-between">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">LOGO</a>
+          </li>
+        </ul>
+
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="#" routerLink="/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" href="#" routerLink="/achievements">Achievements</a>
+          <a class="nav-item nav-link" routerLink="/">Logout</a>
         </div>
-        <!-- <div class="box">
-          <div class="imgBx">
-            <img src="./../../../../assets/images/image2.jpg" alt="">
-          </div>
-          <div class="content">
-            <h3>Post Title Two</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
-              ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
-              quaerat?</p>
-          </div>
-        </div>
-        <div class="box">
-          <div class="imgBx">
-            <img src="./../../../../assets/images/image3.jpg" alt="">
-          </div>
-          <div class="content">
-            <h3>Post Title Three</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
-              ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
-              quaerat?</p>
-          </div>
-        </div> -->
       </div>
-      <div class="area"></div><nav class="main-menu">
-
-        <ul >
-
-
-    <li class="has-subnav">
-
-  </li>
-  <br/>
-  <br/>
-            <li >
-                <a [routerLink]="['/dashboard']">
-                    <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-                    <span class="nav-text">
-                        Dashboard
-                    </span>
-                </a>
-
-            </li>
-            <li class="has-subnav">
-                <a [routerLink]="['/achievements']">
-                  <i class="fa fa-trophy"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Achievements
-                    </span>
-                </a>
-
-            </li>
-
-            <li class="has-subnav">
-                <a [routerLink]="['/events']">
-                  <i class="fa fa-calendar"   aria-hidden="true"></i>
-                    <span class="nav-text">
-                        Events
-                    </span>
-                </a>
-
-            </li>
-
-            <li class="has-subnav">
-                <a [routerLink]="['/interests']">
-                  <i class="fa fa-plus"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Add Interests
-                    </span>
-                </a>
-
-            </li>
-
-            <li>
-
-                <a [routerLink]="['/userprofile']">
-                  <i class="fa fa-user"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                        User Profile
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a [routerLink]="['/discover']">
-                  <i class="fa fa-search"  aria-hidden="true"></i>
-                    <span class="nav-text">
-                       Discover
-                    </span>
-                </a>
-            </li>
-        </ul>
-
-
-
-
-        <ul class="logout">
-            <li>
-              <a  [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link"     >
-                     <i class="fa fa-power-off fa-2x" ></i>
-                    <span class="nav-text">
-                        Logout
-                    </span>
-                </a>
-            </li>
-        </ul>
+      <div class="wrap">
+        <div class="search">
+          <input maxlength="32" type="text" class="searchTerm" placeholder="What are you looking for?" />
+          <button type="submit" class="searchButton">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
     </nav>
+    <h4 style="text-align: center; color: white; margin: 5px;">
+      Upcoming Events
+    </h4>
+    <div class="cont">
+      <mat-accordion *ngFor="let evn of eventService.events">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ evn.evnName }}
+            </mat-panel-title>
+            <mat-panel-description>
+              Event Description Here
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>Event Date: {{ evn.evnDate1 }}</p>
+          <span>Event Website: </span><a href="{{ evn.evnOrganizerPage }}" target="_blank">{{
+            evn.evnOrganizerPage
+          }}</a>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </body> -->
+
+  <!-- -------------------------------------------------- Events Page Type Zero HTML Ends ----------------------------------------------------- -->
+  <!-- -------------------------------------------------- Events Page Type One HTML Below ---------------------------------------------------------- -->
+  <!-- <div class="background">
+    <body *ngIf="!showSpinner">
+      <div class="cont">
+        <div class="card_try" *ngFor="let evn of eventService.events">
+          <div class="imgBx">
+            <img src="./../../../../assets/images/image3.jpg" alt="Image">
+          </div>
+          <div class="contentBx">
+            <div class="content">
+              <h2>{{ evn.evnName }}</h2>
+              <p>{{ evn.evnDescription }}</p>
+              <form #f="ngForm">
+                <button (click)="sendDetails(f, evn._id)">Read More</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </div> -->
+
+  <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
+  <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
+<!-- <div>
+  <div>
+    <div class="cont">
+      <div class="box" *ngFor="let evn of eventService.events" style="display: flex;">
+        <div class="imgBx">
+          <img src="http://localhost:3000/{{ evn.Image }}" alt="Image">
+        </div>
+        <div class="content">
+          <h3>{{ evn.evnName }}</h3>
+          <p>{{ evn.evnDescription.substring(0,350)+"..." }}</p>
+          <p>{{ evn.evnDate1 }}</p>
+
+          <form #f="ngForm">
+            <button (click)="sendDetails(f, evn._id)">Read More</button>
+          </form>
+        </div>
+
+      </div> -->
+      <!-- <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image2.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Two</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="imgBx">
+          <img src="./../../../../assets/images/image3.jpg" alt="">
+        </div>
+        <div class="content">
+          <h3>Post Title Three</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ducimus eaque veniam similique harum quod
+            ipsam perspiciatis praesentium cum ullam? Itaque maxime doloribus ea iusto natus laborum nulla fugit
+            quaerat?</p>
+        </div>
+      </div> -->
+    <!-- </div> -->
+
+                     <div class="container">
+                      <div class="row" *ngFor="let evn of results">
+
+                        <!--  Card Start -->
+                        <div class="card-view">
+                            <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
+
+                            <div class="card--content">
+                                <div class="card--content-head">
+
+                                <form #f="ngForm">
+                                  <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
+
+                                        <h3 class="card--title">{{evn.evnName}}</h3>
+                                    </a>
+                                  </form>
+                                    <div class="ratings"><span>8.8</span>/10</div>
+                                </div>
+                                <div class="card--info">
+                                    <div class="time-on">
+                                        <label>Last update</label>
+                                        <span>Sun 8 Sept - 10:00PM</span>
+                                    </div>
+                                    <div class="time-on">
+                                        <label>Running time</label>
+                                        <span>2hr 09min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!--  Card End -->
+                     </div>
+
+    <div class="area"></div><nav class="main-menu">
+
+      <ul >
+
+
+  <li class="has-subnav">
+    <!-- <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
+      <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+        <span class="nav-text" style="padding-left: 10px;">
+            {{username}}
+        </span>
+    </a> -->
+</li>
+<br/>
+<br/>
+          <li >
+              <a [routerLink]="['/dashboard']">
+                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+                  <span class="nav-text">
+                      Dashboard
+                  </span>
+              </a>
+
+          </li>
+          <li class="has-subnav">
+              <a [routerLink]="['/achievements']">
+                <i class="fa fa-trophy"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Achievements
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/events']">
+                <i class="fa fa-calendar"   aria-hidden="true"></i>
+                  <span class="nav-text">
+                      Events
+                  </span>
+              </a>
+
+          </li>
+
+          <li class="has-subnav">
+              <a [routerLink]="['/interests']">
+                <i class="fa fa-plus"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Add Interests
+                  </span>
+              </a>
+
+          </li>
+
+          <li>
+
+              <a [routerLink]="['/userprofile']">
+                <i class="fa fa-user"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                      User Profile
+                  </span>
+              </a>
+          </li>
+          <li>
+              <a [routerLink]="['/discover']">
+                <i class="fa fa-search"  aria-hidden="true"></i>
+                  <span class="nav-text">
+                     Discover
+                  </span>
+              </a>
+          </li>
+      </ul>
+
+
+
+
+      <ul class="logout">
+          <li>
+            <a [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link"     >
+                   <i class="fa fa-power-off fa-2x" ></i>
+                  <span class="nav-text">
+                      Logout
+                  </span>
+              </a>
+          </li>
+      </ul>
+  </nav>

@@ -1922,5 +1922,44 @@ app.post('/api/tracker/click-on-user-event', async function(req, res) {
 
 
 function addToUserVector(userid, to_add) {
-    
+
 }
+
+
+
+app.get('/discoverUsers', function(req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        //Must add profile picture when you find it here
+        //Must also refine to fit in good recommendations
+        //Should be pretty good for a small dataset
+        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err) 
+            } else {
+                if(obj!=[]) {
+                    res.status(200).send(obj) 
+                }
+                else {
+                    res.status(404).send('users not found in this city') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('user might not be logged in. reqd to use our platform') 
+    }
+})
+
+
+app.post('/api/search/users', function(req, res) {
+    var query = req.body.userKey
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+
+    }
+    else {
+        
+    }
+})

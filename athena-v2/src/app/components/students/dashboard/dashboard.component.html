@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<app-sidenav></app-sidenav>
 
 <body>
 
@@ -9,7 +10,7 @@
       <a class="card-body-a" [routerLink]="['/achievements']"
         style="background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%); border-radius:10px;">
         <h5 class="card-title">{{ach_list.length}}</h5>
-        <p class="card-text-a" style="">Achievements <br /> <i class="fa fa-trophy"
+        <p class="card-text-a">Achievements <br /> <i class="fa fa-trophy"
             style="font-size: 200%; color:white; padding-left: 10vw;" aria-hidden="true"></i> </p>
       </a>
     </div>
@@ -24,7 +25,7 @@
     </div>
     <div class="card text"
       style="max-width: 18rem;margin-left: 10%; margin-top: 8%;border-radius: 10px;background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%);">
-      <a class="card-body-c" [routerLink]="['/eventfollow']"
+      <a class="card-body-c" [routerLink]="['/events']"
         style="background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%); border-radius:10px;">
         <h5 class="card-title">{{evn_list.length}}</h5>
         <p class="card-text-a">Events <br /> <i class="fa fa-calendar"
@@ -166,5 +167,5 @@
       </li>
     </ul>
   </nav> -->
-  <app-sidenav></app-sidenav>
+
 </body>

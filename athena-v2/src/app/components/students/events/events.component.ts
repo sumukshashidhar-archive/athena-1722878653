@@ -19,7 +19,8 @@ export class EventsComponent implements OnInit {
   username:string;
   decoded:any
   imageToShow:any;
-  profileUrlExists:any
+  profileUrlExists:any;
+  results: any;
   constructor(public eventService: EventService, private router: Router,private auth:AuthService, private http:HttpClient) {
     this.decoded = localStorage.getItem("access_token");
   }
@@ -28,6 +29,7 @@ export class EventsComponent implements OnInit {
   ngOnInit() {
     this.refreshEvents();
     this.postToIt();
+    this.getEvents();
     var decodedtoken = jwt_decode(this.decoded);
     console.log(decodedtoken)
     if (decodedtoken["role"] == "Student") {
@@ -70,6 +72,18 @@ export class EventsComponent implements OnInit {
         console.log(response);
         this.createImageFromBlob(response);
       });
+  }
+
+  getEvents(){
+    this.eventService.getFollowEvents().subscribe(
+      res => {
+        console.log(res)
+        this.results = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 
   sendDetails(form: NgForm, _id: string) {

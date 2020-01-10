@@ -3,6 +3,7 @@ import { SearchService } from './../../../shared/search/search.service'
 import { EventService } from './../../../shared/events/event.service'
 import { Router } from '@angular/router'
 import { NgForm } from '@angular/forms'
+import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-searchres',
@@ -12,11 +13,13 @@ import { NgForm } from '@angular/forms'
 export class SearchresComponent implements OnInit {
   results: any = this.search.results;
 
-  constructor(public search: SearchService, public eventService: EventService, private router: Router) { }
+  constructor(public search: SearchService, public eventService: EventService, private router: Router,private auth:AuthService) { }
 
   ngOnInit() {
   }
-
+  logout(){
+    this.auth.logout();
+  }
   sendDetails(form: NgForm, _id: string) {
     form.value['_id'] = _id;
     console.log(form.value);

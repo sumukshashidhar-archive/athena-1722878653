@@ -844,9 +844,6 @@ app.post('/organizer-events', async function (req, res) {
     })
 });
 
-
-
-
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
 

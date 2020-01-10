@@ -1835,9 +1835,54 @@ function addToUserVector(userid, to_add) {
 
 app.get('/discoverUsers', async function(req, res) {
 
-    var decoded = await jwms.verify(req.body.access_token)
-    
-    //var decoded = await jwms.verify(req.headers.authorization)
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        //Must add profile picture when you find it here
+        //Must also refine to fit in good recommendations
+        //Should be pretty good for a small dataset
+        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err) 
+            } else {
+                if(obj!=[]) {
+                    res.status(200).send(obj) 
+                }
+                else {
+                    res.status(404).send('users not found in this city') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('user might not be logged in. reqd to use our platform') 
+    }
+})
+
+
+
+app.post('/discoverUsers1', async function(req, res) {
+    var token; 
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decoded) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send(err) 
+                } else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(404).send('users not found in this city') 
+                    }
+                }
+            })
+        }
+    })
     if(decoded!=false) {
         //Must add profile picture when you find it here
         //Must also refine to fit in good recommendations
@@ -1864,11 +1909,41 @@ app.get('/discoverUsers', async function(req, res) {
 
 app.post('/api/search/users', async function(req, res) {
     var query = req.body.userKey
+    var usecase  =req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {
-
+        if(usecase==1) {
+            Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+        else {
+            Student.find({$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
     }
     else {
-        
+        res.status(403).send('JWT is unauth or somehing') 
     }
 })

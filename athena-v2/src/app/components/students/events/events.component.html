@@ -121,7 +121,7 @@
                       <div class="row" *ngFor="let evn of eventService.events">
 
                         <!--  Card Start -->
-                        <div class="card-view">
+                        <a class="card-view"(click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;" >
                             <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
 
                             <div class="card--content">
@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                          </a>
                         </div>
                         <!--  Card End -->
                      </div>

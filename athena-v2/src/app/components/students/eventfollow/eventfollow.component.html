@@ -35,12 +35,12 @@
         </div> -->
       </div>
       <div class="area"></div><nav class="main-menu">
-  
+
         <ul >
-  
-  
+
+
     <li class="has-subnav">
-      
+
   </li>
   <br/>
   <br/>
@@ -51,7 +51,7 @@
                         Dashboard
                     </span>
                 </a>
-  
+
             </li>
             <li class="has-subnav">
                 <a [routerLink]="['/achievements']">
@@ -60,9 +60,9 @@
                        Achievements
                     </span>
                 </a>
-  
+
             </li>
-  
+
             <li class="has-subnav">
                 <a [routerLink]="['/events']">
                   <i class="fa fa-calendar"   aria-hidden="true"></i>
@@ -70,9 +70,9 @@
                         Events
                     </span>
                 </a>
-  
+
             </li>
-  
+
             <li class="has-subnav">
                 <a [routerLink]="['/interests']">
                   <i class="fa fa-plus"  aria-hidden="true"></i>
@@ -80,11 +80,11 @@
                        Add Interests
                     </span>
                 </a>
-  
+
             </li>
-  
+
             <li>
-  
+
                 <a [routerLink]="['/userprofile']">
                   <i class="fa fa-user"  aria-hidden="true"></i>
                     <span class="nav-text">
@@ -101,13 +101,13 @@
                 </a>
             </li>
         </ul>
-  
-  
-  
-  
+
+
+
+
         <ul class="logout">
             <li>
-               <a [routerLink]="['/login']" class="nav-item nav-link"     >
+              <a  [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link"     >
                      <i class="fa fa-power-off fa-2x" ></i>
                     <span class="nav-text">
                         Logout
@@ -116,4 +116,3 @@
             </li>
         </ul>
     </nav>
-  

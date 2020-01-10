@@ -1756,8 +1756,8 @@ app.post('/logout', async function (req, res) {
     if(decoded != false) {
         console.log(decoded)
         console.log("HSSSSSHSHHSHSSSS")
-        var Date = Date.now()
-        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: Date}}, function(err, MONGOUPDTAE) {
+        var d = Date.now()
+        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: d}}, function(err, MONGOUPDTAE) {
             if (err) {
                 for(let i=0; i<10; i++) {
                     console.log("FAILED TO UPDATE LAST SEEN")
@@ -1770,4 +1770,16 @@ app.post('/logout', async function (req, res) {
     else {
         res.status(403).send('Bad JWT') 
     }
+})
+
+var sr = require('./microservices/evn-micro')
+
+app.get('/api/getrecent', function(req, res){
+    var evns = sr.all()
+    var ret_arr = []
+    for(let i=evns.length-1; i>evns.length-4; i--) {
+        ret_arr.push(evns[i])
+    }
+    console.log(ret_arr)
+    res.send(ret_arr)
 })

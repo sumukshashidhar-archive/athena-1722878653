@@ -50,8 +50,8 @@ module.exports = {
     },
     search_deep: async function (query) {
         console.log("VJSJSONSSO")
-        var callback = new Promise(async (res, rej) => {
-            event.find({evnName: query}, function(err, OBJ) {
+        var callback = new Promise((res, rej) => {
+            event.find({evnName: {$regex: query, $options: 'i'}}, function(err, OBJ) {
                 if (err) {
                     console.log("asdadasd")
                 } else {
@@ -60,9 +60,10 @@ module.exports = {
                     res(OBJ)
                 }
             })
-            let r = await callback;
-            return r
         })
+        let r = await callback;
+        console.log("IS IT GOING OUT?", r)
+        return r;
     },
     search_archive: async function () {
         var callback = new Promise((res, rej) => {

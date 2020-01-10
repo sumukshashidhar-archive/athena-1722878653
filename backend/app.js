@@ -1,6 +1,4 @@
 
-//CHANGE ALL TOKENS TO JWT AUTH
-//Imports - Needed Packages for Running
 var express = require("express");
 var fs = require('fs');
 var jwt = require('jsonwebtoken')
@@ -11,12 +9,9 @@ var bcrypt = require('bcryptjs');
 const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
-// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-// const category = require('./models/category-model')
-// const subcat = require('./models/subcategory-model')
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
@@ -24,9 +19,6 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
 var InterestSchema = require('./models/interest.js');
-
-//var brain = require('brain.js')
-//Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
 var student_functions = require('./controllers/student_controller');
@@ -43,44 +35,20 @@ var event = require('./models/event');
 var key_controller = require('./controllers/keystore_control')
 var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
-// const alg = require('./controllers/algorithm_runtime')
-// var recommnedations = require("./recommendation/recommender");
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var daVinci = require('./controllers/recommendation-engine.js')
+const nanoid = require('nanoid')
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
-
-
 var API_SIGNATORY = require('./controllers/API_SIGN')
-
 
 var admin = require('./models/admin.js')
 var ADMIN_CONTROLLER = require('./controllers/admin_controller')
-
-
-
-
-
-
-
-
-
-
-
 var dms = require('./microservices/davinci-micro')
-
-
-
-
-
-
-
-///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
-
 function sendMail(output, to) {
 
     let transporter = nodemailer.createTransport({
@@ -117,28 +85,6 @@ function sendMail(output, to) {
         console.log('Email has been sent');
     });
 }
-
-//usage   
-//sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
-
-//RANDOM CODE GENERATOR
-
-function generate(n) {
-    var add = 1;
-    var max = 12 - add;
-
-    if (n > max) {
-        return generate(max) + generate(n - max);
-    }
-
-    max = Math.pow(10, n + add);
-    var min = max / 10;
-    var number = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    return ("" + number).substring(add);
-}
-
-
 /*
 INITIALIZATIONS
 */
@@ -195,7 +141,8 @@ const storage = new GridFsStorage({
                 if (err) {
                     return reject(err)
                 }
-                const filename = file.originalname
+                
+                const filename = nanoid(32)
                 const fileInfo = {
                     filename: filename,
                     bucketName: 'uploads',
@@ -244,9 +191,6 @@ var upload = multer({
 
 
 //Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
-
-
-
 
 
 

@@ -1681,8 +1681,8 @@ app.post('/logout', async function (req, res) {
     if(decoded != false) {
         console.log(decoded)
         console.log("HSSSSSHSHHSHSSSS")
-        var Date = Date.now()
-        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: Date}}, function(err, MONGOUPDTAE) {
+        var d = Date.now()
+        user.updateOne({_id: decoded['usrid']}, {$set: {LastSeen: d}}, function(err, MONGOUPDTAE) {
             if (err) {
                 for(let i=0; i<10; i++) {
                     console.log("FAILED TO UPDATE LAST SEEN")

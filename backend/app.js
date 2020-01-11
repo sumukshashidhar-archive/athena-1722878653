@@ -24,7 +24,7 @@ var organizer_functions = require('./controllers/organizer_controller');
 var student_functions = require('./controllers/student_controller');
 var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
-var AcademicsSchema = require('./models/AcadenicsSchema.js');
+var AcademicsSchema = require('./models/AcademicsSchema.js');
 
 const enc = require('./config/encryptionConfig.js');
 const apiTokenSign = require('./config/API_TOKEN_SIGNATURE.js')
@@ -844,8 +844,6 @@ app.post('/addAcademics', function (req, res) {
                                 console.log(err)
                             }
                             else {
-
-                                res.status(200).json(achobj)
                                 Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                                     if (err) {
                                         console.log(err)
@@ -853,13 +851,13 @@ app.post('/addAcademics', function (req, res) {
                                     else {
                                         console.log("FOUND TOKEN, ADDING ACADEMICS");
                                         obj.Academics.push(newAc);
-                                        Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                                        Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
                                             if (err) {
                                                 console.log(err)
                                             }
                                             else {
                                                 console.log("SUCCESS")
-                                                res.send(true);
+                                                
                                             }
                                         })
             
@@ -885,7 +883,6 @@ app.post('/addAcademics', function (req, res) {
                                 }
                                 else {
     
-                                    res.status(200).json(achobj)
                                     Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                                         if (err) {
                                             console.log(err)
@@ -893,13 +890,12 @@ app.post('/addAcademics', function (req, res) {
                                         else {
                                             console.log("FOUND TOKEN, ADDING ACADEMICS");
                                             obj.Academics.push(newAc);
-                                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
                                                 if (err) {
                                                     console.log(err)
                                                 }
                                                 else {
                                                     console.log("SUCCESS")
-                                                    res.send(true);
                                                 }
                                             })
                 
@@ -914,7 +910,7 @@ app.post('/addAcademics', function (req, res) {
         }
     });
 
-    // var decoded = await jwms.verify(req.headers.authorization);
+
 });
 
 app.post('/getAcademics', async function (req, res) {
@@ -925,6 +921,7 @@ app.post('/getAcademics', async function (req, res) {
             console.log(err);
         }
         else {
+            console.log(obj.Academics);
             res.send(obj.Academics);
         }
     });

@@ -6,7 +6,7 @@ var acSchema = new mongoose.Schema({
     testRank: String,
     Image: String,
     toShow: Boolean,
-    id: Int32Array,
+    id: Number,
     testScore: String
 });
 

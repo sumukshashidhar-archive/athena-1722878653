@@ -1,26 +1,25 @@
-import { Academics } from './../../shared/academics/academics.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { AcademicsService } from 'src/app/shared/academics/academics.service';
-import { format } from 'url';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { NgForm } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { AcademicsService } from "./../../../shared/academics/academics.service";
 export var File;
 export var Image;
 @Component({
-  selector: 'app-academics',
-  templateUrl: './academics.component.html',
-  styleUrls: ['./academics.component.css']
+  selector: "app-academics",
+  templateUrl: "./academics.component.html",
+  styleUrls: ["./academics.component.css"]
 })
 export class AcademicsComponent implements OnInit {
-  file:any
-  Image:any
-  acadlist:any
-  constructor(public academicSerice:AcademicsService,private http:HttpClient) { }
+  file: any;
+  Image: any;
+  acadlist: any;
+  constructor(
+    public academicSerice: AcademicsService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.getAcademics();
-
-
   }
   readSingleFile(e) {
     // const name = e[0].name;
@@ -28,16 +27,18 @@ export class AcademicsComponent implements OnInit {
     document.getElementById("file-label").textContent = name;
   }
 
-  getAcademics(){
-    const token=localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+  getAcademics() {
+    const token = localStorage.getItem("access_token");
+    const headers = new HttpHeaders().set("Authorization", "Bearer" + token);
     const options = {
-      headers : headers
+      headers: headers
     };
- this.http.post('http://localhost:3000/getAcademics',options).subscribe(res=>{
-   console.log(res)
-   this.acadlist=res;
- })
+    this.http
+      .post("http://localhost:3000/getAcademics", options)
+      .subscribe(res => {
+        console.log(res);
+        this.acadlist = res;
+      });
   }
 
   onSubmit(form: NgForm) {
@@ -63,5 +64,4 @@ export class AcademicsComponent implements OnInit {
       }
     );
   }
-
 }

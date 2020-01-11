@@ -1,4 +1,4 @@
-import { AcademicsComponent } from './components/academics/academics.component';
+import { AcademicsComponent } from './components/students/academics/academics.component';
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AchievementsComponent } from './components/students/achievements/achievements.component';

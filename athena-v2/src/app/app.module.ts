@@ -46,7 +46,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component';
-import { AcademicsComponent } from './components/academics/academics.component'
+import { AcademicsComponent } from './components/students/academics/academics.component'
 
 @NgModule({
   declarations: [

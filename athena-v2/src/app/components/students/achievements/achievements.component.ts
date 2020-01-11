@@ -82,7 +82,7 @@ export class AchievementsComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     public auth: AuthService,
-    private catService: EventService
+    private catService: EventService,
   ) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
@@ -183,29 +183,24 @@ export class AchievementsComponent implements OnInit {
     Achievement.rank = this.rank["name"];
     console.log(this.subCatName["subCatName"]);
     Achievement.achSubCat = this.subCatName["subCatName"];
-
     File = (document.getElementById("file1") as HTMLInputElement).files;
     const frmData = new FormData();
     console.log(File[0]);
     console.log(File[0].name);
     Achievement.uploadedFiles = File[0].name;
     console.log(Achievement);
-    this.achService.postAchievements(Achievement).subscribe(res => {
-      console.log(res);
-    });
-    console.log(`http://localhost:3000/${File[0].name}`);
     frmData.append("img", File[0]);
-
     console.log(frmData);
     this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
       console.log(res);
     });
-    this.link = "http://localhost:3000/" + `${File[0].name}`;
-    console.log(this.link);
-    // this.http.get(`http://localhost:3000/${File[0].name}`).subscribe(res=>{
-    //   console.log(res)
-    // })
+    this.achService.postAchievements(Achievement).subscribe(res => {
+      console.log(res);
+      location.reload()
+    });
+
   }
+
 
   logout() {
     this.auth.logout();

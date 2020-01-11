@@ -376,7 +376,7 @@ app.post('/login', async function (req, res) {
                                             console.log("Succesfully generated a JWT Token")
                                             res.json(token)
                                         })
-                                        lms.log(obj.username, 2 )
+                                        lms.log(obj.EmailId, 2 )
                                     }
                                     else {
                                         console.log("vhjk");
@@ -395,7 +395,7 @@ app.post('/login', async function (req, res) {
                                         console.log(obj)
                                         token = jwt.sign({  usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
-                                        lms.log(obj.username, 2 )
+                                        lms.log(obj.OrganiserEmail, 2 )
                                     }
                                     else {
                                         res.send("WRONG VER");

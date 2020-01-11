@@ -46,7 +46,7 @@ var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
 var API_SIGNATORY = require('./controllers/API_SIGN')
-
+var lms = require('./microservices/logs-micro')
 var admin = require('./models/admin.js')
 var ADMIN_CONTROLLER = require('./controllers/admin_controller')
 var dms = require('./microservices/davinci-micro')
@@ -222,10 +222,10 @@ app.post('/register', function (req, res) {
                 }
                 else {
                     console.log(obj);
-		    var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     console.log(output);
                     sendMail(output, req.body.email);
-
+                    lms.log(obj.username, 3, JSON.stringify(obj))
                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                     res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                 }
@@ -303,9 +303,10 @@ app.post('/registerorganizer', function (req, res) {
                 }
                 else {
                     console.log(obj._id);
-		var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     sendMail(output, req.body.OrganizerEmail);
                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    lms.log(obj.username, 3, JSON.stringify(obj))
                     res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
                 }
             });
@@ -376,7 +377,7 @@ app.post('/login', async function (req, res) {
                         if (BCRYPT_RES) {
                             console.log(usrobj)
                             //Checking what user type the user is, and returning a JWT based on that
-                            if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
+                            if (usrobj["userType"] == "Student") {
 
                                 //If the user object is a Student. I am finding a student with the required description
                                 Student.findOne({ EmailId: req.body.username }, function (err, obj) {
@@ -392,6 +393,7 @@ app.post('/login', async function (req, res) {
                                             res.json(token)
                                             loggedIn(obj["_id"]);
                                         })
+                                        lms.log(obj.username, 2 )
                                     }
                                     else {
                                         console.log("vhjk");
@@ -408,8 +410,9 @@ app.post('/login', async function (req, res) {
                                         console.log("vhjk fghuio");
 
                                         console.log(obj)
-                                        token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
+                                        token = jwt.sign({  usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
+                                        lms.log(obj.username, 2 )
                                     }
                                     else {
                                         res.send("WRONG VER");
@@ -417,10 +420,6 @@ app.post('/login', async function (req, res) {
                                     }
 
                                 });
-                            }
-                            else if (userobj["userType"] == "Admin") {
-
-                                //TODO: Make an admin block here
                             }
                         }
                         else {
@@ -510,6 +509,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Reseting password");
     user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);
     res.send("Validated")
+    lms.log(req.body.email, 5)
+
 
 });
 

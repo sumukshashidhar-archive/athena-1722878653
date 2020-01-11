@@ -39,7 +39,7 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var daVinci = require('./controllers/recommendation-engine.js')
 const nanoid = require('nanoid')
-var logsSchema = require('./models/logs.js');
+var logsSchema = require('./models/log.js');
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');

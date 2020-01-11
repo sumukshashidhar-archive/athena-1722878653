@@ -1,5 +1,5 @@
 //Admin Logs controller
-var admin_log = require('./../models/admin-log')
+// var admin_log = require('./../models/admin-log')
 var admin = require('./../models/admin')
 
 async function admin_conflict_check(username) {

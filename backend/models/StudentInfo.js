@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var interest = require('./interest.js');
 var Achievements = require('./Achievements.js');
+var Academics = require('./AcademicsSchema.js');
 
 var StudentInfoSchema = new mongoose.Schema({
     FirstName: String,
@@ -14,7 +15,8 @@ var StudentInfoSchema = new mongoose.Schema({
     studentSchoolId: Number, 
     PhoneNo: String,
     Location: String,
-    Achievement: [Achievements.schema], 
+    Achievement: [Achievements.schema],
+    Academics: [Academics.schema], 
     pincode: Number,
     uservector: Array, 
     evnFollowing: Array,

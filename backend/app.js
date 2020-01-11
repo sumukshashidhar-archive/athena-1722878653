@@ -24,6 +24,8 @@ var organizer_functions = require('./controllers/organizer_controller');
 var student_functions = require('./controllers/student_controller');
 var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
+var AcademicsSchema = require('./models/AcadenicsSchema.js');
+
 const enc = require('./config/encryptionConfig.js');
 const apiTokenSign = require('./config/API_TOKEN_SIGNATURE.js')
 var serv = require('./config/severConfig.js');
@@ -827,7 +829,7 @@ app.post('/addAcademics', function (req, res) {
                 else {
                     if (obj.Academics) {
 
-                        var newAc =
+                        var newAc = new AcademicsSchema(
                         {
                             testName: req.body.testName,
                             testRank: req.body.testRank,
@@ -835,36 +837,76 @@ app.post('/addAcademics', function (req, res) {
                             toShow: req.body.toShow,
                             id: obj.Academics.length,
                             testScore:req.body.testScore
-                        }
+                        });
 
-                        obj.Academics.push(newAc);
-
-                        Student.update({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err1, obj1) {
+                        newAc.save(function (err, achobj) {
                             if (err) {
-                                console.log(err1);
+                                console.log(err)
                             }
                             else {
-                                console.log(obj1);
+
+                                res.status(200).json(achobj)
+                                Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                    else {
+                                        console.log("FOUND TOKEN, ADDING ACADEMICS");
+                                        obj.Academics.push(newAc);
+                                        Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                                            if (err) {
+                                                console.log(err)
+                                            }
+                                            else {
+                                                console.log("SUCCESS")
+                                                res.send(true);
+                                            }
+                                        })
+            
+                                    }
+                                })
                             }
-                        });
+                        })
                     }
                     else {
-                        var newAc =
-                        {
-                            testName: req.body.testName,
-                            testRank: req.body.testRank,
-                            Image: req.body.uploadedFiles,
-                            toShow: req.body.toShow,
-                            id: 0
-                        }
-                        Student.update({ EmailId: decodedToken.email }, { $set: { Academics: [newAc] } }, function (err, obj) {
-                            if (err) {
-                                console.log(err1);
-                            }
-                            else {
-                                console.log(obj1);
-                            }
-                        });
+                        var newAc = new AcademicsSchema(
+                            {
+                                testName: req.body.testName,
+                                testRank: req.body.testRank,
+                                Image: req.body.Image,
+                                toShow: req.body.toShow,
+                                id: 0,
+                                testScore:req.body.testScore
+                            });
+    
+                            newAc.save(function (err, achobj) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                                else {
+    
+                                    res.status(200).json(achobj)
+                                    Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                                        if (err) {
+                                            console.log(err)
+                                        }
+                                        else {
+                                            console.log("FOUND TOKEN, ADDING ACADEMICS");
+                                            obj.Academics.push(newAc);
+                                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Achievement: obj.Achievement } }, function (err, updateobj) {
+                                                if (err) {
+                                                    console.log(err)
+                                                }
+                                                else {
+                                                    console.log("SUCCESS")
+                                                    res.send(true);
+                                                }
+                                            })
+                
+                                        }
+                                    })
+                                }
+                            })
                     }
                 }
             });

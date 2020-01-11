@@ -831,9 +831,10 @@ app.post('/addAcademics', function (req, res) {
                         {
                             testName: req.body.testName,
                             testRank: req.body.testRank,
-                            Image: req.body.uploadedFiles,
+                            Image: req.body.Image,
                             toShow: req.body.toShow,
-                            id: obj.Academics.length
+                            id: obj.Academics.length,
+                            testScore:req.body.testScore
                         }
 
                         obj.Academics.push(newAc);
@@ -888,7 +889,7 @@ app.post('/getAcademics', async function (req, res) {
 
 })
 
-app.post('/getSpecicifAc', function(req, res){
+app.post('/getSpecicifAc', async function(req, res){
 	var decoded = await jwms.verify(req.headers.authorization)
 	Student.findOne({ EmailId: decoded.email }, function (err, obj) {
         if (err) {
@@ -896,6 +897,7 @@ app.post('/getSpecicifAc', function(req, res){
         }
         else {
             res.send(obj.Academics[req.body.acId]);
+            // console.log(req.body)
         }
     });
 });

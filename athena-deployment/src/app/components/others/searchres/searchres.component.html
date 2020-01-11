@@ -1,4 +1,3 @@
-<!-- <app-loading *ngIf="showSpinner"></app-loading> -->
 
 <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
 
@@ -147,6 +146,23 @@
       </div>
     </a>
   </div>
+  <div class="row" *ngFor="let y of userResults">
+    <a class="card-view" (click)="sendDetails(f, y._id)" [routerLink]="['/']" onclick="return false;">
+
+      <div class="card--content">
+        <div class="card--content-head">
+
+          <form #f="ngForm">
+            <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, y._id)">
+
+              <h3 class="card--title">First Name : {{ y.FirstName }}</h3>
+              <h3 class="card--title">Last Name : {{ y.LastName }}</h3>
+            </a>
+          </form>
+        </div>
+      </div>
+    </a>
+  </div>
   <!--  Card End -->
 </div>
 
@@ -157,13 +173,6 @@
 
 
     <li class="has-subnav">
-      <!-- <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
-      <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
-      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-        <span class="nav-text" style="padding-left: 10px;">
-            {{username}}
-        </span>
-    </a> -->
     </li>
     <br />
     <br />

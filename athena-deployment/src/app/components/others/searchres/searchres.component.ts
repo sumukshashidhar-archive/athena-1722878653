@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/shared/auth/auth.service';
 })
 export class SearchresComponent implements OnInit {
   results: any = this.search.results;
+  userResults: any = this.search.userResults;
+  showSpinner: boolean = false
 
   constructor(public search: SearchService, public eventService: EventService, private router: Router,private auth:AuthService) { }
 

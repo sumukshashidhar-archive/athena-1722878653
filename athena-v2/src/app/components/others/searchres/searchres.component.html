@@ -1,9 +1,8 @@
+<app-loading *ngIf="showSpinner"></app-loading>
 
-  <app-loading *ngIf="showSpinner"></app-loading>
+<!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
 
-  <!-- -------------------------------------------------- Events Page Type Zero HTML Below ------------------------------------------------------ -->
-
-  <!-- <body *ngIf="!showSpinner">
+<!-- <body *ngIf="!showSpinner">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <div class="navbar-collapse collapse justify-content-between">
         <ul class="navbar-nav mr-auto">
@@ -50,9 +49,9 @@
     </div>
   </body> -->
 
-  <!-- -------------------------------------------------- Events Page Type Zero HTML Ends ----------------------------------------------------- -->
-  <!-- -------------------------------------------------- Events Page Type One HTML Below ---------------------------------------------------------- -->
-  <!-- <div class="background">
+<!-- -------------------------------------------------- Events Page Type Zero HTML Ends ----------------------------------------------------- -->
+<!-- -------------------------------------------------- Events Page Type One HTML Below ---------------------------------------------------------- -->
+<!-- <div class="background">
     <body *ngIf="!showSpinner">
       <div class="cont">
         <div class="card_try" *ngFor="let evn of eventService.events">
@@ -73,8 +72,8 @@
     </body>
   </div> -->
 
-  <!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
-  <!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
+<!-- ---------------------------------------------- Events Page Type One HTML Ends ---------------------------------------------------- -->
+<!-- -------------------------------------------- Events Page Type Two HTML Below ------------------------------------------------------ -->
 <!-- <div>
   <div>
     <div class="cont">
@@ -93,7 +92,7 @@
         </div>
 
       </div> -->
-      <!-- <div class="box">
+<!-- <div class="box">
         <div class="imgBx">
           <img src="./../../../../assets/images/image2.jpg" alt="">
         </div>
@@ -115,127 +114,138 @@
             quaerat?</p>
         </div>
       </div> -->
-    <!-- </div> -->
+<!-- </div> -->
 
-                     <div class="container">
-                      <div class="row" *ngFor="let evn of results">
+<div class="container">
+  <div class="row" *ngFor="let evn of results">
 
-                        <!--  Card Start -->
-                        <a class="card-view"(click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;" >
-                            <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
+    <!--  Card Start -->
+    <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
+      <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
 
-                            <div class="card--content">
-                                <div class="card--content-head">
+      <div class="card--content">
+        <div class="card--content-head">
 
-                                <form #f="ngForm">
-                                  <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
+          <form #f="ngForm">
+            <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
 
-                                        <h3 class="card--title">{{evn.evnName}}</h3>
-                                    </a>
-                                  </form>
-                                    <div class="ratings"><span>8.8</span>/10</div>
-                                </div>
-                                <div class="card--info">
-                                    <div class="time-on">
-                                        <label>Last update</label>
-                                        <span>Sun 8 Sept - 10:00PM</span>
-                                    </div>
-                                    <div class="time-on">
-                                        <label>Running time</label>
-                                        <span>2hr 09min</span>
-                                    </div>
-                                </div>
-                            </div>
-                          </a>
-                        </div>
-                        <!--  Card End -->
-                     </div>
+              <h3 class="card--title">{{evn.evnName}}</h3>
+            </a>
+          </form>
+          <div class="ratings"><span>8.8</span>/10</div>
+        </div>
+        <div class="card--info">
+          <div class="time-on">
+            <label>Last update</label>
+            <span>Sun 8 Sept - 10:00PM</span>
+          </div>
+          <div class="time-on">
+            <label>Running time</label>
+            <span>2hr 09min</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="row" *ngFor="let y of userResults">
+    <a class="card-view" (click)="sendDetails1(g, evn._id)" [routerLink]="['/']" onclick="return false;">
 
-    <div class="area"></div><nav class="main-menu">
+      <div class="card--content">
+        <div class="card--content-head">
 
-      <ul >
+          <form #f="ngForm">
+            <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(g, evn._id)">
+
+              <h3 class="card--title">First Name : {{ y.FirstName }}</h3>
+              <h3 class="card--title">Last Name : {{ y.LastName }}</h3>
+            </a>
+          </form>
+        </div>
+      </div>
+    </a>
+  </div>
+  <!--  Card End -->
+</div>
+
+<div class="area"></div>
+<nav class="main-menu">
+
+  <ul>
 
 
-  <li class="has-subnav">
-    <!-- <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
-      <img [src]="imageToShow" *ngIf="profileUrlExists" style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
-      <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-        <span class="nav-text" style="padding-left: 10px;">
-            {{username}}
+    <li class="has-subnav">
+    </li>
+    <br />
+    <br />
+    <li>
+      <a [routerLink]="['/dashboard']">
+        <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+        <span class="nav-text">
+          Dashboard
         </span>
-    </a> -->
-</li>
-<br/>
-<br/>
-          <li >
-              <a [routerLink]="['/dashboard']">
-                  <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-                  <span class="nav-text">
-                      Dashboard
-                  </span>
-              </a>
+      </a>
 
-          </li>
-          <li class="has-subnav">
-              <a [routerLink]="['/achievements']">
-                <i class="fa fa-trophy"  aria-hidden="true"></i>
-                  <span class="nav-text">
-                     Achievements
-                  </span>
-              </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/achievements']">
+        <i class="fa fa-trophy" aria-hidden="true"></i>
+        <span class="nav-text">
+          Achievements
+        </span>
+      </a>
 
-          </li>
+    </li>
 
-          <li class="has-subnav">
-              <a [routerLink]="['/events']">
-                <i class="fa fa-calendar"   aria-hidden="true"></i>
-                  <span class="nav-text">
-                      Events
-                  </span>
-              </a>
+    <li class="has-subnav">
+      <a [routerLink]="['/events']">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        <span class="nav-text">
+          Events
+        </span>
+      </a>
 
-          </li>
+    </li>
 
-          <li class="has-subnav">
-              <a [routerLink]="['/interests']">
-                <i class="fa fa-plus"  aria-hidden="true"></i>
-                  <span class="nav-text">
-                     Add Interests
-                  </span>
-              </a>
+    <li class="has-subnav">
+      <a [routerLink]="['/interests']">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <span class="nav-text">
+          Add Interests
+        </span>
+      </a>
 
-          </li>
+    </li>
 
-          <li>
+    <li>
 
-              <a [routerLink]="['/userprofile']">
-                <i class="fa fa-user"  aria-hidden="true"></i>
-                  <span class="nav-text">
-                      User Profile
-                  </span>
-              </a>
-          </li>
-          <li>
-              <a [routerLink]="['/discover']">
-                <i class="fa fa-search"  aria-hidden="true"></i>
-                  <span class="nav-text">
-                     Discover
-                  </span>
-              </a>
-          </li>
-      </ul>
+      <a [routerLink]="['/userprofile']">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span class="nav-text">
+          User Profile
+        </span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/discover']">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span class="nav-text">
+          Discover
+        </span>
+      </a>
+    </li>
+  </ul>
 
 
 
 
-      <ul class="logout">
-          <li>
-            <a [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link"     >
-                   <i class="fa fa-power-off fa-2x" ></i>
-                  <span class="nav-text">
-                      Logout
-                  </span>
-              </a>
-          </li>
-      </ul>
-  </nav>
+  <ul class="logout">
+    <li>
+      <a [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link">
+        <i class="fa fa-power-off fa-2x"></i>
+        <span class="nav-text">
+          Logout
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>

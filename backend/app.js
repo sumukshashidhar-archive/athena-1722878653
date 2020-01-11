@@ -824,9 +824,15 @@ app.post('/addAcademics', function (req, res) {
             {
                 testName: req.body.testName,
                 testRank: req.body.testRank,
+<<<<<<< HEAD
                 Image: req.body.uploadedFiles,
                 toShow: req.body.toShow,
                 id: generate(10)
+=======
+                Image: req.body.Image,
+                toShow: req.body.toShow,
+                testScore:req.body.testScore
+>>>>>>> b26784f60f7e694691d0b1a492ab75f82d55dee6
             }
 
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
@@ -1464,9 +1470,7 @@ app.post('/api/follow', async function (req, res) {
         }
     })
 })
-
-
-
+//This is for the personal stuff
 app.get('/api/getevents', async function (req, res) {
     console.log("SHHSHSHDHASAISASSO")
     var return_arr = [];
@@ -1531,28 +1535,26 @@ async function evnFind(idx) {
 
 
 app.get('/api/retorgevents', async function (req, res) {
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
-        if (err) {
-            console.log('INTERNAL ERROR. ', err);
-            res.status(403).send("Wrong JWT");
-        }
-        else {
-            console.log(decodedToken) //testing
-            Organiser.findOne({ _id: decodedToken['usrid'] }, function (err, obj) {
-                if (err) {
-                    res.status(500).send('Mongo Connect err')
+    var decoded = jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        Organiser.findOne({_id: decoded['usrid']}, function(err, obj) {
+            if(err) {
+                console.log(err)
+                res.status(500).send(err) 
+            }
+            else {
+                if(obj!=null) {
+                    res.status(200).send(obj.evns) 
                 }
                 else {
-                    if (obj != null) {
-
-                    }
-                    else {
-                        res.status(404).send('No user like this')
-                    }
+                    res.status(404).send('This user is not found') 
                 }
-            })
-        }
-    })
+            }
+        })
+    }
+    else {
+        res.status(403).send('Invalid JWT') 
+    }
 })
 
 app.post('/logout', async function (req, res) {
@@ -1805,6 +1807,36 @@ app.post('/api/search/users', async function(req, res) {
     var usecase  =req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false) {
+        if(usecase==1) {
+            Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+        else {
+            Student.find({$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
     }
     else {
         res.status(403).send('JWT is unauth or somehing') 

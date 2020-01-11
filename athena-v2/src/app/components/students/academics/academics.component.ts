@@ -1,3 +1,4 @@
+import { Academics } from './../../../shared/academics/academics.model';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -13,6 +14,7 @@ export class AcademicsComponent implements OnInit {
   file: any;
   Image: any;
   acadlist: any;
+  thisacadlist=[]
   constructor(
     public academicSerice: AcademicsService,
     private http: HttpClient
@@ -40,6 +42,14 @@ export class AcademicsComponent implements OnInit {
         this.acadlist = res;
       });
   }
+  getThisAcad(acId:any){
+    this.http.post("http://localhost:3000/getSpecicifAc",{acId}).subscribe(res=>{
+      console.log('RESPONSE FOR GET ACADEMIC')
+      console.log(res)
+      this.thisacadlist[0]=res as Academics
+      console.log(this.thisacadlist)
+    })
+  }
 
   onSubmit(form: NgForm) {
     File = (document.getElementById("file1") as HTMLInputElement).files;
@@ -53,7 +63,9 @@ export class AcademicsComponent implements OnInit {
 
     this.academicSerice.postAcademics(form.value).subscribe(
       res => {
+        location.reload()
         console.log(res);
+
       },
       err => {
         if (err.status === 422) {

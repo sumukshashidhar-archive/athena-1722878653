@@ -39,13 +39,14 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var daVinci = require('./controllers/recommendation-engine.js')
 const nanoid = require('nanoid')
+var logsSchema = require('./models/logs.js');
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
 var API_SIGNATORY = require('./controllers/API_SIGN')
-
+var lms = require('./microservices/logs-micro')
 var admin = require('./models/admin.js')
 var ADMIN_CONTROLLER = require('./controllers/admin_controller')
 var dms = require('./microservices/davinci-micro')
@@ -157,6 +158,21 @@ const upLoad = multer({
     storage
 });
 
+function generate(n) {
+    var add = 1;
+    var max = 12 - add;
+
+    if (n > max) {
+        return generate(max) + generate(n - max);
+    }
+
+    max = Math.pow(10, n + add);
+    var min = max / 10;
+    var number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return ("" + number).substring(add);
+}
+
 //STARTING SERVER HERE  
 app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is from a config file
 {
@@ -206,10 +222,10 @@ app.post('/register', function (req, res) {
                 }
                 else {
                     console.log(obj);
-		    var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     console.log(output);
                     sendMail(output, req.body.email);
-
+                    lms.log(obj.username, 3, JSON.stringify(obj))
                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
                     res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
                 }
@@ -287,9 +303,10 @@ app.post('/registerorganizer', function (req, res) {
                 }
                 else {
                     console.log(obj._id);
-		var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     sendMail(output, req.body.OrganizerEmail);
                     //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    lms.log(obj.username, 3, JSON.stringify(obj))
                     res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
                 }
             });
@@ -360,7 +377,7 @@ app.post('/login', async function (req, res) {
                         if (BCRYPT_RES) {
                             console.log(usrobj)
                             //Checking what user type the user is, and returning a JWT based on that
-                            if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
+                            if (usrobj["userType"] == "Student") {
 
                                 //If the user object is a Student. I am finding a student with the required description
                                 Student.findOne({ EmailId: req.body.username }, function (err, obj) {
@@ -375,6 +392,7 @@ app.post('/login', async function (req, res) {
                                             console.log("Succesfully generated a JWT Token")
                                             res.json(token)
                                         })
+                                        lms.log(obj.EmailId, 2 )
                                     }
                                     else {
                                         console.log("vhjk");
@@ -391,8 +409,9 @@ app.post('/login', async function (req, res) {
                                         console.log("vhjk fghuio");
 
                                         console.log(obj)
-                                        token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
+                                        token = jwt.sign({  usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
+                                        lms.log(obj.OrganiserEmail, 2 )
                                     }
                                     else {
                                         res.send("WRONG VER");
@@ -400,10 +419,6 @@ app.post('/login', async function (req, res) {
                                     }
 
                                 });
-                            }
-                            else if (userobj["userType"] == "Admin") {
-
-                                //TODO: Make an admin block here
                             }
                         }
                         else {
@@ -493,6 +508,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Reseting password");
     user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);
     res.send("Validated")
+    lms.log(req.body.email, 5)
+
 
 });
 
@@ -553,15 +570,6 @@ app.get('/dashboard', async function (req, res) {
 
 });
 
-app.get('/getImage', function (req, res) {
-    console.log(req.query.url);
-    var Path = path.join(__dirname, req.query.url)
-    console.log(Path)
-    res.sendFile(Path);
-});
-
-
-
 
 
 app.post('/bio', function (req, res) {
@@ -585,15 +593,6 @@ app.post('/bio', function (req, res) {
         }
     });
 });
-
-
-
-
-
-
-
-
-
 
 /*
 UNDERDEVELOPED ROUTES
@@ -737,40 +736,6 @@ app.get('/achievements', async function (req, res) {
     })
 })
 
-var flag = 0;
-var achCat = '';
-var achSubCat = '';
-
-
-
-app.post('/abcd', multipartMiddleware, (req, res) => {
-
-    console.log("ABCD METHOD");
-    console.log(req.body)
-
-
-    console.log(req.body);
-
-
-
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null) {
-            console.log("Verified");
-            console.log(decodedToken);
-            console.log(req.files.uploads[0]['path'])
-            res.send({ Image: req.files.uploads[0]['path'] })
-
-        }
-    });
-
-    flag = 0;
-    // }
-
-
-
-});
-
-
 // ACHIEVEMENTS ROUTE
 app.post('/achievements', multipartMiddleware, (req, res) => {
 
@@ -837,71 +802,6 @@ app.post('/achievements', multipartMiddleware, (req, res) => {
 });
 
 
-
-app.post('/achImg', function (req, res) {
-    console.log('REQUEEST  is' + req.body.url)
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Achievements....")
-        if (!err && decodedToken != null) {
-            console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.EmailId }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    // console.log("Mongo Object is AChievments" + mongoObj.Achievement);
-                    // console.log(mongoObj.Achievement[0]['Image'])
-                    for (var i = 0; i < mongoObj.Achievement.length; i++) {
-                        // console.log(mongoObj.Achievement[i]['Image'])   
-
-
-                    }
-                    console.log("WORKINGG ANIRUDHHHH" + req.body.url)
-                    res.sendFile(path.join(__dirname + '', req.body.url))
-
-
-
-                }
-            })
-        }
-        else {
-            console.log(err)
-            console.log("Something went wrong")
-        }
-    })
-})
-
-
-
-
-
-
-
-
-
-
-app.post('/delete-achievement', function (req, res) {
-    //This is for deleting achievements
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
-            //Have to send which achievement id I have to delete
-            console.log(req);
-
-            Student.update(
-                { EmailId: decodedToken.email },
-                { $pull: { Achievements: { _id: req.body.achId } } },
-                { multi: false }
-            )
-
-        }
-        else {
-            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
-            res.status(403)
-        }
-    })
-})
-
-
 //ACADEMICS
 
 app.post('/addAcademics', function (req, res) {
@@ -920,21 +820,22 @@ app.post('/addAcademics', function (req, res) {
             console.log(decodedToken);
             // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
 
-            var newAc =
-            {
-                testName: req.body.testName,
-                testRank: req.body.testRank,
-                Image: req.body.Image,
-                toShow: req.body.toShow,
-                testScore:req.body.testScore
-            }
-
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err) {
                     console.log(err);
                 }
                 else {
                     if (obj.Academics) {
+
+                        var newAc =
+                        {
+                            testName: req.body.testName,
+                            testRank: req.body.testRank,
+                            Image: req.body.uploadedFiles,
+                            toShow: req.body.toShow,
+                            id: obj.Academics.length
+                        }
+
                         obj.Academics.push(newAc);
 
                         Student.update({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err1, obj1) {
@@ -947,6 +848,14 @@ app.post('/addAcademics', function (req, res) {
                         });
                     }
                     else {
+                        var newAc =
+                        {
+                            testName: req.body.testName,
+                            testRank: req.body.testRank,
+                            Image: req.body.uploadedFiles,
+                            toShow: req.body.toShow,
+                            id: 0
+                        }
                         Student.update({ EmailId: decodedToken.email }, { $set: { Academics: [newAc] } }, function (err, obj) {
                             if (err) {
                                 console.log(err1);
@@ -973,15 +882,7 @@ app.post('/getAcademics', async function (req, res) {
             console.log(err);
         }
         else {
-            var toShowAc = new Array();
-
-            for (var i = 0; i < obj.Academics.length; i++) {
-                if (obj.Academics[i].toShow) {
-                    toShowAc.push(obj.Academics[i]);
-                }
-            }
-
-            res.send(toShowAc);
+            res.send(obj.Academics);
         }
     });
 
@@ -1859,7 +1760,7 @@ app.get('/discoverUsers', async function(req, res) {
 
 
 app.post('/discoverUsers1', async function(req, res) {
-    var token; 
+    var token = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c3JpZCI6IjVlMTZiZTQ3MmE5NTNlMDY5MGVkNTkwMiIsImVtYWlsIjoidmlqYXkuZEBhdGhlbmEuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpamF5IiwiZmFtaWx5X25hbWUiOiJEaGFybWFqaSIsInJvbGUiOiJTdHVkZW50IiwiTG9jYXRpb24iOiJCZW5nYWwiLCJQaW5jb2RlIjo1NjAwODAsInVzZXJ2ZWN0b3IiOltdLCJpYXQiOjE1Nzg2NDQ5MzUsImV4cCI6MTU3ODczMTMzNSwiaXNzIjoiQXRoZW5hIExvZ2luIENyZWRlbnRpYWxzIn0.Kw4uRkyy7-wfanhioHu3m4WipMWCIXwjG_yLoN8zYS6RXGodBFS1ozG-9DZOrU5Aq9NaL-Lv4Wg-k0HucIratGVARW5XFDbRkn4Ap9RmPmZrd5RjckZeycpMT9PiNz1pIN_zABDaULv9VsAc62pJAXD7F50Dy1Vn0B_pc_RYfSQMVM4-CQuwXVSw2_8y1OzmIPZFtuYFnufoX9a_7XZ1lZTWsY-T_pKzwSpj3ioUN2Ah70p9fjHfI3vHzgiYxrCWW3GW3IIPuAa4uMr8UZFIeYvVy1xfczo4lR7nlKiH0pgCo1PQhaPFziTEa8gTGE0plBRY29crgkyRmmCCKa9xVQ" 
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decoded) {
         if(err) {
             console.log(err)
@@ -1944,3 +1845,77 @@ app.post('/api/search/users', async function(req, res) {
         res.status(403).send('JWT is unauth or somehing') 
     }
 })
+
+
+
+app.get('/api/run', function(req, res) {
+    ///Archiving Events
+    var key = ''
+    eventsArchive()
+
+})
+function eventsArchive() {
+    var events_to_delete;
+    event.find({}, function(err, EVN_OBJECT) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(EVN_OBJECT) {
+                console.log(EVN_OBJECT)
+                console.log("Got the object")
+                var total_length = EVN_OBJECT.length
+                for(let i=0; i<total_length; i++) {
+                    var CUR_EVENT = EVN_OBJECT[i]
+                    console.log('Archiving event at: ', i, 'of ', total_length)
+                    if(CUR_EVENT["evnEndDate"] < Date.now()) {
+                        var newArchEvent = new archevent({
+                            evnName: cur.evnName, 
+                            evnDate1: cur.evnDate1,
+                            evnDate2: cur.evnDate2,
+                            evnInterests: cur.evnInterests, 
+                            evnOrganizerName: cur.evnOrganizerName,
+                            evnOrganizerPage: cur.evnOrganizerPage,
+                            evnOrganizerContact: cur.evnOrganizerContact,
+                            evnLocation: cur.evnLocation, 
+                            evnPincode: cur.evnPincode,
+                            evnAddress: cur.evnAddress, 
+                            evnTargetAge: cur.evnTargetAge,
+                            // CONTACT SUMUK BELOW THIS
+                            evnDescription: cur.evnDescription, 
+                            evnRating: cur.evnRating,
+                            evnAttendees: cur.evnAttendees,
+                            Image: cur.Image
+                        })
+                        newArchEvent.save(function(err, obj) {
+                            if(err) {
+                                console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+                            }
+                            else {
+                                console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+                                console.log(obj)
+                                events_to_delete.push(cur._id)
+                            }
+                        })
+                    }
+                    
+                }
+                total_length = events_to_delete.length
+                for(let j=0; j < total_length; j++) {
+                    event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
+                        if(err) {
+                            console.log(err)
+                        }
+                        else {
+                            console.log("Deleted")
+                        }
+                    })
+                }
+                console.log("Deleted all redundant achievements")
+            }
+            else {
+                console.log("got blank from mongo")
+            }
+        }
+    })
+}

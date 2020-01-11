@@ -12,7 +12,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabsModule, MatTab } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import{MatSelectModule, MatAutocompleteModule} from '@angular/material'
 @NgModule({
   imports: [
     MatSidenavModule,
@@ -26,7 +26,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatSidenavModule,
@@ -40,7 +42,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatAutocompleteModule,
   ]
 })
 export class MaterialModule {}

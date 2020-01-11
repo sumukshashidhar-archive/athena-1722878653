@@ -1942,3 +1942,48 @@ function eventsArchive() {
         }
     })
 }
+
+
+
+
+app.post('/api/vectorless/click-on-events', function (req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+        }
+        else {
+            Organiser.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    if (MONGO_OBJ_RETURN) {
+                        event.findOne({ _id: req.body._id }, function (err, EVNobj) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                if (EVNobj) {
+                                    res.status(200).send(EVNobj)
+                                 
+                 
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
+                                }
+                            }
+                        })
+
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
+        }
+    })
+    //Does not require authentication
+    //Must send a post
+
+})
+

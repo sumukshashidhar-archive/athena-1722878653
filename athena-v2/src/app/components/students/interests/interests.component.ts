@@ -14,6 +14,7 @@ export let bio;
 export class InterestsComponent implements OnInit {
   // interest: string;
   // interests = [];
+  showAlert: boolean = false
 
   config = {
 
@@ -127,14 +128,20 @@ export class InterestsComponent implements OnInit {
       arr.push(this.subCatName[i].subCatName);
     }
 
-    this.catService.postUserInterest(arr).subscribe(res => {
-      console.log('done');
-      this.subCatName = null;
-      alert('User Interest added');
-
-    });
-
-
-
+    // this.catService.postUserInterest(arr).subscribe(res => {
+    //   console.log('done');
+    //   this.subCatName = null;
+    //   alert('User Interest added');
+    // });
+    this.catService.postUserInterest(arr).subscribe(
+      res => {
+        console.log("Added user Interests");
+        console.log(res);
+        alert("User Interests Added")
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 }

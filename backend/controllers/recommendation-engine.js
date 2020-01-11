@@ -8,8 +8,7 @@ var publicKEY = fs.readFileSync(path.resolve( 'keys/public.key' ),'utf8');
 const enc = require('./../config/encryptionConfig.js');
 var event = require('./../models/event.js')
 var archevent = require('./../models/archived-event.js')
-var admin_logs = require('./admin_controller.js')
-
+// var admin_logs = require('./admin_controller.js')
 
 var sum_array = [];
 var total_length;

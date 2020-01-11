@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { EventService } from '../../../shared/events/event.service';
 import { HttpClient } from '../../../../../node_modules/@angular/common/http';
 import * as jwt_decode from "jwt-decode";
+import { MatSnackBar } from '@angular/material/snack-bar';
 export let bio;
 @Component({
   selector: 'app-interests',
@@ -17,21 +18,17 @@ export class InterestsComponent implements OnInit {
   showAlert: boolean = false
 
   config = {
-
     search: true,
     height: 'auto',
     placeholder: 'Select',
     displayKey: 'catName'
-
   };
 
   configSubCat = {
-
     search: true,
     height: 'auto',
     placeholder: 'Select',
     displayKey: 'subCatName'
-
   };
   subCatName: any;
   categoryOption: any;
@@ -41,7 +38,7 @@ export class InterestsComponent implements OnInit {
   imageToShow:any;
   decoded:any
   username:any
-  constructor(public interestsendingservice: InterestSendingService,private http:HttpClient, public auth: AuthService, private catService: EventService) {
+  constructor(public interestsendingservice: InterestSendingService,private http:HttpClient, public auth: AuthService, private catService: EventService, private _snackBar: MatSnackBar) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push('1');
   }
@@ -66,6 +63,13 @@ export class InterestsComponent implements OnInit {
       reader.readAsDataURL(image);
     }
   }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
+
   postToIt() {
     // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
     //   console.log(res)
@@ -137,7 +141,8 @@ export class InterestsComponent implements OnInit {
       res => {
         console.log("Added user Interests");
         console.log(res);
-        alert("User Interests Added")
+        this.showAlert = true
+        this.openSnackBar("User Interests Added", "Close")
       },
       err => {
         console.log(err)

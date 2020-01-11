@@ -46,7 +46,8 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component';
-import { AcademicsComponent } from './components/students/academics/academics.component'
+import { AcademicsComponent } from './components/students/academics/academics.component';
+import { CarouselComponent } from './components/ui-components/carousel/carousel.component'
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { AcademicsComponent } from './components/students/academics/academics.co
     SearchresComponent,
     NavbarComponent,
     SidenavComponent,
-    AcademicsComponent
+    AcademicsComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -1536,12 +1536,29 @@ async function evnFind(idx) {
 
 }
 
+async function evnFindLite(idx) {
+    var callback = new Promise(function (res, rej) {
+        event.findOne({ _id: idx }, {evnName: 1, Image: 1, evnDate: 1 evnDescription:1 } function (err, obj) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("FOUND EVENT IS: \n", obj)
+                res(obj)
+            }
+        })
+    })
+
+    let r = await callback;
+    return r;
+
+}
+
 
 app.get('/api/retorgevents', async function (req, res) {
-    var decoded = jwms.verify(req.headers.authorization)
+    var decoded = await jwms.verify(req.headers.authorization)
     console.log(decoded)
     if(decoded!=false) {
-        Organiser.findOne({_id: decoded['usrid']}, function(err, obj) {
+        Organiser.findOne({_id: decoded['usrid']}, async function(err, obj) {
             if(err) {
                 console.log(err)
 
@@ -1549,7 +1566,12 @@ app.get('/api/retorgevents', async function (req, res) {
             }
             else {
                 if(obj!=null) {
-                    res.status(200).send(obj.evns) 
+                    var evn_arr = []
+                    for(let i=obj.evns.length-1; i>0; i++) {
+                        var cur = await evnFindLite(obj.evns[i])
+                        evn_arr.push(cur)
+                    }
+                    res.status(200).send(evn_arr) 
                 }
                 else {
                     res.status(404).send('This user is not found') 

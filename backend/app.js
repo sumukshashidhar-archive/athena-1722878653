@@ -391,7 +391,6 @@ app.post('/login', async function (req, res) {
                                             console.log(decodedToken)
                                             console.log("Succesfully generated a JWT Token")
                                             res.json(token)
-                                            loggedIn(obj["_id"]);
                                         })
                                         lms.log(obj.username, 2 )
                                     }
@@ -1846,14 +1845,4 @@ app.post('/api/search/users', async function(req, res) {
         res.status(403).send('JWT is unauth or somehing') 
     }
 })
-
-
-function logLog(id, time, loggedIn)
-{
-    var newLog = new logsSchema({
-        user: id,
-        time: time,
-        loggedIn: loggedIn
-    });
-}
  

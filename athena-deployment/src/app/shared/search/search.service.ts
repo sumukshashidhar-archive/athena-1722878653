@@ -12,6 +12,7 @@ export class SearchService {
   private name = new BehaviorSubject(null);
   currentName = this.name.asObservable();
   results: any;
+  userResults: any;
   message: any;
 
   selSearch: Search = {
@@ -38,6 +39,6 @@ export class SearchService {
   postUserSearch(userSearch: User_Search) {
     console.log('User Search Method')
     console.log(userSearch)
-    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/user-search', userSearch)
+    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/search/users', userSearch)
   }
 }

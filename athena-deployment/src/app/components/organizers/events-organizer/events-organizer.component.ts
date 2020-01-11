@@ -37,10 +37,11 @@ export class EventsOrganizerComponent implements OnInit {
   username: any;
   match = false;
   arr: any;
+  myEvents: any
   y: any;
   x: any;
-  profileUrlExists=false;
-  imageToShow:any
+  profileUrlExists = false;
+  imageToShow: any;
   config = {
     search: true,
     height: "auto",
@@ -59,7 +60,7 @@ export class EventsOrganizerComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
-  decoded:any;
+  decoded: any;
   constructor(
     public eventService: EventService,
     private router: Router,
@@ -69,7 +70,7 @@ export class EventsOrganizerComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
-    this.postToIt()
+    this.postToIt();
   }
 
   ngOnInit() {
@@ -77,11 +78,34 @@ export class EventsOrganizerComponent implements OnInit {
     this.refreshEvents();
     this.maxDateSet();
     this.getAllCategory();
+    this.getEvents();
     if (decodedtoken["role"] == "Org") {
       this.username = decodedtoken["name"];
     }
-
   }
+
+  sendDetails(form: NgForm, _id: string) {
+    form.value['_id'] = _id;
+    console.log(form.value);
+    this.eventService.getEventDetails(form.value).subscribe(
+      res => {
+        console.log(res)
+        this.eventService.details1 = res;
+        console.log(this.eventService.details1)
+        this.router.navigate(['/bigevents'])
+      },
+      err => {
+        if (err.status === 422) {
+          // this.serverErrormessage = err.error.join('<br/>');
+          console.log(422);
+        } else {
+          // this.serverErrormessage = "Something went wrong"
+          console.log("error");
+        }
+      }
+    );
+  }
+  
   logout() {
     this.auth.logout();
   }
@@ -104,6 +128,7 @@ export class EventsOrganizerComponent implements OnInit {
     console.log(event);
     this.eventService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
+      console.log(this.subcatOptions)
     });
   }
 
@@ -116,6 +141,12 @@ export class EventsOrganizerComponent implements OnInit {
     this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
       console.log(res);
     });
+    let arr = [];
+    for (let i = 0; i < this.subCatName.length; i++) {
+      arr.push(this.subCatName[i].subCatName);
+    }
+    form.value["interestArray"] = arr;
+    console.log(form.value["interestArray"]);
     form.value["evnLocation"] =
       form.value["evnAdd1"] + "\n" + form.value["evnAdd2"];
     this.eventService.postEvents(form.value).subscribe(
@@ -160,10 +191,21 @@ export class EventsOrganizerComponent implements OnInit {
       });
   }
 
+  getEvents(){
+    this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/retorgevents").subscribe(
+      res => {
+        console.log(res)
+        this.myEvents = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
 
-  setMaxDate(){
-    var x = (document.getElementById("evnDate1") as HTMLInputElement).value; 
-    console.log("variable x is ",x)
+  setMaxDate() {
+    var x = (document.getElementById("evnDate1") as HTMLInputElement).value;
+    console.log("variable x is ", x);
     this.newDate = x;
   }
 
@@ -186,7 +228,6 @@ export class EventsOrganizerComponent implements OnInit {
     }
     this.maxDate = yyyy + "-" + newmm + "-" + newdd;
   }
-
 
   refreshEvents() {
     var decodedtoken = jwt_decode(decoded);
@@ -217,10 +258,7 @@ export class EventsOrganizerComponent implements OnInit {
       arr.push(this.subCatName[i].subCatName);
     }
 
-    this.eventService.postEventInterest(arr, this.x).subscribe(res => {
-      console.log("done");
-      this.subCatName = null;
-      alert("User Interest added");
-    });
+    console.log("this.x ", this.x)
+    console.log("subcatname", this.subCatName)
   }
 }

@@ -45,7 +45,8 @@ import { EventService } from './shared/events/event.service';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { SearchresComponent } from './components/others/searchres/searchres.component';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
-import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
+import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component';
+import { AcademicsComponent } from './components/students/academics/academics.component'
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { SidenavComponent } from './components/ui-components/sidenav/sidenav.com
     VerifyemailComponent,
     SearchresComponent,
     NavbarComponent,
-    SidenavComponent
+    SidenavComponent,
+    AcademicsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

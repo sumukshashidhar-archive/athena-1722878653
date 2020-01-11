@@ -37,6 +37,7 @@ export class EventsOrganizerComponent implements OnInit {
   username: any;
   match = false;
   arr: any;
+  myEvents: any
   y: any;
   x: any;
   profileUrlExists = false;
@@ -77,6 +78,7 @@ export class EventsOrganizerComponent implements OnInit {
     this.refreshEvents();
     this.maxDateSet();
     this.getAllCategory();
+    this.getEvents();
     if (decodedtoken["role"] == "Org") {
       this.username = decodedtoken["name"];
     }
@@ -164,6 +166,18 @@ export class EventsOrganizerComponent implements OnInit {
         console.log(response);
         this.createImageFromBlob(response);
       });
+  }
+
+  getEvents(){
+    this.http.get("http://localhost:3000/api/retorgevents").subscribe(
+      res => {
+        console.log(res)
+        this.myEvents = res;
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 
   setMaxDate() {

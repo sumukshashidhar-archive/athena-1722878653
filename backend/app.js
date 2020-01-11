@@ -1539,10 +1539,12 @@ async function evnFind(idx) {
 
 app.get('/api/retorgevents', async function (req, res) {
     var decoded = jwms.verify(req.headers.authorization)
+    console.log(decoded)
     if(decoded!=false) {
         Organiser.findOne({_id: decoded['usrid']}, function(err, obj) {
             if(err) {
                 console.log(err)
+
                 res.status(500).send(err) 
             }
             else {

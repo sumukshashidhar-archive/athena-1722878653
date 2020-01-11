@@ -857,6 +857,7 @@ app.post('/addAcademics', function (req, res) {
                                             }
                                             else {
                                                 console.log("SUCCESS")
+						    res.send(true)
                                                 
                                             }
                                         })
@@ -896,6 +897,7 @@ app.post('/addAcademics', function (req, res) {
                                                 }
                                                 else {
                                                     console.log("SUCCESS")
+							
                                                 }
                                             })
                 

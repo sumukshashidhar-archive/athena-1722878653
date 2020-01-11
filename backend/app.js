@@ -888,6 +888,18 @@ app.post('/getAcademics', async function (req, res) {
 
 })
 
+app.post('/getSpecicifAc', function(req, res){
+	var decoded = await jwms.verify(req.headers.authorization)
+	Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(obj.Academics[req.body.acId]);
+        }
+    });
+});
+
 
 //INTERESTS
 

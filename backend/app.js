@@ -820,27 +820,22 @@ app.post('/addAcademics', function (req, res) {
             console.log(decodedToken);
             // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
 
-            var newAc =
-            {
-                testName: req.body.testName,
-                testRank: req.body.testRank,
-<<<<<<< HEAD
-                Image: req.body.uploadedFiles,
-                toShow: req.body.toShow,
-                id: generate(10)
-=======
-                Image: req.body.Image,
-                toShow: req.body.toShow,
-                testScore:req.body.testScore
->>>>>>> b26784f60f7e694691d0b1a492ab75f82d55dee6
-            }
-
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err) {
                     console.log(err);
                 }
                 else {
                     if (obj.Academics) {
+
+                        var newAc =
+                        {
+                            testName: req.body.testName,
+                            testRank: req.body.testRank,
+                            Image: req.body.uploadedFiles,
+                            toShow: req.body.toShow,
+                            id: obj.Academics.length
+                        }
+
                         obj.Academics.push(newAc);
 
                         Student.update({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err1, obj1) {
@@ -853,6 +848,14 @@ app.post('/addAcademics', function (req, res) {
                         });
                     }
                     else {
+                        var newAc =
+                        {
+                            testName: req.body.testName,
+                            testRank: req.body.testRank,
+                            Image: req.body.uploadedFiles,
+                            toShow: req.body.toShow,
+                            id: 0
+                        }
                         Student.update({ EmailId: decodedToken.email }, { $set: { Academics: [newAc] } }, function (err, obj) {
                             if (err) {
                                 console.log(err1);

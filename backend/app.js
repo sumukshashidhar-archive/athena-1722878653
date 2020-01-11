@@ -1538,7 +1538,7 @@ async function evnFind(idx) {
 
 async function evnFindLite(idx) {
     var callback = new Promise(function (res, rej) {
-        event.findOne({ _id: idx }, {evnName: 1, Image: 1, evnDate: 1 evnDescription:1, _id: 1} function (err, obj) {
+        event.findOne({ _id: idx }, {evnName: 1, Image: 1, evnDate: 1, evnDescription:1, _id: 1}, function (err, obj) {
             if (err) {
                 console.log(err)
             } else {

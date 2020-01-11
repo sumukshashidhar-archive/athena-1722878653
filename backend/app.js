@@ -1845,4 +1845,9 @@ app.post('/api/search/users', async function(req, res) {
         res.status(403).send('JWT is unauth or somehing') 
     }
 })
- 
+
+
+
+app.get('/api/run', function(req, res) {
+    ///Archiving Events
+})

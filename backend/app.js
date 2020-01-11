@@ -1566,7 +1566,7 @@ app.get('/api/retorgevents', async function (req, res) {
             else {
                 if(obj!=null) {
                     var evn_arr = []
-                    for(let i=obj.evns.length-1; i>0; i++) {
+                    for(let i=obj.evns.length-1; i>0; i--) {
                         var cur = await evnFindLite(obj.evns[i])
                         evn_arr.push(cur)
                     }

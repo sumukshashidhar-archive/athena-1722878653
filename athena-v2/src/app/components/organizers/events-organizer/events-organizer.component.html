@@ -65,7 +65,7 @@
       <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">Add An Event</h5>
-          <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, ipsam.</p>
+          <p class="card-text">Organize an event now</p>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             Create Event
           </button>
@@ -222,8 +222,8 @@
                     <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
                       [options]="categoryOption"></ngx-select-dropdown>
                     <label class="control-label">Sub category Name</label>
-                    <ngx-select-dropdown [multiple]="true" name="subCatName" [(ngModel)]="subCatName" [config]="configSubCat"
-                      [options]="subcatOptions"></ngx-select-dropdown>
+                    <ngx-select-dropdown [multiple]="true" name="subCatName" [(ngModel)]="subCatName"
+                      [config]="configSubCat" [options]="subcatOptions"></ngx-select-dropdown>
                   </div>
                 </div>
                 <div class="form-group">
@@ -243,37 +243,23 @@
       </div>
     </div>
     <div class="container">
-      <div class="row" *ngFor="let evn of myEvents">
-    
-        <!--  Card Start -->
-        <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
-          <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
-    
-          <div class="card--content">
-            <div class="card--content-head">
-    
-              <form #f="ngForm">
-                <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
-    
-                  <h3 class="card--title">{{evn.evnName}}</h3>
-                </a>
-              </form>
-              <div class="ratings"><span>8.8</span>/10</div>
-            </div>
-            <div class="card--info">
-              <div class="time-on">
-                <label>Last update</label>
-                <span>Sun 8 Sept - 10:00PM</span>
-              </div>
-              <div class="time-on">
-                <label>Running time</label>
-                <span>2hr 09min</span>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <!--  Card End -->
+      <mat-card class="example-card" *ngFor="let evn of myEvents">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ evn.evnName }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="http://localhost:3000/{{ evn.Image }}" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            {{ evn.evnDescription }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <form #f="ngForm">
+          <button mat-button (click)="sendDetails(f, evn._id)">SHOW DETAILS</button>
+        </form>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </body>
   <!-- /.modal -->

@@ -215,18 +215,6 @@ export class EventsOrganizerComponent implements OnInit {
       }
       console.log(this.username);
     });
-    this.eventService.getEvents().subscribe(res => {
-      this.eventService.events = res;
-      console.log(this.eventService.events);
-      for (var index = 0; index < this.eventService.events.length; index++) {
-        if (
-          this.eventService.events[index]["evnOrganizerName"] == this.username
-        ) {
-          this.match = true;
-          this.arr = this.eventService.events[index];
-        }
-      }
-    });
   }
 
   addEvnInterests() {
@@ -237,5 +225,19 @@ export class EventsOrganizerComponent implements OnInit {
 
     console.log("this.x ", this.x)
     console.log("subcatname", this.subCatName)
+  }
+
+  sendDetails(form: NgForm, _id: string){
+    form.value['_id'] = _id;
+    this.http.post("http://localhost:3000/api/vectorless/click-on-events", form.value).subscribe(
+      res => {
+        this.eventService.details1 = res
+        console.log(res)
+        this.router.navigate(['/bigevents'])
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 }

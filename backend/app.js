@@ -888,7 +888,7 @@ app.post('/getAcademics', async function (req, res) {
 
 })
 
-app.post('/getSpecicifAc', function(req, res){
+app.post('/getSpecicifAc', async function(req, res){
 	var decoded = await jwms.verify(req.headers.authorization)
 	Student.findOne({ EmailId: decoded.email }, function (err, obj) {
         if (err) {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <app-navbar></app-navbar>
+  <img class="wave" src="./../../../assets/images/wave.png">
+  <div class="cont">
+    <div class="img">
+      <img src="./../../../assets/images/server.svg">
+    </div>
+    <div class="login-content">
+      <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
+        <img src="./../../../assets/images/avatar123.png">
+        <h2 class="title">Welcome</h2>
+        <div class="input-div one">
+          <div class="i">
+            <i class="fa fa-user"></i>
+          </div>
+          <div class="div">
+            <input maxlength="32" placeholder="Enter email" class="input" type="email" required ngModel name="username"
+              email #email="ngModel" [(ngModel)]="loginService.selectedUser.email">
+            <br>
+            <br>
+            <span style="color: red;" class="help-block" *ngIf="!email.valid && email.touched">Enter email
+              address</span>
+          </div>
+        </div>
+        <div class="input-div pass">
+          <div class="i">
+            <i class="fa fa-lock"></i>
+          </div>
+          <div class="div">
+            <input maxlength="32" minlength="6" class="input" type="password" placeholder="Password" required ngModel name="password"
+              id="password" #password="ngModel" [(ngModel)]="loginService.selectedUser.password">
+            <br>
+            <br>
+            <span style="color: red;" class="help-block" *ngIf="!password.valid && password.touched">Enter a
+              password</span>
+            <p *ngIf="password.touched && error">Wrong Password</p>
+          </div>
+        </div>
+        <a [routerLink]="['/passcheck']" routerLinkActive="router-link-active" style="text-decoration: none;">Forgot
+          Password?</a>
+        <button class="btn" type="submit" [disabled]="!f.valid">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

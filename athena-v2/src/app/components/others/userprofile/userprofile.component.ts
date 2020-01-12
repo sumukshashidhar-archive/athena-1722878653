@@ -1,5 +1,5 @@
 import { EventService } from './../../../shared/events/event.service';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit, Inject } from "@angular/core";
 import { AuthService } from "../../../shared/auth/auth.service";
 import { Router } from "@angular/router";
@@ -31,19 +31,9 @@ export class UserprofileComponent implements OnInit {
     private eventService:EventService
   ) {
     this.decoded = localStorage.getItem("access_token");
+    this.getProfileName()
   }
 
-  postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
-  }
 
   getInterersts() {
     return this.http.get("http://localhost:3000/interests").subscribe(res => {
@@ -62,7 +52,19 @@ export class UserprofileComponent implements OnInit {
       }
     )
   }
-
+  getProfileName(){
+    const token=this.localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
+    this.http.post('http://localhost:3000/getProfileName',options).subscribe(res=>{
+      console.log(res)
+      console.log('IMAGE TO SHOW')
+      this.imageToShow=res['name']
+      console.log(this.imageToShow)
+    })
+  }
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener(

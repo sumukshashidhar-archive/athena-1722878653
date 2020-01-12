@@ -181,6 +181,31 @@ app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is fro
     console.log("SERVER STARTED");
 });
 
+app.post("/getProfileName",(req,res)=>{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified");
+            console.log(decodedToken);
+
+            user.findOne({ username: decodedToken.email }, function (err, obj) {
+                if (err) {
+                    console.log("ERRROR" + err);
+                    res.send(false);
+                }
+                else {
+                    console.log("Sent profile picture");
+                    res.send({name:obj.profilePic});
+
+
+                }
+            });
+
+
+        }
+    });
+    
+})
+
 app.post("/upload", upLoad.single('img'), (req, res) => {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {

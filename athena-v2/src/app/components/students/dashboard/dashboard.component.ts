@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var email = decodedtoken["email"];
+    this.getProfileName()
     this.refreshAchievements();
     this.getInterests();
     this.getEvents();
@@ -99,6 +100,19 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  getProfileName(){
+    const token=this.localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
+    this.http.post('http://localhost:3000/getProfileName',options).subscribe(res=>{
+      console.log(res)
+      console.log('IMAGE TO SHOW')
+      this.imageToShow=res['name']
+      console.log(this.imageToShow)
+    })
+  }
   readSingleFile(e) {
     // const name = e[0].name;
     const name = e.target.files[0].name;

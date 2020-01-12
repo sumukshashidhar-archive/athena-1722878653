@@ -95,7 +95,7 @@ export class UserprofileComponent implements OnInit {
       var BioInfo = this.getBio(EMAIL);
       console.log(BioInfo);
       console.log(EMAIL);
-      this.postToIt();
+
 
     }
     console.log(this.decoded);

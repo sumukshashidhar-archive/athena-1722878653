@@ -1,0 +1,41 @@
+<body>
+    <div class="container">
+    <mat-tab-group [selectedIndex]="selected.value">
+        <mat-tab label="Event Search Results">
+            <mat-card class="example-card" *ngFor="let evn of results">
+                <mat-card-header>
+                  <mat-card-title>{{ evn.evnName }}</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image src="http://localhost:3000/{{ evn.Image }}" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                  <p>
+                    {{ evn.evnDescription }}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <form #e="ngForm">
+                        <button mat-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+                    </form>
+                </mat-card-actions>
+              </mat-card>              
+        </mat-tab>
+        <mat-tab label="User Search Results">
+            <mat-card class="example-card" *ngFor="let user of userResults">
+                <mat-card-content>
+                  <p>
+                    First Name : {{ user.FirstName }}
+                  </p>
+                  <p>
+                      Last Name : {{ user.LastName }}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <form #u="ngForm">
+                        <button mat-button (click)="sendDetails1(u, user._id)">READ MORE</button>
+                    </form>
+                </mat-card-actions>
+              </mat-card>          
+        </mat-tab>
+    </mat-tab-group>
+</div>
+</body>

@@ -84,26 +84,38 @@
                 <br />
                 {{desc}}
                 <br />
-                <div class="container" *ngIf="Rank=='State'" style="background-color: lawngreen; color: black;">
+                <div class="container" *ngIf="Rank=='State'"
+                  style="background-color: lawngreen; color: black; border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black;">
+                <div class="container" *ngIf="Rank=='City'"
+                  style="background-color: red; color: black; border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
+                <div class="container" *ngIf="Rank=='School'"
+                  style="background-color: yellow; color: black;border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <div class="container" *ngIf="Rank=='National'" style="background-color: orange; color: black;">
+                <div class="container" *ngIf="Rank=='National'"
+                  style="background-color: orange; color: black;border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <div class="container" *ngIf="Rank=='International'" style="background-color: black; color: white;">
+                <div class="container" *ngIf="Rank=='International'"
+                  style="background-color: black; color: white;border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" type="button" data-dismiss="modal">
-                  Close
-                </button>
+              <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='National'" style="background-color: orange; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='International'" style="background-color: black; color: white;">
+                Rank: {{Rank}}
               </div>
             </div>
           </div>
@@ -112,20 +124,25 @@
       </div>
     </div>
   </div>
-  <div class="containercard" style="background-color: #11ABC1 ; width:100vw;margin-left: 0;display: flex;">
+  <div class="containercard" style="background-color: #f9fafe ; width:100vw;margin-left: 0;display: flex;">
     <div class="row">
       <div class="column" style="float: left;" *ngFor="let ach of ach_list">
-        <div class="card bg-light mb-3"
-          style="width: 13rem;height: 13rem;  margin-left: 7vw; border-radius: 10px; position: relative;">
-          <div class="card-header" style="text-align: center;font-size: 1em;font-weight: 100;">{{ach.CategoryId}}</div>
-          <a class="card-body" [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1"
-            (click)="DoIt(ach._id)">
-            <h5 class="card-title" style="text-align: center;font-weight: 200;color: black;">{{ach.SubCategoryId}}</h5>
+        <a class="card bg-light mb-3"
+          style="width: 13rem;height: 13rem;  margin-left: 7vw; border-radius: 10px; position: relative; background-image: url(http://localhost:3000/trophy.jpg);background-position: center;background-size: cover;"
+          [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1"
+          (click)="DoIt(ach._id)">
+          <div class="card-header"
+            style="text-align: center;font-size: 1em;font-weight: 100; color:#fff;margin-top: 1.2vw;">
+            {{ach.SubCategoryId}}</div>
+          <a class="card-body">
           </a>
-        </div>
+        </a>
       </div>
     </div>
   </div>
   <app-sidenav></app-sidenav>
+
+</body>
+
 
 </body>

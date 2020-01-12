@@ -24,6 +24,7 @@ export var File;
 export class DashboardComponent implements OnInit {
   profileUrlExists = false;
   interestlist: any;
+  name:any
   imageToShow: any;
   uploadedFiles: Array<File>;
   username: any;
@@ -79,15 +80,20 @@ export class DashboardComponent implements OnInit {
   }
 
   send() {
+    const token=this.localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
     File = (document.getElementById("file1") as HTMLInputElement).files;
     const frmData = new FormData();
     console.log(File[0]);
     console.log(File[0].name);
-    var name = File[0].name;
+     this.name = File[0].name;
     frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
-      .post("http://localhost:3000/uploadProfile", frmData)
+      .post("http://localhost:3000/uploadProfile", frmData,options)
       .subscribe(res => {
         console.log(res);
       });

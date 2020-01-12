@@ -14,6 +14,10 @@ export class SearchService {
   results: any;
   userResults: any;
   message: any;
+  interestResults: any;
+  tabChange: any;
+
+  userDetails: any
 
   selSearch: Search = {
     keyword: '',
@@ -40,5 +44,10 @@ export class SearchService {
     console.log('User Search Method')
     console.log(userSearch)
     return this.http.post('http://localhost:3000/api/search/users', userSearch)
+  }
+
+  getUserDetails(userDetails){
+    console.log("User Details method")
+    return this.http.post("http://localhost:3000/api/tracker/click-on-user-event", userDetails)
   }
 }

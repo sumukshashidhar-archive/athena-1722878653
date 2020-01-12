@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../../shared/search/search.service'
 import { EventService } from './../../../shared/events/event.service'
 import { Router } from '@angular/router'
-import { NgForm } from '@angular/forms'
+import { NgForm, FormControl } from '@angular/forms'
 import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
@@ -13,14 +13,26 @@ import { AuthService } from 'src/app/shared/auth/auth.service';
 export class SearchresComponent implements OnInit {
   results: any = this.search.results;
   userResults: any = this.search.userResults;
+  interestResults: any = this.search.interestResults
+
+  tabs = ['Event Search Results', 'User Search Results', 'Interest Search Results'];
+  selected = new FormControl(0);
+  
 
   constructor(public search: SearchService, public eventService: EventService, private router: Router,private auth:AuthService) { }
 
   ngOnInit() {
+    this.settingTabValue()
   }
+
   logout(){
     this.auth.logout();
   }
+
+  settingTabValue(){
+    this.selected.setValue(this.search.tabChange)
+  }
+
   sendDetails(form: NgForm, _id: string) {
     form.value['_id'] = _id;
     console.log(form.value);
@@ -41,5 +53,19 @@ export class SearchresComponent implements OnInit {
         }
       }
     );
+  }
+
+  sendDetails1(form: NgForm, _id: string){
+    form.value['_id'] = _id
+    console.log(form.value)
+    this.search.getUserDetails(form.value).subscribe(
+      res => {
+        console.log(res)
+        this.search.userDetails = res
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 }

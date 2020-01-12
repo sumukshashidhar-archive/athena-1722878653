@@ -1771,7 +1771,7 @@ app.post('/api/tracker/click-on-user-event', async function(req, res) {
             } else {
                 if(obj!= null) {
                     //Means that the user is found, here we search for the selected user
-                    Student.findOne({_id: req.body.studentid}, function(err2, obj2) {
+                    Student.findOne({_id: req.body._id}, function(err2, obj2) {
                         if(err) {
                             res.status(500).send('Internal Mongo Error') 
                         }

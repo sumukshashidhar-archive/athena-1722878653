@@ -50,4 +50,9 @@ export class SearchService {
     console.log("User Details method")
     return this.http.post("http://localhost:3000/api/tracker/click-on-user-event", userDetails)
   }
+
+  postInterestSearch(interest){
+    console.log(interest)
+    return this.http.post("http://localhost:3000/api/searchbyinterests", interest)
+  }
 }

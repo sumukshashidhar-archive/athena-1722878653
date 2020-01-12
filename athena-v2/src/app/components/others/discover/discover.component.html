@@ -5,10 +5,10 @@
 <body>
   <div class="container">
     <h1 style="text-align: center;">Discover Something New</h1>
-    <mat-tab-group>
+    <mat-tab-group [selectedIndex]="2">
       <!-- Event Search -->
       <mat-tab label="Search For Events">
-        <div class="events">
+        <div class="container">
           <h3>Search For New Events </h3>
           <br>
           <form #f="ngForm">
@@ -19,14 +19,19 @@
               <input type="text" placeholder="Search" class="form-control" required name="keyword" ngModel
                 #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
             </div>
+            <br>
+            <p><strong>Type of search : </strong></p>
             <input type="radio" name="search" value="1" id="1">
-            <label for="1">Regular Search</label>
+            <label for="1">Regular Search : Search for events only within your city</label>
+            <br>
             <br>
             <input type="radio" name="search" value="2" id="2">
-            <label for="2">Deep Search</label>
+            <label for="2">Deep Search : Search for events outside your city</label>
+            <br>
             <br>
             <input type="radio" name="search" value="3" id="3">
-            <label for="3">Archive Search</label>
+            <label for="3">Archive Search : Search for events which are over</label>
+            <br>
             <br>
             <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Submit Query</button>
           </form>
@@ -52,8 +57,26 @@
         </div>
       </mat-tab>
       <!-- Interest Search -->
-      <mat-tab label="Interest Search">
-        <h3>Search for users based on their interests</h3>
+      <mat-tab label="Search By Interests">
+        <div class="container">
+          <h3>Search for users based on their interests</h3>
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select (selectionChange)="selectionChanged()" name="catName" [(ngModel)]="catName">
+              <mat-option *ngFor="let cat of categoryOption" [value]="cat.catId">{{ cat.catName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Subcategory</mat-label>
+            <mat-select name="subCatName" [(ngModel)]="subCatName">
+              <mat-option *ngFor="let subCat of subcatOptions" [value]="subCat.subCatName">{{ subCat.subCatName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <button style="margin: 1rem;" mat-raised-button (click)="searchByInterest()">Search</button>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>

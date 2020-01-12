@@ -120,17 +120,17 @@
   <mat-tab label="All Events">
     <div class="container">
       <div class="row" *ngFor="let evn of eventService.events">
-    
+
         <!--  Card Start -->
         <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
           <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
-    
+
           <div class="card--content">
             <div class="card--content-head">
-    
+
               <form #f="ngForm">
                 <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
-    
+
                   <h3 class="card--title">{{evn.evnName}}</h3>
                 </a>
               </form>
@@ -155,17 +155,17 @@
   <mat-tab label="Events Following">
     <div class="container">
       <div class="row" *ngFor="let evn of results">
-    
+
         <!--  Card Start -->
         <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
           <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
-    
+
           <div class="card--content">
             <div class="card--content-head">
-    
+
               <form #f="ngForm">
                 <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
-    
+
                   <h3 class="card--title">{{evn.evnName}}</h3>
                 </a>
               </form>
@@ -189,7 +189,7 @@
   </mat-tab>
 </mat-tab-group>
 
-<div class="area"></div>
+
 <!-- <nav class="main-menu">
 
   <ul>

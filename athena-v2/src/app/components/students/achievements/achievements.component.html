@@ -73,11 +73,11 @@
 
     <div class="container">
       <div class="row">
-        <div class="newsItem  " *ngFor="let ach of this.ach_list">
+        <div class="newsItem" *ngFor="let ach of this.ach_list">
           <div class="modal" id="myModal1"  *ngFor="let ach of this.ach_list">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line" id="des">
+              <div class="modal-content" style="max-width: 60vw; margin-top: 50%;">
+                <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;" id="des">
                   <img src="http://localhost:3000/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
                   <br/>
                   {{desc}}
@@ -107,7 +107,7 @@
             </div>
           </div>
 
-    <div class="column">
+    <!-- <div class="column">
           <div class="flip-card" >
             <div class="flip-card-inner">
               <div class="flip-card-front"  >
@@ -127,11 +127,24 @@
 
             </div>
             </div>
-          </div>
-      </div>
+          </div> -->
+
     </div>
   </div>
-    <div class="area"></div><nav class="main-menu">
+</div>
+<div class="containercard" style="background-color: #11ABC1 ; width:100vw;margin-left: 0;display: flex;">
+  <div class="row">
+  <div class="column" style="float: left;" *ngFor="let ach of ach_list" >
+  <div class="card bg-light mb-3" style="width: 13rem;height: 13rem;  margin-left: 7vw; border-radius: 10px; position: relative;" >
+    <div class="card-header" style="text-align: center;font-size: 1em;font-weight: 100;">{{ach.CategoryId}}</div>
+    <a class="card-body"  [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">
+      <h5 class="card-title" style="text-align: center;font-weight: 200;color: black;">{{ach.SubCategoryId}}</h5>
+    </a>
+  </div>
+</div>
+</div>
+</div>
+<nav class="main-menu">
 
       <ul >
 

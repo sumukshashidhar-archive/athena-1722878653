@@ -35,8 +35,4 @@ export class InterestsService {
     return this.http.get("http://localhost:3000/getCategoriesId?catId="+id);
   }
 
-  postInterestSearch(interest){
-    console.log(interest)
-    return this.http.post("http://localhost:3000/api/searchbyinterests", interest)
-  }
 }

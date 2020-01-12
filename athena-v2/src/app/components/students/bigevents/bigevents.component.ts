@@ -1,40 +1,53 @@
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from './../../../shared/auth/auth.service'
-import { EventDetails } from './../events/events.component';
-import { Component, OnInit } from '@angular/core';
-import { EventService } from './../../../shared/events/event.service'
-import { ThrowStmt } from '@angular/compiler';
-import { subscribeOn } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
-import * as jwt_decode from 'jwt-decode';
+import { HttpClient } from "@angular/common/http";
+import { AuthService } from "./../../../shared/auth/auth.service";
+import { EventDetails } from "./../events/events.component";
+import { Component, OnInit } from "@angular/core";
+import { EventService } from "./../../../shared/events/event.service";
+import { ThrowStmt } from "@angular/compiler";
+import { subscribeOn } from "rxjs/operators";
+import { NgForm } from "@angular/forms";
+import * as jwt_decode from "jwt-decode";
+import { MatSnackBar } from '@angular/material';
 @Component({
-  selector: 'app-bigevents',
-  templateUrl: './bigevents.component.html',
-  styleUrls: ['./bigevents.component.css']
+  selector: "app-bigevents",
+  templateUrl: "./bigevents.component.html",
+  styleUrls: ["./bigevents.component.css"]
 })
 export class BigeventsComponent implements OnInit {
-  x: any =  this.eventService.details1;
+  x: any = this.eventService.details1;
   username: any;
-  imageToShow:any
-  profileUrlExists=false
-  decoded:any;
-  constructor(public eventService: EventService,private auth:AuthService,private http:HttpClient) {
+  imageToShow: any;
+  profileUrlExists = false;
+  decoded: any;
+  constructor(
+    public eventService: EventService,
+    private auth: AuthService,
+    private http: HttpClient,
+    private _snackBar: MatSnackBar
+  ) {
     this.decoded = localStorage.getItem("access_token");
-   }
+  }
 
   ngOnInit() {
-    console.log(this.x)
+    console.log(this.x);
     this.postToIt();
     var decodedtoken = jwt_decode(this.decoded);
-    console.log(decodedtoken)
+    console.log(decodedtoken);
     if (decodedtoken["role"] == "Student") {
-      console.log(decodedtoken["given_name"])
-      this.username = decodedtoken["given_name"];}
+      console.log(decodedtoken["given_name"]);
+      this.username = decodedtoken["given_name"];
+    }
+  }
+  logout() {
+    this.auth.logout();
+  }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
-  logout(){
-    this.auth.logout()
-  }
+
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener(
@@ -62,11 +75,12 @@ export class BigeventsComponent implements OnInit {
   }
 
   sendDetails(form: NgForm, _id: string) {
-    form.value['_id'] = _id;
+    form.value["_id"] = _id;
     console.log(form.value);
     this.eventService.postFollow(form.value).subscribe(
       res => {
-        console.log(res)
+        console.log(res);
+        this.openSnackBar("You are now following this event", "Close")
       },
       err => {
         if (err.status === 422) {
@@ -79,5 +93,4 @@ export class BigeventsComponent implements OnInit {
       }
     );
   }
-
 }

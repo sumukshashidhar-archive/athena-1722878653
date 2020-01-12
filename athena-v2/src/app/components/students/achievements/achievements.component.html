@@ -1,128 +1,145 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <body>
-    <div class="reqMargin"></div>
-    <div class="box1">
-      <button data-toggle="modal" data-target="#exampleModal">
-        Add a new achievement
-      </button>
-    </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Add new Achievement
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
-              <div class="form-group">
-                <div class="col-xs-6">
-                  <label><strong>Category Name</strong></label>
-                  <ngx-select-dropdown required (change)="selectionChanged($event)" [config]="config" name="category"
-                    [options]="categoryOption"></ngx-select-dropdown>
-                </div>
-                <div class="col-xs-6">
-                  <label> Sub category Name </label>
-                  <ngx-select-dropdown required [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
-                    [options]="subcatOptions"></ngx-select-dropdown>
-                </div>
-                <div class="col-xs-6">
-                  <label> Rank </label>
-                  <ngx-select-dropdown required [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
-                    [options]="list"></ngx-select-dropdown>
-                </div>
-                <br />
-
-                <input type="text" required maxlength="150" class="form-control" id="description"
-                  placeholder="Enter Description" />
-
-                <!-- <img [src]="url" height="200"> <br/> -->
-                <!-- <input type="file" (change)="fileChange($event)" id="inputGroupFile01"> -->
-                <div class="custom-file mb-3">
-                  <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
-                    (change)="readSingleFile($event)" />
-                  <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
-                </div>
+<body>
+  <div class="reqMargin"></div>
+  <div class="box1">
+    <button data-toggle="modal" data-target="#exampleModal">
+      Add a new achievement
+    </button>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Add new Achievement
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label><strong>Category Name</strong></label>
+                <ngx-select-dropdown required (change)="selectionChanged($event)" [config]="config" name="category"
+                  [options]="categoryOption"></ngx-select-dropdown>
               </div>
+              <div class="col-xs-6">
+                <label> Sub category Name </label>
+                <ngx-select-dropdown required [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
+                  [options]="subcatOptions"></ngx-select-dropdown>
+              </div>
+              <div class="col-xs-6">
+                <label> Rank </label>
+                <ngx-select-dropdown required [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
+                  [options]="list"></ngx-select-dropdown>
+              </div>
+              <br />
 
-              <button type="button" class="btn btn-success" (click)="onSubmit(f)" [disabled]="!f.valid"
-                data-dismiss="modal" data-target="#exampleModal">
-                Submit
-              </button>
-              <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
-              <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
+              <input type="text" required maxlength="150" class="form-control" id="description"
+                placeholder="Enter Description" />
 
-              <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
-              <!-- </form> -->
-            </form>
-          </div>
+              <!-- <img [src]="url" height="200"> <br/> -->
+              <!-- <input type="file" (change)="fileChange($event)" id="inputGroupFile01"> -->
+              <div class="custom-file mb-3">
+                <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
+                  (change)="readSingleFile($event)" />
+                <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-success" (click)="onSubmit(f)" [disabled]="!f.valid"
+              data-dismiss="modal" data-target="#exampleModal">
+              Submit
+            </button>
+            <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
+            <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
+
+            <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
+            <!-- </form> -->
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-    <!--  -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
+  <!--  -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
 
-    <div class="container">
-      <div class="row">
-        <div class="newsItem" *ngFor="let ach of this.ach_list">
-          <div class="modal" id="myModal1"  *ngFor="let ach of this.ach_list">
-            <div class="modal-dialog">
-              <div class="modal-content" style="max-width: 60vw; margin-top: 30%;margin-left: 25%;">
-                <div class="modal-body" style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;" id="des">
-                  <img src="http://localhost:3000/{{img}}" alt="Avatar"  id="achImg" style="border-radius: 10px;">
-                  <br/>
-                  {{desc}}
-                  <br/>
-                  <div class="container" *ngIf="Rank=='State'" style="background-color: lawngreen; color: black; border-radius: 10px;">
-                    Rank: {{Rank}}
-                  </div>
-                  <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black; border-radius: 10px;">
-                    Rank: {{Rank}}
-                  </div>
-                  <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;border-radius: 10px;">
-                    Rank: {{Rank}}
-                  </div>
-                  <div class="container" *ngIf="Rank=='National'" style="background-color: orange; color: black;border-radius: 10px;">
-                    Rank: {{Rank}}
-                  </div>
-                  <div class="container" *ngIf="Rank=='International'" style="background-color: black; color: white;border-radius: 10px;">
-                    Rank: {{Rank}}
-                  </div>
+  <div class="container">
+    <div class="row">
+      <div class="newsItem" *ngFor="let ach of this.ach_list">
+        <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
+          <div class="modal-dialog">
+            <div class="modal-content" style="max-width: 60vw; margin-top: 30%;margin-left: 25%;">
+              <div class="modal-body"
+                style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;"
+                id="des">
+                <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="border-radius: 10px;">
+                <br />
+                {{desc}}
+                <br />
+                <div class="container" *ngIf="Rank=='State'"
+                  style="background-color: lawngreen; color: black; border-radius: 10px;">
+                  Rank: {{Rank}}
                 </div>
-                <div class="modal-footer" >
-                  <button class="btn btn-primary" type="button" data-dismiss="modal">
-                    Close
-                  </button>
+                <div class="container" *ngIf="Rank=='City'"
+                  style="background-color: red; color: black; border-radius: 10px;">
+                  Rank: {{Rank}}
                 </div>
+                <div class="container" *ngIf="Rank=='School'"
+                  style="background-color: yellow; color: black;border-radius: 10px;">
+                  Rank: {{Rank}}
+                </div>
+                <div class="container" *ngIf="Rank=='National'"
+                  style="background-color: orange; color: black;border-radius: 10px;">
+                  Rank: {{Rank}}
+                </div>
+                <div class="container" *ngIf="Rank=='International'"
+                  style="background-color: black; color: white;border-radius: 10px;">
+                  Rank: {{Rank}}
+                </div>
+              </div>
+              <div class="container" *ngIf="Rank=='City'" style="background-color: red; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='School'" style="background-color: yellow; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='National'" style="background-color: orange; color: black;">
+                Rank: {{Rank}}
+              </div>
+              <div class="container" *ngIf="Rank=='International'" style="background-color: black; color: white;">
+                Rank: {{Rank}}
               </div>
             </div>
           </div>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
-<div class="containercard" style="background-color: #f9fafe ; width:100vw;margin-left: 0;display: flex;">
-  <div class="row">
-  <div class="column" style="float: left;" *ngFor="let ach of ach_list" >
-  <a class="card bg-light mb-3" style="width: 13rem;height: 13rem;  margin-left: 7vw; border-radius: 10px; position: relative; background-image: url(http://localhost:3000/trophy.jpg);background-position: center;background-size: cover;" [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)" >
-    <div class="card-header" style="text-align: center;font-size: 1em;font-weight: 100; color:#fff;margin-top: 1.2vw;">{{ach.SubCategoryId}}</div>
-    <a class="card-body" >
-   </a>
-  </a>
-</div>
-</div>
-</div>
-<app-sidenav></app-sidenav>
+  <div class="containercard" style="background-color: #f9fafe ; width:100vw;margin-left: 0;display: flex;">
+    <div class="row">
+      <div class="column" style="float: left;" *ngFor="let ach of ach_list">
+        <a class="card bg-light mb-3"
+          style="width: 13rem;height: 13rem;  margin-left: 7vw; border-radius: 10px; position: relative; background-image: url(http://localhost:3000/trophy.jpg);background-position: center;background-size: cover;"
+          [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1"
+          (click)="DoIt(ach._id)">
+          <div class="card-header"
+            style="text-align: center;font-size: 1em;font-weight: 100; color:#fff;margin-top: 1.2vw;">
+            {{ach.SubCategoryId}}</div>
+          <a class="card-body">
+          </a>
+        </a>
+      </div>
+    </div>
+  </div>
+  <app-sidenav></app-sidenav>
 
-  </body>
-
-
+</body>

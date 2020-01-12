@@ -1732,7 +1732,7 @@ app.get('/evnCity', function (req, res) {
 app.post('/api/searchbyinterests', async function (req, res) {
     //req.body.keyword
 
-    var keyword = "BMX";
+    var keyword = req.body;
 
     InterestSchema.findOne({ subCat: keyword }, async function (err, obj) {
         if (err) {
@@ -1757,10 +1757,9 @@ app.post('/api/searchbyinterests', async function (req, res) {
 
                 let r = await callback;
                 res.status(200).send(r)
-
-
             }
             else {
+                res.status(403).send("No users found")
                 console.log("No other users have the same interest")
             }
         }

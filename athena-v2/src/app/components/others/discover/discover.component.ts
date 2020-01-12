@@ -8,6 +8,9 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { MatRadioModule } from "@angular/material/radio";
 import * as jwt_decode from "jwt-decode";
+import { MatSnackBar } from '@angular/material';
+import { MatSelect } from '@angular/material/'
+
 @Component({
   selector: "app-discover",
   templateUrl: "./discover.component.html",
@@ -23,6 +26,7 @@ export class DiscoverComponent implements OnInit {
   imageToShow: any;
   profileUrlExists = false;
   decoded: any;
+  catName: any;
   config = {
     search: true,
     height: "auto",
@@ -45,7 +49,8 @@ export class DiscoverComponent implements OnInit {
     private router: Router,
     public auth: AuthService,
     private http: HttpClient,
-    public interestsService: InterestsService
+    public interestsService: InterestsService,
+    private _snackBar: MatSnackBar
   ) {
     var decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
@@ -65,6 +70,12 @@ export class DiscoverComponent implements OnInit {
     this.getAllCategory();
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
+  }
+
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);
@@ -75,18 +86,23 @@ export class DiscoverComponent implements OnInit {
     this.archive = document.getElementById("3");
     console.log(this.normal, this.deep, this.archive);
     if (this.normal.checked) {
+      this;
       form.value["usecase"] = 1;
     } else if (this.deep.checked) {
       form.value["usecase"] = 2;
     } else if (this.archive.checked) {
       form.value["usecase"] = 3;
+    } else {
+      this.openSnackBar("Please specify the type of search", "Close")
+      return;
     }
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {
+        this.data.results = null;
         this.data.results = res;
         console.log(res);
-        this.data.tabChange = 0
+        this.data.tabChange = 0;
         if (this.data.results.length === 0) {
           this.data.message = "Sorry, no results found";
         } else {
@@ -108,8 +124,9 @@ export class DiscoverComponent implements OnInit {
     this.data.postUserSearch(form.value).subscribe(
       res => {
         console.log(res);
+        this.data.userResults = null;
         this.data.userResults = res;
-        this.data.tabChange = 1
+        this.data.tabChange = 1;
         this.router.navigate(["/searchres"]);
       },
       err => {
@@ -129,26 +146,37 @@ export class DiscoverComponent implements OnInit {
     });
   }
 
-  selectionChanged(event) {
+  selectionChanged() {
     this.subCatName = null;
-    console.log(event);
-    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
+    console.log(this.catName)
+    var _id = this.catName
+    this.interestsService.getSubCategory(_id).subscribe(res => {
       this.subcatOptions = res;
+      console.log(this.subcatOptions)
     });
   }
 
-  adduserInterestList() {
-    let arr = [];
-    for (let i = 0; i < this.subCatName.length; i++) {
-      arr.push(this.subCatName[i].subCatName);
+  searchByInterest() {
+    console.log(this.subCatName)
+    if (this.subCatName == null){
+      this.openSnackBar("Please mention category and subcategory of the interest", "Close")
+      return;
     }
-    this.interestsService.postInterestSearch(arr).subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    else {
+      let arr = [];
+      arr.push(this.subCatName)
+      console.log(arr)
+      this.data.postInterestSearch(arr).subscribe(
+        res => {
+          this.data.interestResults = res
+          this.data.tabChange = 2
+          console.log(res);
+          this.router.navigate(['/searchres'])
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
 }

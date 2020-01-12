@@ -323,8 +323,8 @@ body {
   background-color:  #11ABC1;
   border: 1px solid transparent;
   padding-bottom: 20px;
-  height: 100vh;
-  background-size: cover;
+  height:120vw;
+  background-size: 100%;
   background-position: center;
 }
 
@@ -427,6 +427,10 @@ border-radius: 10px;
   margin-top: 30px;
 } */
 
+.card:hover{
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
 
 img{
   float: left;
@@ -434,37 +438,29 @@ img{
 
 }
 
-@media screen and (max-width: 600px) {
-  .column {
-    float: left;
-    width: 50%;
-    display: inline-block ;
-    margin-bottom: 20px;
+  @media screen and (max-width: 750px) {
+    .column {
+      width: 100%;
+    }
   }
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
+/*
 .card {
   /* display: inline;
   float: left; */
-  display: inline-block;
+  /* display: inline-block;
   cursor: pointer;
-  border: 1px solid #eeeeee;
+  border: 1px solid #eeeeee; */
 
-      border-radius: 6px;
+      /* border-radius: 6px; */
   /* additional css to equalize the cards */
-  display:table;
+  /* display:table;
   table-layout:fixed;
   height:50%;
   box-shadow: 0 12px 24px 0 rgba(0,0,0,0.04);
   padding: 16px;
   text-align: center;
-  background-color: #f1f1f1;
-}
+  background-color: #f1f1f1; */
+/* }  */
 
 .image img {
   float: left;
@@ -509,7 +505,9 @@ h3 {
   line-height: 1.4;
   color: #666;
 }
-
+.card bg-light mb-3{
+  margin-left: 20vw;
+}
 .read-more {
   border: 2px solid #0A7261;
   border-radius: 4px;

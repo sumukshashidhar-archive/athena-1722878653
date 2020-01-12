@@ -14,7 +14,7 @@ export class SidenavComponent implements OnInit {
   profileUrlExists=false
   imageToShow:any
   username: any;
-  
+
   constructor(
     private auth: AuthService,
     private router: Router
@@ -26,5 +26,8 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  logout() {
+    this.auth.logout();
+    this.router.navigate(["/login"]);
+  }
 }

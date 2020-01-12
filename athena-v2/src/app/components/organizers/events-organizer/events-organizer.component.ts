@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Event } from "./../../../shared/events/event";
 import { Component, OnInit } from "@angular/core";
 import { SearchService } from "./../../../shared/search/search.service";
+import { InterestsService } from './../../../shared/interests/interests.service'
 import * as jwt_decode from "jwt-decode";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -66,7 +67,8 @@ export class EventsOrganizerComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private data: SearchService,
-    private auth: AuthService
+    private auth: AuthService,
+    public interestsService : InterestsService
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
@@ -94,7 +96,7 @@ export class EventsOrganizerComponent implements OnInit {
   }
 
   getAllCategory() {
-    this.eventService.getcategoryDetails().subscribe(res => {
+    this.interestsService.getcategoryDetails().subscribe(res => {
       this.categoryOption = res;
       console.log(this.categoryOption);
     });
@@ -103,7 +105,7 @@ export class EventsOrganizerComponent implements OnInit {
   selectionChanged(event) {
     this.subCatName = null;
     console.log(event);
-    this.eventService.getSubCategory(event.value.catId).subscribe(res => {
+    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
       console.log(this.subcatOptions)
     });

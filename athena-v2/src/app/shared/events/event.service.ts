@@ -59,28 +59,6 @@ export class EventService {
     return this.http.post("http://localhost:3000/click-on-events", _id)
   }
 
-  getcategoryDetails() {
-    console.log("Categories")
-    return this.http.get("http://localhost:3000/getCategoriesAll");
-  }
-
-  getSubCategory(id) {
-    console.log("Subcategories")
-    return this.http.get("http://localhost:3000/getCategoriesId?catId="+id);
-  }
-
-  postUserInterest(userInterest) {
-
-    const token=this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
-      headers : headers
-    };
-    console.log(userInterest)
-    return this.http.post("http://localhost:3000/addInterest", userInterest,options);
-  }
-
-
   postEventInterest(eventInterest, eventId){
     const token = this.localStorage.getItem('access_token')
     const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;

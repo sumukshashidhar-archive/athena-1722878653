@@ -8,7 +8,8 @@ import { NgForm } from "@angular/forms";
 import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { EventService } from "src/app/shared/events/event.service";
+import { EventService } from "./../../../shared/events/event.service";
+import { InterestsService } from './../../../shared/interests/interests.service';
 export var File;
 export var achlist;
 export var Achievement: Achievements = {
@@ -81,6 +82,7 @@ export class AchievementsComponent implements OnInit {
     public achService: AchievementsService,
     private router: Router,
     private http: HttpClient,
+    public interestsService: InterestsService,
     public auth: AuthService,
     private catService: EventService,
   ) {
@@ -101,7 +103,7 @@ export class AchievementsComponent implements OnInit {
   }
 
   getAllCategory() {
-    this.catService.getcategoryDetails().subscribe(res => {
+    this.interestsService.getcategoryDetails().subscribe(res => {
       this.categoryOption = res;
       console.log(this.categoryOption);
     });
@@ -127,7 +129,7 @@ export class AchievementsComponent implements OnInit {
     console.log(event.value);
 
     Achievement.achCat = event.value["catName"];
-    this.catService.getSubCategory(event.value.catId).subscribe(res => {
+    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
     });
   }

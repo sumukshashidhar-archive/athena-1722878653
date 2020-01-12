@@ -3,6 +3,7 @@ import { AuthService } from './../../../shared/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Search } from '../../../shared/search/search.model';
 import { SearchService } from '../../../shared/search/search.service';
+import { InterestsService } from './../../../shared/interests/interests.service'
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
@@ -22,7 +23,24 @@ export class DiscoverComponent implements OnInit {
   imageToShow:any
   profileUrlExists=false
   decoded:any;
-  constructor(public data: SearchService, private router: Router,public  auth:AuthService,private http:HttpClient) {
+  config = {
+    search: true,
+    height: "auto",
+    placeholder: "Select",
+    displayKey: "catName"
+  };
+
+  configSubCat = {
+    search: true,
+    height: "auto",
+    placeholder: "Select",
+    displayKey: "subCatName"
+  };
+  subCatName: any;
+  categoryOption: any;
+  subcatOptions: any;
+  noOfChoice = new Array<string>();
+  constructor(public data: SearchService, private router: Router,public  auth:AuthService,private http:HttpClient, public interestsService: InterestsService) {
    var  decoded= localStorage.getItem('access_token');
     var decodedtoken= jwt_decode(decoded)
     if (decodedtoken["role"] == "Student") {
@@ -40,7 +58,8 @@ export class DiscoverComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.noOfChoice.push("1");
+    this.getAllCategory();
   }
 
   logout() {
@@ -99,6 +118,36 @@ export class DiscoverComponent implements OnInit {
         }
       }
     );
+  }
+
+  getAllCategory() {
+    this.interestsService.getcategoryDetails().subscribe(res => {
+      this.categoryOption = res;
+      console.log(this.categoryOption);
+    });
+  }
+
+  selectionChanged(event) {
+    this.subCatName = null;
+    console.log(event);
+    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
+      this.subcatOptions = res;
+    });
+  }
+
+  adduserInterestList(){
+    let arr = [];
+    for (let i = 0; i < this.subCatName.length; i++) {
+      arr.push(this.subCatName[i].subCatName);
+    }
+    this.interestsService.postInterestSearch(arr).subscribe(
+      res => {
+        console.log(res)
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 
 }

@@ -28,7 +28,7 @@ nav.main-menu.expanded {
 .main-menu {
   background: #fff;
   border-right: 1px solid #fff;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   height: 100%;

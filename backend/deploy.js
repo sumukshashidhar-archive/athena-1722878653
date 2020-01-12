@@ -1,6 +1,4 @@
-  
-//CHANGE ALL TOKENS TO JWT AUTH
-//Imports - Needed Packages for Running
+
 var express = require("express");
 var fs = require('fs');
 var jwt = require('jsonwebtoken')
@@ -11,12 +9,9 @@ var bcrypt = require('bcryptjs');
 const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
-// var tempsearch = require('./controllers/search/search_controller')
 const nodemailer = require('nodemailer');
 const exphbs = require('express-handlebars');
 const path = require('path');
-// const category = require('./models/category-model')
-// const subcat = require('./models/subcategory-model')
 const algorithm = 'aes-256-cbc';
 const key = crypto.randomBytes(32);
 const iv = crypto.randomBytes(16);
@@ -24,14 +19,13 @@ var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
 var InterestSchema = require('./models/interest.js');
-
-//var brain = require('brain.js')
-//Requirements - Needed Files for Running
 const tokenExtractor = require('./controllers/tokenExtractor.js')
 var organizer_functions = require('./controllers/organizer_controller');
 var student_functions = require('./controllers/student_controller');
 var user_function = require('./controllers/user_controller.js')
 var achievements = require('./models/Achievements.js');
+var AcademicsSchema = require('./models/AcademicsSchema.js');
+
 const enc = require('./config/encryptionConfig.js');
 const apiTokenSign = require('./config/API_TOKEN_SIGNATURE.js')
 var serv = require('./config/severConfig.js');
@@ -43,44 +37,21 @@ var event = require('./models/event');
 var key_controller = require('./controllers/keystore_control')
 var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
-// const alg = require('./controllers/algorithm_runtime')
-// var recommnedations = require("./recommendation/recommender");
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var daVinci = require('./controllers/recommendation-engine.js')
+const nanoid = require('nanoid')
+var logsSchema = require('./models/log.js');
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
 var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
-
-
 var API_SIGNATORY = require('./controllers/API_SIGN')
-
-
+var lms = require('./microservices/logs-micro')
 var admin = require('./models/admin.js')
 var ADMIN_CONTROLLER = require('./controllers/admin_controller')
-
-
-
-
-
-
-
-
-
-
-
 var dms = require('./microservices/davinci-micro')
-
-
-
-
-
-
-
-///NODE MAILER STUFF --- DON'T TOUCH --- CONTACT VIJAY
-
 function sendMail(output, to) {
 
     let transporter = nodemailer.createTransport({
@@ -117,28 +88,6 @@ function sendMail(output, to) {
         console.log('Email has been sent');
     });
 }
-
-//usage   
-//sendMail(req.body.name, req.body.company, req.body.email, req.body.phone, req.body.message, req.body.email);  
-
-//RANDOM CODE GENERATOR
-
-function generate(n) {
-    var add = 1;
-    var max = 12 - add;
-
-    if (n > max) {
-        return generate(max) + generate(n - max);
-    }
-
-    max = Math.pow(10, n + add);
-    var min = max / 10;
-    var number = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    return ("" + number).substring(add);
-}
-
-
 /*
 INITIALIZATIONS
 */
@@ -187,7 +136,7 @@ conn.once("open", () => {
 });
 
 // Create storage engine
-const storage = new GridFsStorage({
+var storage = new GridFsStorage({
     url: db.mongoURI,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
@@ -195,6 +144,7 @@ const storage = new GridFsStorage({
                 if (err) {
                     return reject(err)
                 }
+                
                 const filename = file.originalname
                 const fileInfo = {
                     filename: filename,
@@ -210,116 +160,150 @@ const upLoad = multer({
     storage
 });
 
+function generate(n) {
+    var add = 1;
+    var max = 12 - add;
+
+    if (n > max) {
+        return generate(max) + generate(n - max);
+    }
+
+    max = Math.pow(10, n + add);
+    var min = max / 10;
+    var number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return ("" + number).substring(add);
+}
+
 //STARTING SERVER HERE  
 app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is from a config file
 {
     console.log("SERVER STARTED");
 });
 
-//FILE UPLOAD CODE, DON'T TOUCH, FOR HELP CONTACT VIJAY
+app.post("/getProfileName",(req,res)=>{
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified");
+            console.log(decodedToken);
+
+            user.findOne({ username: decodedToken.email }, function (err, obj) {
+                if (err) {
+                    console.log("ERRROR" + err);
+                    res.send(false);
+                }
+                else {
+                    console.log("Sent profile picture");
+                    res.send({name:obj.profilePic});
 
 
-var Storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, "./Images");
-    },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
-    }
-});
-
-var upload = multer({
-    storage: Storage
-}).array("imgUploader", 1); //Field name and max count
-
-//USAGE DOWN BELOW
-
-// upload(req, res, function(err) {
-//     if (err) {
-//         return res.end("Something went wrong!");
-//     }
-//     return res.end("File uploaded sucessfully!.");
-// });
+                }
+            });
 
 
-
-//Basic Housekeeping ends here. Refer back here for the Import Errors that you may get
-
-
-
-
-
-
-
+        }
+    });
+    
+})
 
 app.post("/upload", upLoad.single('img'), (req, res) => {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified");
+            console.log(decodedToken);
+
+            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
+                if (err) {
+                    console.log("ERRROR" + err);
+                    res.send(false);
+                }
+                else {
+                    console.log("Updated profile pic!!");
+                    res.send({ name:req.body.name });
+
+
+                }
+            });
+
+
+        }
+    });
     console.log(req.body)
     console.log('ADDED IMAGE TO DATABASE')
     res.status(201).send('YES')
 });
 
-//REGISTRATION ROUTE FOR STUDENTS.
-app.post('/register', function (req, res) {
-    console.log(req.body)
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (err) {
-            //CODE BELOW THIS IS PRODUCTION READY
-            bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
+
+app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
+    
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified PROFILE PICTURE");
+            console.log(decodedToken);
+
+            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
                 if (err) {
-                    console.log(err)
-                    res.status(500).send("Internal Server Error") //Sends an internal server err
+                    console.log("ERRROR" + err);
+                    res.send(false);
                 }
                 else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
+                    console.log("Updated profile pic!!");
+                    
+                    console.log('ADDED IMAGE TO DATABASE')
+                    console.log(req.body.name)
+                
+                    res.status(201).send(req.body.name)
 
-                            console.log("registering user");
-                            var newUser = new user
-                                ({
-                                    username: req.body.email,
-                                    userType: "Student",
-                                    password: BCRYPT_PASSWORD_HASH,
-                                    securityQuestion: req.body.securityQuestion,
-                                    securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                    profilePic: "/uploads/lak.png",
-                                    Bio: req.body.bio,
-                                    Interests: " ",
-                                    studentSchool: req.body.studentSchool,
-                                    Verified: false
-                                });
-
-                            newUser.save(function (err, obj) {
-                                if (err) {
-                                    console.log("ERROR, " + err);
-                                    res.status(422).send("Error in saving user");
-                                }
-                                else {
-                                    console.log(obj);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-                                    console.log(output);
-                                    sendMail(output, req.body.email);
-
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
-                                }
-                            });
-                        }
-                    })
                 }
-            })
+            });
 
+
+        }
+    });
+
+  
+})
+
+//REGISTRATION ROUTE FOR STUDENTS.
+app.post('/register', function (req, res) {
+    bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
+        if (err) {
+            console.log(err)
+            res.status(500).send("Internal Server Error") //Sends an internal server err
         }
         else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
+            console.log("registering user");
+            var newUser = new user
+                ({
+                    username: req.body.email,
+                    userType: "Student",
+                    password: BCRYPT_PASSWORD_HASH,
+                    profilePic: "/uploads/lak.png",
+                    LastSeen: Date.now(),
+                    Bio: req.body.bio,
+                    Interests: " ",
+                    studentSchool: req.body.studentSchool,
+                    Verified: false
+                });
+
+            newUser.save(function (err, obj) {
+                if (err) {
+                    console.log("ERROR, " + err);
+                    res.status(422).send("Error in saving user");
+                }
+                else {
+                    console.log(obj);
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+                    console.log(output);
+                    sendMail(output, req.body.email);
+                    lms.log(obj.username, 3, JSON.stringify(obj))
+                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                }
+            });
         }
     })
-
-});
+})
 
 app.post('/updateinfo', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -368,60 +352,38 @@ app.post('/updateinfo', function (req, res) {
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function (req, res) {
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
         if (err) {
-            console.log(req.body.Password)
-            //CODE BELOW THIS IS PRODUCTION READY
-            bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send("Internal Server Error") //Sends an internal server err
-                }
-                else {
-                    bcrypt.hash(req.body.securityAnswer, saltRounds, function (err, BCRYPT_SECURITY_ANSWER_HASH) {
-                        if (err) {
-                            console.log(err)
-                            res.status(500).send("Internal Server Error") //Sends an internal server err
-                        }
-                        else {
-                            console.log("registering user");
-                            var newUser = new user({
-                                username: req.body.OrganizerEmail,
-                                userType: "Organizer",
-                                password: BCRYPT_PASSWORD_HASH,
-                                securityQuestion: req.body.securityQuestion,
-                                securityAnswer: BCRYPT_SECURITY_ANSWER_HASH,
-                                profilePic: "/uploads/lak.png",
-                                Verified: false
-                            });
-
-                            newUser.save(function (err, obj) {
-                                if (err) {
-                                    console.log("ERROR, " + err);
-                                    res.status(422).send("Error in saving user");
-                                }
-                                else {
-                                    console.log(obj._id);
-                                    var output = 'Click on below link to verify<b> => http://localhost:3000/verifyuser/' + obj._id;
-
-                                    sendMail(output, req.body.OrganizerEmail);
-                                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
-                                }
-                            });
-                        }
-                    })
-                }
-            })
-
+            console.log(err)
+            res.status(500).send("Internal Server Error") //Sends an internal server err
         }
         else {
-            //TODO: Make a way for the user to be redirected to the homepage
-            //NOT READY
+            console.log("registering user");
+            var newUser = new user({
+                username: req.body.OrganizerEmail,
+                userType: "Organizer",
+                password: BCRYPT_PASSWORD_HASH,
+                profilePic: "/uploads/lak.png",
+                Verified: false
+            });
+
+            newUser.save(function (err, obj) {
+                if (err) {
+                    console.log("ERROR, " + err);
+                    res.status(422).send("Error in saving user");
+                }
+                else {
+                    console.log(obj._id);
+		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+                    sendMail(output, req.body.OrganizerEmail);
+                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                    lms.log(obj.username, 3, JSON.stringify(obj))
+                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
+                }
+            });
         }
     })
-
-});
+})
 
 app.get('/verifyuser/*', function (req, res) {
     var idx = req.url.slice(12, 1000);
@@ -434,7 +396,7 @@ app.get('/verifyuser/*', function (req, res) {
 
             console.log("VERIFIED");
             console.log(obj1);
-            res.redirect("http://localhost:4200/login");
+            res.redirect("http://athena-v2.s3-website.ap-south-1.amazonaws.com/login");
         }
     });
 });
@@ -486,7 +448,7 @@ app.post('/login', async function (req, res) {
                         if (BCRYPT_RES) {
                             console.log(usrobj)
                             //Checking what user type the user is, and returning a JWT based on that
-                            if (usrobj["userType"] == "Student" || usrobj["userType"] == adminKEY) {
+                            if (usrobj["userType"] == "Student") {
 
                                 //If the user object is a Student. I am finding a student with the required description
                                 Student.findOne({ EmailId: req.body.username }, function (err, obj) {
@@ -501,6 +463,7 @@ app.post('/login', async function (req, res) {
                                             console.log("Succesfully generated a JWT Token")
                                             res.json(token)
                                         })
+                                        lms.log(obj.EmailId, 2 )
                                     }
                                     else {
                                         console.log("vhjk");
@@ -517,8 +480,9 @@ app.post('/login', async function (req, res) {
                                         console.log("vhjk fghuio");
 
                                         console.log(obj)
-                                        token = jwt.sign({ email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
+                                        token = jwt.sign({  usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
+                                        lms.log(obj.OrganiserEmail, 2 )
                                     }
                                     else {
                                         res.send("WRONG VER");
@@ -526,10 +490,6 @@ app.post('/login', async function (req, res) {
                                     }
 
                                 });
-                            }
-                            else if (userobj["userType"] == "Admin") {
-
-                                //TODO: Make an admin block here
                             }
                         }
                         else {
@@ -619,6 +579,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Reseting password");
     user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);
     res.send("Validated")
+    lms.log(req.body.email, 5)
+
 
 });
 
@@ -679,58 +641,6 @@ app.get('/dashboard', async function (req, res) {
 
 });
 
-app.get('/getImage', function (req, res) {
-    console.log(req.query.url);
-    var Path = path.join(__dirname, req.query.url)
-    console.log(Path)
-    res.sendFile(Path);
-});
-
-
-// app.get('/imageUpload', function (req, res) {
-    // console.log(req.url);
-    // var Path=path.join(__dirname, req.query.url)
-    // console.log(Path)
-    // res.sendFile(Path);
-
-//     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-//         console.log("Getting Bio....")
-//         if (!err && decodedToken != null) {
-//             console.log("Verified: " + decodedToken.email);
-//             user.findOne({ username: decodedToken.email }, function (err, obj) {
-//                 if (err) {
-//                     console.log(err);
-//                 }
-//                 else {
-//                     var Path = path.join(__dirname, obj.profilePic)
-//                     console.log(obj.profilePic)
-//                     console.log("Path: " + Path);
-//                     console.log('HEREEE')
-//                     res.sendFile(Path)
-
-//                 }
-//             });
-//         }
-//         else {
-//             console.log(err)
-//             console.log("Something went wrong")
-//         }
-//     });
-
-//     console.log("sdfghjklkjhgfghioiuygfghjioihgvcvhjkijhgvc");
-// });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.post('/bio', function (req, res) {
@@ -754,15 +664,6 @@ app.post('/bio', function (req, res) {
         }
     });
 });
-
-
-
-
-
-
-
-
-
 
 /*
 UNDERDEVELOPED ROUTES
@@ -793,21 +694,7 @@ app.post('/auth', function (req, res) {
     })
 });
 
-/*
-ROUTES THAT NEED BUG SQUISHING
-*/
-
-
-//LOGOUT ROUTE
-app.post('/logout', function (req, res) {
-    //Ask the frontend to send a value called logout in the form
-    if (req.body.logout) {
-        user["LastSeen"] = Math.floor(Date.now() / 1000);
-    }
-
-});
-
-
+var oems = require('./microservices/event-org-micro')
 
 
 // ORGANIZER EVENTS CREATOR ROUTE.
@@ -823,8 +710,9 @@ app.post('/organizer-events', async function (req, res) {
                     evnName: req.body.evnName,
                     evnDate1: req.body.evnDate1,
                     evnDate2: req.body.evnDate2,
-                    evnInterests: [],
+                    evnInterests: req.body.interestArray,
                     evnLocation: req.body.evnLocation,
+                    evnCity: req.body.evnCity,
                     evnOrganizerName: decodedToken["name"],  //this line has to be changed
                     evnOrganizerPage: req.body.evnOrganizerPage,
                     evnOrganizerContact: req.body.evnOrganizerContact,
@@ -843,7 +731,7 @@ app.post('/organizer-events', async function (req, res) {
                     else {
                         console.log(obj);
                         //have to append the newly created id to the organizer as well
-                        
+                        oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
                     };
                 });
@@ -855,9 +743,6 @@ app.post('/organizer-events', async function (req, res) {
         }
     })
 });
-
-
-
 
 app.post("/addInterestOrganizer", function (req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
@@ -921,40 +806,6 @@ app.get('/achievements', async function (req, res) {
         }
     })
 })
-
-var flag = 0;
-var achCat = '';
-var achSubCat = '';
-
-
-
-app.post('/abcd', multipartMiddleware, (req, res) => {
-
-    console.log("ABCD METHOD");
-    console.log(req.body)
-
-
-    console.log(req.body);
-
-
-
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null) {
-            console.log("Verified");
-            console.log(decodedToken);
-            console.log(req.files.uploads[0]['path'])
-            res.send({ Image: req.files.uploads[0]['path'] })
-
-        }
-    });
-
-    flag = 0;
-    // }
-
-
-
-});
-
 
 // ACHIEVEMENTS ROUTE
 app.post('/achievements', multipartMiddleware, (req, res) => {
@@ -1022,70 +873,144 @@ app.post('/achievements', multipartMiddleware, (req, res) => {
 });
 
 
+//ACADEMICS
 
-app.post('/achImg', function (req, res) {
-    console.log('REQUEEST  is' + req.body.url)
+app.post('/addAcademics', function (req, res) {
+    // onsole.log("\N\N");
+    // console.log(req.body)
+
+
+    // console.log(req.body);
+    // console.log(req.body.uploadedFiles)
+    console.log('PRINTED IT')
+
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
-            console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.EmailId }, function (err, mongoObj) {
+            console.log("Verified");
+            console.log(decodedToken);
+            // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
+
+            Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err) {
-                    console.log(err)
+                    console.log(err);
                 }
                 else {
-                    // console.log("Mongo Object is AChievments" + mongoObj.Achievement);
-                    // console.log(mongoObj.Achievement[0]['Image'])
-                    for (var i = 0; i < mongoObj.Achievement.length; i++) {
-                        // console.log(mongoObj.Achievement[i]['Image'])   
+                    if (obj.Academics) {
 
+                        var newAc = new AcademicsSchema(
+                        {
+                            testName: req.body.testName,
+                            testRank: req.body.testRank,
+                            Image: req.body.Image,
+                            toShow: req.body.toShow,
+                            id: obj.Academics.length,
+                            testScore:req.body.testScore
+                        });
 
+                        newAc.save(function (err, achobj) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                    else {
+                                        console.log("FOUND TOKEN, ADDING ACADEMICS");
+                                        obj.Academics.push(newAc);
+                                        Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
+                                            if (err) {
+                                                console.log(err)
+                                            }
+                                            else {
+                                                console.log("SUCCESS")
+						    res.send(true)
+                                                
+                                            }
+                                        })
+            
+                                    }
+                                })
+                            }
+                        })
                     }
-                    console.log("WORKINGG ANIRUDHHHH" + req.body.url)
-                    res.sendFile(path.join(__dirname + '', req.body.url))
-
-
-
+                    else {
+                        var newAc = new AcademicsSchema(
+                            {
+                                testName: req.body.testName,
+                                testRank: req.body.testRank,
+                                Image: req.body.Image,
+                                toShow: req.body.toShow,
+                                id: 0,
+                                testScore:req.body.testScore
+                            });
+    
+                            newAc.save(function (err, achobj) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                                else {
+    
+                                    Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                                        if (err) {
+                                            console.log(err)
+                                        }
+                                        else {
+                                            console.log("FOUND TOKEN, ADDING ACADEMICS");
+                                            obj.Academics.push(newAc);
+                                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
+                                                if (err) {
+                                                    console.log(err)
+                                                }
+                                                else {
+                                                    console.log("SUCCESS")
+							
+                                                }
+                                            })
+                
+                                        }
+                                    })
+                                }
+                            })
+                    }
                 }
-            })
+            });
+
+        }
+    });
+
+
+});
+
+app.post('/getAcademics', async function (req, res) {
+    var decoded = await jwms.verify(req.headers.authorization);
+
+    Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+        if (err) {
+            console.log(err);
         }
         else {
-            console.log(err)
-            console.log("Something went wrong")
+            console.log(obj.Academics);
+            res.send(obj.Academics);
         }
-    })
+    });
+
 })
 
-
-
-
-
-
-
-
-
-
-app.post('/delete-achievement', function (req, res) {
-    //This is for deleting achievements
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null && decodedToken != undefined && decodedToken != {}) {
-            //Have to send which achievement id I have to delete
-            console.log(req);
-
-            Student.update(
-                { EmailId: decodedToken.email },
-                { $pull: { Achievements: { _id: req.body.achId } } },
-                { multi: false }
-            )
-
+app.post('/getSpecicifAc', async function(req, res){
+	var decoded = await jwms.verify(req.headers.authorization)
+	Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+        if (err) {
+            console.log(err);
         }
         else {
-            console.log('INTERNAL ERROR. UNABLE TO VERIFY JWT');
-            res.status(403)
+            res.send(obj.Academics[req.body.acId]);
+            // console.log(req.body)
         }
-    })
-})
-
+    });
+});
 
 
 //INTERESTS
@@ -1124,6 +1049,7 @@ app.post('/addInterest', function (req, res) {
             console.log("Verified")
 
             var newInterests = req.body;
+            console.log(newInterests);
 
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err || obj == null || obj == undefined) {
@@ -1143,34 +1069,65 @@ app.post('/addInterest', function (req, res) {
                                     console.log(err)
                                 }
                                 else {
-
+                                    console.log("UPDATED!1");
                                 }
                             });
+
+                            console.log("NEW INTEREST NAMEMM: " + newInterests[i]);
+                            var subCat = newInterests[i]
 
                             InterestSchema.findOne({ subCat: newInterests[i] }, function (err, intObj) {
                                 if (err) {
                                     console.log(err);
                                 }
                                 else {
-                                    console.log("adding to interest");
-                                    intObj.users.push(obj._id);
+                                    console.log("adding to interest schema");
 
-                                    InterestSchema.updateOne({ subCat: newInterests[i] }, { $set: { users: intObj.users } }, function (err, lObj) {
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                        else {
-                                            console.log("added successfully");
-                                        }
-                                    });
+                                    if(intObj == null)
+                                    {
+                                        var interestSchema = new InterestSchema(
+                                        {
+                                            subCat: subCat,
+                                            users: [obj._id]
+                                        });
+
+                                        interestSchema.save(function(err, obj)
+                                        {
+                                            if(err)
+                                            {
+                                                console.log(err);
+                                            }
+                                            else
+                                            {
+                                                console.log("SUCCESSFULLY DONE!!");
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {   
+                                        console.log(intObj);
+                                        intObj.users.push(obj._id);
+
+                                        InterestSchema.updateOne({ subCat: subCat }, { $set: { users: intObj.users } }, function (err, lObj) {
+                                            if (err) {
+                                                console.log(err);
+                                            }
+                                            else {
+                                                console.log("added successfully");
+                                            }
+                                        });
+                                    }
+ 
                                 }
                             });
+
+
 
                         }
                     }
 
                     console.log(obj);
-
+                    res.send(obj)
                 }
             });
 
@@ -1225,7 +1182,19 @@ app.post('/event-search', async function (req, res) {
 
         }
         else {
-            console.log(req.body.keyword)
+            if (req.body.usecase == 1) {
+                var evns = await dms.reqular_city_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else if (req.body.usecase == 2) {
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
+            else if (req.body.usecase == 3) {
+                ///DOES NOT WORK
+                var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN)
+                res.send(evns)
+            }
             var query = req.body.keyword
             var evns = await dms.testexplore3(query, DECODEDTOKEN)
             console.log("HELSOF S", evns)
@@ -1314,12 +1283,12 @@ app.post('/click-on-events', function (req, res) {
                                     // the interests of the event are
                                     var eint = EVNobj.evnInterests;
                                     var usrvec = MONGO_OBJ_RETURN.uservector;
-                                    console.log("EVENT INTERESTS ARE: ", eint)  
-                                    console.log("MONGO USRVEC IS", eint)  
-                                    for(let i=0; i<eint.length; i++) {
+                                    console.log("EVENT INTERESTS ARE: ", eint)
+                                    console.log("MONGO USRVEC IS", eint)
+                                    for (let i = 0; i < eint.length; i++) {
                                         var curInt = eint[i]
-                                        console.log("current int is , " , curInt)
-                                        if(usrvec.includes(curInt)) {
+                                        console.log("current int is , ", curInt)
+                                        if (usrvec.includes(curInt)) {
                                             console.log("Already Included, have to do nothing")
                                         }
                                         else {
@@ -1329,14 +1298,14 @@ app.post('/click-on-events', function (req, res) {
                                     //After this, we check if usrvec and the returned mongo objects are the same, by this we know
                                     //If there is need of updating the collection in the db
 
-                                    if(usrvec == MONGO_OBJ_RETURN.uservector) {
+                                    if (usrvec == MONGO_OBJ_RETURN.uservector) {
                                         console.log("No new data")
                                         res.status(200).send(EVNobj);
                                     }
                                     else {
                                         //Have to now update the student object
-                                        Student.updateOne({_id: decodedToken.usrid}, {$set: {uservector: usrvec}},  function(err, obj) {
-                                            if(err) {
+                                        Student.updateOne({ _id: decodedToken.usrid }, { $set: { uservector: usrvec } }, function (err, obj) {
+                                            if (err) {
                                                 console.log(err)
                                             }
                                             else {
@@ -1365,29 +1334,22 @@ app.post('/click-on-events', function (req, res) {
 
 })
 
-app.post('//addInterestOrganizer', function(req, res)
-{
+app.post('//addInterestOrganizer', function (req, res) {
     var eventId = req.body.eventId;
     var eventInterest = req.body.eventInterest;
 
-    event.findOne({_id: eventId}, function(err, obj)
-    {
-        if(err)
-        {
+    event.findOne({ _id: eventId }, function (err, obj) {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             obj.evnInterests.push(eventInterest);
 
-            event.findOneAndUpdate({_id: eventId}, {$set: {evnInterests: obj.evnInterests}}, function(err1, obj1)
-            {
-                if(err1)
-                {
+            event.findOneAndUpdate({ _id: eventId }, { $set: { evnInterests: obj.evnInterests } }, function (err1, obj1) {
+                if (err1) {
                     console.log(err1);
                 }
-                else
-                {
+                else {
                     console.log(obj1);
                     console.log("DONE");
                 }
@@ -1445,6 +1407,25 @@ app.get('/getCategoriesAll', function (req, res) {
     });
 });
 
+app.get('/evnCity1234', function(req, res)
+{   
+
+    console.log("Hello, world");
+
+    event.updateMany({}, {$set: {evnCity: "Bangalore"}}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log(obj);
+            res.send("DONE!!");
+        }
+    })
+});
+
 app.get('/getCategoriesId', function (req, res) {
     console.log(req.query.catId);
     var id = parseInt(req.query.catId);
@@ -1461,6 +1442,21 @@ app.get('/getCategoriesId', function (req, res) {
         }
     });
 });
+
+// app.get('/addInterestArray', function(req, res)
+// {   
+//     CatE.updateMany({}, {$set: {users: [1]}}, function(err, obj)
+//     {
+//         if(err)
+//         {
+//             console.log(err);
+//         }
+//         else
+//         {
+//             res.send("DONE!!");
+//         }
+//     });
+// });
 
 app.post('/addCat', function (req, res) {
 
@@ -1574,7 +1570,7 @@ app.post('/api/follow', async function (req, res) {
         }
         else {
             console.log(decodedToken)
-            Student.findOne({_id: decodedToken['usrid'] }, function (err, obj) {
+            Student.findOne({ _id: decodedToken['usrid'] }, function (err, obj) {
                 if (err) {
                     console.log(err)
                     res.status(403).send("No such student");
@@ -1601,10 +1597,8 @@ app.post('/api/follow', async function (req, res) {
         }
     })
 })
-
-
-
-app.get('/api/getevents', async function(req, res){
+//This is for the personal stuff
+app.get('/api/getevents', async function (req, res) {
     console.log("SHHSHSHDHASAISASSO")
     var return_arr = [];
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
@@ -1613,13 +1607,13 @@ app.get('/api/getevents', async function(req, res){
         }
         else {
             console.log(decodedToken)
-            Student.findOne({_id: decodedToken['usrid'] }, async function (err, obj) {
+            Student.findOne({ _id: decodedToken['usrid'] }, async function (err, obj) {
                 if (err) {
                     res.status(403).send("No such student");
                 }
                 else {
                     console.log(obj)
-                    for(let i=1; i < obj.evnFollowing.length; i++) {
+                    for (let i = 0; i < obj.evnFollowing.length; i++) {
                         console.log(obj.evnFollowing.length)
                         console.log(obj.evnFollowing[i])
                         var evnFound = await evnFind(obj.evnFollowing[i])
@@ -1651,7 +1645,24 @@ app.get('/api/getevents', async function(req, res){
 
 async function evnFind(idx) {
     var callback = new Promise(function (res, rej) {
-        event.findOne({_id: idx}, function(err, obj) {
+        event.findOne({ _id: idx }, function (err, obj) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("FOUND EVENT IS: \n", obj)
+                res(obj)
+            }
+        })
+    })
+
+    let r = await callback;
+    return r;
+
+}
+
+async function evnFindLite(idx) {
+    var callback = new Promise(function (res, rej) {
+        event.findOne({ _id: idx }, {evnName: 1, Image: 1, evnDate: 1, evnDescription:1, _id: 1}, function (err, obj) {
             if (err) {
                 console.log(err)
             } else {
@@ -1667,34 +1678,435 @@ async function evnFind(idx) {
 }
 
 
-app.get('/api/retorgevents', async function(req, res) {
-    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
-        if (err) {
-            console.log('INTERNAL ERROR. ', err);
-            res.status(403).send("Wrong JWT");
-        }
-        else {
-            console.log(decodedToken) //testing
-            Organiser.findOne({_id: decodedToken['usrid']}, function(err, obj) {
-                if(err) {
-                    res.status(500).send('Mongo Connect err') 
+app.get('/api/retorgevents', async function (req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    console.log(decoded)
+    if(decoded!=false) {
+        Organiser.findOne({_id: decoded['usrid']}, async function(err, obj) {
+            if(err) {
+                console.log(err)
+                res.status(500).send(err) 
+            }
+            else {
+                if(obj!=null) {
+                    var evn_arr = []
+                    for(let i=obj.evns.length-1; i>0; i--) {
+                        var cur = await evnFindLite(obj.evns[i])
+                        evn_arr.push(cur)
+                    }
+                    res.status(200).send(evn_arr) 
                 }
                 else {
-                    if(obj!=null) {
+                    res.status(404).send('This user is not found') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('Invalid JWT') 
+    }
+})
 
+app.post('/logout', async function (req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    if (decoded != false) {
+        console.log(decoded)
+        console.log("HSSSSSHSHHSHSSSS")
+        var d = Date.now()
+        user.updateOne({ _id: decoded['usrid'] }, { $set: { LastSeen: d } }, function (err, MONGOUPDTAE) {
+            if (err) {
+                for (let i = 0; i < 10; i++) {
+                    console.log("FAILED TO UPDATE LAST SEEN")
+                }
+            } else {
+                console.log("UPDATED LAST SEEN")
+            }
+        })
+    }
+    else {
+        res.status(403).send('Bad JWT')
+    }
+})
+
+var sr = require('./microservices/evn-micro')
+
+app.get('/api/getrecent', async function (req, res) {
+    var evns = await sr.all()
+    var ret_arr = []
+    for (let i = evns.length - 1; i > evns.length - 4; i--) {
+        ret_arr.push(evns[i])
+    }
+    console.log(ret_arr)
+    console.log(evns)
+    res.send(ret_arr)
+})
+
+app.get('/evnCity', function (req, res) {
+    event.updateMany({}, { $set: { evnCity: "Bengaluru" } }, function (err, obj) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(obj);
+        }
+    })
+});
+
+
+
+app.post('/api/searchbyinterests', async function (req, res) {
+    //req.body.keyword
+
+    var keyword = req.body;
+
+    InterestSchema.findOne({ subCat: keyword }, async function (err, obj) {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            console.log(obj);
+            if (obj != null) {
+                var finalret = []
+                var callback = new Promise(async (res, rej) => {
+                    for (let i = 0; i < obj.users.length; i++) {
+                        var response = await findStudent(obj.users[i])
+                        if (response != false) {
+                            finalret.push(response)
+                        }
+                        else {
+                            console.log("A Deleted user was skippeddss")
+                        }
+                    }
+                    res(finalret)
+                })
+
+                let r = await callback;
+                res.status(200).send(r)
+            }
+            else {
+                res.status(403).send("No users found")
+                console.log("No other users have the same interest")
+            }
+        }
+    })
+})
+
+app.post("/searchbyint", function(req, res)
+{   
+
+    var keyword = "BMX"
+
+    InterestSchema.findOne({subCat: keyword}, function(err, obj)
+    {
+        console.log(obj);
+    });
+})
+
+async function findStudent(id) {
+    var callback = new Promise((res, rej) => {
+        Student.findOne({ _id: id }, { FirstName: 1, LastName: 1, _id: 1 }, function (err, obj) {
+            if (err) {
+                console.log("MONGO ERROR")
+                res(false)
+            }
+            else {
+                if (obj != null) {
+                    res(obj)
+                }
+                else {
+                    console.log("NO USER LIKE THAT")
+                    res(false)
+                }
+            }
+        })
+    })
+
+    let r = await callback;
+    return r
+
+}
+
+
+app.post('/api/tracker/click-on-user-event', async function(req, res) {
+    ///need to send in a student id here to find
+    var decoded = await jwms.verify(req.headers.authorization)
+    if (decoded != false) {
+        //We need to add the selected students interests to the user vector object
+        Student.findOne({_id: decoded['usrid']}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.send(500).send("Mongo Error")
+            } else {
+                if(obj!= null) {
+                    //Means that the user is found, here we search for the selected user
+                    Student.findOne({_id: req.body._id}, function(err2, obj2) {
+                        if(err) {
+                            res.status(500).send('Internal Mongo Error') 
+                        }
+
+                        else {
+                            if(obj2!=null) {
+                                //This means that the user object has also been found here
+                                //Now what matters is that I reuturn this
+                                addToUserVector(obj._id, obj2.interests)
+                                res.status(200).send(obj2)
+
+                            }
+                            else {
+                                res.status(404).send('User is not found') 
+                            }
+                        }
+                    })
+                }
+                else {
+                    res.status(404).send('user not found') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('Bad JWT')
+    }
+})
+
+
+
+function addToUserVector(userid, to_add) {
+
+}
+
+
+
+app.get('/discoverUsers', async function(req, res) {
+
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        //Must add profile picture when you find it here
+        //Must also refine to fit in good recommendations
+        //Should be pretty good for a small dataset
+        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err) 
+            } else {
+                if(obj!=[]) {
+                    res.status(200).send(obj) 
+                }
+                else {
+                    res.status(404).send('users not found in this city') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('user might not be logged in. reqd to use our platform') 
+    }
+})
+
+
+
+app.post('/discoverUsers1', async function(req, res) {
+    var token = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c3JpZCI6IjVlMTZiZTQ3MmE5NTNlMDY5MGVkNTkwMiIsImVtYWlsIjoidmlqYXkuZEBhdGhlbmEuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpamF5IiwiZmFtaWx5X25hbWUiOiJEaGFybWFqaSIsInJvbGUiOiJTdHVkZW50IiwiTG9jYXRpb24iOiJCZW5nYWwiLCJQaW5jb2RlIjo1NjAwODAsInVzZXJ2ZWN0b3IiOltdLCJpYXQiOjE1Nzg2NDQ5MzUsImV4cCI6MTU3ODczMTMzNSwiaXNzIjoiQXRoZW5hIExvZ2luIENyZWRlbnRpYWxzIn0.Kw4uRkyy7-wfanhioHu3m4WipMWCIXwjG_yLoN8zYS6RXGodBFS1ozG-9DZOrU5Aq9NaL-Lv4Wg-k0HucIratGVARW5XFDbRkn4Ap9RmPmZrd5RjckZeycpMT9PiNz1pIN_zABDaULv9VsAc62pJAXD7F50Dy1Vn0B_pc_RYfSQMVM4-CQuwXVSw2_8y1OzmIPZFtuYFnufoX9a_7XZ1lZTWsY-T_pKzwSpj3ioUN2Ah70p9fjHfI3vHzgiYxrCWW3GW3IIPuAa4uMr8UZFIeYvVy1xfczo4lR7nlKiH0pgCo1PQhaPFziTEa8gTGE0plBRY29crgkyRmmCCKa9xVQ" 
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decoded) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send(err) 
+                } else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
                     }
                     else {
-                        res.status(404).send('No user like this') 
+                        res.status(404).send('users not found in this city') 
                     }
                 }
             })
         }
     })
+    if(decoded!=false) {
+        //Must add profile picture when you find it here
+        //Must also refine to fit in good recommendations
+        //Should be pretty good for a small dataset
+        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err) 
+            } else {
+                if(obj!=[]) {
+                    res.status(200).send(obj) 
+                }
+                else {
+                    res.status(404).send('users not found in this city') 
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('user might not be logged in. reqd to use our platform') 
+    }
+})
+
+
+app.post('/api/search/users', async function(req, res) {
+    var query = req.body.userKey
+    var usecase  =req.body.usecase
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false) {
+        if(usecase==1) {
+            Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+        else {
+            Student.find({$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+    }
+    else {
+        res.status(403).send('JWT is unauth or somehing') 
+    }
 })
 
 
 
+app.get('/api/run', function(req, res) {
+    ///Archiving Events
+    var key = ''
+    eventsArchive()
 
-app.post('/logout', function(req, res) {
-    
 })
+function eventsArchive() {
+    var events_to_delete;
+    event.find({}, function(err, EVN_OBJECT) {
+        if(err) {
+            console.log(err)
+        }
+        else {
+            if(EVN_OBJECT) {
+                console.log(EVN_OBJECT)
+                console.log("Got the object")
+                var total_length = EVN_OBJECT.length
+                for(let i=0; i<total_length; i++) {
+                    var CUR_EVENT = EVN_OBJECT[i]
+                    console.log('Archiving event at: ', i, 'of ', total_length)
+                    if(CUR_EVENT["evnEndDate"] < Date.now()) {
+                        var newArchEvent = new archevent({
+                            evnName: cur.evnName, 
+                            evnDate1: cur.evnDate1,
+                            evnDate2: cur.evnDate2,
+                            evnInterests: cur.evnInterests, 
+                            evnOrganizerName: cur.evnOrganizerName,
+                            evnOrganizerPage: cur.evnOrganizerPage,
+                            evnOrganizerContact: cur.evnOrganizerContact,
+                            evnLocation: cur.evnLocation, 
+                            evnPincode: cur.evnPincode,
+                            evnAddress: cur.evnAddress, 
+                            evnTargetAge: cur.evnTargetAge,
+                            // CONTACT SUMUK BELOW THIS
+                            evnDescription: cur.evnDescription, 
+                            evnRating: cur.evnRating,
+                            evnAttendees: cur.evnAttendees,
+                            Image: cur.Image
+                        })
+                        newArchEvent.save(function(err, obj) {
+                            if(err) {
+                                console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
+                            }
+                            else {
+                                console.log('SUCCESS >>> PUSHED TO ARCHIVED');
+                                console.log(obj)
+                                events_to_delete.push(cur._id)
+                            }
+                        })
+                    }
+                    
+                }
+                total_length = events_to_delete.length
+                for(let j=0; j < total_length; j++) {
+                    event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
+                        if(err) {
+                            console.log(err)
+                        }
+                        else {
+                            console.log("Deleted")
+                        }
+                    })
+                }
+                console.log("Deleted all redundant achievements")
+            }
+            else {
+                console.log("got blank from mongo")
+            }
+        }
+    })
+}
+
+
+
+
+app.post('/api/vectorless/click-on-events', function (req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+        }
+        else {
+            Organiser.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    if (MONGO_OBJ_RETURN) {
+                        event.findOne({ _id: req.body._id }, function (err, EVNobj) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                if (EVNobj) {
+                                    res.status(200).send(EVNobj)
+                                 
+                 
+                                }
+                                else {
+                                    console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
+                                }
+                            }
+                        })
+
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
+        }
+    })
+    //Does not require authentication
+    //Must send a post
+
+})
+

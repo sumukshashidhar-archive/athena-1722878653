@@ -1,0 +1,265 @@
+<div class="background">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <body>
+    <div class="container">
+
+      <nav class="main-menu">
+        <ul>
+
+          <li class="has-subnav">
+            <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
+              <img [src]="imageToShow" *ngIf="profileUrlExists"
+                style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
+              <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
+              <span class="nav-text" style="padding-left: 10px;">
+                {{username}}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/organizerdashboard']">
+              <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
+              <span class="nav-text">
+                Dashboard
+              </span>
+            </a>
+
+          </li>
+
+          <li class="has-subnav">
+            <a [routerLink]="['/eventsorg']">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <span class="nav-text">
+                Events
+              </span>
+            </a>
+
+          </li>
+
+          <li>
+            <a [routerLink]="['/discover']">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <span class="nav-text">
+                Discover
+              </span>
+            </a>
+          </li>
+        </ul>
+
+
+
+
+        <ul class="logout">
+          <li>
+            <a [routerLink]="['/login']" class="nav-item nav-link">
+              <i class="fa fa-power-off fa-2x"></i>
+              <span class="nav-text">
+                Logout
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Add An Event</h5>
+          <p class="card-text">Organize an event now</p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Create Event
+          </button>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div id="exampleModal" class="modal fade">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title">Add Event</h1>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Registering the Event -->
+              <!-- <mat-tab-group>
+                <mat-tab label="Register Your Event">
+
+                </mat-tab>
+                <mat-tab label="Reach out to more people">
+                  <label><strong>Category Name</strong></label>
+                  <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption">
+                  </ngx-select-dropdown>
+                  <label><strong>Sub category Name</strong></label>
+                  <ngx-select-dropdown [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat"
+                    [options]="subcatOptions"></ngx-select-dropdown>
+                  <br>
+                  <button class="btn btn-success" type="submit" (click)="addEvnInterests()">Add your interests</button>
+                </mat-tab>
+              </mat-tab-group> -->
+              <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
+                <div class="form-group">
+                  <label class="control-label">Event Name</label>
+                  <div>
+                    <input maxlength="32" type="text" class="form-control input-lg" value="" required ngModel
+                      name="evnName" #evnName="ngModel" [(ngModel)]="eventService.selectedEvent.evnName" />
+                    <span class="help-block" *ngIf="!evnName.valid && evnName.touched">Please enter Event
+                      Name</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">Event Website Link</label>
+                  <div>
+                    <input type="text" class="form-control" required ngModel name="evnOrganizerPage"
+                      #evnOrganizerPage="ngModel" [(ngModel)]="eventService.selectedEvent.evnOrganizerPage" />
+                    <span class="help-block" *ngIf="!evnOrganizerPage.valid && evnOrganizerPage.touched">Please add
+                      a
+                      link
+                      to your website</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event Starting Date</label>
+                  <div>
+                    <input maxlength="32" (change)="setMaxDate()" type="date" id="evnDate1" required ngModel
+                      name="evnDate1" #evnDate1="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate1"
+                      [min]="maxDate">
+                    <p class="help-block" *ngIf="!evnDate1.valid && evnDate1.touched">
+                      Please add Event date
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event Ending Date</label>
+                  <div>
+                    <input id="evnDate2" maxlength="32" type="date" id="evnDate2" required ngModel name="evnDate2"
+                      #evnDate2="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="newDate">
+                    <span class="help-block" *ngIf="!evnDate2.valid && evnDate2.touched">
+                      Please add Event date
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event Address Line 1</label>
+                  <div>
+                    <input maxlength="32" type="text" id="evn" class="form-control" name="evnAdd1" required ngModel
+                      #evnAdd1="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd1" />
+                    <span class="help-block" *ngIf="!evnAdd1.valid && evnAdd1.touched">Please Enter Event
+                      Address Line 1</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event Address Line 2</label>
+                  <div>
+                    <input maxlength="32" type="text" id="evn" class="form-control" name="evnAdd2" required ngModel
+                      #evnAdd2="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd2" />
+                    <span class="help-block" *ngIf="!evnAdd2.valid && evnAdd2.touched">Please Enter Event
+                      Address Line 2</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event City</label>
+                  <div>
+                    <input maxlength="32" type="text" id="evn" class="form-control" name="evnCity" required ngModel
+                      #evnCity="ngModel" [(ngModel)]="eventService.selectedEvent.evnCity" />
+                    <span class="help-block" *ngIf="!evnCity.valid && evnCity.touched">Please Enter Event City</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Pincode</label>
+                  <div>
+                    <input type="text" maxlength="6" class="form-control" name="evnPincode" required ngModel
+                      #evnPincode="ngModel" [(ngModel)]="eventService.selectedEvent.evnPincode">
+                    <span class="help-block" *ngIf="!evnPincode.valid && evnPincode.touched">Please Enter Event
+                      Pincode</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Contact Number</label>
+                  <div>
+                    <input maxlength="32" type="text" class="form-control" pattern="[6789][0-9]{9}" required ngModel
+                      name="evnOrganizerContact" #evnOrganizerContact="ngModel"
+                      [(ngModel)]="eventService.selectedEvent.evnOrganizerContact" />
+                    <span class="help-block" *ngIf="
+                  !evnOrganizerContact.valid && evnOrganizerContact.touched
+                ">Please Enter a Valid contact Number</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Event Description</label>
+                  <div>
+                    <!-- <textarea class="form-control" required ngModel name="evnDescription"
+                 #evnDescription="ngModel" [(ngModel)]="eventService.selectedEvent.evnDescription"
+                cols="30" rows="10"></textarea> -->
+                    <input type="text" class="form-control" required ngModel name="evnDescription"
+                      #evnDescription="ngModel" [(ngModel)]="eventService.selectedEvent.evnDescription">
+                    <span class="help-block" *ngIf="!evnDescription.valid && evnDescription.touched">Please Enter A
+                      Description</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Target Age</label>
+                  <div>
+                    <input type="number" maxlength="3" class="form-control" required ngModel name="evnTargetAge"
+                      #evnTargetAge="ngModel" [(ngModel)]="eventService.selectedEvent.evnTargetAge">
+                    <span class="help-block" *ngIf="!evnTargetAge.valid && evnTargetAge.touched">Please Enter Target
+                      Age</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Upload an Image</label>
+                  <div class="custom-file mb-3">
+                    <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
+                      (change)="readSingleFile($event)" [(ngModel)]="eventService.selectedEvent.Image" />
+                    <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Category Name</label>
+                  <div>
+                    <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
+                      [options]="categoryOption"></ngx-select-dropdown>
+                    <label class="control-label">Sub category Name</label>
+                    <ngx-select-dropdown [multiple]="true" name="subCatName" [(ngModel)]="subCatName"
+                      [config]="configSubCat" [options]="subcatOptions"></ngx-select-dropdown>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div>
+                    <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal"
+                      data-target="#exampleModal" (click)="onSubmit(f)">
+                      Register
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+    </div>
+    <div class="container">
+      <mat-card class="example-card" *ngFor="let evn of myEvents">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ evn.evnName }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="http://ec2-15-206-148-32.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            {{ evn.evnDescription }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <form #f="ngForm">
+          <button mat-button (click)="sendDetails(f, evn._id)">SHOW DETAILS</button>
+        </form>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </body>
+  <!-- /.modal -->

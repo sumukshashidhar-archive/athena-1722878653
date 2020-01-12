@@ -313,14 +313,14 @@ width: 20vw;
 }
 .bg{
   background-position: center center;
-  background-color:  #11ABC1;
+  background-color:  #f9fafe;
   height:1000%;
   background-size: cover;
 }
 html { height: 100% }
 
 body {
-  background-color:  #11ABC1;
+  background-color:  #f9fafe;
   border: 1px solid transparent;
   padding-bottom: 20px;
   height:120vw;

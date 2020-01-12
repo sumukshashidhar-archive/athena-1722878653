@@ -182,6 +182,27 @@ app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is fro
 });
 
 app.post("/upload", upLoad.single('img'), (req, res) => {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified");
+            console.log(decodedToken);
+
+            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
+                if (err) {
+                    console.log("ERRROR" + err);
+                    res.send(false);
+                }
+                else {
+                    console.log("Updated profile pic!!");
+                    res.send({ name:req.body.name });
+
+
+                }
+            });
+
+
+        }
+    });
     console.log(req.body)
     console.log('ADDED IMAGE TO DATABASE')
     res.status(201).send('YES')
@@ -189,10 +210,33 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
 
 
 app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
-    console.log('ADDED IMAGE TO DATABASE')
-    console.log(req.body.name)
+    
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (!err && decodedToken != null) {
+            console.log("Verified PROFILE PICTURE");
+            console.log(decodedToken);
 
-    res.status(201).send('ADDED')
+            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
+                if (err) {
+                    console.log("ERRROR" + err);
+                    res.send(false);
+                }
+                else {
+                    console.log("Updated profile pic!!");
+                    
+                    console.log('ADDED IMAGE TO DATABASE')
+                    console.log(req.body.name)
+                
+                    res.status(201).send(req.body.name)
+
+                }
+            });
+
+
+        }
+    });
+
+  
 })
 
 //REGISTRATION ROUTE FOR STUDENTS.

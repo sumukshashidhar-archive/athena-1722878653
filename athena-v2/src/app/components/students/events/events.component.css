@@ -326,10 +326,14 @@ font-size:20px;
 
 @media(max-width: 500px) {
   .card-view {
-      width: 95%;
-      max-width: 95%;
+      width: 60%;
+      max-width: 60%;
       margin: 1em;
       display: block;
+      margin-left: 25%;
+  }
+  .card-header{
+    height:50vw;
   }
   .container {
       padding: 0;

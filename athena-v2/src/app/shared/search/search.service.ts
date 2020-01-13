@@ -23,6 +23,8 @@ export class SearchService {
     keyword: '',
     usecase: 1
   };
+  
+  eventTab:any = 0;
 
   selSearch1: User_Search = {
     userKey: ""

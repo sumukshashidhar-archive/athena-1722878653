@@ -4,9 +4,11 @@ import { EventService } from "./../../../shared/events/event.service";
 import { Event } from "./../../../shared/events/event";
 import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '../../../../../node_modules/@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
+import { SearchService } from './../../../shared/search/search.service'
 export var EventDetails;
 @Component({
   selector: "app-events",
@@ -21,7 +23,9 @@ export class EventsComponent implements OnInit {
   imageToShow:any;
   profileUrlExists:any;
   results: any;
-  constructor(public eventService: EventService, private router: Router,private auth:AuthService, private http:HttpClient) {
+  selected = new FormControl(0);
+
+  constructor(public data: SearchService, public eventService: EventService, private router: Router,private auth:AuthService, private http:HttpClient) {
     this.decoded = localStorage.getItem("access_token");
   }
 
@@ -29,6 +33,7 @@ export class EventsComponent implements OnInit {
   ngOnInit() {
     this.refreshEvents();
     this.postToIt();
+    this.tabChange()
     this.getEvents();
     var decodedtoken = jwt_decode(this.decoded);
     console.log(decodedtoken)
@@ -43,6 +48,10 @@ export class EventsComponent implements OnInit {
       this.showSpinner = false;
       console.log(this.eventService.events);
     });
+  }
+
+  tabChange(){
+    this.selected.setValue(this.data.eventTab);
   }
 
   logout() {

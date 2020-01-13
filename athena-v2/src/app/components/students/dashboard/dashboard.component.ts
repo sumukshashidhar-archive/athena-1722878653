@@ -143,4 +143,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  changeTab(){
+    this.data.eventTab = 1;
+  }
+
 }

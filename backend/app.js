@@ -1849,7 +1849,13 @@ app.post('/api/tracker/click-on-user-event', async function(req, res) {
                                 //This means that the user object has also been found here
                                 //Now what matters is that I reuturn this
                                 addToUserVector(obj._id, obj2.interests)
-                                res.status(200).send(obj2)
+				  
+				user.findOne({username: obj.EmailId}, function(err, obj23)
+				{
+					res.status.send({obj: obj, dp: obj23.profilePic})
+				});
+				    
+                                
 
                             }
                             else {

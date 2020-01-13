@@ -36,7 +36,7 @@ export class UserprofileComponent implements OnInit {
 
 
   getInterersts() {
-    return this.http.get("http://localhost:3000/interests").subscribe(res => {
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests").subscribe(res => {
       this.interestlist = res;
       console.log(this.interestlist);
     });
@@ -58,7 +58,7 @@ export class UserprofileComponent implements OnInit {
     const options = {
       headers : headers
     };
-    this.http.post('http://localhost:3000/getProfileName',options).subscribe(res=>{
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getProfileName',options).subscribe(res=>{
       console.log(res)
       console.log('IMAGE TO SHOW')
       this.imageToShow=res['name']
@@ -81,7 +81,7 @@ export class UserprofileComponent implements OnInit {
   }
 
   getBio(email: String) {
-    this.http.post("http://localhost:3000/bio", email).subscribe(res => {
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/bio", email).subscribe(res => {
       console.log("RESPONSE FOR BIO: ");
       console.log(res);
       this.bio = res;

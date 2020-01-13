@@ -1,0 +1,50 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<body>
+  <div>
+    <div class="row" style="padding-left: 300px;padding-top: 200px;">
+      <div class="col-xs-8">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <div class="row">
+                <div class="col-xs-4">
+
+                </div>
+                <div class="col-xs-6">
+                  <h4> User Interest </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+
+              <div class="col-xs-6">
+                <label><strong>Category Name</strong></label>
+                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption">
+                </ngx-select-dropdown>
+              </div>
+              <div class="col-xs-6">
+                <label> Sub category Name </label>
+                <ngx-select-dropdown [multiple]="true" [(ngModel)]="subCatName" [config]="configSubCat"
+                  [options]="subcatOptions"></ngx-select-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="row text-center">
+              <div class="col-xs-3">
+                <button type="button" class="btn btn-success btn-block" (click)="adduserInterestList()">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-sidenav></app-sidenav>
+</body>

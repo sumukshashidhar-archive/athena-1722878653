@@ -1,0 +1,76 @@
+<app-loading *ngIf="showSpinner"></app-loading>
+<mat-tab-group [selectedIndex]="selected.value">
+  <mat-tab label="All Events">
+    <div class="container">
+      <div class="row" *ngFor="let evn of eventService.events">
+
+        <!--  Card Start -->
+        <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
+          <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
+
+          <div class="card--content">
+            <div class="card--content-head">
+
+              <form #f="ngForm">
+                <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
+
+                  <h3 class="card--title">{{evn.evnName}}</h3>
+                </a>
+              </form>
+              <div class="ratings"><span>8.8</span>/10</div>
+            </div>
+            <div class="card--info">
+              <div class="time-on">
+                <label>Last update</label>
+                <span>Sun 8 Sept - 10:00PM</span>
+              </div>
+              <div class="time-on">
+                <label>Running time</label>
+                <span>2hr 09min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!--  Card End -->
+    </div>
+  </mat-tab>
+  <mat-tab label="Events Following">
+    <div class="container">
+      <div class="row" *ngFor="let evn of results">
+
+        <!--  Card Start -->
+        <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
+          <img class="card-header" src="http://localhost:3000/{{ evn.Image }}">
+
+          <div class="card--content">
+            <div class="card--content-head">
+
+              <form #f="ngForm">
+                <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
+
+                  <h3 class="card--title">{{evn.evnName}}</h3>
+                </a>
+              </form>
+              <div class="ratings"><span>8.8</span>/10</div>
+            </div>
+            <div class="card--info">
+              <div class="time-on">
+                <label>Last update</label>
+                <span>Sun 8 Sept - 10:00PM</span>
+              </div>
+              <div class="time-on">
+                <label>Running time</label>
+                <span>2hr 09min</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!--  Card End -->
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+<app-sidenav></app-sidenav>

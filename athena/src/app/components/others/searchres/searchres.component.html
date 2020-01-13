@@ -1,0 +1,67 @@
+<body>
+  <div class="container">
+    <mat-tab-group [selectedIndex]="selected.value">
+      <mat-tab label="Event Search Results">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of results">
+              <mat-card-header>
+                <mat-card-title>{{ evn.evnName }}</mat-card-title>
+                <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image class="img-responsive" src="http://localhost:3000/{{ evn.Image }}"
+                alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <p>
+                  {{ evn.evnDescription }}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <form #e="ngForm">
+                  <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+                </form>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="User Search Results">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of userResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.FirstName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.LastName }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <form #u="ngForm">
+                  <button mat-raised-button (click)="sendDetails1(u, user._id)">READ MORE</button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Interest Search Results">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of interestResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.FirstName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.LastName }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <form #v="ngForm">
+                  <button mat-raised-button (click)="sendDetails1(v, user._id)">READ MORE</button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</body>

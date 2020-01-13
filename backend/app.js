@@ -230,6 +230,7 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     });
     console.log(req.body)
     console.log('ADDED IMAGE TO DATABASE')
+
 });
 
 

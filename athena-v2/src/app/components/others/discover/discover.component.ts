@@ -175,6 +175,7 @@ export class DiscoverComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.openSnackBar("No users found", "Close")
         }
       );
     }

@@ -47,7 +47,8 @@ import { SearchresComponent } from './components/others/searchres/searchres.comp
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component';
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component';
 import { AcademicsComponent } from './components/students/academics/academics.component';
-import { CarouselComponent } from './components/ui-components/carousel/carousel.component'
+import { CarouselComponent } from './components/ui-components/carousel/carousel.component';
+import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { CarouselComponent } from './components/ui-components/carousel/carousel.
     NavbarComponent,
     SidenavComponent,
     AcademicsComponent,
-    CarouselComponent
+    CarouselComponent,
+    UsersearchresComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

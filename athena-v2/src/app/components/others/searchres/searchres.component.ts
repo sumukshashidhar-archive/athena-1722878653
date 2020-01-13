@@ -62,6 +62,7 @@ export class SearchresComponent implements OnInit {
       res => {
         console.log(res)
         this.search.userDetails = res
+        this.router.navigate(['/usersearchres'])
       },
       err => {
         console.log(err)

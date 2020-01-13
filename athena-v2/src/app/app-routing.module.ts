@@ -27,12 +27,17 @@ import { UserprofileComponent } from './components/others/userprofile/userprofil
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
+import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
 
 
 const routes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path: "usersearchres",
+    component: UsersearchresComponent
   },
   {
     path: "navbar",

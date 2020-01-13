@@ -1,0 +1,167 @@
+]
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+
+<section>
+  <div class="cont">
+    <div class="card-wrapper">
+      <div class="card">
+        <img src="https://www.sendxmail.com/wp-content/uploads/2014/11/low_poly_background.jpg" alt="IMAGE CARD BG"
+          class="card-img">
+        <img src="http://localhost:3000/{{imageToShow}}" alt="profile image" class="profile-img">
+        <h1>{{ user.FirstName }}</h1>
+        <p class="job-title">Student School</p>
+        <p class="about">
+          {{ user.Bio }}
+
+        </p>
+        <!-- <a routerlink="#" class="btn">Contact</a>
+              <ul class="social-media">
+                <li class="other"><a routerlink="#"><i class="fab fa-facebook-square"></i></a></li>
+                <li class="other"><a routerlink="#"><i class="fab fa-twitter-square"></i></a></li>
+                <li class="other"><a routerlink="#"><i class="fab fa-instagram"></i> </a>
+              </ul> -->
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <h2 style="color: azure; margin-left: 25% ;">BIO:</h2> -->
+<!-- <p style=" color: rgb(0, 0, 0);margin-left: 25%; background: #00c2ff;">{{bio}}</p> -->
+
+<body>
+
+  <div class="container" style="margin-left: 18%;">
+    <div class="card abc">
+      <div class="face face1">
+        <div class="content">
+          <h3>INTERESTS</h3>
+        </div>
+      </div>
+      <div class="face face2">
+        <div class="content">
+          <button type="button" data-toggle="modal" data-target="#exampleModal1">
+            Click to view interests
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card card2">
+      <div class="face face1">
+        <div class="content">
+
+          <h3>ACHIEVEMENTS</h3>
+        </div>
+      </div>
+      <div class="face face2">
+        <div class="content">
+
+          <button type="button " data-toggle="modal" data-target="#exampleModal">
+            Click to view achievements
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card card3">
+      <div class="face face1">
+        <div class="content">
+          <h3>EVENTS</h3>
+        </div>
+      </div>
+      <div class="face face2">
+        <div class="content">
+          <button type="button" data-toggle="modal" data-target="#exampleModal2">
+            Click to view events
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Interests</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngFor="let int of user.Interests">
+          <ul>
+            <li class="other">
+              <span class="name">{{ int }}</span>
+              <!-- <span class="points">95</span> -->
+            </li>
+
+
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Achievements</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngFor="let ach of user.Achievements">
+          <ul>
+            <li class="other">
+              <span class="name">{{ ach.SubCategoryId }}</span>
+              <!-- <span class="points">95</span> -->
+            </li>
+
+
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Events</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngFor="let evn of user.evnFollowing">
+          <ul>
+            <li class="other">
+              <span class="name">{{ evn }}</span>
+              <!-- <span class="points">95</span> -->
+            </li>
+
+
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-sidenav></app-sidenav>
+
+
+</body>

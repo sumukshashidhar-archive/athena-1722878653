@@ -15,6 +15,7 @@ export class AcademicsComponent implements OnInit {
   Image: any;
   acadlist: any;
   thisacadlist=[]
+ 
   constructor(
     public academicSerice: AcademicsService,
     private http: HttpClient

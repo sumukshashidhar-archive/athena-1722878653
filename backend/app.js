@@ -194,6 +194,7 @@ app.post("/getProfileName",(req,res)=>{
                 }
                 else {
                     console.log("Sent profile picture");
+                    console.log(obj.profilePic)
                     res.send({name:obj.profilePic});
 
 
@@ -1850,9 +1851,9 @@ app.post('/api/tracker/click-on-user-event', async function(req, res) {
                                 //Now what matters is that I reuturn this
                                 addToUserVector(obj._id, obj2.interests)
 				  
-				user.findOne({username: obj.EmailId}, function(err, obj23)
+				user.findOne({username: obj2.EmailId}, function(err, obj23)
 				{
-					res.status.send({obj: obj, dp: obj23.profilePic})
+					res.status(200).send({obj: obj2, dp: obj23.profilePic})
 				});
 				    
                                 

@@ -64,8 +64,7 @@
           <td >{{acad.testName}}</td>
           <td>{{acad.testRank}}</td>
           <td>{{acad.testScore}}</td>
-          <td *ngIf="acad.toShow"><button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(acad.id)" data-target="#acadModal">Click to view Details</button></td>
-          <td *ngIf="!acad.toShow">Sorry,User wants to keep it private</td>
+          <td ><button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(acad.id)" data-target="#acadModal">Click to view Details</button></td>
         </tr>
       </tbody>
     </table>

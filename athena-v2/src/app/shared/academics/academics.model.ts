@@ -2,6 +2,6 @@ export class Academics {
   testName:String;
   testRank:String;
   Image : string;
-  toShow=true;
+  toShow:Boolean;
   testScore:String;
 }

@@ -46,17 +46,17 @@ export class EventService {
       headers : headers
     };
     console.log("Events")
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/events",options);
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/events",options);
   }
   postEvents(events: Event) {
     console.log("Post Events method");
     console.log(events)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/organizer-events", events);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/organizer-events", events);
   }
 
   getEventDetails(_id: Details ){
     console.log(_id)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/click-on-events", _id)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/click-on-events", _id)
   }
 
   postEventInterest(eventInterest, eventId){
@@ -73,19 +73,19 @@ export class EventService {
       eventInterest: eventInterest
     }
     console.log(obj)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/addInterestOrganizer", obj)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/addInterestOrganizer", obj)
   }
 
   postFollow(_id: EventFollow){
     console.log(_id)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/follow", _id);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/follow", _id);
   }
 
   getFollowEvents(){
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getevents")
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/getevents")
   }
 
   getHomeEvents(){
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getrecent")
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/getrecent")
   }
 }

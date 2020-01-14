@@ -15,6 +15,7 @@ export class AcademicsComponent implements OnInit {
   Image: any;
   acadlist: any;
   thisacadlist=[]
+ 
   constructor(
     public academicSerice: AcademicsService,
     private http: HttpClient
@@ -36,14 +37,14 @@ export class AcademicsComponent implements OnInit {
       headers: headers
     };
     this.http
-      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getAcademics", options)
+      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getAcademics", options)
       .subscribe(res => {
         console.log(res);
         this.acadlist = res;
       });
   }
   getThisAcad(acId:any){
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getSpecicifAc",{acId}).subscribe(res=>{
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getSpecicifAc",{acId}).subscribe(res=>{
       console.log('RESPONSE FOR GET ACADEMIC')
       console.log(res)
       this.thisacadlist[0]=res as Academics
@@ -57,7 +58,7 @@ export class AcademicsComponent implements OnInit {
     const frmData = new FormData();
     frmData.append("img", File[0]);
     console.log(frmData);
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/upload", frmData).subscribe(res => {
       console.log(res);
     });
 

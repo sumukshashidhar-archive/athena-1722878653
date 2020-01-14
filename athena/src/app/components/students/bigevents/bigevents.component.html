@@ -1,6 +1,6 @@
 <div class='card'>
   <h1 class="card-title" style="color: black;">{{x.evnName}}</h1>
-<img class="evnImage" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{x.Image}}" alt="image">
+<img class="evnImage" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/{{x.Image}}" alt="image">
 
 
 <p >Event Starting Date: {{x.evnDate1}} </p>
@@ -16,7 +16,7 @@
 <p>Event Address : {{ x.evnLocation }}</p>
 <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
 <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
-<!-- <img src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ x.Image }}" /> -->
+<!-- <img src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/{{ x.Image }}" /> -->
 <form #g="ngForm">
   <button class="btn btn-success" style="margin-left: 50%;" (click)="sendDetails(g, x._id)">Follow Event</button>
 </form>

@@ -485,6 +485,7 @@ color: aliceblue;
     margin-top:5rem;
   }
   .container{
+    margin-top: 60%;
     width: 100.2vw;
     position: relative;
     display: block;

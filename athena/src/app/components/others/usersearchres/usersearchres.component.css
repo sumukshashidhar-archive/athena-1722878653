@@ -450,6 +450,18 @@ color: aliceblue;
     justify-content: center;
     align-items: center;
   }
+  .table{
+    margin-top: 40%;
+  }
+  .modal-body{
+    height: 120vw;
+  }
+  .acadinfo{
+    margin-left: 0;
+    size: 50%;
+    height: 30%;
+    margin-top: 0
+  }
 
   .card{
     width: 13rem;
@@ -485,6 +497,7 @@ color: aliceblue;
     margin-top:5rem;
   }
   .container{
+    margin-top: 60%;
     width: 100.2vw;
     position: relative;
     display: block;

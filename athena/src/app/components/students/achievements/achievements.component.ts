@@ -158,7 +158,7 @@ export class AchievementsComponent implements OnInit {
 
     console.log(formData);
     this.http
-      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/abcd", formData)
+      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/abcd", formData)
       .subscribe(response => {
         console.log("response received is ", response);
         Achievement.uploadedFiles = response["Image"];
@@ -193,7 +193,7 @@ export class AchievementsComponent implements OnInit {
     console.log(Achievement);
     frmData.append("img", File[0]);
     console.log(frmData);
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/upload", frmData).subscribe(res => {
       console.log(res);
     });
     this.achService.postAchievements(Achievement).subscribe(res => {
@@ -241,10 +241,10 @@ export class AchievementsComponent implements OnInit {
     }
   }
   postToIt() {
-    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
+    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
+      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);
@@ -255,10 +255,10 @@ export class AchievementsComponent implements OnInit {
 
   setAttr() {
     // console.log(File);
-    // console.log(`http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/${File}`);
+    // console.log(`http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/${File}`);
     // document
     //   .getElementById("i1")
-    //   .setAttribute("src"", `http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/${File}`);
+    //   .setAttribute("src"", `http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/${File}`);
     var x = (document.getElementById("testimg123") as HTMLInputElement).value;
     console.log(x)
     this.test123 = x;

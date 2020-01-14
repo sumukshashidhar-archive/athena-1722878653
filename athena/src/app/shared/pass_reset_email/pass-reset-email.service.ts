@@ -18,6 +18,6 @@ export class PassResetEmailService {
 
   postEmail(email: PassResetEmail) {
     console.log(email);
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/reset", email);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/reset", email);
   }
 }

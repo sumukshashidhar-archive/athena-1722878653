@@ -65,20 +65,6 @@ export class UserprofileComponent implements OnInit {
       console.log(this.imageToShow)
     })
   }
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
 
   getBio(email: String) {
     this.http.post("http://localhost:3000/bio", email).subscribe(res => {

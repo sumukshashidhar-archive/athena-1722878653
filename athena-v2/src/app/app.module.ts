@@ -47,7 +47,7 @@ import { NavbarComponent } from './components/ui-components/navbar/navbar.compon
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component';
 import { AcademicsComponent } from './components/students/academics/academics.component';
 import { CarouselComponent } from './components/ui-components/carousel/carousel.component';
-import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
+import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +79,8 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
     SidenavComponent,
     AcademicsComponent,
     CarouselComponent,
-    UsersearchresComponent
+    UsersearchresComponent,
+    OrgnavbarComponent
   ],
   imports: [
     BrowserModule,

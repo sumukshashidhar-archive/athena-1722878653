@@ -32,14 +32,8 @@ export class EventsComponent implements OnInit {
   
   ngOnInit() {
     this.refreshEvents();
-    this.postToIt();
     this.tabChange()
     this.getEvents();
-    var decodedtoken = jwt_decode(this.decoded);
-    console.log(decodedtoken)
-    if (decodedtoken["role"] == "Student") {
-      console.log(decodedtoken["given_name"])
-      this.username = decodedtoken["given_name"];}
   }
 
   refreshEvents() {
@@ -52,35 +46,6 @@ export class EventsComponent implements OnInit {
 
   tabChange(){
     this.selected.setValue(this.data.eventTab);
-  }
-
-  logout() {
-    this.auth.logout();
-  }
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
-  postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
   }
 
   getEvents(){

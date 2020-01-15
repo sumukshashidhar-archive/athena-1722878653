@@ -6,6 +6,8 @@ import { EventService } from "../../../shared/events/event.service";
 import { HttpClient } from "../../../../../node_modules/@angular/common/http";
 import * as jwt_decode from "jwt-decode";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatList } from '@angular/material/list';
+
 export let bio;
 @Component({
   selector: "app-interests",
@@ -24,6 +26,7 @@ export class InterestsComponent implements OnInit {
   imageToShow: any;
   decoded: any;
   username: any;
+  interests: any;
   constructor(
     public interestsService: InterestsService,
     private http: HttpClient,
@@ -34,26 +37,7 @@ export class InterestsComponent implements OnInit {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
   }
-  // onClick() {
-  //   this.interests.push({
-  //     name: this.interest
-  //   });
-  //   this.interest = "";
 
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -61,29 +45,26 @@ export class InterestsComponent implements OnInit {
     });
   }
 
-  postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
-  }
   logout() {
     this.auth.logout();
   }
+
+  getInterests(){
+    this.http.get("http://localhost:3000/interests").subscribe(
+      res => {
+        console.log(res);
+        this.interests = res
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
   ngOnInit() {
-    this.postToIt();
     var decodedtoken = jwt_decode(this.decoded);
     console.log(decodedtoken);
-    if (decodedtoken["role"] == "Student") {
-      console.log(decodedtoken["given_name"]);
-      this.username = decodedtoken["given_name"];
-    }
-
+    this.getInterests();
     this.getAllCategory();
   }
 
@@ -122,5 +103,17 @@ export class InterestsComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  deleteInterest(form: NgForm ,interest:string){
+    form.value['interest'] = interest
+    this.http.post("http://localhost:3000/deleteInterest", form.value).subscribe(
+      res => {
+        console.log(res)
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 }

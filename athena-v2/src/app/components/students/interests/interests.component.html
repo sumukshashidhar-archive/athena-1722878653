@@ -1,22 +1,41 @@
 <body>
-  <app-sidenav></app-sidenav>
   <div class="container">
-    <h3 class="text-center">Add Interests to your account</h3>
-    <mat-form-field>
-      <mat-label>Category</mat-label>
-      <mat-select (selectionChange)="selectionChanged()" name="catName" [(ngModel)]="catName">
-        <mat-option *ngFor="let cat of categoryOption" [value]="cat.catId">{{ cat.catName }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <mat-label>Subcategory</mat-label>
-      <mat-select name="subCatName" [(ngModel)]="subCatName">
-        <mat-option *ngFor="let subCat of subcatOptions" [value]="subCat.subCatName">{{ subCat.subCatName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <br>
-    <button mat-raised-button (click)="adduserInterestList()">Add interests</button>
+    <mat-tab-group>
+      <mat-tab label="Add an interest">
+        <div class="container">
+          <h3 class="text-center">Add Interests to your account</h3>
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select (selectionChange)="selectionChanged()" name="catName" [(ngModel)]="catName">
+              <mat-option *ngFor="let cat of categoryOption" [value]="cat.catId">{{ cat.catName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Subcategory</mat-label>
+            <mat-select name="subCatName" [(ngModel)]="subCatName">
+              <mat-option *ngFor="let subCat of subcatOptions" [value]="subCat.subCatName">{{ subCat.subCatName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <button style="margin: 2rem;" mat-raised-button (click)="adduserInterestList()">Add interests</button>
+        </div>
+      </mat-tab>
+      <mat-tab label="Your interests">
+        <br>
+        <div class="container">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let int of interests">
+              {{ int }}
+              <form #d="ngForm">
+                <button class="btn btn-danger" (click)="deleteInterest(d,int)">Delete</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
+  <app-sidenav></app-sidenav>
 </body>

@@ -1149,7 +1149,9 @@ app.post('/deleteInterest', function (req, res) {
                     console.log("ERROR");
                 }
                 else {
+                    console.log(obj)
                     obj.Interests.pop(req.body.interest);
+                    res.send(obj)
                 }
             });
         }

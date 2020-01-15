@@ -1194,7 +1194,8 @@ app.post('/deleteAchievements', function (req, res) {
                 }
                 else
                 {
-                    console.log("SUCCESS");
+                    console.log(req.body.achId)
+                   res.status(200).send("SUCCESS");
                 }
             });
         }

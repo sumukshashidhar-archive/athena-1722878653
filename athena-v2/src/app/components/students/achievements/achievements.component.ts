@@ -118,11 +118,10 @@ export class AchievementsComponent implements OnInit {
   }
 
 DeleteAch(achId:any){
-  this.http.post('http://localhost:3000/deleteAchievements',achId).subscribe(
+  console.log("ID IS",achId)
+  this.http.post('http://localhost:3000/deleteAchievements',{achId}).subscribe(
     res=>{
     console.log(res)
-    this.openSnackBar("Successfully Deleted","Close")
-
   },
   err=>{
     if(err.status==200){

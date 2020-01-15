@@ -1141,17 +1141,38 @@ app.post('/addInterest', function (req, res) {
 });
 
 app.post('/deleteInterest', function (req, res) {
+    console.log("delete interest" + req.body.interest);
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
             Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                 if (err || obj == null || obj == undefined) {
                     console.log("ERROR");
                 }
                 else {
-                    console.log(obj)
-                    obj.Interests.pop(req.body.interest);
-                    res.send(obj)
+
+                    var arr = obj.Interests;
+
+                    for( var i = 0; i < arr.length; i++){ 
+                        if ( arr[i] === req.body.interest) {
+                          arr.splice(i, 1); 
+                        }
+                     }
+
+                    Student.update({ EmailId: decodedToken.email }, {$set: {Interests: arr}}, function(err1, obj1)
+                    {
+                        if(err)
+                        {
+                            console.log(err);
+                        }
+                        else
+                        {
+                            console.log(obj1);
+                            console.log("Success");
+                            res.status(200).send(true);
+                        }
+
+                    });
+
                 }
             });
         }

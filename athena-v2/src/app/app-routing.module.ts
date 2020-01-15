@@ -28,6 +28,7 @@ import { VerifyemailComponent } from './components/students/verifyemail/verifyem
 import { AuthGuard } from './shared/auth/auth.guard';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
+import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
 
 
 const routes: Routes = [
@@ -40,8 +41,8 @@ const routes: Routes = [
     component: UsersearchresComponent
   },
   {
-    path: "navbar",
-    component: NavbarComponent
+    path: "sidenav",
+    component: SidenavComponent
   },
   {
     path: "verifyemail",

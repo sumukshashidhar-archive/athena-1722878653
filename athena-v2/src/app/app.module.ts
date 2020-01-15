@@ -80,7 +80,6 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
     AcademicsComponent,
     CarouselComponent,
     UsersearchresComponent,
-    OrgnavbarComponent
   ],
   imports: [
     BrowserModule,

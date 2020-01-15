@@ -110,6 +110,7 @@ export class InterestsComponent implements OnInit {
     this.http.post("http://localhost:3000/deleteInterest", form.value).subscribe(
       res => {
         console.log(res)
+        this.openSnackBar("You have deleted the interest. Please reload the page to see the changes take effect", "Close")
       },
       err => {
         console.log(err)

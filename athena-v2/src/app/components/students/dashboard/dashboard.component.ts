@@ -109,6 +109,7 @@ export class DashboardComponent implements OnInit {
       ,err=>{
         if(err.status==200){
           this.openSnackBar("Successfully Updated","Close")
+          location.reload()
         }
         else{
           this.openSnackBar("Error while updating","Close")

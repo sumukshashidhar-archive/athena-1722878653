@@ -1142,9 +1142,8 @@ app.post('/addInterest', function (req, res) {
 
 app.post('/getUserInfo', function(req, res)
 {
-    var decoded = await jwms.verify(req.headers.authorization)
 
-    Student.findOne({EmailId: decoded.email}, function(err, obj)
+    Student.findOne({EmailId: req.body.emailId}, function(err, obj)
     {
         if(err)
         {
@@ -1153,7 +1152,23 @@ app.post('/getUserInfo', function(req, res)
         else
         {
             console.log("FOUND STUDENT OBJECT.")
-            res.send(obj);
+
+
+            var newObj = obj;
+
+            user.findOne({username: req.body.emailId}, function(err1, obj1)
+            {  
+                if(err1)
+                {
+                    console.log(err1);
+                }
+                else
+                {
+                    newObj.set("profilePic", obj1.profilePic);
+                    res.send(newObj);
+                }
+            })
+
         }
     });
 
@@ -1218,9 +1233,15 @@ app.post('/deleteAchievements', function (req, res) {
                     console.log(err);
                 }
                 else
+<<<<<<< HEAD
                 {   
                     console.log(obj);
                     console.log("SUCCESS");
+=======
+                {
+                    console.log(req.body.achId)
+                   res.status(200).send("SUCCESS");
+>>>>>>> c97dd80f2b452bab737e4595327c27fdfa72c9c4
                 }
             });
         }

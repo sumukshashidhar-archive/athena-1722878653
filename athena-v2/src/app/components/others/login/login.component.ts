@@ -42,12 +42,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.Auth.login(form.value)
-      // .pipe(first())
       .subscribe(
         res => {
-          // this.user = res;
-          // this.fname = this.user.FirstName
-          // console.log(this.user.FirstName)
           console.log(res);
           if (decoded["role"] == "Student") {
             this.router.navigate(["/dashboard"]);
@@ -66,30 +62,3 @@ export class LoginComponent implements OnInit {
       );
   }
 }
-
-// this.loginService.postLogin(form.value).subscribe(
-//   res => {
-//     console.log('Auth is successful')
-//     this.cookieService.set( 'test', 'Hello World' );
-//     this.loginFailed = 'false';
-
-//     console.log(this.cookieService)
-
-//     this.router.navigate(['/dashboard'])
-//     this.showSuccessmessage = true;
-//     //setTimeout(() => this.showSuccessmessage = false, 3000);
-
-//   },
-//   err => {
-//     if (err.status === 422){
-//       this.loginFailed = 'true';
-//       this.serverErrormessage = err.error.join('<br/>');
-//       this.router.navigate(['/login'])
-//     }
-//     else{
-//       this.loginFailed = 'true';
-//       this.serverErrormessage = err.status
-//       this.router.navigate(['/login'])
-//     }
-//   }
-// );

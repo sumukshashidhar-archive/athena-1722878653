@@ -11,12 +11,11 @@ export class UsersearchresComponent implements OnInit {
   user: any = this.search.userDetails.obj;
   thisacadlist=this.search.userDetails.obj['Academics']
   thisacadlistA=[];
- profilepic:any=this.search.userDetails.dp
+  profilepic:any=this.search.userDetails.dp
+
   constructor(public search: SearchService,private http:HttpClient) { 
     console.log(this.user['Academics'])
     console.log(this.thisacadlist)
-    // console.log(this.user.dp)
-    // this.profilepic=this.user.dp
   }
   getThisAcad(acId:any){
     this.http.post("http://localhost:3000/getSpecicifAc",{acId}).subscribe(res=>{

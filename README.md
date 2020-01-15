@@ -81,7 +81,6 @@ On the second terminal, you should have an output saying that the server has sta
 15. Data collection
 16. Organizer Services
 17. Module Run Requests
-18. Implementation of Machine Learning Models with Brain.Js
 
 
 -  **Anand Rajaram**
@@ -94,6 +93,8 @@ On the second terminal, you should have an output saying that the server has sta
 7. Form validation everywhere
 8. Angular deployment to AWS S3 
 9. Captcha verification
+10. UI Design
+11. Interests (For both events and students)
 
 -  **Anirudh Lakhotia**
 1. JWT based authentication

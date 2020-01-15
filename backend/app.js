@@ -1160,6 +1160,28 @@ app.post('/deleteInterest', function (req, res) {
     });
 });
 
+app.post('/deleteAchievements', function (req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        console.log("Getting Achievements....")
+        if (!err && decodedToken != null) {
+            Student.update({ EmailId: decodedToken.email }, {$pull: { Achievement: {_id: req.body.achId}}}, function (err, obj) {
+                if(err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    console.log("SUCCESS");
+                }
+            });
+        }
+        else {
+            console.log(err)
+            console.log("Something went wrong")
+        }
+    });
+});
+
 // ADMIN DASH ROUTE
 
 app.post('/organizerdashboard', async function (req, res) {
@@ -1767,15 +1789,16 @@ app.post('/api/searchbyinterests', async function (req, res) {
             console.log(err)
         }
         else {
-            if (obj != null) {
+            if (obj.length > 0) {
                 console.log("*****************************************");
                 console.log(obj);
                 console.log("******************************************")
                 res.status(200).send(obj);
             }
             else {
+                console.log("no users founf");
                 res.status(403).send("No users found")
-                console.log("No other users have the same interest")
+                console.log("No other have the same interest")
             }
         }
     })

@@ -1164,7 +1164,7 @@ app.post('/deleteAchievements', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
-            Student.update({ EmailId: decodedToken.email }, {$pull: {_id: req.body.achId}}, function (err, obj) {
+            Student.update({ EmailId: decodedToken.email }, {$pull: { Achievement: {_id: req.body.achId}}}, function (err, obj) {
                 if(err)
                 {
                     console.log(err);

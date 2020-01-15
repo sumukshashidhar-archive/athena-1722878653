@@ -1767,13 +1767,14 @@ app.post('/api/searchbyinterests', async function (req, res) {
             console.log(err)
         }
         else {
-            if (obj != null) {
+            if (obj.length > 0) {
                 console.log("*****************************************");
                 console.log(obj);
                 console.log("******************************************")
                 res.status(200).send(obj);
             }
             else {
+                console.log("no users founf");
                 res.status(403).send("No users found")
                 console.log("No other users have the same interest")
             }

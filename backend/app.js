@@ -1762,13 +1762,15 @@ app.post('/api/searchbyinterests', async function (req, res) {
 
     console.log(keyword[0]);
 
-    Student.findOne({ Interests: {$all: keyword} }, async function (err, obj) {
+    Student.find({ Interests: {$all: keyword} }, async function (err, obj) {
         if (err) {
             console.log(err)
         }
         else {
-            console.log(obj);
             if (obj != null) {
+                console.log("*****************************************");
+                console.log(obj);
+                console.log("******************************************")
                 res.status(200).send(obj);
             }
             else {

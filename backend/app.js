@@ -1760,29 +1760,16 @@ app.post('/api/searchbyinterests', async function (req, res) {
 
     var keyword = req.body;
 
-    InterestSchema.findOne({ subCat: keyword }, async function (err, obj) {
+    console.log(keyword[0]);
+
+    Student.findOne({ Interests: {$all: keyword} }, async function (err, obj) {
         if (err) {
             console.log(err)
         }
         else {
             console.log(obj);
             if (obj != null) {
-                var finalret = []
-                var callback = new Promise(async (res, rej) => {
-                    for (let i = 0; i < obj.users.length; i++) {
-                        var response = await findStudent(obj.users[i])
-                        if (response != false) {
-                            finalret.push(response)
-                        }
-                        else {
-                            console.log("A Deleted user was skippeddss")
-                        }
-                    }
-                    res(finalret)
-                })
-
-                let r = await callback;
-                res.status(200).send(r)
+                res.status(200).send(obj);
             }
             else {
                 res.status(403).send("No users found")

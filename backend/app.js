@@ -1140,6 +1140,25 @@ app.post('/addInterest', function (req, res) {
     });
 });
 
+app.post('/getUserInfo', function(req, res)
+{
+    var decoded = await jwms.verify(req.headers.authorization)
+
+    Student.findOne({EmailId: decoded.email}, function(err, obj)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log("FOUND STUDENT OBJECT.")
+            res.send(obj);
+        }
+    });
+
+});
+
 app.post('/deleteInterest', function (req, res) {
     console.log("delete interest" + req.body.interest);
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -1184,16 +1203,23 @@ app.post('/deleteInterest', function (req, res) {
 });
 
 app.post('/deleteAchievements', function (req, res) {
+    console.log("DELETING ACH");
+    console.log("******************************");
+    console.log("req.body: ")
+    console.log(req.body);
+    console.log("******************************");
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
-            Student.update({ EmailId: decodedToken.email }, {$pull: { Achievement: {_id: req.body.achId}}}, function (err, obj) {
+            Student.updateOne({ EmailId: decodedToken.email }, {$pull: { Achievement: {_id: req.body.achId }}}, function (err, obj) {
                 if(err)
                 {
                     console.log(err);
                 }
                 else
-                {
+                {   
+                    console.log(obj);
                     console.log("SUCCESS");
                 }
             });

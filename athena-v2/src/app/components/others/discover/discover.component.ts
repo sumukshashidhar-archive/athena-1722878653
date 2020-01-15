@@ -27,19 +27,6 @@ export class DiscoverComponent implements OnInit {
   profileUrlExists = false;
   decoded: any;
   catName: any;
-  config = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "catName"
-  };
-
-  configSubCat = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "subCatName"
-  };
   subCatName: any;
   categoryOption: any;
   subcatOptions: any;

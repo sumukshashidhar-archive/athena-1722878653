@@ -15,23 +15,9 @@ export let bio;
 export class InterestsComponent implements OnInit {
   // interest: string;
   // interests = [];
-  showAlert: boolean = false;
-
-  config = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "catName"
-  };
-
-  configSubCat = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "subCatName"
-  };
-  subCatName: any;
   categoryOption: any;
+  catName: any;
+  subCatName: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
   profileUrlExists: any;
@@ -108,24 +94,28 @@ export class InterestsComponent implements OnInit {
     });
   }
 
-  selectionChanged(event) {
+  selectionChanged() {
     this.subCatName = null;
-    console.log(event);
-    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
+    console.log(this.catName)
+    var _id = this.catName
+    this.interestsService.getSubCategory(_id).subscribe(res => {
       this.subcatOptions = res;
+      console.log(this.subcatOptions)
     });
   }
 
   adduserInterestList() {
     let arr = [];
-    for (let i = 0; i < this.subCatName.length; i++) {
-      arr.push(this.subCatName[i].subCatName);
+    arr.push(this.subCatName)
+    console.log(arr)
+    if (this.subCatName == null || this.subCatName == undefined) {
+      this.openSnackBar("Please select Interests", "Close")
+      return;
     }
     this.interestsService.postUserInterest(arr).subscribe(
       res => {
         console.log("Added user Interests");
         console.log(res);
-        this.showAlert = true;
         this.openSnackBar("User Interests Added", "Close");
       },
       err => {

@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getInterests() {
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/interests").subscribe(res => {
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests").subscribe(res => {
       this.interestlist = res;
       console.log(this.interestlist);
     });
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
-      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/uploadProfile", frmData,options)
+      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile", frmData,options)
       .subscribe(res => {
         console.log(res);
       });
@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit {
     const options = {
       headers : headers
     };
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getProfileName',options).subscribe(res=>{
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getProfileName',options).subscribe(res=>{
       console.log(res)
       console.log('IMAGE TO SHOW')
       this.imageToShow=res['name']
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
   getIP() {
     this.auth.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
-      this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/ip", this.ipAddress);
+      this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/ip", this.ipAddress);
       console.log("IP POSTED");
     });
   }

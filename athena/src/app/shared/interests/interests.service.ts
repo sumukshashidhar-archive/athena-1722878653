@@ -22,17 +22,17 @@ export class InterestsService {
       headers : headers
     };
     console.log(userInterest)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/addInterest", userInterest,options);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/addInterest", userInterest,options);
   }
 
   getcategoryDetails() {
     console.log("Categories")
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getCategoriesAll");
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getCategoriesAll");
   }
 
   getSubCategory(id) {
     console.log("Subcategories")
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getCategoriesId?catId="+id);
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getCategoriesId?catId="+id);
   }
 
 }

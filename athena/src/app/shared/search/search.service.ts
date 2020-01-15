@@ -39,22 +39,22 @@ export class SearchService {
   postSearch(search: Search){
     console.log('Search method')
     console.log(search)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/event-search", search)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/event-search", search)
   }
 
   postUserSearch(userSearch: User_Search) {
     console.log('User Search Method')
     console.log(userSearch)
-    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/search/users', userSearch)
+    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/search/users', userSearch)
   }
 
   getUserDetails(userDetails){
     console.log("User Details method")
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/tracker/click-on-user-event", userDetails)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/tracker/click-on-user-event", userDetails)
   }
 
   postInterestSearch(interest){
     console.log(interest)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/api/searchbyinterests", interest)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/searchbyinterests", interest)
   }
 }

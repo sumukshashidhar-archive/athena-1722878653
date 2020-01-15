@@ -39,7 +39,7 @@ export class SidenavComponent implements OnInit {
     const options = {
       headers : headers
     };
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getProfileName',options).subscribe(res=>{
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getProfileName',options).subscribe(res=>{
       console.log(res)
       console.log('IMAGE TO SHOW')
       this.imageToShow=res['name']

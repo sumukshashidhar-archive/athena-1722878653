@@ -18,7 +18,7 @@ export class  AuthService {
 
   login(user: User): Observable<boolean> {
     console.log('Reached login method')
-    return this.http.post<JSON>('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/login',user)
+    return this.http.post<JSON>('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/login',user)
       .pipe(
         map(res => {
           console.log(`RESPONSE IS ${res}`)
@@ -35,7 +35,7 @@ export class  AuthService {
     posttoken(token:JSON) {
       console.log('Entered posttoken method')
       console.log(token)
-      this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/dashboard', token )
+      this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/dashboard', token )
 
     }
     public getIPAddress()
@@ -45,7 +45,7 @@ export class  AuthService {
   logout() {
     var token=localStorage.getItem('access-token')
     console.log('LOGGING OUT')
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/logout', token).subscribe(res=>{
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/logout', token).subscribe(res=>{
       console.log(res)
     })
     console.log(logout)

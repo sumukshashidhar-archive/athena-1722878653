@@ -15,6 +15,6 @@ export class InterestSendingService {
 
   postInterest(interests: Interests) {
     console.log(interests);
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/interests", interests);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests", interests);
   }
 }

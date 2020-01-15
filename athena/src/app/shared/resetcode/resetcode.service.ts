@@ -18,7 +18,7 @@ export class ResetcodeService {
   postAnswer(securityAnswer: Resetcode) {
     console.log(securityAnswer);
     return this.http.post(
-      "http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/resetPasswordCode",
+      "http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/resetPasswordCode",
       securityAnswer
     );
   }

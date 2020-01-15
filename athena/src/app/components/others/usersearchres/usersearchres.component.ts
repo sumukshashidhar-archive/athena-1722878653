@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../../shared/search/search.service'
 import { HttpClient } from '../../../../../node_modules/@angular/common/http';
-import{Academics} from './../../../shared/academics/academics.model'
+import{ Academics } from './../../../shared/academics/academics.model'
 @Component({
   selector: 'app-usersearchres',
   templateUrl: './usersearchres.component.html',
@@ -19,7 +19,7 @@ export class UsersearchresComponent implements OnInit {
     // this.profilepic=this.user.dp
   }
   getThisAcad(acId:any){
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/getSpecicifAc",{acId}).subscribe(res=>{
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getSpecicifAc",{acId}).subscribe(res=>{
       console.log('RESPONSE FOR GET ACADEMIC')
       console.log(res)
       this.thisacadlistA[0]=res as Academics

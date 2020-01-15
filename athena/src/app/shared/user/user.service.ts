@@ -26,6 +26,6 @@ export class UserService {
 
   postUser(user: User) {
     console.log(user)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com/register", user);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/register", user);
   }
 }

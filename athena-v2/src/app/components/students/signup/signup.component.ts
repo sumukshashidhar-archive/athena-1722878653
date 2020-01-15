@@ -4,6 +4,8 @@ import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from "@angula
 import { Router } from "@angular/router";
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from "@angular/material/snack-bar";
+
 export var email
 export var school
 @Component({
@@ -1259,7 +1261,8 @@ export class SignupComponent implements OnInit {
   constructor(
     public userService: UserService,
     private router: Router,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -1281,6 +1284,13 @@ export class SignupComponent implements OnInit {
         map(value => this._filter(value))
       );
   }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
+  }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -1293,6 +1303,10 @@ export class SignupComponent implements OnInit {
     school=form.value['studentSchool']
     console.log(school)
     console.log(email)
+    if (form.value['bio'] == null || form.value['bio'] == undefined) {
+      this.openSnackBar("Please enter your bio", "Close")
+      return;
+    }
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log(res);

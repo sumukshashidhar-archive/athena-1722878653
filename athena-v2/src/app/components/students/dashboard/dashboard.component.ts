@@ -14,6 +14,7 @@ import { Observable } from "rxjs";
 import { Achievements } from "src/app/shared/achievements/achievements.model";
 import { LOCAL_STORAGE } from "@ng-toolkit/universal";
 import { school } from "../signup/signup.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 export var decoded: any;
 export var File;
 @Component({
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit {
     public SearchService: SearchService,
     private http: HttpClient,
     private ach: AchievementsService,
-    private eventService: EventService
+    private eventService: EventService,
+    private _snackBar: MatSnackBar
   ) {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
@@ -72,6 +74,12 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
+  }
 
   getInterests() {
     return this.http.get("http://localhost:3000/interests").subscribe(res => {
@@ -97,6 +105,15 @@ export class DashboardComponent implements OnInit {
       .post("http://localhost:3000/uploadProfile", frmData,options)
       .subscribe(res => {
         console.log(res);
+      }
+      ,err=>{
+        if(err.status==200){
+          this.openSnackBar("Successfully Updated","Close")
+          location.reload()
+        }
+        else{
+          this.openSnackBar("Error while updating","Close")
+        }
       });
   }
 

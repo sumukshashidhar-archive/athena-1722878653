@@ -10,6 +10,7 @@ import { LoadingComponent } from "./../../others/loading/loading.component";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { EventService } from "./../../../shared/events/event.service";
 import { InterestsService } from './../../../shared/interests/interests.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
 export var File;
 export var achlist;
 export var Achievement: Achievements = {
@@ -85,6 +86,7 @@ export class AchievementsComponent implements OnInit {
     public interestsService: InterestsService,
     public auth: AuthService,
     private catService: EventService,
+    private _snackBar: MatSnackBar
   ) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
@@ -108,6 +110,35 @@ export class AchievementsComponent implements OnInit {
       console.log(this.categoryOption);
     });
   }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
+  }
+
+DeleteAch(achId:any){
+  console.log("ID IS",achId)
+  this.http.post('http://localhost:3000/deleteAchievements',{achId}).subscribe(
+    res=>{
+    console.log(res)
+  },
+  err=>{
+    if(err.status==200){
+      console.log(err)
+      this.openSnackBar("Successfully Deleted","Close")
+      location.reload()
+      return;
+
+    }
+    else{
+      console.log(err)
+      this.openSnackBar("Error in Deletion","Close")
+      return;
+    }
+  })
+}
+
   DoIt(id:any){
     console.log(id)
     console.log(achlist)
@@ -198,6 +229,7 @@ export class AchievementsComponent implements OnInit {
     });
     this.achService.postAchievements(Achievement).subscribe(res => {
       console.log(res);
+      this.openSnackBar("Successfully Added your achievement!","Close")
       location.reload()
     });
 

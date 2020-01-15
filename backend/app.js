@@ -1143,7 +1143,7 @@ app.post('/addInterest', function (req, res) {
 app.post('/getUserInfo', function(req, res)
 {
 
-    Student.findOne({EmailId: req.body.emailId}, function(err, obj)
+    Student.findOne({_id: req.body.id}, function(err, obj)
     {
         if(err)
         {
@@ -1156,7 +1156,7 @@ app.post('/getUserInfo', function(req, res)
 
             var newObj = obj;
 
-            user.findOne({username: req.body.emailId}, function(err1, obj1)
+            user.findOne({username: obj.EmailId}, function(err1, obj1)
             {  
                 if(err1)
                 {

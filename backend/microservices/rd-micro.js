@@ -25,33 +25,33 @@ async function rd(decodedToken, evns) {
             //BASIC RECOMMENDATIONS
     
             // => Further comes the events searchin
-            var n = 1;
-            var event_interests = ev.evnInterests;
-            var userinterests = decodedToken.interests;
-            var tot_event_interests = ev.evnInterests.length;
+            // var n = 1;
+            // var event_interests = ev.evnInterests;
+            // var userinterests = decodedToken.interests;
+            // var tot_event_interests = ev.evnInterests.length;
 
-            //
-            for(let j=0; j<userinterests.length; j++) {
-                console.log('comparing interests')
-                if(event_interests.includes(userinterests[j])) {
-                    sum = sum + n*1
-                    n++
-                }
-                else {
+            // //
+            // for(let j=0; j<userinterests.length; j++) {
+            //     console.log('comparing interests')
+            //     if(event_interests.includes(userinterests[j])) {
+            //         sum = sum + n*1
+            //         n++
+            //     }
+            //     else {
 
-                }
-            }
-            var vectors = decodedToken.uservector;
-            for(let m=0; m< vectors.length; m++) {
-                console.log('comparing interests')
-                if(event_interests.includes(userinterests[j])) {
-                    sum = sum + n*1
-                    n++
-                }
-                else {
+            //     }
+            // }
+            // var vectors = decodedToken.uservector;
+            // for(let m=0; m< vectors.length; m++) {
+            //     console.log('comparing interests')
+            //     if(event_interests.includes(userinterests[j])) {
+            //         sum = sum + n*1
+            //         n++
+            //     }
+            //     else {
                     
-                }
-            }
+            //     }
+            // }
             // for(let j=0; j < tot_event_interests; j++) {
             //     // console.log('Entering loop ' , j)
             //     // console.log("REACHED: INNER EVENT COMPARISON LOOP")

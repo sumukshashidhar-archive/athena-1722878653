@@ -284,13 +284,14 @@ app.post('/register', function (req, res) {
                         res.status(422).send("Error in saving user");
                     }
                     else {
+                        var age = ageconvert(req.body.DOB)
                         console.log(obj);
                         var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                         console.log(output);
                         sendMail(output, req.body.email);
                         lms.log(obj.username, 3, JSON.stringify(obj))
                         //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                        res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                        res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio, req.body.age)); //TODO: Put this in a different file
                     }
                 });
             }
@@ -351,7 +352,7 @@ app.post('/updateinfo', function (req, res) {
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function (req, res) {
     var redcheck = rcms.check(req.body.email)
-    if(redcheck) {
+    if (redcheck) {
         bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
             if (err) {
                 console.log(err)
@@ -366,7 +367,7 @@ app.post('/registerorganizer', function (req, res) {
                     profilePic: "/uploads/lak.png",
                     Verified: false
                 });
-    
+
                 newUser.save(function (err, obj) {
                     if (err) {
                         console.log("ERROR, " + err);
@@ -2197,14 +2198,6 @@ app.post('/api/vectorless/click-on-events', function (req, res) {
     //Must send a post
 
 })
-
-
-
-
-app.get('/noob', function (req, res) {
-
-})
-
 
 async function ageconvert(dob) {
     var callback = new Promise((res, rej) => {

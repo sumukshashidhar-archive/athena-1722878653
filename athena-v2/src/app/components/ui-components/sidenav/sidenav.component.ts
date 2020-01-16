@@ -25,7 +25,7 @@ export class SidenavComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
-    this.getProfileName()
+
     if (decodedtoken["role"] == "Student") {
       this.username = decodedtoken["given_name"];
       this.isStudent = true;
@@ -37,6 +37,8 @@ export class SidenavComponent implements OnInit {
    }
 
   ngOnInit() {
+    console.log('SIDENAV')
+    this.getProfileName()
   }
   logout() {
     this.auth.logout();

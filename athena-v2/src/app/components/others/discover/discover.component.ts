@@ -87,6 +87,7 @@ export class DiscoverComponent implements OnInit {
           this.data.message = "We found these results";
         }
         this.router.navigate(["/searchres"]);
+        this.data.keywordAgain = form.value['keyword']
       },
       err => {
         if (err.status === 422) {
@@ -159,5 +160,17 @@ export class DiscoverComponent implements OnInit {
         }
       );
     }
+  }
+
+  orgSearch(form: NgForm){
+    this.data.postOrgSearch(form.value).subscribe(
+      res => {
+        this.data.userResults = null;
+        this.data.userResults = res;
+        this.data.tabChange = 2;
+        this.router.navigate(['/searchres'])
+        console.log(res)
+      }
+    )
   }
 }

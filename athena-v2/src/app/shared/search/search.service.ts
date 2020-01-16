@@ -16,6 +16,7 @@ export class SearchService {
   message: any;
   interestResults: any;
   tabChange: any;
+  keywordAgain: any
 
   userDetails: any
 
@@ -23,6 +24,10 @@ export class SearchService {
     keyword: '',
     usecase: 1
   };
+
+  selOrgUser = {
+    orgKey: ""
+  }
   
   eventTab:any = 0;
 
@@ -56,5 +61,9 @@ export class SearchService {
   postInterestSearch(interest){
     console.log(interest)
     return this.http.post("http://localhost:3000/api/searchbyinterests", interest)
+  }
+
+  postOrgSearch(obj){
+    return this.http.post("http://localhost:3000/api/search/organizers", obj)
   }
 }

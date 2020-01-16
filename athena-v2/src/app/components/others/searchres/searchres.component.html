@@ -28,7 +28,9 @@
           </div>
         </div>
         <p>Do you want to search for events in other cities as well?</p>
-        <button></button>
+        <form #n="ngForm">
+          <button mat-raised-button style="margin-bottom: 2rem;" (click)="sendAgain(n)">Search in other cities</button>
+        </form>
       </mat-tab>
       <mat-tab label="User Search Results">
         <div class="container">

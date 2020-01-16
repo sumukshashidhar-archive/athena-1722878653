@@ -2077,12 +2077,12 @@ app.post('/api/search/users', async function(req, res) {
 
 
 app.post('/api/search/organizers', async function(req, res) {
-    var query = req.body.userKey
+    var query = req.body.orgKey
     var usecase  =req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     var sender = []
     if(decoded!=false) {
-            organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+            Organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {OrganiserName: 1, OrganizerEmail:1, _id: 1}, function(err, obj) {
                 if(err) {
                     res.status(500).send('MONGo') 
                 }

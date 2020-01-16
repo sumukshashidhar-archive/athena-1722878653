@@ -57,6 +57,20 @@
             <button class="btn btn-primary" [disabled]='!g.valid' (click)="onSubmit1(g)">Submit Query</button>
           </form>
         </div>
+        <div class="organizers">
+          <h3>Search for Organizers</h3>
+          <br>
+          <form #k="ngForm">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Which organizer do you want to search for?</span>
+              </div>
+              <input type="text" placeholder="Search" class="form-control" required name="orgKey" ngModel #orgKey="ngModel" [(ngModel)]="data.selOrgUser.keyword">
+              <span *ngIf="!orgKey.valid && orgKey.touched">Please enter value to search for</span>
+            </div>
+            <button class="btn btn-primary" [disabled]="!k.valid" (click)="orgSearch(k)">Search</button>
+          </form>
+        </div>
       </mat-tab>
       <!-- Interest Search -->
       <mat-tab label="Search By Interests">

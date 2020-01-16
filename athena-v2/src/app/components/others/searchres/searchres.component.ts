@@ -72,4 +72,18 @@ export class SearchresComponent implements OnInit {
       }
     );
   }
+
+  sendAgain(form: NgForm){
+    form.value['keyword'] = this.search.keywordAgain
+    form.value['usecase'] = 2
+    this.search.postSearch(form.value).subscribe(
+      res => {
+        this.search.results = res
+        console.log(res)
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
 }

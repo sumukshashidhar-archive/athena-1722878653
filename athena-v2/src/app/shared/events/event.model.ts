@@ -3,9 +3,9 @@ export class Event {
     evnDate1: Date; //
     evnDate2: Date; //
     evnInterests: string; //
-    evnPincode: string; //
+    evnPincode: number; //
     evnOrganizerPage: string; //
-    evnOrganizerContact: string; //
+    evnOrganizerContact: number; //
     evnCity: string;
     evnTargetAge: number; //
     evnDescription: string;

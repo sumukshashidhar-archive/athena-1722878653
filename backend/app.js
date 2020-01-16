@@ -31,6 +31,10 @@ const saltRounds = enc.saltRounds;
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
 
+
+
+var rcms = require('./microservices/redundancy-check')
+
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
@@ -128,7 +132,7 @@ var storage = new GridFsStorage({
                 if (err) {
                     return reject(err)
                 }
-                
+
                 const filename = file.originalname
                 const fileInfo = {
                     filename: filename,
@@ -165,7 +169,7 @@ app.listen(serv.port, process.env.IP, function (req, res) //The Serv.port is fro
     console.log("SERVER STARTED");
 });
 
-app.post("/getProfileName",(req,res)=>{
+app.post("/getProfileName", (req, res) => {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
@@ -180,7 +184,7 @@ app.post("/getProfileName",(req,res)=>{
                     console.log("Sent profile picture");
                     console.log(obj)
                     console.log(obj.profilePic)
-                    res.send({name:obj.profilePic});
+                    res.send({ name: obj.profilePic });
 
 
                 }
@@ -189,7 +193,7 @@ app.post("/getProfileName",(req,res)=>{
 
         }
     });
-    
+
 })
 
 app.post("/upload", upLoad.single('img'), (req, res) => {
@@ -203,9 +207,9 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
                     res.send(false);
                 }
                 else {
-                
+
                     console.log('ADDED IMAGE TO DATABASE')
-                    res.send({ name:req.body.name });
+                    res.send({ name: req.body.name });
 
 
                 }
@@ -214,13 +218,13 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
 
         }
     });
-    
+
 
 });
 
 
 app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
-    
+
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified PROFILE PICTURE");
@@ -233,10 +237,10 @@ app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
                 }
                 else {
                     console.log("Updated profile pic!!");
-                    
+
                     console.log('ADDED IMAGE TO DATABASE')
                     console.log(req.body.name)
-                
+
                     res.status(200).send(req.body.name)
 
                 }
@@ -246,49 +250,57 @@ app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
         }
     });
 
-  
+
 })
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
     console.log(req.body)
-    bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
-        if (err) {
-            console.log(err)
-            res.status(500).send("Internal Server Error") //Sends an internal server err
-        }
-        else {
-            console.log("registering user");
-            var newUser = new user
-                ({
-                    username: req.body.email,
-                    userType: "Student",
-                    password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "/uploads/lak.png",
-                    LastSeen: Date.now(),
-                    Bio: req.body.bio,
-                    Interests: " ",
-                    studentSchool: req.body.studentSchool,
-                    Verified: false
-                });
+    var redcheck = rcms.check(req.body.email)
+    if (redcheck) {
+        bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
+            if (err) {
+                console.log(err)
+                res.status(500).send("Internal Server Error") //Sends an internal server err
+            }
+            else {
+                console.log("registering user");
+                var newUser = new user
+                    ({
+                        username: req.body.email,
+                        userType: "Student",
+                        password: BCRYPT_PASSWORD_HASH,
+                        profilePic: "/uploads/lak.png",
+                        LastSeen: Date.now(),
+                        Bio: req.body.bio,
+                        Interests: " ",
+                        studentSchool: req.body.studentSchool,
+                        Verified: false
+                    });
 
-            newUser.save(function (err, obj) {
-                if (err) {
-                    console.log("ERROR, " + err);
-                    res.status(422).send("Error in saving user");
-                }
-                else {
-                    console.log(obj);
-		            var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
-                    console.log(output);
-                    sendMail(output, req.body.email);
-                    lms.log(obj.username, 3, JSON.stringify(obj))
-                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                    res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
-                }
-            });
-        }
-    })
+                newUser.save(function (err, obj) {
+                    if (err) {
+                        console.log("ERROR, " + err);
+                        res.status(422).send("Error in saving user");
+                    }
+                    else {
+                        console.log(obj);
+                        var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+                        console.log(output);
+                        sendMail(output, req.body.email);
+                        lms.log(obj.username, 3, JSON.stringify(obj))
+                        //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                        res.send(student_functions.furtherInfoStudent(req.body.firstname, req.body.lastname, req.body.email, req.body.DOB, req.body.phoneNo, req.body.city, req.body.pincode, req.body.bio)); //TODO: Put this in a different file
+                    }
+                });
+            }
+        })
+    }
+    else {
+        console.log('THIS USER EXISTS')
+        res.status(403).send('user exists already')
+    }
+
 })
 
 app.post('/updateinfo', function (req, res) {
@@ -338,37 +350,45 @@ app.post('/updateinfo', function (req, res) {
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post('/registerorganizer', function (req, res) {
-    bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
-        if (err) {
-            console.log(err)
-            res.status(500).send("Internal Server Error") //Sends an internal server err
-        }
-        else {
-            console.log("registering user");
-            var newUser = new user({
-                username: req.body.OrganizerEmail,
-                userType: "Organizer",
-                password: BCRYPT_PASSWORD_HASH,
-                profilePic: "/uploads/lak.png",
-                Verified: false
-            });
+    var redcheck = rcms.check(req.body.email)
+    if(redcheck) {
+        bcrypt.hash(req.body.Password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
+            if (err) {
+                console.log(err)
+                res.status(500).send("Internal Server Error") //Sends an internal server err
+            }
+            else {
+                console.log("registering user");
+                var newUser = new user({
+                    username: req.body.OrganizerEmail,
+                    userType: "Organizer",
+                    password: BCRYPT_PASSWORD_HASH,
+                    profilePic: "/uploads/lak.png",
+                    Verified: false
+                });
+    
+                newUser.save(function (err, obj) {
+                    if (err) {
+                        console.log("ERROR, " + err);
+                        res.status(422).send("Error in saving user");
+                    }
+                    else {
+                        console.log(obj._id);
+                        var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+                        sendMail(output, req.body.OrganizerEmail);
+                        //Sends the following data to the functions.js file. Edits have to be made in there if needed
+                        lms.log(obj.username, 3, JSON.stringify(obj))
+                        res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
+                    }
+                });
+            }
+        })
+    }
+    else {
+        res.status(403).send('user exists already')
 
-            newUser.save(function (err, obj) {
-                if (err) {
-                    console.log("ERROR, " + err);
-                    res.status(422).send("Error in saving user");
-                }
-                else {
-                    console.log(obj._id);
-		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
-                    sendMail(output, req.body.OrganizerEmail);
-                    //Sends the following data to the functions.js file. Edits have to be made in there if needed
-                    lms.log(obj.username, 3, JSON.stringify(obj))
-                    res.send(organizer_functions.furtherInfoOrg(req.body.OrganizerName, req.body.OrganizerEmail, req.body.PhoneNo)); //TODO: Put this in a different file
-                }
-            });
-        }
-    })
+    }
+
 })
 
 app.get('/verifyuser/*', function (req, res) {
@@ -449,7 +469,7 @@ app.post('/login', async function (req, res) {
                                             console.log("Succesfully generated a JWT Token")
                                             res.json(token)
                                         })
-                                        lms.log(obj.EmailId, 2 )
+                                        lms.log(obj.EmailId, 2)
                                     }
                                     else {
                                         console.log("vhjk");
@@ -466,9 +486,9 @@ app.post('/login', async function (req, res) {
                                         console.log("vhjk fghuio");
 
                                         console.log(obj)
-                                        token = jwt.sign({  usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
+                                        token = jwt.sign({ usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
-                                        lms.log(obj.OrganiserEmail, 2 )
+                                        lms.log(obj.OrganiserEmail, 2)
                                     }
                                     else {
                                         res.send("WRONG VER");
@@ -794,7 +814,7 @@ app.get('/achievements', async function (req, res) {
 })
 
 // ACHIEVEMENTS ROUTE
-app.post('/achievements',  (req, res) => {
+app.post('/achievements', (req, res) => {
 
     console.log("\N\N");
     console.log(req.body)
@@ -809,20 +829,20 @@ app.post('/achievements',  (req, res) => {
             console.log("Verified");
             console.log(decodedToken);
             var newAch = new achievements
-            ({
-                CategoryId: req.body.category.catName,
-                SubCategoryId: req.body.subCatName.subCatName,
-                Image: req.body.file,
-                Description: req.body.description,
-                achRank: req.body.rank.name
+                ({
+                    CategoryId: req.body.category.catName,
+                    SubCategoryId: req.body.subCatName.subCatName,
+                    Image: req.body.file,
+                    Description: req.body.description,
+                    achRank: req.body.rank.name
 
-            })
+                })
             newAch.save(function (err, achobj) {
                 if (err) {
                     console.log(err)
                 }
                 else {
-  
+
                     res.status(200).json(achobj)
                     Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                         if (err) {
@@ -881,14 +901,14 @@ app.post('/addAcademics', function (req, res) {
                     if (obj.Academics) {
 
                         var newAc = new AcademicsSchema(
-                        {
-                            testName: req.body.testName,
-                            testRank: req.body.testRank,
-                            Image: req.body.Image,
-                            toShow: req.body.toShow,
-                            id: obj.Academics.length,
-                            testScore:req.body.testScore
-                        });
+                            {
+                                testName: req.body.testName,
+                                testRank: req.body.testRank,
+                                Image: req.body.Image,
+                                toShow: req.body.toShow,
+                                id: obj.Academics.length,
+                                testScore: req.body.testScore
+                            });
 
                         newAc.save(function (err, achobj) {
                             if (err) {
@@ -908,11 +928,11 @@ app.post('/addAcademics', function (req, res) {
                                             }
                                             else {
                                                 console.log("SUCCESS")
-						    res.send(true)
-                                                
+                                                res.send(true)
+
                                             }
                                         })
-            
+
                                     }
                                 })
                             }
@@ -926,36 +946,36 @@ app.post('/addAcademics', function (req, res) {
                                 Image: req.body.Image,
                                 toShow: req.body.toShow,
                                 id: 0,
-                                testScore:req.body.testScore
+                                testScore: req.body.testScore
                             });
-    
-                            newAc.save(function (err, achobj) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                                else {
-    
-                                    Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
-                                        if (err) {
-                                            console.log(err)
-                                        }
-                                        else {
-                                            console.log("FOUND TOKEN, ADDING ACADEMICS");
-                                            obj.Academics.push(newAc);
-                                            Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
-                                                if (err) {
-                                                    console.log(err)
-                                                }
-                                                else {
-                                                    console.log("SUCCESS")
-							
-                                                }
-                                            })
-                
-                                        }
-                                    })
-                                }
-                            })
+
+                        newAc.save(function (err, achobj) {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+
+                                Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                    else {
+                                        console.log("FOUND TOKEN, ADDING ACADEMICS");
+                                        obj.Academics.push(newAc);
+                                        Student.updateOne({ EmailId: decodedToken.email }, { $set: { Academics: obj.Academics } }, function (err, updateobj) {
+                                            if (err) {
+                                                console.log(err)
+                                            }
+                                            else {
+                                                console.log("SUCCESS")
+
+                                            }
+                                        })
+
+                                    }
+                                })
+                            }
+                        })
                     }
                 }
             });
@@ -981,9 +1001,9 @@ app.post('/getAcademics', async function (req, res) {
 
 })
 
-app.post('/getSpecicifAc', async function(req, res){
-	var decoded = await jwms.verify(req.headers.authorization)
-	Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+app.post('/getSpecicifAc', async function (req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    Student.findOne({ EmailId: decoded.email }, function (err, obj) {
         if (err) {
             console.log(err);
         }
@@ -1065,28 +1085,23 @@ app.post('/addInterest', function (req, res) {
                                 else {
                                     console.log("adding to interest schema");
 
-                                    if(intObj == null)
-                                    {
+                                    if (intObj == null) {
                                         var interestSchema = new InterestSchema(
-                                        {
-                                            subCat: subCat,
-                                            users: [obj._id]
-                                        });
-
-                                        interestSchema.save(function(err, obj)
-                                        {
-                                            if(err)
                                             {
+                                                subCat: subCat,
+                                                users: [obj._id]
+                                            });
+
+                                        interestSchema.save(function (err, obj) {
+                                            if (err) {
                                                 console.log(err);
                                             }
-                                            else
-                                            {
+                                            else {
                                                 console.log("SUCCESSFULLY DONE!!");
                                             }
                                         });
                                     }
-                                    else
-                                    {   
+                                    else {
                                         console.log(intObj);
                                         intObj.users.push(obj._id);
 
@@ -1099,7 +1114,7 @@ app.post('/addInterest', function (req, res) {
                                             }
                                         });
                                     }
- 
+
                                 }
                             });
 
@@ -1121,34 +1136,27 @@ app.post('/addInterest', function (req, res) {
     });
 });
 
-app.post('/getUserInfo', function(req, res)
-{
+app.post('/getUserInfo', function (req, res) {
 
 
     console.log("ID: ");
     console.log(req.body.id);
 
-    Student.findOne({_id: req.body.id}, function(err, obj)
-    {
-        if(err)
-        {
+    Student.findOne({ _id: req.body.id }, function (err, obj) {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             console.log("FOUND STUDENT OBJECT.")
 
 
-            user.findOne({username: obj.EmailId}, function(err1, obj1)
-            {  
-                if(err1)
-                {
+            user.findOne({ username: obj.EmailId }, function (err1, obj1) {
+                if (err1) {
                     console.log(err1);
                 }
-                else
-                {
+                else {
 
-                    res.send({obj: obj, dp: obj1.profilePic});
+                    res.send({ obj: obj, dp: obj1.profilePic });
                 }
             })
 
@@ -1169,20 +1177,17 @@ app.post('/deleteInterest', function (req, res) {
 
                     var arr = obj.Interests;
 
-                    for( var i = 0; i < arr.length; i++){ 
-                        if ( arr[i] === req.body.interest) {
-                          arr.splice(i, 1); 
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] === req.body.interest) {
+                            arr.splice(i, 1);
                         }
-                     }
+                    }
 
-                    Student.update({ EmailId: decodedToken.email }, {$set: {Interests: arr}}, function(err1, obj1)
-                    {
-                        if(err)
-                        {
+                    Student.update({ EmailId: decodedToken.email }, { $set: { Interests: arr } }, function (err1, obj1) {
+                        if (err) {
                             console.log(err);
                         }
-                        else
-                        {
+                        else {
                             console.log(obj1);
                             console.log("Success");
                             res.status(200).send(true);
@@ -1210,15 +1215,13 @@ app.post('/deleteAchievements', function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
         if (!err && decodedToken != null) {
-            Student.updateOne({ EmailId: decodedToken.email }, {$pull: { Achievement: {_id: req.body.achId }}}, function (err, obj) {
-                if(err)
-                {
+            Student.updateOne({ EmailId: decodedToken.email }, { $pull: { Achievement: { _id: req.body.achId } } }, function (err, obj) {
+                if (err) {
                     console.log(err);
                 }
-                else
-                {
+                else {
                     console.log(req.body.achId)
-                   res.status(200).send("SUCCESS");
+                    res.status(200).send("SUCCESS");
                 }
             });
         }
@@ -1477,19 +1480,15 @@ app.get('/getCategoriesAll', function (req, res) {
     });
 });
 
-app.get('/evnCity1234', function(req, res)
-{   
+app.get('/evnCity1234', function (req, res) {
 
     console.log("Hello, world");
 
-    event.updateMany({}, {$set: {evnCity: "Bangalore"}}, function(err, obj)
-    {
-        if(err)
-        {
+    event.updateMany({}, { $set: { evnCity: "Bangalore" } }, function (err, obj) {
+        if (err) {
             console.log(err);
         }
-        else
-        {
+        else {
             console.log(obj);
             res.send("DONE!!");
         }
@@ -1732,7 +1731,7 @@ async function evnFind(idx) {
 
 async function evnFindLite(idx) {
     var callback = new Promise(function (res, rej) {
-        event.findOne({ _id: idx }, {evnName: 1, Image: 1, evnDate: 1, evnDescription:1, _id: 1}, function (err, obj) {
+        event.findOne({ _id: idx }, { evnName: 1, Image: 1, evnDate: 1, evnDescription: 1, _id: 1 }, function (err, obj) {
             if (err) {
                 console.log(err)
             } else {
@@ -1751,29 +1750,29 @@ async function evnFindLite(idx) {
 app.get('/api/retorgevents', async function (req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
     console.log(decoded)
-    if(decoded!=false) {
-        Organiser.findOne({_id: decoded['usrid']}, async function(err, obj) {
-            if(err) {
+    if (decoded != false) {
+        Organiser.findOne({ _id: decoded['usrid'] }, async function (err, obj) {
+            if (err) {
                 console.log(err)
-                res.status(500).send(err) 
+                res.status(500).send(err)
             }
             else {
-                if(obj!=null) {
+                if (obj != null) {
                     var evn_arr = []
-                    for(let i=obj.evns.length-1; i>0; i--) {
+                    for (let i = obj.evns.length - 1; i > 0; i--) {
                         var cur = await evnFindLite(obj.evns[i])
                         evn_arr.push(cur)
                     }
-                    res.status(200).send(evn_arr) 
+                    res.status(200).send(evn_arr)
                 }
                 else {
-                    res.status(404).send('This user is not found') 
+                    res.status(404).send('This user is not found')
                 }
             }
         })
     }
     else {
-        res.status(403).send('Invalid JWT') 
+        res.status(403).send('Invalid JWT')
     }
 })
 
@@ -1831,7 +1830,7 @@ app.post('/api/searchbyinterests', async function (req, res) {
 
     console.log(keyword[0]);
 
-    Student.find({ Interests: {$all: keyword} }, async function (err, obj) {
+    Student.find({ Interests: { $all: keyword } }, async function (err, obj) {
         if (err) {
             console.log(err)
         }
@@ -1851,13 +1850,11 @@ app.post('/api/searchbyinterests', async function (req, res) {
     })
 })
 
-app.post("/searchbyint", function(req, res)
-{   
+app.post("/searchbyint", function (req, res) {
 
     var keyword = "BMX"
 
-    InterestSchema.findOne({subCat: keyword}, function(err, obj)
-    {
+    InterestSchema.findOne({ subCat: keyword }, function (err, obj) {
         console.log(obj);
     });
 })
@@ -1887,45 +1884,44 @@ async function findStudent(id) {
 }
 
 
-app.post('/api/tracker/click-on-user-event', async function(req, res) {
+app.post('/api/tracker/click-on-user-event', async function (req, res) {
     ///need to send in a student id here to find
     var decoded = await jwms.verify(req.headers.authorization)
     if (decoded != false) {
         //We need to add the selected students interests to the user vector object
-        Student.findOne({_id: decoded['usrid']}, function(err, obj) {
+        Student.findOne({ _id: decoded['usrid'] }, function (err, obj) {
             if (err) {
                 console.log(err)
                 res.send(500).send("Mongo Error")
             } else {
-                if(obj!= null) {
+                if (obj != null) {
                     //Means that the user is found, here we search for the selected user
-                    Student.findOne({_id: req.body._id}, function(err2, obj2) {
-                        if(err) {
-                            res.status(500).send('Internal Mongo Error') 
+                    Student.findOne({ _id: req.body._id }, function (err2, obj2) {
+                        if (err) {
+                            res.status(500).send('Internal Mongo Error')
                         }
 
                         else {
-                            if(obj2!=null) {
+                            if (obj2 != null) {
                                 //This means that the user object has also been found here
                                 //Now what matters is that I reuturn this
                                 addToUserVector(obj._id, obj2.interests)
-				  
-				user.findOne({username: obj2.EmailId}, function(err, obj23)
-				{
-					res.status(200).send({obj: obj2, dp: obj23.profilePic})
-				});
-				    
-                                
+
+                                user.findOne({ username: obj2.EmailId }, function (err, obj23) {
+                                    res.status(200).send({ obj: obj2, dp: obj23.profilePic })
+                                });
+
+
 
                             }
                             else {
-                                res.status(404).send('User is not found') 
+                                res.status(404).send('User is not found')
                             }
                         }
                     })
                 }
                 else {
-                    res.status(404).send('user not found') 
+                    res.status(404).send('user not found')
                 }
             }
         })
@@ -1943,147 +1939,147 @@ function addToUserVector(userid, to_add) {
 
 
 
-app.get('/discoverUsers', async function(req, res) {
+app.get('/discoverUsers', async function (req, res) {
 
     var decoded = await jwms.verify(req.headers.authorization)
-    if(decoded!=false) {
+    if (decoded != false) {
         //Must add profile picture when you find it here
         //Must also refine to fit in good recommendations
         //Should be pretty good for a small dataset
-        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+        Student.find({ Location: decoded['Location'] }, { Firstname: 1, LastName: 1, _id: 1 }, function (err, obj) {
             if (err) {
                 console.log(err)
-                res.status(500).send(err) 
+                res.status(500).send(err)
             } else {
-                if(obj!=[]) {
-                    res.status(200).send(obj) 
+                if (obj != []) {
+                    res.status(200).send(obj)
                 }
                 else {
-                    res.status(404).send('users not found in this city') 
+                    res.status(404).send('users not found in this city')
                 }
             }
         })
     }
     else {
-        res.status(403).send('user might not be logged in. reqd to use our platform') 
+        res.status(403).send('user might not be logged in. reqd to use our platform')
     }
 })
 
 
 
-app.post('/discoverUsers1', async function(req, res) {
-    var token = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c3JpZCI6IjVlMTZiZTQ3MmE5NTNlMDY5MGVkNTkwMiIsImVtYWlsIjoidmlqYXkuZEBhdGhlbmEuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpamF5IiwiZmFtaWx5X25hbWUiOiJEaGFybWFqaSIsInJvbGUiOiJTdHVkZW50IiwiTG9jYXRpb24iOiJCZW5nYWwiLCJQaW5jb2RlIjo1NjAwODAsInVzZXJ2ZWN0b3IiOltdLCJpYXQiOjE1Nzg2NDQ5MzUsImV4cCI6MTU3ODczMTMzNSwiaXNzIjoiQXRoZW5hIExvZ2luIENyZWRlbnRpYWxzIn0.Kw4uRkyy7-wfanhioHu3m4WipMWCIXwjG_yLoN8zYS6RXGodBFS1ozG-9DZOrU5Aq9NaL-Lv4Wg-k0HucIratGVARW5XFDbRkn4Ap9RmPmZrd5RjckZeycpMT9PiNz1pIN_zABDaULv9VsAc62pJAXD7F50Dy1Vn0B_pc_RYfSQMVM4-CQuwXVSw2_8y1OzmIPZFtuYFnufoX9a_7XZ1lZTWsY-T_pKzwSpj3ioUN2Ah70p9fjHfI3vHzgiYxrCWW3GW3IIPuAa4uMr8UZFIeYvVy1xfczo4lR7nlKiH0pgCo1PQhaPFziTEa8gTGE0plBRY29crgkyRmmCCKa9xVQ" 
-    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decoded) {
-        if(err) {
+app.post('/discoverUsers1', async function (req, res) {
+    var token = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c3JpZCI6IjVlMTZiZTQ3MmE5NTNlMDY5MGVkNTkwMiIsImVtYWlsIjoidmlqYXkuZEBhdGhlbmEuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpamF5IiwiZmFtaWx5X25hbWUiOiJEaGFybWFqaSIsInJvbGUiOiJTdHVkZW50IiwiTG9jYXRpb24iOiJCZW5nYWwiLCJQaW5jb2RlIjo1NjAwODAsInVzZXJ2ZWN0b3IiOltdLCJpYXQiOjE1Nzg2NDQ5MzUsImV4cCI6MTU3ODczMTMzNSwiaXNzIjoiQXRoZW5hIExvZ2luIENyZWRlbnRpYWxzIn0.Kw4uRkyy7-wfanhioHu3m4WipMWCIXwjG_yLoN8zYS6RXGodBFS1ozG-9DZOrU5Aq9NaL-Lv4Wg-k0HucIratGVARW5XFDbRkn4Ap9RmPmZrd5RjckZeycpMT9PiNz1pIN_zABDaULv9VsAc62pJAXD7F50Dy1Vn0B_pc_RYfSQMVM4-CQuwXVSw2_8y1OzmIPZFtuYFnufoX9a_7XZ1lZTWsY-T_pKzwSpj3ioUN2Ah70p9fjHfI3vHzgiYxrCWW3GW3IIPuAa4uMr8UZFIeYvVy1xfczo4lR7nlKiH0pgCo1PQhaPFziTEa8gTGE0plBRY29crgkyRmmCCKa9xVQ"
+    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decoded) {
+        if (err) {
             console.log(err)
         }
         else {
-            Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+            Student.find({ Location: decoded['Location'] }, { Firstname: 1, LastName: 1, _id: 1 }, function (err, obj) {
                 if (err) {
                     console.log(err)
-                    res.status(500).send(err) 
+                    res.status(500).send(err)
                 } else {
-                    if(obj!=[]) {
-                        res.status(200).send(obj) 
+                    if (obj != []) {
+                        res.status(200).send(obj)
                     }
                     else {
-                        res.status(404).send('users not found in this city') 
+                        res.status(404).send('users not found in this city')
                     }
                 }
             })
         }
     })
-    if(decoded!=false) {
+    if (decoded != false) {
         //Must add profile picture when you find it here
         //Must also refine to fit in good recommendations
         //Should be pretty good for a small dataset
-        Student.find({Location: decoded['Location']}, {Firstname: 1, LastName: 1, _id: 1}, function(err, obj) {
+        Student.find({ Location: decoded['Location'] }, { Firstname: 1, LastName: 1, _id: 1 }, function (err, obj) {
             if (err) {
                 console.log(err)
-                res.status(500).send(err) 
+                res.status(500).send(err)
             } else {
-                if(obj!=[]) {
-                    res.status(200).send(obj) 
+                if (obj != []) {
+                    res.status(200).send(obj)
                 }
                 else {
-                    res.status(404).send('users not found in this city') 
+                    res.status(404).send('users not found in this city')
                 }
             }
         })
     }
     else {
-        res.status(403).send('user might not be logged in. reqd to use our platform') 
+        res.status(403).send('user might not be logged in. reqd to use our platform')
     }
 })
 
 
-app.post('/api/search/users', async function(req, res) {
+app.post('/api/search/users', async function (req, res) {
     var query = req.body.userKey
-    var usecase  =req.body.usecase
+    var usecase = req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     var sender = []
-    if(decoded!=false) {
-        if(usecase==1) {
-            Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
-                if(err) {
-                    res.status(500).send('MONGo') 
+    if (decoded != false) {
+        if (usecase == 1) {
+            Student.find({ $and: [{ Location: decoded['Location'] }, { $or: [{ FirstName: { $regex: query, $options: 'i' } }, { LastName: { $regex: query, $options: 'i' } }, { EmailId: { $regex: query, $options: 'i' } }] }] }, { FirstName: 1, LastName: 1, LastSeen: 1, _id: 1 }, function (err, obj) {
+                if (err) {
+                    res.status(500).send('MONGo')
                 }
                 else {
-                    if(obj!=[]) {
-                        res.status(200).send(obj) 
+                    if (obj != []) {
+                        res.status(200).send(obj)
                     }
                     else {
-                        res.status(200).send('NO USERS FOUND') 
+                        res.status(200).send('NO USERS FOUND')
                     }
                 }
             })
         }
         else {
-            Student.find({$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
-                if(err) {
-                    res.status(500).send('MONGo') 
+            Student.find({ $or: [{ FirstName: { $regex: query, $options: 'i' } }, { LastName: { $regex: query, $options: 'i' } }, { EmailId: { $regex: query, $options: 'i' } }] }, { FirstName: 1, LastName: 1, LastSeen: 1, _id: 1 }, function (err, obj) {
+                if (err) {
+                    res.status(500).send('MONGo')
                 }
                 else {
-                    if(obj!=[]) {
+                    if (obj != []) {
                         sender.concat
-                        res.status(200).send(obj) 
+                        res.status(200).send(obj)
                     }
                     else {
-                        res.status(200).send('NO USERS FOUND') 
+                        res.status(200).send('NO USERS FOUND')
                     }
                 }
             })
         }
     }
     else {
-        res.status(403).send('JWT is unauth or somehing') 
+        res.status(403).send('JWT is unauth or somehing')
     }
 })
 
 
-app.post('/api/search/organizers', async function(req, res) {
+app.post('/api/search/organizers', async function (req, res) {
     var query = req.body.orgKey
-    var usecase  =req.body.usecase
+    var usecase = req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
     var sender = []
-    if(decoded!=false) {
-            Organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {OrganiserName: 1, OrganiserEmail:1, _id: 1}, function(err, obj) {
-                if(err) {
-                    res.status(500).send('MONGo') 
+    if (decoded != false) {
+        Organiser.find({ $or: [{ OrganiserName: { $regex: query, $options: 'i' } }, { Organiser: { $regex: query, $options: 'i' } }] }, { OrganiserName: 1, OrganiserEmail: 1, _id: 1 }, function (err, obj) {
+            if (err) {
+                res.status(500).send('MONGo')
+            }
+            else {
+                if (obj != []) {
+                    sender.concat
+                    res.status(200).send(obj)
                 }
                 else {
-                    if(obj!=[]) {
-                        sender.concat
-                        res.status(200).send(obj) 
-                    }
-                    else {
-                        res.status(200).send('NO USERS FOUND') 
-                    }
+                    res.status(200).send('NO USERS FOUND')
                 }
-            })
-        }
+            }
+        })
+    }
     else {
-        res.status(403).send('JWT is unauth or somehing') 
+        res.status(403).send('JWT is unauth or somehing')
     }
 })
 
@@ -2091,23 +2087,23 @@ app.post('/api/search/organizers', async function(req, res) {
 var arms = require('./microservices/archive-micro')
 
 
-app.get('/api/run', function(req, res) {
+app.get('/api/run', function (req, res) {
     ///Archiving Events
     var key = ''
     console.log('works')
-    Student.find({}, function(err, obj) {
-        if(err) {
+    Student.find({}, function (err, obj) {
+        if (err) {
             console.log(err)
 
         }
         else {
-            if(obj!=[]) {
+            if (obj != []) {
                 console.log(obj)
-                for(let i=0; i < obj.length; obj++) {
+                for (let i = 0; i < obj.length; obj++) {
                     var age = ageconvert(obj[i].DOB)
                     console.log(age)
                 }
-                
+
             }
         }
     })
@@ -2136,8 +2132,8 @@ app.post('/api/vectorless/click-on-events', function (req, res) {
                             else {
                                 if (EVNobj) {
                                     res.status(200).send(EVNobj)
-                                 
-                 
+
+
                                 }
                                 else {
                                     console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
@@ -2161,7 +2157,7 @@ app.post('/api/vectorless/click-on-events', function (req, res) {
 
 
 
-app.get('/noob', function(req, res) {
+app.get('/noob', function (req, res) {
 
 })
 

@@ -29,6 +29,11 @@ async function rd(decodedToken, evns) {
             var event_interests = ev.evnInterests;
             var userinterests = decodedToken.interests;
             var tot_event_interests = ev.evnInterests.length;
+
+
+            for(let j=0; j<tot_event_interests; j++) {
+                console.log('comparing interests')
+            }
             // for(let j=0; j < tot_event_interests; j++) {
             //     // console.log('Entering loop ' , j)
             //     // console.log("REACHED: INNER EVENT COMPARISON LOOP")

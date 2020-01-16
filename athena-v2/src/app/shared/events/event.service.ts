@@ -11,9 +11,9 @@ import { LOCAL_STORAGE } from '@ng-toolkit/universal'
 })
 export class EventService {
   selectedEvent: Event = {
-    evnPincode: "",
+    evnPincode: 0,
     evnName: "",
-    evnOrganizerContact: "",
+    evnOrganizerContact: 0,
     evnDate1: null,
     evnDate2: null,
     evnOrganizerPage: "",
@@ -25,6 +25,7 @@ export class EventService {
     evnCity: "",
     Image:""  
   };
+
   events: any;
 
   details: Details = {

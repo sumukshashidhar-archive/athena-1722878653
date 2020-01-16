@@ -10,16 +10,16 @@
           <br>
           <br>
           <div style="height: 100vh;" class="container">
-          <mat-card class="mat-elevation-z14">
-            <mat-card-header>
-              <mat-card-title>Add an Event</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>Add an event now, and increase your credibility as an organizer.</p>
-              <button mat-raised-button data-target="#exampleModal" data-toggle="modal">Add</button>
-            </mat-card-content>
-          </mat-card>
-        </div>
+            <mat-card class="mat-elevation-z14">
+              <mat-card-header>
+                <mat-card-title>Add an Event</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Add an event now, and increase your credibility as an organizer.</p>
+                <button mat-raised-button data-target="#exampleModal" data-toggle="modal">Add</button>
+              </mat-card-content>
+            </mat-card>
+          </div>
           <!-- Modal -->
         </mat-tab>
         <mat-tab label="Manage your events">
@@ -131,7 +131,7 @@
               <div class="form-group">
                 <label class="control-label">Pincode</label>
                 <div>
-                  <input type="text" maxlength="6" class="form-control" name="evnPincode" required ngModel
+                  <input type="number" max="999999" class="form-control" name="evnPincode" required ngModel
                     #evnPincode="ngModel" [(ngModel)]="eventService.selectedEvent.evnPincode">
                   <span class="help-block" *ngIf="!evnPincode.valid && evnPincode.touched">Please Enter Event
                     Pincode</span>
@@ -140,7 +140,7 @@
               <div class="form-group">
                 <label class="control-label">Contact Number</label>
                 <div>
-                  <input maxlength="32" type="text" class="form-control" pattern="[6789][0-9]{9}" required ngModel
+                  <input max="9999999999" type="number" class="form-control" pattern="[6789][0-9]{9}" required ngModel
                     name="evnOrganizerContact" #evnOrganizerContact="ngModel"
                     [(ngModel)]="eventService.selectedEvent.evnOrganizerContact" />
                   <span class="help-block" *ngIf="
@@ -160,7 +160,7 @@
               <div class="form-group">
                 <label class="control-label">Target Age</label>
                 <div>
-                  <input type="number" maxlength="3" class="form-control" required ngModel name="evnTargetAge"
+                  <input type="number" maxlength="3" max="99" class="form-control" required ngModel name="evnTargetAge"
                     #evnTargetAge="ngModel" [(ngModel)]="eventService.selectedEvent.evnTargetAge">
                   <span class="help-block" *ngIf="!evnTargetAge.valid && evnTargetAge.touched">Please Enter Target
                     Age</span>
@@ -177,8 +177,8 @@
               <div class="form-group">
                 <label class="control-label">Category Name</label>
                 <div>
-                  <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
-                    [options]="categoryOption"></ngx-select-dropdown>
+                  <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption">
+                  </ngx-select-dropdown>
                   <label class="control-label">Sub category Name</label>
                   <ngx-select-dropdown [multiple]="true" name="subCatName" [(ngModel)]="subCatName"
                     [config]="configSubCat" [options]="subcatOptions"></ngx-select-dropdown>
@@ -186,8 +186,8 @@
               </div>
               <div class="form-group">
                 <div>
-                  <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal"
-                    data-target="#exampleModal" (click)="onSubmit(f)">
+                  <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
+                    (click)="onSubmit(f)">
                     Register
                   </button>
                 </div>

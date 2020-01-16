@@ -10,12 +10,6 @@ const crypto = require("crypto");
 var multer = require('multer');
 const GridFsStorage = require("multer-gridfs-storage");
 const nodemailer = require('nodemailer');
-const exphbs = require('express-handlebars');
-const path = require('path');
-const algorithm = 'aes-256-cbc';
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
-var Encrypt = require('./models/encrypt.js');
 var CatE = require('./models/category.js');
 var Grid = require('gridfs-stream');
 var InterestSchema = require('./models/interest.js');
@@ -27,30 +21,20 @@ var achievements = require('./models/Achievements.js');
 var AcademicsSchema = require('./models/AcademicsSchema.js');
 
 const enc = require('./config/encryptionConfig.js');
-const apiTokenSign = require('./config/API_TOKEN_SIGNATURE.js')
 var serv = require('./config/severConfig.js');
 var user = require("./models/user.js");
 var Student = require("./models/StudentInfo.js");
 var Organiser = require("./models/OrganiserInfo.js");
 const db = require('./config/database');
 var event = require('./models/event');
-var key_controller = require('./controllers/keystore_control')
-var keystore = require('./models/key-store')
 const saltRounds = enc.saltRounds;
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({ uploadDir: './uploads' });
-var daVinci = require('./controllers/recommendation-engine.js')
-const nanoid = require('nanoid')
-var logsSchema = require('./models/log.js');
 
 // PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
 var privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
-var adminKEY = fs.readFileSync('./keys/admin_hash.key', 'utf8')
-var API_SIGNATORY = require('./controllers/API_SIGN')
 var lms = require('./microservices/logs-micro')
-var admin = require('./models/admin.js')
-var ADMIN_CONTROLLER = require('./controllers/admin_controller')
 var dms = require('./microservices/davinci-micro')
 function sendMail(output, to) {
 
@@ -2103,84 +2087,15 @@ app.post('/api/search/organizers', async function(req, res) {
 })
 
 
+var arms = require('./microservices/archive-micro')
+
+
 app.get('/api/run', function(req, res) {
     ///Archiving Events
     var key = ''
-    eventsArchive()
+    arms.eventsArchive()
 
 })
-
-function eventsArchive() {
-    var events_to_delete =[];
-    event.find({}, function(err, EVN_OBJECT) {
-        if(err) {
-            console.log(err)
-        }
-        else {
-            if(EVN_OBJECT) {
-                console.log(EVN_OBJECT)
-                console.log("Got the object")
-                var total_length = EVN_OBJECT.length
-                for(let i=0; i<total_length; i++) {
-                    var CUR_EVENT = EVN_OBJECT[i]
-                    console.log('Archiving event at: ', i, 'of ', total_length)
-                    console.log(Date.now())
-                    console.log(CUR_EVENT.evnDate2)
-                    if((CUR_EVENT["evnDate2"].getTime()) < Date.now().getTime()) {
-                        var newArchEvent = new archevent({
-                            evnName: cur.evnName, 
-                            evnDate1: cur.evnDate1,
-                            evnDate2: cur.evnDate2,
-                            evnInterests: cur.evnInterests, 
-                            evnOrganizerName: cur.evnOrganizerName,
-                            evnOrganizerPage: cur.evnOrganizerPage,
-                            evnOrganizerContact: cur.evnOrganizerContact,
-                            evnLocation: cur.evnLocation, 
-                            evnPincode: cur.evnPincode,
-                            evnAddress: cur.evnAddress, 
-                            evnTargetAge: cur.evnTargetAge,
-                            // CONTACT SUMUK BELOW THIS
-                            evnDescription: cur.evnDescription, 
-                            evnRating: cur.evnRating,
-                            evnAttendees: cur.evnAttendees,
-                            Image: cur.Image
-                        })
-                        newArchEvent.save(function(err, obj) {
-                            if(err) {
-                                console.log('INTERNAL ERROR. FAILED TO PUSH TO MONGO');
-                            }
-                            else {
-                                console.log('SUCCESS >>> PUSHED TO ARCHIVED');
-                                console.log(obj)
-                                events_to_delete.push(cur._id)
-                            }
-                        })
-                    }
-                    else {
-                        console.log('This event is still in function. Event name is: ', EVN_OBJECT[i]['evnName'])
-                    }
-                    
-                }
-                var total_length = events_to_delete.length
-                for(let j=0; j < total_length; j++) {
-                    event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
-                        if(err) {
-                            console.log(err)
-                        }
-                        else {
-                            console.log("Deleted")
-                        }
-                    })
-                }
-                console.log("Deleted all redundant achievements")
-            }
-            else {
-                console.log("got blank from mongo")
-            }
-        }
-    })
-}
-
 
 
 

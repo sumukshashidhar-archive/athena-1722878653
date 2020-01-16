@@ -11,8 +11,8 @@ var mongoose = require('mongoose');
 var ArcheventSchema = new mongoose.Schema({
     //BASICS
     evnName: String, 
-    evnDate1: String,
-    evnDate2: String,
+    evnDate1: Number,
+    evnDate2: Number,
     evnInterests: Array, 
     evnOrganizerName: String,
     evnOrganizerPage: String,
@@ -20,7 +20,7 @@ var ArcheventSchema = new mongoose.Schema({
     evnLocation: String, 
     evnPincode: Number,
     evnAddress: String, 
-    evnTargetAge: String,
+    evnTargetAge: Number,
     evnCity: String,
     // CONTACT SUMUK BELOW THIS
     evnDescription: String, 

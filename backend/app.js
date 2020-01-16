@@ -213,7 +213,7 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
         if (!err && decodedToken != null) {
             console.log("Verified");
 
-            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
+            user.findOneAndUpdate({ username: decodedToken.email }, function (err, obj) {
                 if (err) {
                     console.log("ERRROR" + err);
                     res.send(false);

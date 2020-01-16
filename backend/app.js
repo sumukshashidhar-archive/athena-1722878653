@@ -324,7 +324,7 @@ app.post('/updateinfo', function (req, res) {
                                 var LastName = req.body.LastName
                                 var PhoneNo = req.body.phoneNo
                                 var Bio = req.body.bio
-                                var SLocation = req.body.Slocation
+                                var Location = req.body.Location
 
                                 user.updateOne({ id: obj._id }, { $set: { FirstName: req.body.FirstName, LastName: req.body.LastName, PhoneNo: req.body.phoneNo, Bio: req.body.bio, SLocation: req.body.Slocation } }, function (err, obj) {
                                     if (err) {
@@ -462,7 +462,7 @@ app.post('/login', async function (req, res) {
                                     if (!err && (usrobj != null && usrobj != undefined)) {
                                         //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                         console.log(obj)
-                                        token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj["UserInterests"], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"], age: obj["age"], uservector: obj['uservector'] }, privateKEY, enc.signOptions);
+                                        token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj['Interests'], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"], age: obj["age"], uservector: obj['uservector'] }, privateKEY, enc.signOptions);
                                         console.log(token)
                                         //Testing verification. Has to be removed during deployment
                                         jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
@@ -2205,7 +2205,7 @@ app.post('/api/vectorless/click-on-events', function (req, res) {
 
 async function ageconvert(dob) {
     var callback = new Promise((res, rej) => {
-        var checkYear = Math.floor(mSeconds / 31536000000);
+        var checkYear = Math.floor(dob / 31536000000);
         res(checkYear);
     })
 

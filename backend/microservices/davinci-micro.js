@@ -31,8 +31,9 @@ module.exports = {
             //These are the events to process
             //Here comes the recommendations
             var returner = await gateway(student, PRCSEvns)
-            console.log("These are the events from the gateway", returner)
-            res(returner)
+            // console.log("These are the events from the gateway", returner)
+            // res(returner)
+            res(PRCSEvns)
             
         })
 
@@ -58,11 +59,11 @@ module.exports = {
         var callback = new Promise(async (res, rej) => {
             var PRCSEvns = sr.search_deep(query)
             console.log('EVENT IS NOW: ', PRCSEvns)
-            // var returner = await gateway(student, PRCSEvns)
+            var returner = await gateway(student, PRCSEvns)
             //These are the events to process
             //Here comes the recommendations
-            // res(returner)
-            res(PRCSEvns)
+            res(returner)
+            // res(PRCSEvns)
             
         })
 
@@ -74,9 +75,9 @@ module.exports = {
     reqular_city_search: async function(query, student) {
         var callback = new Promise( async (res, rej) => {
             var PRCSEvns = sr.search_normal(student.Location, query)
-            // var returner = await gateway(student, PRCSEvns)
-            // res(returner)
-            res(PRCSEvns)
+            var returner = await gateway(student, PRCSEvns)
+            res(returner)
+            // res(PRCSEvns)
         })
 
         let r = await callback

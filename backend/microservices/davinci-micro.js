@@ -76,5 +76,8 @@ module.exports = {
             var returner = await gateway(student, PRCSEvns)
             res(returner)
         })
+
+        let r = await callback
+        return r;
     }
 }

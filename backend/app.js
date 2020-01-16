@@ -194,6 +194,7 @@ app.post("/getProfileName",(req,res)=>{
                 }
                 else {
                     console.log("Sent profile picture");
+                    console.log(obj)
                     console.log(obj.profilePic)
                     res.send({name:obj.profilePic});
 
@@ -211,15 +212,15 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         if (!err && decodedToken != null) {
             console.log("Verified");
-            console.log(decodedToken);
 
-            user.findOneAndUpdate({ username: decodedToken.email }, { $set: { profilePic: req.body.name } }, function (err, obj) {
+            user.findOneAndUpdate({ username: decodedToken.email }, function (err, obj) {
                 if (err) {
                     console.log("ERRROR" + err);
                     res.send(false);
                 }
                 else {
-                    console.log("Updated profile pic!!");
+                
+                    console.log('ADDED IMAGE TO DATABASE')
                     res.send({ name:req.body.name });
 
 
@@ -229,8 +230,7 @@ app.post("/upload", upLoad.single('img'), (req, res) => {
 
         }
     });
-    console.log(req.body)
-    console.log('ADDED IMAGE TO DATABASE')
+    
 
 });
 
@@ -809,11 +809,10 @@ app.get('/achievements', async function (req, res) {
 })
 
 // ACHIEVEMENTS ROUTE
-app.post('/achievements', multipartMiddleware, (req, res) => {
+app.post('/achievements',  (req, res) => {
 
     console.log("\N\N");
     console.log(req.body)
-
 
     console.log(req.body);
     console.log(req.body.uploadedFiles)
@@ -824,24 +823,21 @@ app.post('/achievements', multipartMiddleware, (req, res) => {
         if (!err && decodedToken != null) {
             console.log("Verified");
             console.log(decodedToken);
-            console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
             var newAch = new achievements
-                ({
-                    CategoryId: req.body.achCat,
-                    SubCategoryId: req.body.achSubCat,
-                    Image: req.body.uploadedFiles,
-                    Description: req.body.description,
-                    achRank: req.body.rank
+            ({
+                CategoryId: req.body.category.catName,
+                SubCategoryId: req.body.subCatName.subCatName,
+                Image: req.body.file,
+                Description: req.body.description,
+                achRank: req.body.rank.name
 
-                })
+            })
             newAch.save(function (err, achobj) {
                 if (err) {
                     console.log(err)
                 }
                 else {
-                    console.log(decodedToken)
-                    console.log(achobj["id"])
-                    console.log(achobj)
+  
                     res.status(200).json(achobj)
                     Student.findOne({ EmailId: decodedToken.email }, function (err, obj) {
                         if (err) {
@@ -2083,8 +2079,9 @@ app.get('/api/run', function(req, res) {
     eventsArchive()
 
 })
+
 function eventsArchive() {
-    var events_to_delete;
+    var events_to_delete =[];
     event.find({}, function(err, EVN_OBJECT) {
         if(err) {
             console.log(err)
@@ -2097,7 +2094,9 @@ function eventsArchive() {
                 for(let i=0; i<total_length; i++) {
                     var CUR_EVENT = EVN_OBJECT[i]
                     console.log('Archiving event at: ', i, 'of ', total_length)
-                    if(CUR_EVENT["evnEndDate"] < Date.now()) {
+                    console.log(Date.now())
+                    console.log(CUR_EVENT.evnDate2)
+                    if((CUR_EVENT["evnDate2"].getTime()) < Date.now().getTime()) {
                         var newArchEvent = new archevent({
                             evnName: cur.evnName, 
                             evnDate1: cur.evnDate1,
@@ -2127,9 +2126,12 @@ function eventsArchive() {
                             }
                         })
                     }
+                    else {
+                        console.log('This event is still in function. Event name is: ', EVN_OBJECT[i]['evnName'])
+                    }
                     
                 }
-                total_length = events_to_delete.length
+                var total_length = events_to_delete.length
                 for(let j=0; j < total_length; j++) {
                     event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
                         if(err) {

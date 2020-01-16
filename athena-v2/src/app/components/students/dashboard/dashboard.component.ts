@@ -1,7 +1,6 @@
 import { EventService } from "./../../../shared/events/event.service";
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { NameService } from "./../../../shared/name/name.service";
 import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from "jwt-decode";
 import { Component, OnInit, Inject } from "@angular/core";
@@ -25,15 +24,13 @@ export var File;
 export class DashboardComponent implements OnInit {
   profileUrlExists = false;
   interestlist: any;
-  name:any
+
   imageToShow: any;
   uploadedFiles: Array<File>;
   username: any;
-  ipAddress: string;
   file: any;
   path: "";
   ach_list: any;
-  School = school;
   evn_list: any;
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
@@ -41,7 +38,6 @@ export class DashboardComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private data: SearchService,
-    private uname: NameService,
     public SearchService: SearchService,
     private http: HttpClient,
     private ach: AchievementsService,
@@ -51,7 +47,6 @@ export class DashboardComponent implements OnInit {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var email = decodedtoken["email"];
-    this.getProfileName()
     this.refreshAchievements();
     this.getInterests();
     this.getEvents();
@@ -96,9 +91,6 @@ export class DashboardComponent implements OnInit {
     };
     File = (document.getElementById("file1") as HTMLInputElement).files;
     const frmData = new FormData();
-    console.log(File[0]);
-    console.log(File[0].name);
-     this.name = File[0].name;
     frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
@@ -117,21 +109,8 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  getProfileName(){
-    const token=this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
-      headers : headers
-    };
-    this.http.post('http://localhost:3000/getProfileName',options).subscribe(res=>{
-      console.log(res)
-      console.log('IMAGE TO SHOW')
-      this.imageToShow=res['name']
-      console.log(this.imageToShow)
-    })
-  }
+
   readSingleFile(e) {
-    // const name = e[0].name;
     const name = e.target.files[0].name;
     document.getElementById("file-label").textContent = name;
   }
@@ -142,7 +121,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.School);
     var decodedtoken = jwt_decode(decoded);
 
     this.data.currentName.subscribe((res: Response) => {

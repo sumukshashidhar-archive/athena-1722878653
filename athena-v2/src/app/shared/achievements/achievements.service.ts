@@ -7,13 +7,13 @@ import { Achievements } from "./achievements.model";
 })
 export class AchievementsService {
   selectedAchievements: Achievements = {
-    uploadedFiles: [], 
+    uploadedFiles: [],
     achCat: "",
     achSubCat: "" ,
     description:"",
     rank:""
   };
-  
+
   achievements: Achievements[];
 
   constructor(private http: HttpClient) {}
@@ -21,14 +21,14 @@ export class AchievementsService {
   postAchievements(ach: Achievements) {
     console.log("Post achievements method");
     console.log(ach);
-    return this.http.post("http://localhost:3000/achievements", ach);
+    return this.http.post("http://localhost:3000/achievements",ach);
   }
 
   getAchievements() {
     return this.http.get("http://localhost:3000/achievements");
   }
 
-  deleteAchievement(_id: string) {
-    return this.http.delete("http://localhost:3000/delete-achievement")
+  deleteAchievement(achId: string) {
+    return this.http.post("http://localhost:3000/deleteAchievements",{achId})
   }
 }

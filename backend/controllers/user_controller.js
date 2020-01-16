@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 var user = require("../models/user.js");
+var saltRounds = 9;
 
 module.exports = {
     

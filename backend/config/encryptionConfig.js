@@ -2,7 +2,7 @@
 
 
 module.exports  = {
-    saltRounds: 9, 
+    saltRounds: 3, 
     issuer: 'Athena-testing', 
     signOptions: {
         issuer:  "Athena Login Credentials",

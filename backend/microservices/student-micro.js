@@ -1,0 +1,1 @@
+var Student = require('./../models/StudentInfo')

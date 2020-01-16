@@ -22,16 +22,23 @@ async function rd(decodedToken, evns) {
             }
             var n = 1
             //This is the interests
-            Student.findOne({_id: decodedToken.usrid}, function(err, obj))
-            for(let m=0; m < decodedToken.interests.length; m++) {
-                if(ev.evnInterests.includes(decodedToken.interests[m])) {
-                    sum = sum + sum*n;
-                    n = n+1;
-                }
-                else {
+            // Student.findOne({_id: decodedToken.usrid}, function(err, obj) {
+            //     if(err) {
+            //         console.log(err)
+            //     }
+            //     else {
+            //         console.log('Now got the student. Will continue with the recommendation')
+            //     }
+            // })
+            // for(let m=0; m < decodedToken.interests.length; m++) {
+            //     if(ev.evnInterests.includes(decodedToken.interests[m])) {
+            //         sum = sum + sum*n;
+            //         n = n+1;
+            //     }
+            //     else {
                     
-                }
-            }
+            //     }
+            // }
 
             //BASIC RECOMMENDATIONS
     

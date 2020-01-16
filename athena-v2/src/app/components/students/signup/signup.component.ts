@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatDatepicker } from '@angular/material/datepicker'
 
 export var email
 export var school
@@ -1302,10 +1303,8 @@ export class SignupComponent implements OnInit {
       },
       err => {
         if (err.status === 422) {
-          // this.serverErrormessage = err.error.join('<br/>');
           console.log(422);
         } else {
-          // this.serverErrormessage = "Something went wrong"
           console.log("error");
         }
       }

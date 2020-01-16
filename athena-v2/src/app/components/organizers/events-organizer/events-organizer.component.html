@@ -84,7 +84,7 @@
               <div class="form-group">
                 <label class="control-label">Event Starting Date</label>
                 <div>
-                  <input maxlength="32" (change)="setMaxDate()" type="date" id="evnDate1" required ngModel
+                  <input maxlength="32" max="01-01-2025" (change)="setMaxDate()" type="date" id="evnDate1" required ngModel
                     name="evnDate1" #evnDate1="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate1"
                     [min]="maxDate">
                   <p class="help-block" *ngIf="!evnDate1.valid && evnDate1.touched">
@@ -95,7 +95,7 @@
               <div class="form-group">
                 <label class="control-label">Event Ending Date</label>
                 <div>
-                  <input id="evnDate2" maxlength="32" type="date" id="evnDate2" required ngModel name="evnDate2"
+                  <input id="evnDate2" max="01-01-2025" maxlength="32" type="date" id="evnDate2" required ngModel name="evnDate2"
                     #evnDate2="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="newDate">
                   <span class="help-block" *ngIf="!evnDate2.valid && evnDate2.touched">
                     Please add Event date

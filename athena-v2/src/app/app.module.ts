@@ -93,7 +93,7 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
     FormsModule,
     HttpClientModule,
     JwtModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     RecaptchaFormsModule,
     TransferHttpCacheModule
   ],

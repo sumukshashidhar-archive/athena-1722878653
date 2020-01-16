@@ -33,6 +33,8 @@ async function rd(decodedToken, evns) {
 
             for(let j=0; j<tot_event_interests; j++) {
                 console.log('comparing interests')
+                var curEventInt = event_interests[j];
+                for(let k=0; )
             }
             // for(let j=0; j < tot_event_interests; j++) {
             //     // console.log('Entering loop ' , j)

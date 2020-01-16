@@ -1932,6 +1932,54 @@ app.post('/api/tracker/click-on-user-event', async function (req, res) {
 })
 
 
+app.post('/api/tracker/vectorless/click-on-user-event', async function (req, res) {
+    ///need to send in a student id here to find
+    var decoded = await jwms.verify(req.headers.authorization)
+    if (decoded != false) {
+        //We need to add the selected students interests to the user vector object
+        Organiser.findOne({ _id: decoded['usrid'] }, function (err, obj) {
+            if (err) {
+                console.log(err)
+                res.send(500).send("Mongo Error")
+            } else {
+                if (obj != null) {
+                    //Means that the user is found, here we search for the selected user
+                    Student.findOne({ _id: req.body._id }, function (err2, obj2) {
+                        if (err) {
+                            res.status(500).send('Internal Mongo Error')
+                        }
+
+                        else {
+                            if (obj2 != null) {
+                                //This means that the user object has also been found here
+                                //Now what matters is that I reuturn this
+                                addToUserVector(obj._id, obj2.interests)
+
+                                user.findOne({ username: obj2.EmailId }, function (err, obj23) {
+                                    res.status(200).send({ obj: obj2, dp: obj23.profilePic })
+                                });
+
+
+
+                            }
+                            else {
+                                res.status(404).send('User is not found')
+                            }
+                        }
+                    })
+                }
+                else {
+                    res.status(404).send('user not found')
+                }
+            }
+        })
+    }
+    else {
+        res.status(403).send('Bad JWT')
+    }
+})
+
+
 
 function addToUserVector(userid, to_add) {
 

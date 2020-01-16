@@ -1288,6 +1288,7 @@ export class SignupComponent implements OnInit {
     form.value['bio']=this.test;
     email=form.value['email']
     school=form.value['studentSchool']
+    form.value['DOB'] = Date.parse(form.value['DOB'])
     console.log(school)
     console.log(email)
     if (form.value['bio'] == null || form.value['bio'] == undefined || form.value['bio'] == "") {

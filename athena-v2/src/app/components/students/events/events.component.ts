@@ -1,7 +1,7 @@
 import { AuthService } from './../../../shared/auth/auth.service'
 import { Component, OnInit } from "@angular/core";
 import { EventService } from "./../../../shared/events/event.service";
-import { Event } from "./../../../shared/events/event";
+import { Event } from "./../../../shared/events/event.model";
 import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { NgForm, FormControl } from '@angular/forms';

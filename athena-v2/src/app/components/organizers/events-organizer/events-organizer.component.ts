@@ -1,6 +1,6 @@
 import { AuthService } from "./../../../shared/auth/auth.service";
 import { HttpClient } from "@angular/common/http";
-import { Event } from "./../../../shared/events/event";
+import { Event } from "./../../../shared/events/event.model";
 import { Component, OnInit } from "@angular/core";
 import { SearchService } from "./../../../shared/search/search.service";
 import { InterestsService } from './../../../shared/interests/interests.service'
@@ -14,20 +14,6 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 export var decoded: any;
 export var File;
 export var name;
-export var selectedEvent: Event = {
-  evnPincode: "",
-  evnName: "",
-  evnOrganizerContact: "",
-  evnDate1: "",
-  evnDate2: "",
-  evnOrganizerPage: "",
-  evnTargetAge: 0,
-  evnDescription: "",
-  evnInterests: "",
-  evnAdd1: "",
-  evnAdd2: "",
-  Image: ""
-};
 
 @Component({
   selector: "app-events-organizer",
@@ -100,7 +86,6 @@ export class EventsOrganizerComponent implements OnInit {
   }
   readSingleFile(e) {
     name = e.target.files[0].name;
-
     document.getElementById("file-label").textContent = name;
   }
 
@@ -126,6 +111,8 @@ export class EventsOrganizerComponent implements OnInit {
     const frmData = new FormData();
     frmData.append("img", File[0]);
     console.log(frmData);
+    form.value['evnDate1'] = Date.parse(form.value['evnDate1'])
+    form.value['evnDate2'] = Date.parse(form.value['evnDate2'])
     this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
       console.log(res);
     });
@@ -137,6 +124,7 @@ export class EventsOrganizerComponent implements OnInit {
       this.openSnackBar("Please add event interests", "Close")
       return;
     }
+    console.log(typeof(form.value['evnDate1']))
     form.value["interestArray"] = arr;
     console.log(form.value["interestArray"]);
     form.value["evnLocation"] =

@@ -50,6 +50,10 @@
               <mat-error class="help-block">Please enter Valid Phone Number
               </mat-error>
             </mat-form-field>
+            <mat-form-field>
+              <input type="text" maxlength="32" placeholder="City" matInput required ngModel name="orgCity" #orgCity="ngModel" [(ngModel)]="organizeruserService.selectedUser.orgCity">
+              <mat-error class="help-block">Please enter Your City</mat-error>
+            </mat-form-field>
           </form>
           <div>
             <button mat-button matStepperNext [disabled]="!a.valid">

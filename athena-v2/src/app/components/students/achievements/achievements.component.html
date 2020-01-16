@@ -26,26 +26,24 @@
             <div class="form-group">
               <div class="col-xs-6">
                 <label><strong>Category Name</strong></label>
-                <ngx-select-dropdown required (change)="selectionChanged($event)" [config]="config" name="category"
+                <ngx-select-dropdown required (change)="selectionChanged($event)" [(ngModel)]="achService.selectedAchievements.achCat"[config]="config" name="category"
                   [options]="categoryOption"></ngx-select-dropdown>
               </div>
               <div class="col-xs-6">
                 <label> Sub category Name </label>
-                <ngx-select-dropdown required [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
+                <ngx-select-dropdown required [(ngModel)]="achService.selectedAchievements.achSubCat" [config]="configSubCat" name="subCatName"
                   [options]="subcatOptions"></ngx-select-dropdown>
               </div>
               <div class="col-xs-6">
                 <label> Rank </label>
-                <ngx-select-dropdown required [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
+                <ngx-select-dropdown required [(ngModel)]="achService.selectedAchievements.rank" [config]="configRank" name="rank" id="rank"
                   [options]="list"></ngx-select-dropdown>
               </div>
               <br />
 
-              <input type="text" required maxlength="150" class="form-control" id="description"
-                placeholder="Enter Description" />
-
-              <!-- <img [src]="url" height="200"> <br/> -->
-              <!-- <input type="file" (change)="fileChange($event)" id="inputGroupFile01"> -->
+              <input type="text" required maxlength="150" class="form-control"  [(ngModel)]="achService.selectedAchievements.description" name="description" id="description"
+                placeholder="Enter Description"  />
+                <br/>
               <div class="custom-file mb-3">
                 <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
                   (change)="readSingleFile($event)" />

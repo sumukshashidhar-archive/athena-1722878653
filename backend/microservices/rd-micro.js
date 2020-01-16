@@ -15,17 +15,14 @@ async function rd(decodedToken, evns) {
                 console.log("REACHED: COMPARISON STEP FOR PINCODE")
             }
             if (ev.evnTargetAge!=undefined && decodedToken.age!=undefined) {
-            
                 //Subtracting Raw Target Age Difference
                 sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
                 console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                 console.log('Sum at step 2: ', sum)
             }
-            
-
             var n = 1
             //This is the interests
-
+            Student.findOne({_id: decodedToken.usrid}, function(err, obj))
             for(let m=0; m < decodedToken.interests.length; m++) {
                 if(ev.evnInterests.includes(decodedToken.interests[m])) {
                     sum = sum + sum*n;

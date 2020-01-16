@@ -8,11 +8,12 @@ module.exports = {
                     console.log(err)
                 }
                 else {
-                    if(obj!=null) {
-                        res(false)
+                    if(obj == null) {
+                        res(true)
                     }
                     else {
-                        res(true)
+                        console.log("Found:", obj)
+                        res(false)
                     }
                 }
             })

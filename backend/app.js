@@ -254,9 +254,10 @@ app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
 })
 
 //REGISTRATION ROUTE FOR STUDENTS.
-app.post('/register', function (req, res) {
+app.post('/register', async function (req, res) {
     console.log(req.body)
-    var redcheck = rcms.check(req.body.email)
+    var redcheck = await rcms.check(req.body.email)
+    console.log(redcheck)
     if (redcheck) {
         bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
             if (err) {
@@ -278,13 +279,14 @@ app.post('/register', function (req, res) {
                         Verified: false
                     });
 
-                newUser.save(function (err, obj) {
+                newUser.save(async function (err, obj) {
                     if (err) {
                         console.log("ERROR, " + err);
                         res.status(422).send("Error in saving user");
                     }
                     else {
-                        var age = ageconvert(req.body.DOB)
+                        var age = await ageconvert(req.body.DOB)
+                        console.log(age)
                         console.log(obj);
                         var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                         console.log(output);

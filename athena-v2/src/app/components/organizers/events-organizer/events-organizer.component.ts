@@ -8,6 +8,9 @@ import * as jwt_decode from "jwt-decode";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventService } from "./../../../shared/events/event.service";
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatToolbarModule } from "@angular/material/toolbar";
+
 export var decoded: any;
 export var File;
 export var name;
@@ -25,7 +28,7 @@ export var selectedEvent: Event = {
   evnAdd2: "",
   Image: ""
 };
-import { MatToolbarModule } from "@angular/material/toolbar";
+
 @Component({
   selector: "app-events-organizer",
   templateUrl: "./events-organizer.component.html",
@@ -68,11 +71,18 @@ export class EventsOrganizerComponent implements OnInit {
     private http: HttpClient,
     private data: SearchService,
     private auth: AuthService,
-    public interestsService : InterestsService
+    public interestsService : InterestsService,
+    private _snackBar: MatSnackBar
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
-    this.postToIt();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
   }
 
   ngOnInit() {
@@ -89,7 +99,6 @@ export class EventsOrganizerComponent implements OnInit {
     this.auth.logout();
   }
   readSingleFile(e) {
-    // const name = e[0].name;
     name = e.target.files[0].name;
 
     document.getElementById("file-label").textContent = name;
@@ -124,6 +133,10 @@ export class EventsOrganizerComponent implements OnInit {
     for (let i = 0; i < this.subCatName.length; i++) {
       arr.push(this.subCatName[i].subCatName);
     }
+    if (this.subCatName == null || this.subCatName == undefined || this.subCatName == ""){
+      this.openSnackBar("Please add event interests", "Close")
+      return;
+    }
     form.value["interestArray"] = arr;
     console.log(form.value["interestArray"]);
     form.value["evnLocation"] =
@@ -142,32 +155,6 @@ export class EventsOrganizerComponent implements OnInit {
         }
       }
     );
-  }
-
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
-  postToIt() {
-    // this.http.get('http://localhost:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://localhost:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
   }
 
   getEvents(){
@@ -217,16 +204,6 @@ export class EventsOrganizerComponent implements OnInit {
       }
       console.log(this.username);
     });
-  }
-
-  addEvnInterests() {
-    let arr = [];
-    for (let i = 0; i < this.subCatName.length; i++) {
-      arr.push(this.subCatName[i].subCatName);
-    }
-
-    console.log("this.x ", this.x)
-    console.log("subcatname", this.subCatName)
   }
 
   sendDetails(form: NgForm, _id: string){

@@ -2,72 +2,52 @@
 <mat-tab-group [selectedIndex]="selected.value">
   <mat-tab label="All Events">
     <div class="container">
-      <div class="row" *ngFor="let evn of eventService.events">
-
-        <!--  Card Start -->
-        <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
-          <img class="card-header" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}">
-
-          <div class="card--content">
-            <div class="card--content-head">
-
-              <form #f="ngForm">
-                <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
-
-                  <h3 class="card--title">{{evn.evnName}}</h3>
-                </a>
-              </form>
-              <div class="ratings"><span>8.8</span>/10</div>
-            </div>
-            <div class="card--info">
-              <div class="time-on">
-                <label>Last update</label>
-                <span>Sun 8 Sept - 10:00PM</span>
-              </div>
-              <div class="time-on">
-                <label>Running time</label>
-                <span>2hr 09min</span>
-              </div>
-            </div>
-          </div>
-        </a>
+      <br>
+      <div class="row">
+        <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of eventService.events">
+          <mat-card-header>
+            <mat-card-title>{{ evn.evnName }}</mat-card-title>
+            <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
+            alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p>
+              {{ evn.evnDescription }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <form #e="ngForm">
+              <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+            </form>
+          </mat-card-actions>
+        </mat-card>
       </div>
-      <!--  Card End -->
     </div>
   </mat-tab>
   <mat-tab label="Events Following">
     <div class="container">
-      <div class="row" *ngFor="let evn of results">
-
-        <!--  Card Start -->
-        <a class="card-view" (click)="sendDetails(f, evn._id)" [routerLink]="['/']" onclick="return false;">
-          <img class="card-header" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}">
-
-          <div class="card--content">
-            <div class="card--content-head">
-
-              <form #f="ngForm">
-                <a [routerLink]="['/']" onclick="return false;" (click)="sendDetails(f, evn._id)">
-
-                  <h3 class="card--title">{{evn.evnName}}</h3>
-                </a>
-              </form>
-              <div class="ratings"><span>8.8</span>/10</div>
-            </div>
-            <div class="card--info">
-              <div class="time-on">
-                <label>Last update</label>
-                <span>Sun 8 Sept - 10:00PM</span>
-              </div>
-              <div class="time-on">
-                <label>Running time</label>
-                <span>2hr 09min</span>
-              </div>
-            </div>
-          </div>
-        </a>
+      <br>
+      <div class="row">
+        <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of results">
+          <mat-card-header>
+            <mat-card-title>{{ evn.evnName }}</mat-card-title>
+            <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
+            alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p>
+              {{ evn.evnDescription }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <form #e="ngForm">
+              <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+            </form>
+          </mat-card-actions>
+        </mat-card>
       </div>
-      <!--  Card End -->
     </div>
   </mat-tab>
 </mat-tab-group>

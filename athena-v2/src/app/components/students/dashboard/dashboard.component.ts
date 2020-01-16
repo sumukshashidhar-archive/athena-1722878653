@@ -140,17 +140,10 @@ export class DashboardComponent implements OnInit {
     this.auth.logout();
     this.router.navigate(["/login"]);
   }
-  getIP() {
-    this.auth.getIPAddress().subscribe((res: any) => {
-      this.ipAddress = res.ip;
-      this.http.post("http://localhost:3000/api/ip", this.ipAddress);
-      console.log("IP POSTED");
-    });
-  }
+
   ngOnInit() {
     console.log(this.School);
     var decodedtoken = jwt_decode(decoded);
-    this.getIP();
 
     this.data.currentName.subscribe((res: Response) => {
       if (decodedtoken["role"] == "Student") {

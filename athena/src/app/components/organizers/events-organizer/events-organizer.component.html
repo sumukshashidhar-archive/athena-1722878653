@@ -4,63 +4,7 @@
   <body>
     <div class="container">
 
-      <nav class="main-menu">
-        <ul>
-
-          <li class="has-subnav">
-            <a data-toggle="modal" data-target="#exampleModal" href="#" onclick="return false;">
-              <img [src]="imageToShow" *ngIf="profileUrlExists"
-                style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
-              <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-              <span class="nav-text" style="padding-left: 10px;">
-                {{username}}
-              </span>
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/organizerdashboard']">
-              <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-              <span class="nav-text">
-                Dashboard
-              </span>
-            </a>
-
-          </li>
-
-          <li class="has-subnav">
-            <a [routerLink]="['/eventsorg']">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              <span class="nav-text">
-                Events
-              </span>
-            </a>
-
-          </li>
-
-          <li>
-            <a [routerLink]="['/discover']">
-              <i class="fa fa-search" aria-hidden="true"></i>
-              <span class="nav-text">
-                Discover
-              </span>
-            </a>
-          </li>
-        </ul>
-
-
-
-
-        <ul class="logout">
-          <li>
-            <a [routerLink]="['/login']" class="nav-item nav-link">
-              <i class="fa fa-power-off fa-2x"></i>
-              <span class="nav-text">
-                Logout
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <app-sidenav></app-sidenav>
 
       <div class="card" style="width: 18rem;">
         <div class="card-body">

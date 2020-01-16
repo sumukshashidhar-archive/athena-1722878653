@@ -251,6 +251,7 @@ app.post("/uploadProfile", upLoad.single('img'), (req, res) => {
 
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post('/register', function (req, res) {
+    console.log(req.body)
     bcrypt.hash(req.body.password, saltRounds, function (err, BCRYPT_PASSWORD_HASH) {
         if (err) {
             console.log(err)
@@ -278,7 +279,7 @@ app.post('/register', function (req, res) {
                 }
                 else {
                     console.log(obj);
-		            var output = 'Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
+		            var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                     console.log(output);
                     sendMail(output, req.body.email);
                     lms.log(obj.username, 3, JSON.stringify(obj))

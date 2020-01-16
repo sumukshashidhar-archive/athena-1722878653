@@ -16,7 +16,7 @@ export class UserService {
     userType: "Student",
     securityQuestion: "",
     securityAnswer: "",
-    pincode: "",
+    pincode: 0,
     bio:"",
     studentSchool: "",
     eventsAttending:[]

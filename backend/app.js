@@ -2083,8 +2083,9 @@ app.get('/api/run', function(req, res) {
     eventsArchive()
 
 })
+
 function eventsArchive() {
-    var events_to_delete;
+    var events_to_delete =[];
     event.find({}, function(err, EVN_OBJECT) {
         if(err) {
             console.log(err)
@@ -2097,7 +2098,9 @@ function eventsArchive() {
                 for(let i=0; i<total_length; i++) {
                     var CUR_EVENT = EVN_OBJECT[i]
                     console.log('Archiving event at: ', i, 'of ', total_length)
-                    if(CUR_EVENT["evnEndDate"] < Date.now()) {
+                    console.log(Date.now())
+                    console.log(CUR_EVENT.evnDate2)
+                    if((CUR_EVENT["evnDate2"].getTime()) < Date.now().getTime()) {
                         var newArchEvent = new archevent({
                             evnName: cur.evnName, 
                             evnDate1: cur.evnDate1,
@@ -2127,9 +2130,12 @@ function eventsArchive() {
                             }
                         })
                     }
+                    else {
+                        console.log('This event is still in function. Event name is: ', EVN_OBJECT[i]['evnName'])
+                    }
                     
                 }
-                total_length = events_to_delete.length
+                var total_length = events_to_delete.length
                 for(let j=0; j < total_length; j++) {
                     event.deleteOne({_id:events_to_delete[j]}, function(err, DELETED) {
                         if(err) {

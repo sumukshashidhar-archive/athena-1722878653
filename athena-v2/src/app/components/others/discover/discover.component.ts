@@ -31,7 +31,7 @@ export class DiscoverComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
-  
+
   constructor(
     public data: SearchService,
     private router: Router,

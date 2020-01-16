@@ -22,6 +22,9 @@ export class UserprofileComponent implements OnInit {
   interestlist: any;
   evn_list:any
   id:any
+  Rank:any
+  img:any
+  desc:any
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
     private auth: AuthService,
@@ -47,6 +50,20 @@ this.getUserDetails(this.id)
     console.log(this.decoded);
 
   }
+  DoIt(id:any){
+    console.log(id)
+    for(var i=0;i<this.ach_list.length;i++){
+      if(this.ach_list[i]._id==id){
+       this.desc=this.ach_list[i].Description
+       this.img=this.ach_list[i].Image
+       console.log(this.desc)
+       console.log(this.img)
+       this.Rank=this.ach_list[i].achRank
+
+      }
+    }
+
+  }
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);
@@ -62,7 +79,7 @@ this.getUserDetails(this.id)
   }
   thisAch(id:any){
     console.log(id)
-    return false;
+    this.DoIt(id);
   }
 
 }

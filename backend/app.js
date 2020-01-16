@@ -2067,7 +2067,7 @@ app.post('/api/search/organizers', async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
     var sender = []
     if(decoded!=false) {
-            Organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {OrganiserName: 1, OrganizerEmail:1, _id: 1}, function(err, obj) {
+            Organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {OrganiserName: 1, OrganiserEmail:1, _id: 1}, function(err, obj) {
                 if(err) {
                     res.status(500).send('MONGo') 
                 }
@@ -2094,6 +2094,23 @@ var arms = require('./microservices/archive-micro')
 app.get('/api/run', function(req, res) {
     ///Archiving Events
     var key = ''
+    console.log('works')
+    Student.find({}, function(err, obj) {
+        if(err) {
+            console.log(err)
+
+        }
+        else {
+            if(obj!=[]) {
+                console.log(obj)
+                for(let i=0; i < obj.length; obj++) {
+                    var age = ageconvert(obj[i].DOB)
+                    console.log(age)
+                }
+                
+            }
+        }
+    })
     arms.eventsArchive()
 
 })
@@ -2141,3 +2158,20 @@ app.post('/api/vectorless/click-on-events', function (req, res) {
 
 })
 
+
+
+
+app.get('/noob', function(req, res) {
+
+})
+
+
+async function ageconvert(dob) {
+    var callback = new Promise((res, rej) => {
+        var checkYear = Math.floor(mSeconds / 31536000000);
+        res(checkYear);
+    })
+
+    let r = await callback
+    return r
+}

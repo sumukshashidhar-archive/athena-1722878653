@@ -64,7 +64,7 @@
             <ng-template matStepLabel>Tell us more about yourself</ng-template>
             <form #g="ngForm">
               <mat-form-field>
-                <input min="01-01-1912" max="01-01-2025" placeholder="Date of Birth" matInput type="date" required ngModel name="DOB"
+                <input min="01-01-1912" max="01-01-2010" placeholder="Date of Birth" matInput type="date" required ngModel name="DOB"
                   #DOB="ngModel" [(ngModel)]="userService.selectedUser.DOB" />
                 <mat-error class="help-block">Please Enter Date Of Birth</mat-error>
               </mat-form-field>

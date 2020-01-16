@@ -28,6 +28,8 @@ export class SearchService {
   selOrgUser = {
     orgKey: ""
   }
+
+  orgDetails: any
   
   eventTab:any = 0;
 

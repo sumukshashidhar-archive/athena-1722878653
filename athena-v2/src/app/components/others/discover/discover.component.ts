@@ -167,9 +167,12 @@ export class DiscoverComponent implements OnInit {
       res => {
         this.data.userResults = null;
         this.data.userResults = res;
-        this.data.tabChange = 2;
+        this.data.tabChange = 3;
         this.router.navigate(['/searchres'])
         console.log(res)
+      },
+      err => {
+        console.log(err)
       }
     )
   }

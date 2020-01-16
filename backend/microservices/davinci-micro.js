@@ -31,9 +31,9 @@ module.exports = {
             //These are the events to process
             //Here comes the recommendations
             var returner = await gateway(student, PRCSEvns)
-            // console.log("These are the events from the gateway", returner)
-            // res(returner)
-            res(PRCSEvns)
+            console.log("These are the events from the gateway", returner)
+            res(returner)
+            // res(PRCSEvns)
             
         })
 

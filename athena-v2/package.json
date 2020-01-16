@@ -32,6 +32,8 @@
     "ngx-captcha": "^7.0.0",
     "ngx-cookie-service": "^2.3.0",
     "ngx-select-dropdown": "^1.3.0",
+    "node-linux-x64": "^13.6.0",
+    "npm": "^6.13.6",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

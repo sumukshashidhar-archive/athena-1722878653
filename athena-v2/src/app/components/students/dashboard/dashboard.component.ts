@@ -86,12 +86,12 @@ export class DashboardComponent implements OnInit {
   send() {
     const token=this.localStorage.getItem('access_token')
     const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
+   const options = {
       headers : headers
     };
     File = (document.getElementById("file1") as HTMLInputElement).files;
     const frmData = new FormData();
-    frmData.append("img", File[0]);
+     frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
       .post("http://localhost:3000/uploadProfile", frmData,options)

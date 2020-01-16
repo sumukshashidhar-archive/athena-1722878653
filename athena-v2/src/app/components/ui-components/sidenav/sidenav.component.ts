@@ -6,7 +6,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 
 export var decoded: any;
-
+export var File
 
 @Component({
   selector: 'app-sidenav',
@@ -43,17 +43,23 @@ export class SidenavComponent implements OnInit {
     console.log('SIDENAV')
     this.getProfileName()
   }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
+  }
+
   send() {
-    console.log(this.file)
     const token=localStorage.getItem('access_token')
     const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
+   const options = {
       headers : headers
     };
-    var File = (document.getElementById("file1") as HTMLInputElement).files
-    console.log(File[0])
+    File = (document.getElementById("file2") as HTMLInputElement).files
+    console.log(File)
     const frmData = new FormData();
-    frmData.append("img", File[0]);
+     frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
       .post("http://localhost:3000/uploadProfile", frmData,options)
@@ -73,15 +79,10 @@ export class SidenavComponent implements OnInit {
 
 
   readSingleFile(e) {
+    const Nme=e.target.files[0].name;
     console.log(e.target.files[0].name)
-    const Name = e.target.files[0].name;
-    document.getElementById("file1label").textContent = Name;
-  }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 5000,
-      verticalPosition: 'top'
-    });
+    document.getElementById("file1label").textContent = Nme
+    console.log((document.getElementById("file2") as HTMLInputElement).files)
   }
 
   logout() {
@@ -103,5 +104,5 @@ export class SidenavComponent implements OnInit {
     })
   }
 
-  
+
 }

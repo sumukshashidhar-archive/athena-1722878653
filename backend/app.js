@@ -1314,8 +1314,8 @@ app.get('/events', async (req, res) => {
                         if (MONGO_OBJ_RETURN) {
                             //This implies that I found a user like this
                             //Now I need to process recommendations for this user
-                            //var evns_to_return = await dms.testexplore2(MONGO_OBJ_RETURN)
-                            var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            var evns_to_return = await dms.testexplore2(MONGO_OBJ_RETURN)
+                            // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
                             console.log("Being sent is: \n", evns_to_return)
                             res.send(evns_to_return)
                         }

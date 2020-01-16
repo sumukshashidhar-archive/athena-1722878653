@@ -30,11 +30,10 @@ async function rd(decodedToken, evns) {
             var userinterests = decodedToken.interests;
             var tot_event_interests = ev.evnInterests.length;
 
-
-            for(let j=0; j<tot_event_interests; j++) {
+            //
+            for(let j=0; j<userinterests; j++) {
                 console.log('comparing interests')
-                var curEventInt = event_interests[j];
-                for(let k=0; )
+                if(event_interests.includes(userinterests[j]))
             }
             // for(let j=0; j < tot_event_interests; j++) {
             //     // console.log('Entering loop ' , j)

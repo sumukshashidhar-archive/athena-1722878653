@@ -22,7 +22,7 @@
                 #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
             </div>
             <br>
-            <p><strong>Type of search : </strong></p>
+            <!-- <p><strong>Type of search : </strong></p>
             <input type="radio" name="search" value="1" id="1">
             <label for="1">Regular Search : Search for events only within your city</label>
             <br>
@@ -34,7 +34,7 @@
             <input type="radio" name="search" value="3" id="3">
             <label for="3">Archive Search : Search for events which are over</label>
             <br>
-            <br>
+            <br> -->
             <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Submit Query</button>
           </form>
         </div>

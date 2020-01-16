@@ -3,6 +3,7 @@
   <div class="container">
     <mat-tab-group [selectedIndex]="selected.value">
       <mat-tab label="Event Search Results">
+        <p>{{ search.message }}</p>
         <div class="container">
           <br>
           <div class="row">
@@ -26,6 +27,8 @@
             </mat-card>
           </div>
         </div>
+        <p>Do you want to search for events in other cities as well?</p>
+        <button></button>
       </mat-tab>
       <mat-tab label="User Search Results">
         <div class="container">

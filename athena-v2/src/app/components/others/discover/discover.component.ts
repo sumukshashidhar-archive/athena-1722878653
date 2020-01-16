@@ -73,17 +73,7 @@ export class DiscoverComponent implements OnInit {
     this.deep = document.getElementById("2");
     this.archive = document.getElementById("3");
     console.log(this.normal, this.deep, this.archive);
-    if (this.normal.checked) {
-      this;
-      form.value["usecase"] = 1;
-    } else if (this.deep.checked) {
-      form.value["usecase"] = 2;
-    } else if (this.archive.checked) {
-      form.value["usecase"] = 3;
-    } else {
-      this.openSnackBar("Please specify the type of search", "Close");
-      return;
-    }
+    form.value['usecase'] = 1
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {

@@ -1,171 +1,97 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <app-sidenav></app-sidenav>
+<div class="side">
+  <h1 style="color: black; font-weight: 100;margin-left: 15%;">Popular Events</h1>
+  <div class="container" *ngFor="let evn of evn_list" style="margin-top: 2vw;">
+  <img class="img-fluid card-img" src="http://localhost:3000/{{evn.Image}}" style="max-height: 12vw;width: 15vw;margin-left: 20%;object-fit: scale-down; background-color: #fff;">
+  <div  style="width: 15vw;max-height:10vw;margin-left: 20%;background-color: #e8f8f4;border-radius: 7px;border-bottom: 10px solid #34c8dd80 ;">
+    <div class="card-body">
+      <div class="card-footer" style="font-size: 1rem;max-height: 5vw;">{{evn.evnName}}</div>
+      <br/>
+    </div>
+  </div>
+</div>
+</div>
+
 
 <body>
 
-  <h2 style="color: black; font-weight:100;font-size:vw;">Welcome, {{ username }}</h2>
-  <div class="container" style="">
+  <h2 style="color: black; font-weight:100;margin-left: -25%;">Welcome, {{ username }}</h2>
+  <br/>
+   <!-- <div class="container" style="display: flex;" >
+    <div class="row">
+      <div class="column" style="float: left;">
+        <img class="card bg-light" src="http://localhost:3000/{{evn_list[0].Image}}"
+          style="width: 13rem;height: 13rem;  margin-left: 20%; border-radius: 10px; position: relative;margin-bottom: 0;"
+          [routerLink]="['/']" onclick="return false;"
+    >
+          <div class="card-header"
+            style="border-radius:8px;text-align: center;font-size: 1em;height:3vw;margin-top:-5%;font-weight: 100;margin-left:20%;width: 13rem;color:#fff;background-color: #67d2e0;">
+            {{evn_list[0].evnName}}</div>
+          <a class="card-body">
+          </a>
+
+      </div>
+      <div class="column" style="float: left;">
+        <img class="card bg-light " src="http://localhost:3000/{{evn_list[1].Image}}"
+          style="width: 13rem;height: 13rem;  margin-left: 40%; border-radius: 10px; position: relative;margin-bottom: 0;"
+          [routerLink]="['/']" onclick="return false;"
+    >
+          <div class="card-header"
+            style="border-radius:8px;text-align: center;height:3vw;margin-top:-5%;font-size: 1em;width: 13rem;font-weight: 100;margin-left: 40%;color:#fff; background-color:#feb13a;">
+            {{evn_list[1].evnName}}</div>
+          <a class="card-body">
+          </a>
+
+      </div>
+      <div class="column" style="float: left;">
+        <img class="card bg-light " src="http://localhost:3000/{{evn_list[2].Image}}"
+          style="width: 13rem;height: 13rem;  margin-left: 60%; border-radius: 10px; position: relative;margin-bottom: 0;"
+          [routerLink]="['/']" onclick="return false;"
+    >
+          <div class="card-header"
+            style="border-radius:8px;text-align: center;height:3vw;margin-top:-5%;font-size: 1em;width: 13rem;font-weight: 100;margin-left: 60%;color:#fff; background-color:#e75b61;">
+            {{evn_list[2].evnName}}</div>
+          <a class="card-body">
+          </a>
+
+      </div>
+</div>
+</div> -->
+<div class="container" style="margin-left: 15%;">
     <div class="card text "
-      style="max-width: 18rem; position: relative;margin-left: 10%; margin-top: 8%;border-radius: 10px;background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%);">
+      style="width: 25vw; position: relative;margin-left: 10%; margin-top: 5%;border-radius: 10px;background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%);">
       <a class="card-body-a" [routerLink]="['/achievements']"
         style="background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%); border-radius:10px;">
-        <h5 class="card-title">{{ach_list.length}}</h5>
-        <p class="card-text-a">Achievements <br /> <i class="fa fa-trophy"
-            style="font-size: 200%; color:white; padding-left: 10vw;" aria-hidden="true"></i> </p>
+        <h5 class="card-title" >{{ach_list.length}}</h5>
+        <p class="card-text-a" style="margin-left: 20%;">Achievements <br /> <i class="fa fa-trophy"
+            style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
       </a>
     </div>
     <div class="card text "
-      style="max-width: 18rem;margin-left: 10%; margin-top: 8%;border-radius: 10px;background-image: linear-gradient(to right, #8f73ee 0%, #4e80c9 100%);">
+      style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;background-image: linear-gradient(to right, #8f73ee 0%, #4e80c9 100%);">
       <a class="card-body-b" [routerLink]="['/interests']"
         style="background-image: linear-gradient(to right, #8f73ee 0%, #4e80c9 100%); border-radius:10px;">
         <h5 class="card-title">{{interestlist.length}}</h5>
-        <p class="card-text-a">Interests <br /> <i class="fa fa-plus"
-            style="font-size: 200%; color:white; padding-left: 10vw;;" aria-hidden="true"></i> </p>
+        <p class="card-text-a" style="margin-left: 20%;">Interests <br /> <i class="fa fa-plus"
+            style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
       </a>
     </div>
     <div class="card text"
-      style="max-width: 18rem;margin-left: 10%; margin-top: 8%;border-radius: 10px;background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%);">
+      style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%);">
       <a class="card-body-c" (click)="changeTab()" [routerLink]="['/events']"
         style="background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%); border-radius:10px;">
         <h5 class="card-title">{{evn_list.length}}</h5>
-        <p class="card-text-a">Events <br /> <i class="fa fa-calendar"
-            style="font-size: 200%; color:white; padding-left: 10vw;" aria-hidden="true"></i> </p>
+        <p class="card-text-a" style="margin-left: 20%;">Events <br /> <i class="fa fa-calendar"
+            style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
       </a>
     </div>
+    <br/>
+    <br/>
+  </div>
 
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Change Profile Photo
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="custom-file mb-3">
-            <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
-              (change)="readSingleFile($event)" />
-            <label class="custom-file-label" for="file1" id="file-label">Choose file</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="send()">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- <img [src]="imageToShow"> -->
   <p></p>
-  <!-- <div class="table" style="overflow: hidden;
-    max-width: 50%;">
-    <div class="row">
-      <div class="col-4" >
-        <div class="list-group" id="list-tab" role="tablist">
-            <h3 class = "list-group-item-heading" style="background-color:#ff3d00;
 
-            color:#f0a904;">Achievements</h3>
-      <div class="list-group-item" *ngFor="let ach of ach_list" id="list-profile-list"  routerlink="#list-profile" role="tab" aria-controls="profile">{{ach.SubCategoryId }}</div>
-        </div>
-      </div>
-     </div>
-    </div> -->
-
-  <!-- <nav class="main-menu">
-
-    <ul>
-
-
-      <li class="has-subnav">
-        <a data-toggle="modal" data-target="#exampleModal" [routerLink]="['/']" onclick="return false;">
-          <img [src]="imageToShow" *ngIf="profileUrlExists"
-            style="border-radius: 60%; width: 100%; height: 100%; margin-left: 0;">
-          <button id="dp" *ngIf="!profileUrlExists" data-toggle="modal" data-target="#exampleModal"></button>
-          <span class="nav-text" style="padding-left: 10px;">
-            {{username}}
-          </span>
-        </a>
-      </li>
-      <br />
-      <br />
-      <li>
-        <a [routerLink]="['/dashboard']">
-          <i class="fa fa-home fa-2x" style="margin-top: 50%; margin-bottom: 50%;"></i>
-          <span class="nav-text">
-            Dashboard
-          </span>
-        </a>
-
-      </li>
-      <li class="has-subnav">
-        <a [routerLink]="['/achievements']">
-          <i class="fa fa-trophy" aria-hidden="true"></i>
-          <span class="nav-text">
-            Achievements
-          </span>
-        </a>
-
-      </li>
-
-      <li class="has-subnav">
-        <a [routerLink]="['/events']">
-          <i class="fa fa-calendar" aria-hidden="true"></i>
-          <span class="nav-text">
-            Events
-          </span>
-        </a>
-
-      </li>
-
-      <li class="has-subnav">
-        <a [routerLink]="['/interests']">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          <span class="nav-text">
-            Add Interests
-          </span>
-        </a>
-
-      </li>
-
-      <li>
-
-        <a [routerLink]="['/userprofile']">
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span class="nav-text">
-            User Profile
-          </span>
-        </a>
-      </li>
-      <li>
-        <a [routerLink]="['/discover']">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <span class="nav-text">
-            Discover
-          </span>
-        </a>
-      </li>
-    </ul>
-
-
-
-
-    <ul class="logout">
-      <li>
-        <a [routerLink]="['/login']" (click)="logout()" class="nav-item nav-link">
-          <i class="fa fa-power-off fa-2x"></i>
-          <span class="nav-text">
-            Logout
-          </span>
-        </a>
-      </li>
-    </ul>
-  </nav> -->
 
 </body>

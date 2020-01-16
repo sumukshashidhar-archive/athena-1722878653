@@ -17,6 +17,17 @@
   vertical-align: middle;
   font-size: 20px;
 }
+.side {
+  max-height: 100%;
+  width: 30vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #fef1e5;
+  /* overflow-x: hidden; */
+  padding-top: 2vw;
+}
 
 
 .main-menu:hover,
@@ -151,19 +162,10 @@ nav.main-menu li.active>a,
 }
 
 .container {
-  display: flex;
+  /* display: flex; */
 }
 
-img {
-  margin-left: 10%;
-  border-radius: 100%;
-  position: relative;
-  display: table-cell;
-  height: auto;
-  text-align: center;
-  vertical-align: middle;
-  max-width: 100%;
-}
+
 
 .card-body .card-text .icons00c {
   color: blue;
@@ -177,11 +179,18 @@ img {
 }
 
 
-.card:hover {
+.card-body-a:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
 }
-
+.card-body-b:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
+.card-body-c:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
 body {
   background-color:
     #f9fafe;

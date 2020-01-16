@@ -41,7 +41,7 @@ async function rd(decodedToken, evns) {
 
                 }
             }
-            var vectors = decodedToken.userVecotors;
+            var vectors = decodedToken.uservector;
             for(let m=0; m< vectors.length; m++) {
                 console.log('comparing interests')
                 if(event_interests.includes(userinterests[j])) {

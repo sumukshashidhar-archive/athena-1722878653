@@ -29,7 +29,7 @@
         </div>
         <p>Do you want to search for events in other cities as well?</p>
         <form #n="ngForm">
-          <button mat-raised-button style="margin-bottom: 2rem;" (click)="sendAgain(n)">Search in other cities</button>
+          <button class="btn btn-primary" style="margin: 2rem auto;" (click)="sendAgain(n)">Search</button>
         </form>
       </mat-tab>
       <mat-tab label="User Search Results">
@@ -77,11 +77,6 @@
                 <mat-card-title>{{ user.OrganiserName }}</mat-card-title>
                 <mat-card-subtitle>{{ user.OrganiserEmail }}</mat-card-subtitle>
               </mat-card-header>
-              <mat-card-content>
-                <form #w="ngForm">
-                  <button mat-raised-button (click)="sendDetails2(w, user._id)">READ MORE</button>
-                </form>
-              </mat-card-content>
             </mat-card>
           </div>
         </div>

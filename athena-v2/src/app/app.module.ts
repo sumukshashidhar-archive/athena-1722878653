@@ -48,6 +48,8 @@ import { SidenavComponent } from './components/ui-components/sidenav/sidenav.com
 import { AcademicsComponent } from './components/students/academics/academics.component';
 import { CarouselComponent } from './components/ui-components/carousel/carousel.component';
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component';
+import { Searchres2Component } from './components/others/searchres2/searchres2.component';
+import { ArchiveComponent } from './components/others/archive/archive.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
     AcademicsComponent,
     CarouselComponent,
     UsersearchresComponent,
+    Searchres2Component,
+    ArchiveComponent,
   ],
   imports: [
     BrowserModule,

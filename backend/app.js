@@ -402,7 +402,7 @@ app.get('/verifyuser/*', function (req, res) {
 
             console.log("VERIFIED");
             console.log(obj1);
-            res.redirect("http://athena-v2.s3-website.ap-south-1.amazonaws.com/login");
+            res.redirect("http://athena-zero.s3-website.ap-south-1.amazonaws.com/login");
         }
     });
 });

@@ -109,6 +109,7 @@ On the second terminal, you should have an output saying that the server has sta
 
 **Vijay Dharmaji**
 1. Interests
+2. Academics
 
 ## License
 

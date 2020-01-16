@@ -68,6 +68,24 @@
           </div>
         </div>
       </mat-tab>
+      <mat-tab label="Organiser Search Results">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of userResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.OrganiserName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.OrganiserEmail }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <form #w="ngForm">
+                  <button mat-raised-button (click)="sendDetails2(w, user._id)">READ MORE</button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </body>

@@ -1901,7 +1901,6 @@ app.post('/api/tracker/click-on-user-event', async function (req, res) {
                         if (err) {
                             res.status(500).send('Internal Mongo Error')
                         }
-
                         else {
                             if (obj2 != null) {
                                 //This means that the user object has also been found here
@@ -1911,9 +1910,6 @@ app.post('/api/tracker/click-on-user-event', async function (req, res) {
                                 user.findOne({ username: obj2.EmailId }, function (err, obj23) {
                                     res.status(200).send({ obj: obj2, dp: obj23.profilePic })
                                 });
-
-
-
                             }
                             else {
                                 res.status(404).send('User is not found')

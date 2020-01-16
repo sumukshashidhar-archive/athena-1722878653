@@ -4,6 +4,7 @@ import { EventService } from "./../../../shared/events/event.service";
 import { Router } from "@angular/router";
 import { NgForm, FormControl } from "@angular/forms";
 import { AuthService } from "src/app/shared/auth/auth.service";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-searchres",
@@ -21,7 +22,8 @@ export class SearchresComponent implements OnInit {
     public search: SearchService,
     public eventService: EventService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -80,6 +82,19 @@ export class SearchresComponent implements OnInit {
       res => {
         this.search.results = res
         console.log(res)
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
+  sendDetails2(form: NgForm, _id: string){
+    form.value['_id'] = _id
+    this.http.post("http://locahost:3000/api/tracker/vectorless/click-on-user-event", form.value).subscribe(
+      res => {
+        console.log(res)
+        this.search.orgDetails = res
       },
       err => {
         console.log(err)

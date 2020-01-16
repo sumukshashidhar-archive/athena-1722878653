@@ -68,6 +68,7 @@
               <input type="text" placeholder="Search" class="form-control" required name="orgKey" ngModel #orgKey="ngModel" [(ngModel)]="data.selOrgUser.keyword">
               <span *ngIf="!orgKey.valid && orgKey.touched">Please enter value to search for</span>
             </div>
+            <br>
             <button class="btn btn-primary" [disabled]="!k.valid" (click)="orgSearch(k)">Search</button>
           </form>
         </div>

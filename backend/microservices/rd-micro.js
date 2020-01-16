@@ -21,7 +21,15 @@ async function rd(decodedToken, evns) {
                 console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                 console.log('Sum at step 2: ', sum)
             }
-    
+            
+
+
+            //This is the interests
+
+            for(let m=0; m < decodedToken.interests.length; m++) {
+                
+            }
+
             //BASIC RECOMMENDATIONS
     
             // => Further comes the events searchin

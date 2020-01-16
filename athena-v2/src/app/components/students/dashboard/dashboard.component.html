@@ -18,46 +18,38 @@
 
   <h2 style="color: black; font-weight:100;margin-left: -25%;">Welcome, {{ username }}</h2>
   <br/>
-   <!-- <div class="container" style="display: flex;" >
+    <div class="container" style="display: flex;" >
     <div class="row">
-      <div class="column" style="float: left;">
-        <img class="card bg-light" src="http://localhost:3000/{{evn_list[0].Image}}"
+      <div class="column" style="float: left;" *ngFor="let evn of evn_list; let i=index">
+        <img class="card bg-light" *ngIf="i==0" src="http://localhost:3000/{{evn_list[i].Image}}"
           style="width: 13rem;height: 13rem;  margin-left: 20%; border-radius: 10px; position: relative;margin-bottom: 0;"
-          [routerLink]="['/']" onclick="return false;"
-    >
-          <div class="card-header"
-            style="border-radius:8px;text-align: center;font-size: 1em;height:3vw;margin-top:-5%;font-weight: 100;margin-left:20%;width: 13rem;color:#fff;background-color: #67d2e0;">
-            {{evn_list[0].evnName}}</div>
-          <a class="card-body">
+          [routerLink]="['/']" onclick="return false;" >
+          <div class="card-header" *ngIf="i==0"
+            style="border-radius:8px;text-align: center;position:relative; font-size: auto;height:5vw;margin-top:-5%;font-weight: 100;margin-left:20%;width: 13rem;color:#fff;background-color: #67d2e0;">
+            {{evn_list[i].evnName}}</div>
+          <a class="card-body" *ngIf="i==0">
           </a>
-
-      </div>
-      <div class="column" style="float: left;">
-        <img class="card bg-light " src="http://localhost:3000/{{evn_list[1].Image}}"
+          <img class="card bg-light" *ngIf="i==1" src="http://localhost:3000/{{evn_list[i].Image}}"
           style="width: 13rem;height: 13rem;  margin-left: 40%; border-radius: 10px; position: relative;margin-bottom: 0;"
-          [routerLink]="['/']" onclick="return false;"
-    >
-          <div class="card-header"
-            style="border-radius:8px;text-align: center;height:3vw;margin-top:-5%;font-size: 1em;width: 13rem;font-weight: 100;margin-left: 40%;color:#fff; background-color:#feb13a;">
-            {{evn_list[1].evnName}}</div>
-          <a class="card-body">
+          [routerLink]="['/']" onclick="return false;" >
+          <div class="card-header" *ngIf="i==1"
+            style="border-radius:8px;text-align: center;position:relative; font-size: auto;height:5vw;margin-top:-5%;font-weight: 100;margin-left:40%;width: 13rem;color:#fff;background-color: #feb13a;">
+            {{evn_list[i].evnName}}</div>
+          <a class="card-body" *ngIf="i==1">
           </a>
-
-      </div>
-      <div class="column" style="float: left;">
-        <img class="card bg-light " src="http://localhost:3000/{{evn_list[2].Image}}"
+          <img class="card bg-light" *ngIf="i==2" src="http://localhost:3000/{{evn_list[i].Image}}"
           style="width: 13rem;height: 13rem;  margin-left: 60%; border-radius: 10px; position: relative;margin-bottom: 0;"
-          [routerLink]="['/']" onclick="return false;"
-    >
-          <div class="card-header"
-            style="border-radius:8px;text-align: center;height:3vw;margin-top:-5%;font-size: 1em;width: 13rem;font-weight: 100;margin-left: 60%;color:#fff; background-color:#e75b61;">
-            {{evn_list[2].evnName}}</div>
-          <a class="card-body">
+          [routerLink]="['/']" onclick="return false;" >
+          <div class="card-header" *ngIf="i==2"
+            style="border-radius:8px;text-align: center;position:relative; font-size: auto;height:5vw;margin-top:-5%;font-weight: 100;margin-left:60%;width: 13rem;color:#fff;background-color: #e65b61;">
+            {{evn_list[i].evnName}}</div>
+          <a class="card-body" *ngIf="i==2">
           </a>
 
       </div>
+
 </div>
-</div> -->
+</div>
 <div class="container" style="margin-left: 15%;">
     <div class="card text "
       style="width: 25vw; position: relative;margin-left: 10%; margin-top: 5%;border-radius: 10px;background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%);">

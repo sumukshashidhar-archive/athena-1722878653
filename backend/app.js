@@ -1139,6 +1139,10 @@ app.post('/addInterest', function (req, res) {
 app.post('/getUserInfo', function(req, res)
 {
 
+
+    console.log("ID: ");
+    console.log(req.body.id);
+
     Student.findOne({_id: req.body.id}, function(err, obj)
     {
         if(err)
@@ -1150,8 +1154,6 @@ app.post('/getUserInfo', function(req, res)
             console.log("FOUND STUDENT OBJECT.")
 
 
-            var newObj = obj;
-
             user.findOne({username: obj.EmailId}, function(err1, obj1)
             {  
                 if(err1)
@@ -1160,8 +1162,8 @@ app.post('/getUserInfo', function(req, res)
                 }
                 else
                 {
-                    newObj.set("profilePic", obj1.profilePic);
-                    res.send(newObj);
+
+                    res.send({obj: obj, dp: obj1.profilePic});
                 }
             })
 
@@ -2034,6 +2036,7 @@ app.post('/api/search/users', async function(req, res) {
     var query = req.body.userKey
     var usecase  =req.body.usecase
     var decoded = await jwms.verify(req.headers.authorization)
+    var sender = []
     if(decoded!=false) {
         if(usecase==1) {
             Student.find({$and: [{Location: decoded['Location']} , {$or: [{FirstName: {$regex: query, $options: 'i'}},{LastName: {$regex: query, $options: 'i'}}, {EmailId: {$regex: query, $options: 'i'}} ]}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
@@ -2057,6 +2060,7 @@ app.post('/api/search/users', async function(req, res) {
                 }
                 else {
                     if(obj!=[]) {
+                        sender.concat
                         res.status(200).send(obj) 
                     }
                     else {
@@ -2071,6 +2075,32 @@ app.post('/api/search/users', async function(req, res) {
     }
 })
 
+
+app.post('/api/search/organizers', async function(req, res) {
+    var query = req.body.userKey
+    var usecase  =req.body.usecase
+    var decoded = await jwms.verify(req.headers.authorization)
+    var sender = []
+    if(decoded!=false) {
+            organiser.find({$or: [{OrganiserName: {$regex: query, $options: 'i'}},{Organiser: {$regex: query, $options: 'i'}}]}, {FirstName: 1, LastName:1, LastSeen:1, _id: 1}, function(err, obj) {
+                if(err) {
+                    res.status(500).send('MONGo') 
+                }
+                else {
+                    if(obj!=[]) {
+                        sender.concat
+                        res.status(200).send(obj) 
+                    }
+                    else {
+                        res.status(200).send('NO USERS FOUND') 
+                    }
+                }
+            })
+        }
+    else {
+        res.status(403).send('JWT is unauth or somehing') 
+    }
+})
 
 
 app.get('/api/run', function(req, res) {

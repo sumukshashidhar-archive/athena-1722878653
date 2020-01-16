@@ -19,9 +19,9 @@ export class UserprofileComponent implements OnInit {
   bio: any;
   username: any;
   imageToShow: any;
-  profileUrlExists = false;
   interestlist: any;
   evn_list:any
+  id:any
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
     private auth: AuthService,
@@ -31,72 +31,38 @@ export class UserprofileComponent implements OnInit {
     private eventService:EventService
   ) {
     this.decoded = localStorage.getItem("access_token");
-    this.getProfileName()
+
   }
 
 
-  getInterersts() {
-    return this.http.get("http://localhost:3000/interests").subscribe(res => {
-      this.interestlist = res;
-      console.log(this.interestlist);
-    });
-  }
-  getEvents(){
-    this.eventService.getFollowEvents().subscribe(
-      res => {
-        console.log(res)
-        this.evn_list = res;
-      },
-      err => {
-        console.log(err)
-      }
-    )
-  }
-  getProfileName(){
-    const token=this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
-      headers : headers
-    };
-    this.http.post('http://localhost:3000/getProfileName',options).subscribe(res=>{
-      console.log(res)
-      console.log('IMAGE TO SHOW')
-      this.imageToShow=res['name']
-      console.log(this.imageToShow)
-    })
-  }
 
-  getBio(email: String) {
-    this.http.post("http://localhost:3000/bio", email).subscribe(res => {
-      console.log("RESPONSE FOR BIO: ");
-      console.log(res);
-      this.bio = res;
-    });
-  }
   ngOnInit() {
     var decodedtoken = jwt_decode(this.decoded);
     if (decodedtoken["role"] == "Student") {
       this.username = decodedtoken["given_name"];
-      var EMAIL = decodedtoken["email"];
-      var BioInfo = this.getBio(EMAIL);
-      console.log(BioInfo);
-      console.log(EMAIL);
-
+    this.id=decodedtoken['usrid']
+this.getUserDetails(this.id)
 
     }
     console.log(this.decoded);
-    this.getAch();
-    this.getInterersts();
-    this.getEvents();
+
   }
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);
   }
-  getAch() {
-    this.achService.getAchievements().subscribe(res => {
-      this.ach_list = res as Achievements[];
-      console.log(this.ach_list);
-    });
+  getUserDetails(id:any){
+    this.http.post('http://localhost:3000/getUserInfo',{id}).subscribe(res=>{
+      console.log(res)
+      this.interestlist=res['obj']['Interests']
+      this.ach_list=res['obj']['Achievement']
+      this.bio=res['obj']['Bio']
+      this.imageToShow=res['dp']
+    })
   }
+  thisAch(id:any){
+    console.log(id)
+    return false;
+  }
+
 }

@@ -5,6 +5,7 @@ var OrganiserInfoSchema = new mongoose.Schema({
     OrganiserEmail: String,
     Password: String,
     PhoneNo: String,
+    OrgCity: String, 
     evns: Array,
     // CONTACT SUMUK UNDER THIS
     Organizer_Score: Number, 

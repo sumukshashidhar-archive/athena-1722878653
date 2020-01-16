@@ -1,19 +1,22 @@
-import { AuthService } from './../../../shared/auth/auth.service'
-import { KeyaddService } from './../../../shared/keyadd/keyadd.service';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { AuthService } from "./../../../shared/auth/auth.service";
+import { KeyaddService } from "./../../../shared/keyadd/keyadd.service";
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
 
 @Component({
-  selector: 'app-keyadd',
-  templateUrl: './keyadd.component.html',
-  styleUrls: ['./keyadd.component.css']
+  selector: "app-keyadd",
+  templateUrl: "./keyadd.component.html",
+  styleUrls: ["./keyadd.component.css"]
 })
 export class KeyaddComponent implements OnInit {
-  
-  constructor(private Auth: AuthService, private http:HttpClient,public keyaddService: KeyaddService) { }
-  ngOnInit() {
-  }
+  constructor(
+    private Auth: AuthService,
+    private http: HttpClient,
+    public keyaddService: KeyaddService
+  ) {}
+  ngOnInit() {}
+
   onSubmit(form: NgForm) {
     this.keyaddService.postKey(form.value).subscribe(
       res => {
@@ -21,7 +24,6 @@ export class KeyaddComponent implements OnInit {
       },
       err => {
         if (err.status === 422) {
-
           console.log(422);
         } else {
           console.log("Error");

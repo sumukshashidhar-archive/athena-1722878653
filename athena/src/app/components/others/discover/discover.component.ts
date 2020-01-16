@@ -8,8 +8,8 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { MatRadioModule } from "@angular/material/radio";
 import * as jwt_decode from "jwt-decode";
-import { MatSnackBar } from '@angular/material';
-import { MatSelect } from '@angular/material/'
+import { MatSnackBar } from "@angular/material";
+import { MatSelect } from "@angular/material/";
 
 @Component({
   selector: "app-discover",
@@ -27,23 +27,11 @@ export class DiscoverComponent implements OnInit {
   profileUrlExists = false;
   decoded: any;
   catName: any;
-  config = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "catName"
-  };
-
-  configSubCat = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "subCatName"
-  };
   subCatName: any;
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
+  
   constructor(
     public data: SearchService,
     private router: Router,
@@ -93,7 +81,7 @@ export class DiscoverComponent implements OnInit {
     } else if (this.archive.checked) {
       form.value["usecase"] = 3;
     } else {
-      this.openSnackBar("Please specify the type of search", "Close")
+      this.openSnackBar("Please specify the type of search", "Close");
       return;
     }
     console.log(form.value);
@@ -148,34 +136,36 @@ export class DiscoverComponent implements OnInit {
 
   selectionChanged() {
     this.subCatName = null;
-    console.log(this.catName)
-    var _id = this.catName
+    console.log(this.catName);
+    var _id = this.catName;
     this.interestsService.getSubCategory(_id).subscribe(res => {
       this.subcatOptions = res;
-      console.log(this.subcatOptions)
+      console.log(this.subcatOptions);
     });
   }
 
   searchByInterest() {
-    console.log(this.subCatName)
-    if (this.subCatName == null){
-      this.openSnackBar("Please mention category and subcategory of the interest", "Close")
+    console.log(this.subCatName);
+    if (this.subCatName == null) {
+      this.openSnackBar(
+        "Please mention category and subcategory of the interest",
+        "Close"
+      );
       return;
-    }
-    else {
+    } else {
       let arr = [];
-      arr.push(this.subCatName)
-      console.log(arr)
+      arr.push(this.subCatName);
+      console.log(arr);
       this.data.postInterestSearch(arr).subscribe(
         res => {
-          this.data.interestResults = res
-          this.data.tabChange = 2
+          this.data.interestResults = res;
+          this.data.tabChange = 2;
           console.log(res);
-          this.router.navigate(['/searchres'])
+          this.router.navigate(["/searchres"]);
         },
         err => {
           console.log(err);
-          this.openSnackBar("No users found", "Close")
+          this.openSnackBar("No users found", "Close");
         }
       );
     }

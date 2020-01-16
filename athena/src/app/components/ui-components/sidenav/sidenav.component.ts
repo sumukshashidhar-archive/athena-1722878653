@@ -15,6 +15,8 @@ export class SidenavComponent implements OnInit {
   profileUrlExists=false
   imageToShow:any
   username: any;
+  isStudent: any
+  isOrg: any;
 
   constructor(
     private auth: AuthService,
@@ -23,8 +25,15 @@ export class SidenavComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
-    var email = decodedtoken["email"];
     this.getProfileName()
+    if (decodedtoken["role"] == "Student") {
+      this.username = decodedtoken["given_name"];
+      this.isStudent = true;
+    }
+    if (decodedtoken["role"] == "Org") {
+      this.isOrg = true;
+      this.username = decodedtoken["name"];
+    }
    }
 
   ngOnInit() {

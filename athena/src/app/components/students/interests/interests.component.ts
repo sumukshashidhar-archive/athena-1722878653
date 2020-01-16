@@ -6,6 +6,8 @@ import { EventService } from "../../../shared/events/event.service";
 import { HttpClient } from "../../../../../node_modules/@angular/common/http";
 import * as jwt_decode from "jwt-decode";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatList } from '@angular/material/list';
+
 export let bio;
 @Component({
   selector: "app-interests",
@@ -15,29 +17,16 @@ export let bio;
 export class InterestsComponent implements OnInit {
   // interest: string;
   // interests = [];
-  showAlert: boolean = false;
-
-  config = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "catName"
-  };
-
-  configSubCat = {
-    search: true,
-    height: "auto",
-    placeholder: "Select",
-    displayKey: "subCatName"
-  };
-  subCatName: any;
   categoryOption: any;
+  catName: any;
+  subCatName: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
   profileUrlExists: any;
   imageToShow: any;
   decoded: any;
   username: any;
+  interests: any;
   constructor(
     public interestsService: InterestsService,
     private http: HttpClient,
@@ -48,26 +37,7 @@ export class InterestsComponent implements OnInit {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
   }
-  // onClick() {
-  //   this.interests.push({
-  //     name: this.interest
-  //   });
-  //   this.interest = "";
 
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.imageToShow = reader.result;
-      },
-      false
-    );
-    this.profileUrlExists = true;
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -75,29 +45,26 @@ export class InterestsComponent implements OnInit {
     });
   }
 
-  postToIt() {
-    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
-    //   console.log(res)
-    this.http
-      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
-      .subscribe((response: Blob) => {
-        console.log("response as blob");
-        console.log(response);
-        this.createImageFromBlob(response);
-      });
-  }
   logout() {
     this.auth.logout();
   }
+
+  getInterests(){
+    this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests").subscribe(
+      res => {
+        console.log(res);
+        this.interests = res
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
   ngOnInit() {
-    this.postToIt();
     var decodedtoken = jwt_decode(this.decoded);
     console.log(decodedtoken);
-    if (decodedtoken["role"] == "Student") {
-      console.log(decodedtoken["given_name"]);
-      this.username = decodedtoken["given_name"];
-    }
-
+    this.getInterests();
     this.getAllCategory();
   }
 
@@ -108,29 +75,46 @@ export class InterestsComponent implements OnInit {
     });
   }
 
-  selectionChanged(event) {
+  selectionChanged() {
     this.subCatName = null;
-    console.log(event);
-    this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
+    console.log(this.catName)
+    var _id = this.catName
+    this.interestsService.getSubCategory(_id).subscribe(res => {
       this.subcatOptions = res;
+      console.log(this.subcatOptions)
     });
   }
 
   adduserInterestList() {
     let arr = [];
-    for (let i = 0; i < this.subCatName.length; i++) {
-      arr.push(this.subCatName[i].subCatName);
+    arr.push(this.subCatName)
+    console.log(arr)
+    if (this.subCatName == null || this.subCatName == undefined) {
+      this.openSnackBar("Please select Interests", "Close")
+      return;
     }
     this.interestsService.postUserInterest(arr).subscribe(
       res => {
         console.log("Added user Interests");
         console.log(res);
-        this.showAlert = true;
         this.openSnackBar("User Interests Added", "Close");
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  deleteInterest(form: NgForm ,interest:string){
+    form.value['interest'] = interest
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/deleteInterest", form.value).subscribe(
+      res => {
+        console.log(res)
+        this.openSnackBar("You have deleted the interest. Please reload the page to see the changes take effect", "Close")
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 }

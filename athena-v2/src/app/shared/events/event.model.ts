@@ -1,7 +1,7 @@
 export class Event {
     evnName: string; //
-    evnDate1: string; //
-    evnDate2: string; //
+    evnDate1: Date; //
+    evnDate2: Date; //
     evnInterests: string; //
     evnPincode: string; //
     evnOrganizerPage: string; //

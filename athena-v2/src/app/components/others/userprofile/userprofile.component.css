@@ -307,6 +307,10 @@ ul{
   color: gray;
   margin: 5px 0;
   transition: .5s;
+
+}
+.other:hover{
+  cursor: pointer;
 }
 
 /*

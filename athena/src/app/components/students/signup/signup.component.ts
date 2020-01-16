@@ -4,6 +4,8 @@ import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from "@angula
 import { Router } from "@angular/router";
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from "@angular/material/snack-bar";
+
 export var email
 export var school
 @Component({
@@ -1241,9 +1243,6 @@ export class SignupComponent implements OnInit {
     "Zirakpur",
     "Zunheboto",
   ];
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
     if (captchaResponse.length > 0) {
@@ -1259,7 +1258,8 @@ export class SignupComponent implements OnInit {
   constructor(
     public userService: UserService,
     private router: Router,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -1275,17 +1275,14 @@ export class SignupComponent implements OnInit {
     this.fourthFormGroup = this._formBuilder.group({
       fourthCtrl: ["", Validators.required]
     });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
 
-    return this.cities.filter(cities => cities.toLowerCase().includes(filterValue));
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
+
   onSubmit(form: NgForm) {
     this.test = (document.getElementById('bio') as HTMLTextAreaElement).value
     form.value['bio']=this.test;
@@ -1293,6 +1290,10 @@ export class SignupComponent implements OnInit {
     school=form.value['studentSchool']
     console.log(school)
     console.log(email)
+    if (form.value['bio'] == null || form.value['bio'] == undefined || form.value['bio'] == "") {
+      this.openSnackBar('Please enter your bio in the "Tell us more about yourself" section', "Close")
+      return;
+    }
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log(res);
@@ -1305,14 +1306,9 @@ export class SignupComponent implements OnInit {
         } else {
           // this.serverErrormessage = "Something went wrong"
           console.log("error");
-          this.printing();
         }
       }
     );
-  }
-
-  testing(){
-    console.log(this.test)
   }
 
 }

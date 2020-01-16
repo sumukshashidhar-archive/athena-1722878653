@@ -105,10 +105,10 @@
         </div>
         <div class="modal-body" *ngFor="let ach of this.ach_list">
           <ul>
-            <li class="other">
-              <span class="name">{{ ach._id }}</span>
-              <!-- <span class="points">95</span> -->
+            <a (click)="thisAch(ach._id)"  ><li class="other">
+              <span class="name" >{{ ach.SubCategoryId }}</span>
             </li>
+          </a>
 
 
           </ul>

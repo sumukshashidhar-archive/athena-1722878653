@@ -1,7 +1,7 @@
 // import { Router } from '@angular/router';
 import { Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
-import { NgForm, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NgForm } from "@angular/forms";
 import { NewpassService } from "./../../../shared/newpass/newpass.service";
 import { ResetcodeService } from './../../../shared/resetcode/resetcode.service'
 
@@ -11,24 +11,15 @@ import { ResetcodeService } from './../../../shared/resetcode/resetcode.service'
   styleUrls: ["./resetpass.component.css"]
 })
 export class ResetpassComponent implements OnInit {
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
 
   constructor(
     private router:Router,
-    private _formBuilder: FormBuilder,
     public newPass: NewpassService,
     public answerService: ResetcodeService
   ) {}
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ["", Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ["", Validators.required]
-    });
+    
   }
 
   onSubmit(form: NgForm) {

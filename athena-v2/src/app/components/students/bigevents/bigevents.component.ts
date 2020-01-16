@@ -27,9 +27,16 @@ export class BigeventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.x['evnDate1'] = this.convert(this.x['evnDate1']);
+    this.x['evnDate2'] = this.convert(this.x['evnDate2']);
   }
   logout() {
     this.auth.logout();
+  }
+
+  convert(date1){
+    var s = new Date(date1).toLocaleDateString("en-US")
+    return s;
   }
 
   openSnackBar(message: string, action: string) {
@@ -48,10 +55,8 @@ export class BigeventsComponent implements OnInit {
       },
       err => {
         if (err.status === 422) {
-          // this.serverErrormessage = err.error.join('<br/>');
           console.log(422);
         } else {
-          // this.serverErrormessage = "Something went wrong"
           console.log("error");
         }
       }

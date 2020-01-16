@@ -50,10 +50,8 @@ export class SearchresComponent implements OnInit {
       },
       err => {
         if (err.status === 422) {
-          // this.serverErrormessage = err.error.join('<br/>');
           console.log(422);
         } else {
-          // this.serverErrormessage = "Something went wrong"
           console.log("error");
         }
       }
@@ -81,20 +79,9 @@ export class SearchresComponent implements OnInit {
     this.search.postSearch(form.value).subscribe(
       res => {
         this.search.results = res
+        this.search.tabAgain = 0
         console.log(res)
-      },
-      err => {
-        console.log(err)
-      }
-    )
-  }
-
-  sendDetails2(form: NgForm, _id: string){
-    form.value['_id'] = _id
-    this.http.post("http://locahost:3000/api/tracker/vectorless/click-on-user-event", form.value).subscribe(
-      res => {
-        console.log(res)
-        this.search.orgDetails = res
+        this.router.navigate(['/searchres2'])
       },
       err => {
         console.log(err)

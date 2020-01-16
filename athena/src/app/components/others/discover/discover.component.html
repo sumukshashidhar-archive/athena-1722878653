@@ -35,7 +35,7 @@
             <label for="3">Archive Search : Search for events which are over</label>
             <br>
             <br>
-            <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Submit Query</button>
+            <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
           </form>
         </div>
       </mat-tab>
@@ -54,7 +54,7 @@
               <span class="help-block" *ngIf="!userKey.valid && userKey.touched">Enter a search value</span>
             </div>
             <br>
-            <button class="btn btn-primary" [disabled]='!g.valid' (click)="onSubmit1(g)">Submit Query</button>
+            <button class="btn btn-primary" [disabled]='!g.valid' (click)="onSubmit1(g)">Search</button>
           </form>
         </div>
       </mat-tab>

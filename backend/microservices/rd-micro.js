@@ -27,7 +27,10 @@ async function rd(decodedToken, evns) {
                 }
                 var n = 1
                 
-                //Step 3 starts here
+                //Step 3 starts here. This is mainly for the events
+
+                ///This needs the sorted array to work, because then I can execute a binary search on the elements
+                
 
 
 

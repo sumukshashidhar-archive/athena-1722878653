@@ -797,17 +797,25 @@ app.post("/addInterestOrganizer", function (req, res) {
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
-        if (!err && decodedToken != null) {
-            console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Mongo Object is AChievments" + mongoObj.Achievement);
-                    res.json(mongoObj.Achievement);
-                }
-            })
+        if ((!err && decodedToken != null)) {
+            if (decodedToken['role'] == 'Student') {
+                console.log("Verified")
+                Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                    if (err) {
+                        console.log(err)
+                    }
+                    else {
+                        console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                        res.json(mongoObj.Achievement);
+                    }
+                })
+            }
+            else {
+                console.log('Unauthorized JWT')
+                res.status(403).send('Wrong JWT')
+
+            }
+
         }
         else {
             console.log(err)
@@ -1486,21 +1494,6 @@ app.get('/getCategoriesAll', function (req, res) {
     });
 });
 
-app.get('/evnCity1234', function (req, res) {
-
-    console.log("Hello, world");
-
-    event.updateMany({}, { $set: { evnCity: "Bangalore" } }, function (err, obj) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            /*console.log(obj)*/;
-            res.send("DONE!!");
-        }
-    })
-});
-
 app.get('/getCategoriesId', function (req, res) {
     console.log(req.query.catId);
     var id = parseInt(req.query.catId);
@@ -2044,52 +2037,6 @@ app.get('/discoverUsers', async function (req, res) {
 
 
 
-app.post('/discoverUsers1', async function (req, res) {
-    var token = "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c3JpZCI6IjVlMTZiZTQ3MmE5NTNlMDY5MGVkNTkwMiIsImVtYWlsIjoidmlqYXkuZEBhdGhlbmEuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpamF5IiwiZmFtaWx5X25hbWUiOiJEaGFybWFqaSIsInJvbGUiOiJTdHVkZW50IiwiTG9jYXRpb24iOiJCZW5nYWwiLCJQaW5jb2RlIjo1NjAwODAsInVzZXJ2ZWN0b3IiOltdLCJpYXQiOjE1Nzg2NDQ5MzUsImV4cCI6MTU3ODczMTMzNSwiaXNzIjoiQXRoZW5hIExvZ2luIENyZWRlbnRpYWxzIn0.Kw4uRkyy7-wfanhioHu3m4WipMWCIXwjG_yLoN8zYS6RXGodBFS1ozG-9DZOrU5Aq9NaL-Lv4Wg-k0HucIratGVARW5XFDbRkn4Ap9RmPmZrd5RjckZeycpMT9PiNz1pIN_zABDaULv9VsAc62pJAXD7F50Dy1Vn0B_pc_RYfSQMVM4-CQuwXVSw2_8y1OzmIPZFtuYFnufoX9a_7XZ1lZTWsY-T_pKzwSpj3ioUN2Ah70p9fjHfI3vHzgiYxrCWW3GW3IIPuAa4uMr8UZFIeYvVy1xfczo4lR7nlKiH0pgCo1PQhaPFziTEa8gTGE0plBRY29crgkyRmmCCKa9xVQ"
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decoded) {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            Student.find({ Location: decoded['Location'] }, { Firstname: 1, LastName: 1, _id: 1 }, function (err, obj) {
-                if (err) {
-                    console.log(err)
-                    res.status(500).send(err)
-                } else {
-                    if (obj != []) {
-                        res.status(200).send(obj)
-                    }
-                    else {
-                        res.status(404).send('users not found in this city')
-                    }
-                }
-            })
-        }
-    })
-    if (decoded != false) {
-        //Must add profile picture when you find it here
-        //Must also refine to fit in good recommendations
-        //Should be pretty good for a small dataset
-        Student.find({ Location: decoded['Location'] }, { Firstname: 1, LastName: 1, _id: 1 }, function (err, obj) {
-            if (err) {
-                console.log(err)
-                res.status(500).send(err)
-            } else {
-                if (obj != []) {
-                    res.status(200).send(obj)
-                }
-                else {
-                    res.status(404).send('users not found in this city')
-                }
-            }
-        })
-    }
-    else {
-        res.status(403).send('user might not be logged in. reqd to use our platform')
-    }
-})
-
-
 app.post('/api/search/users', async function (req, res) {
     var query = req.body.userKey
     var usecase = req.body.usecase
@@ -2240,3 +2187,49 @@ async function ageconvert(dob) {
     let r = await callback
     return r
 }
+
+
+app.post('/api/unfollowevent', async function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+            res.status(403).send('Wrong JWT')
+        }
+        else {
+            Student.findOne({ _id: decodedToken.usrid }, {evnFollowing: 1},  function (err, MONGO_OBJ_RETURN) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    if (MONGO_OBJ_RETURN) {
+                        if(MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
+                            var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(req.body.id);
+                            if (index > -1) {
+                                MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
+
+                                Student.updateOne({id: decodedToken.usrid}, {$set: {evnFollowing: MONGO_OBJ_RETURN.evnFollowing}}, function(err2, obj2){
+                                    if(err) {
+                                        res.status(500).send('Update Error')
+                                    }
+                                    else {
+                                        res.status(200).send('Removed')
+
+                                    }
+                                })
+                              }
+                            else {
+                                res.status(404).send('Event not found in Event Following')
+                            }
+                        }
+                        else {
+                            res.status(404).send('Event not found in Event Following')
+                        }
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
+        }
+    })
+})

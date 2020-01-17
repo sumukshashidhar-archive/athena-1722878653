@@ -1749,25 +1749,31 @@ app.get('/api/retorgevents', async function (req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
     console.log(decoded)
     if (decoded != false) {
-        Organiser.findOne({ _id: decoded['usrid'] }, async function (err, obj) {
-            if (err) {
-                console.log(err)
-                res.status(500).send(err)
-            }
-            else {
-                if (obj != null) {
-                    var evn_arr = []
-                    for (let i = obj.evns.length - 1; i > 0; i--) {
-                        var cur = await evnFindLite(obj.evns[i])
-                        evn_arr.push(cur)
-                    }
-                    res.status(200).send(evn_arr)
+        if(decoded['role'] == 'Org') {
+            Organiser.findOne({ _id: decoded['usrid'] }, async function (err, obj) {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send(err)
                 }
                 else {
-                    res.status(404).send('This user is not found')
+                    if (obj != null) {
+                        var evn_arr = []
+                        for (let i = obj.evns.length - 1; i > 0; i--) {
+                            var cur = await evnFindLite(obj.evns[i])
+                            evn_arr.push(cur)
+                        }
+                        res.status(200).send(evn_arr)
+                    }
+                    else {
+                        res.status(404).send('This user is not found')
+                    }
                 }
-            }
-        })
+            })
+        }
+        else {
+            res.status(403).send('Bad JWT')
+        }
+
     }
     else {
         res.status(403).send('Invalid JWT')
@@ -1807,18 +1813,6 @@ app.get('/api/getrecent', async function (req, res) {
     console.log(evns)
     res.send(ret_arr)
 })
-
-app.get('/evnCity', function (req, res) {
-    event.updateMany({}, { $set: { evnCity: "Bengaluru" } }, function (err, obj) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            /*console.log(obj)*/;
-        }
-    })
-});
-
 
 
 app.post('/api/searchbyinterests', async function (req, res) {
@@ -1914,39 +1908,45 @@ app.post('/api/tracker/click-on-user-event', async function (req, res) {
     ///need to send in a student id here to find
     var decoded = await jwms.verify(req.headers.authorization)
     if (decoded != false) {
-        //We need to add the selected students interests to the user vector object
-        Student.findOne({ _id: decoded['usrid'] }, function (err, obj) {
-            if (err) {
-                console.log(err)
-                res.send(500).send("Mongo Error")
-            } else {
-                if (obj != null) {
-                    //Means that the user is found, here we search for the selected user
-                    Student.findOne({ _id: req.body._id }, function (err2, obj2) {
-                        if (err) {
-                            res.status(500).send('Internal Mongo Error')
-                        }
-                        else {
-                            if (obj2 != null) {
-                                //This means that the user object has also been found here
-                                //Now what matters is that I reuturn this
-                                addToUserVector(obj._id, obj2.interests)
-
-                                user.findOne({ username: obj2.EmailId }, function (err, obj23) {
-                                    res.status(200).send({ obj: obj2, dp: obj23.profilePic })
-                                });
+        if(decoded['role'] == 'Student') {
+            Student.findOne({ _id: decoded['usrid'] }, function (err, obj) {
+                if (err) {
+                    console.log(err)
+                    res.send(500).send("Mongo Error")
+                } else {
+                    if (obj != null) {
+                        //Means that the user is found, here we search for the selected user
+                        Student.findOne({ _id: req.body._id }, function (err2, obj2) {
+                            if (err) {
+                                res.status(500).send('Internal Mongo Error')
                             }
                             else {
-                                res.status(404).send('User is not found')
+                                if (obj2 != null) {
+                                    //This means that the user object has also been found here
+                                    //Now what matters is that I reuturn this
+                                    addToUserVector(obj._id, obj2.interests)
+    
+                                    user.findOne({ username: obj2.EmailId }, function (err, obj23) {
+                                        res.status(200).send({ obj: obj2, dp: obj23.profilePic })
+                                    });
+                                }
+                                else {
+                                    res.status(404).send('User is not found')
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
+                    else {
+                        res.status(404).send('user not found')
+                    }
                 }
-                else {
-                    res.status(404).send('user not found')
-                }
-            }
-        })
+            })
+        }
+        else {
+            res.status(403).send('Bad JWT')
+        }
+        //We need to add the selected students interests to the user vector object
+
     }
     else {
         res.status(403).send('Bad JWT')
@@ -1958,7 +1958,8 @@ app.post('/api/tracker/vectorless/click-on-user-event', async function (req, res
     ///need to send in a student id here to find
     var decoded = await jwms.verify(req.headers.authorization)
     if (decoded != false) {
-        //We need to add the selected students interests to the user vector object
+        if(decoded['role'] == 'Org') {
+                    //We need to add the selected students interests to the user vector object
         Organiser.findOne({ _id: decoded['usrid'] }, function (err, obj) {
             if (err) {
                 console.log(err)
@@ -1995,6 +1996,11 @@ app.post('/api/tracker/vectorless/click-on-user-event', async function (req, res
                 }
             }
         })
+        }
+        else {
+            res.status(403).send('Bad JWT')
+        }
+
     }
     else {
         res.status(403).send('Bad JWT')

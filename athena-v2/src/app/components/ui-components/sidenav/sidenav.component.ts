@@ -72,6 +72,7 @@ export class SidenavComponent implements OnInit {
           location.reload()
         }
         else{
+
           this.openSnackBar("Error while updating","Close")
         }
       });

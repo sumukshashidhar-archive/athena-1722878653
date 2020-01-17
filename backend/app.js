@@ -182,7 +182,7 @@ app.post("/getProfileName", (req, res) => {
                 }
                 else {
                     console.log("Sent profile picture");
-                    console.log(obj)
+                    /*console.log(obj)*/
                     console.log(obj.profilePic)
                     res.send({ name: obj.profilePic });
 
@@ -287,7 +287,7 @@ app.post('/register', async function (req, res) {
                     else {
                         var age = await ageconvert(req.body.DOB)
                         console.log(age)
-                        console.log(obj);
+                        /*console.log(obj)*/;
                         var output = 'Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/' + obj._id;
                         console.log(output);
                         sendMail(output, req.body.email);
@@ -319,7 +319,7 @@ app.post('/updateinfo', function (req, res) {
                 }
                 else {
                     if (obj != null && obj != undefined && obj != {}) {
-                        console.log(obj)
+                        /*console.log(obj)*/
                         bcrypt.compare(req.body.password, obj.password, function (err, BCRYPT_RES) {
                             if (BCRYPT_RES) {
                                 var FirstName = req.body.FirstName
@@ -463,7 +463,7 @@ app.post('/login', async function (req, res) {
                                 Student.findOne({ EmailId: req.body.username }, function (err, obj) {
                                     if (!err && (usrobj != null && usrobj != undefined)) {
                                         //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
-                                        console.log(obj)
+                                        /*console.log(obj)*/
                                         token = jwt.sign({ usrid: obj["_id"], email: obj["EmailId"], given_name: obj["FirstName"], family_name: obj["LastName"], role: usrobj["userType"], interests: obj['Interests'], Location: obj["Location"], Pincode: obj["pincode"], Bio: obj["bio"], age: obj["age"], uservector: obj['uservector'] }, privateKEY, enc.signOptions);
                                         console.log(token)
                                         //Testing verification. Has to be removed during deployment
@@ -488,7 +488,7 @@ app.post('/login', async function (req, res) {
                                     if (usrobj.Verified) {
                                         console.log("vhjk fghuio");
 
-                                        console.log(obj)
+                                        /*console.log(obj)*/
                                         token = jwt.sign({ usrid: obj["_id"], email: obj["OrganiserEmail"], name: obj["OrganiserName"], role: "Org" }, privateKEY, enc.signOptions);
                                         res.json(token)
                                         lms.log(obj.OrganiserEmail, 2)
@@ -549,7 +549,7 @@ app.post('/reset', function (req, res) {
                 }
                 else {
                     sendMail(output, req.body.email);
-                    console.log(obj);
+                    /*console.log(obj)*/;
                     res.send(true);
                 }
             });
@@ -614,7 +614,7 @@ app.post('/new-password', function (err, obj) {
                     }
                     else {
                         //if it is a successfull update, it sends 200.
-                        console.log(obj)
+                        /*console.log(obj)*/
                         res.status(200).json(obj)
                     }
                 })
@@ -738,7 +738,7 @@ app.post('/organizer-events', async function (req, res) {
                         return res.redirect('/registerorganiser');
                     }
                     else {
-                        console.log(obj);
+                        /*console.log(obj)*/;
                         //have to append the newly created id to the organizer as well
                         oems.addToOrganiser(decodedToken['usrid'], obj._id)
                         res.json(obj)
@@ -783,7 +783,7 @@ app.post("/addInterestOrganizer", function (req, res) {
                             );
                         }
                     }
-                    console.log(obj);
+                    /*console.log(obj)*/;
                 }
             });
         }
@@ -1126,7 +1126,7 @@ app.post('/addInterest', function (req, res) {
                         }
                     }
 
-                    console.log(obj);
+                    /*console.log(obj)*/;
                     res.send(obj)
                 }
             });
@@ -1288,7 +1288,7 @@ app.post('/events_search', function (req, res) {
             }
             else {
                 console.log('SUCCESS >>> GOT SEARCH EVENTS');
-                console.log(obj)
+                /*console.log(obj)*/
             }
         })
     }
@@ -1299,6 +1299,9 @@ app.post('/events_search', function (req, res) {
 
 
 app.get('/events', async (req, res) => {
+
+
+    console.log('ENTERSSSSSSSS')
     //Gets a request from the user
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err, decodedToken) => {
         if (err) {
@@ -1319,7 +1322,7 @@ app.get('/events', async (req, res) => {
                             //Now I need to process recommendations for this user
                             var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
                             // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
-                            console.log("Being sent is: \n", evns_to_return)
+                            // console.log("Being sent is: \n", evns_to_return)
                             res.send(evns_to_return)
                         }
 
@@ -1477,7 +1480,7 @@ app.get('/getCategoriesAll', function (req, res) {
             console.log()
         }
         else {
-            console.log(obj);
+            /*console.log(obj)*/;
             res.send(obj);
         }
     });
@@ -1492,7 +1495,7 @@ app.get('/evnCity1234', function (req, res) {
             console.log(err);
         }
         else {
-            console.log(obj);
+            /*console.log(obj)*/;
             res.send("DONE!!");
         }
     })
@@ -1508,7 +1511,7 @@ app.get('/getCategoriesId', function (req, res) {
             console.log()
         }
         else {
-            console.log(obj);
+            /*console.log(obj)*/;
             console.log(obj.catId);
             res.send(obj.subCat)
         }
@@ -1562,7 +1565,7 @@ app.post('/addCat', function (req, res) {
             console.log(err);
         }
         else {
-            console.log(obj);
+            /*console.log(obj)*/;
             res.redirect("file:///C:/Users/Dell/Documents/main/athena-pvt/addCat.html");
         }
     });
@@ -1605,7 +1608,7 @@ app.get('/:filename', (req, res) => {
                 });
                 console.log('NO SUCH FILE')
             }
-            console.log(files)
+            // console.log(files)
             gfs.openDownloadStreamByName(req.params.filename).pipe(res);
             // return res.json({File:files})
         });
@@ -1648,13 +1651,13 @@ app.post('/api/follow', async function (req, res) {
                     res.status(403).send("No such student");
                 }
                 else {
-                    console.log(obj)
+                    /*console.log(obj)*/
                     var id = req.body._id
                     if (obj.evnFollowing.includes(id)) {
                         res.status(403).send("Already Exists");
                     } else {
                         obj.evnFollowing.push(id)
-                        console.log(obj)
+                        /*console.log(obj)*/
                         Student.updateOne({ _id: decodedToken["usrid"] }, { $set: { evnFollowing: obj.evnFollowing } }, function (err, obj) {
                             if (err) {
                                 res.status(500).send("Something went wrong");
@@ -1671,29 +1674,28 @@ app.post('/api/follow', async function (req, res) {
 })
 //This is for the personal stuff
 app.get('/api/getevents', async function (req, res) {
-    console.log("SHHSHSHDHASAISASSO")
     var return_arr = [];
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async function (err, decodedToken) {
         if (err) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            console.log(decodedToken)
+            // console.log(decodedToken)
             Student.findOne({ _id: decodedToken['usrid'] }, async function (err, obj) {
                 if (err) {
                     res.status(403).send("No such student");
                 }
                 else {
-                    console.log(obj)
+                    /*console.log(obj)*/
                     for (let i = 0; i < obj.evnFollowing.length; i++) {
-                        console.log(obj.evnFollowing.length)
-                        console.log(obj.evnFollowing[i])
+                        // console.log(obj.evnFollowing.length)
+                        // console.log(obj.evnFollowing[i])
                         var evnFound = await evnFind(obj.evnFollowing[i])
                         return_arr.push(evnFound)
 
 
                     }
-                    console.log(return_arr)
+                    // console.log(return_arr)
                     res.status(200).send(return_arr);
 
 
@@ -1721,7 +1723,7 @@ async function evnFind(idx) {
             if (err) {
                 console.log(err)
             } else {
-                console.log("FOUND EVENT IS: \n", obj)
+                // console.log("FOUND EVENT IS: \n", obj)
                 res(obj)
             }
         })
@@ -1819,7 +1821,7 @@ app.get('/evnCity', function (req, res) {
             console.log(err);
         }
         else {
-            console.log(obj);
+            /*console.log(obj)*/;
         }
     })
 });
@@ -1840,7 +1842,7 @@ app.post('/api/searchbyinterests', async function (req, res) {
         else {
             if (obj.length > 0) {
                 console.log("*****************************************");
-                console.log(obj);
+                /*console.log(obj)*/;
                 console.log("******************************************")
                 res.status(200).send(obj);
             }
@@ -1867,7 +1869,7 @@ app.post('/api/organiser/searchbyinterests', async function (req, res) {
         else {
             if (obj.length > 0) {
                 console.log("*****************************************");
-                console.log(obj);
+                /*console.log(obj)*/;
                 console.log("******************************************")
                 res.status(200).send(obj);
             }
@@ -1886,7 +1888,7 @@ app.post("/searchbyint", function (req, res) {
     var keyword = "BMX"
 
     InterestSchema.findOne({ subCat: keyword }, function (err, obj) {
-        console.log(obj);
+        /*console.log(obj)*/;
     });
 })
 
@@ -2173,7 +2175,7 @@ app.get('/api/run', function (req, res) {
         }
         else {
             if (obj != []) {
-                console.log(obj)
+                /*console.log(obj)*/
                 for (let i = 0; i < obj.length; obj++) {
                     var age = ageconvert(obj[i].DOB)
                     console.log(age)

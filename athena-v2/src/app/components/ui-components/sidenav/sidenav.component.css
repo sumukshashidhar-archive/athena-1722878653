@@ -26,13 +26,14 @@ nav.main-menu.expanded {
 }
 
 .main-menu {
-  background: #333175;
-  border-right: 1px solid #333175;
+  background: #353779;
+  border-right: 1px solid #353779;
   position: fixed;
   top: 0;
   bottom: 0;
   height: 100%;
-  left: 0;
+  left: 2%;
+  border-radius: 8px;
   width: 60px;
   overflow: hidden;
   -webkit-transition: width .05s linear;

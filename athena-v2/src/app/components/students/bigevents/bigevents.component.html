@@ -1,29 +1,6 @@
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<!-- <div class="container">
-<div class='card'>
-  <h1 class="card-title" style="color: black;">{{x.evnName}}</h1>
-  <img class="evnImage" src="http://localhost:3000/{{x.Image}}" alt="image">
-  <p>Event Starting Date: {{x.evnDate1}} </p>
-  <p>Event Ending Date: {{x.evnDate2}}</p>
-  <p>Event Organizer Page : <a href="{{ x.evnOrganizerPage }}" target="_blank">{{ x.evnOrganizerPage }}</a>
-  </p>
-  <p>Event Pincode : {{ x.evnPincode }}</p>
-  <p>Event Description : {{ x.evnDescription }}</p>
-  <p>Event Target Age: {{ x.evnTargetAge }}</p>
-  <ul *ngFor="let lol of x.evnInterests">
-    <li>{{lol}}</li>
-  </ul>
-  <p>Event Address : {{ x.evnLocation }}</p>
-  <p>Event Organizer Name: {{ x.evnOrganizerName }}</p>
-  <p>Event Organizer Conatct Number: {{ x.evnOrganizerContact }}</p>
-  <form #g="ngForm">
-    <button class="btn btn-success" style="margin-left: 50%;" (click)="sendDetails(g, x._id)">Follow Event</button>
-  </form>
-</div>
-</div>
-<app-sidenav></app-sidenav> -->
 
 <body>
   <app-sidenav></app-sidenav>
@@ -60,9 +37,9 @@
     <br>
     <div class="row">
       <div class="col-8">
-        <h1>About</h1>
+        <h3>About</h3>
         <p>{{ x.evnDescription }}</p>
-        <h1>Venue</h1>
+        <h3>Venue</h3>
         <p>{{ x.evnLocation }}</p>
         <p>{{ x.evnPincode }}</p>
       </div>

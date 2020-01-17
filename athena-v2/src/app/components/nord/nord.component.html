@@ -1,0 +1,24 @@
+<app-sidenav></app-sidenav>
+<div class="container">
+    <br>
+    <div class="row">
+      <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of events">
+        <mat-card-header>
+          <mat-card-title>{{ evn.evnName }}</mat-card-title>
+          <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image class="img-responsive" src="http://localhost:3000/{{ evn.Image }}"
+          alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            {{ evn.evnDescription.substring(0,150) + "..." }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <form #e="ngForm">
+            <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+          </form>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

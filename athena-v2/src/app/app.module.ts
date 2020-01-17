@@ -51,6 +51,7 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
 import { Searchres2Component } from './components/others/searchres2/searchres2.component';
 import { ArchiveComponent } from './components/others/archive/archive.component';
 import { EventsnordComponent } from './components/others/eventsnord/eventsnord.component';
+import { NordComponent } from './components/nord/nord.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { EventsnordComponent } from './components/others/eventsnord/eventsnord.c
     Searchres2Component,
     ArchiveComponent,
     EventsnordComponent,
+    NordComponent,
   ],
   imports: [
     BrowserModule,

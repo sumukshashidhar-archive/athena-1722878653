@@ -32,6 +32,7 @@ import { SidenavComponent } from './components/ui-components/sidenav/sidenav.com
 import { Searchres2Component} from './components/others/searchres2/searchres2.component'
 import { ArchiveComponent } from './components/others/archive/archive.component'
 import { EventsnordComponent } from './components/others/eventsnord/eventsnord.component'
+import { NordComponent } from './components/nord/nord.component'
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: "eventsdeep",
     component: EventsnordComponent
+  },
+  {
+    path: "nord",
+    component: NordComponent
   },
   {
     path: "usersearchres",

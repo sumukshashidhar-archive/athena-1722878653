@@ -797,17 +797,20 @@ app.post("/addInterestOrganizer", function (req, res) {
 app.get('/achievements', async function (req, res) {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
         console.log("Getting Achievements....")
-        if (!err && decodedToken != null && decodedToken.role=='Student') {
-            console.log("Verified")
-            Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    console.log("Mongo Object is AChievments" + mongoObj.Achievement);
-                    res.json(mongoObj.Achievement);
-                }
-            })
+        if ((!err && decodedToken != null)) {
+            if (decodedToken['role'] == 'Student') {
+                console.log("Verified")
+                Student.findOne({ EmailId: decodedToken.email }, function (err, mongoObj) {
+                    if (err) {
+                        console.log(err)
+                    }
+                    else {
+                        console.log("Mongo Object is AChievments" + mongoObj.Achievement);
+                        res.json(mongoObj.Achievement);
+                    }
+                })
+            }
+
         }
         else {
             console.log(err)

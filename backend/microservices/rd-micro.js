@@ -58,7 +58,7 @@ async function rd(decodedToken, evns) {
                         n += 1
                     }
                     else if (res==false) {
-
+                        //This is not an error, nothing is supposed to happen here
                     }
                     else {
                         console.log('Bitwise Binary Search is failing')

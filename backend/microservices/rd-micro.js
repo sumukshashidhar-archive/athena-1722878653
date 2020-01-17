@@ -106,27 +106,29 @@ async function rdv2(decodedToken, evns) {
     let r = await callback;
     return r
 }
+async function binarySearch(array, key) {
+    var callback = new Promise((res, rej) => {
+        var lo = 0,
+        hi = array.length - 1,
+        mid,
+        element;
+    while (lo <= hi) {
+        mid = ((lo + hi) >> 1);
+        element = array[mid];
+        if (element < key) {
+            lo = mid + 1;
+        } else if (element > key) {
+            hi = mid - 1;
+        } else {
+            res( mid);
+        }
+    }
+    res(-1);
+    })
 
-function binarySearch(arr, x, start, end) { 
-        
-    // Base Condtion 
-    if (start > end) return false; 
+    let r = await callback; 
+    return r
 
-    // Find the middle index 
-    let mid=Math.floor((start + end)/2); 
-
-    // Compare mid with given key x 
-    if (arr[mid]===x) return true; 
-        
-    // If element at mid is greater than x, 
-    // search in the left half of mid 
-    if(arr[mid] > x)  
-        return binarySearch(arr, x, start, mid-1); 
-    else
-
-        // If element at mid is smaller than x, 
-        // search in the right half of mid 
-        return binarySearch(arr, x, mid+1, end); 
 }
 
 function GetSortOrder(prop) {

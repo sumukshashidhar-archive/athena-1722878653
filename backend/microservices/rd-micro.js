@@ -127,7 +127,8 @@ function GetSortOrder(prop) {
 
 
 
-
+//The handler is to change the versions of the recommendation system and for max
+//async usage
 
 module.exports = {
     //just a handler for the RD
@@ -141,4 +142,3 @@ module.exports = {
     }
 }
 
-//Uncomment the commented lines if you need to test the DaVinci System

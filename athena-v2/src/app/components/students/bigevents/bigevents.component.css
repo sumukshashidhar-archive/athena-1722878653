@@ -1,150 +1,16 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-.main-menu:hover,nav.main-menu.expanded {
-  width:250px;
-  overflow:visible;
-  }
-
-  .main-menu {
-    background:#fff;
-    border-right:1px solid #fff  ;
-  position:absolute;
-  top:0;
-  bottom:0;
-  height:100%;
-  left:0;
-  width:3vw;
-  overflow:hidden;
-  -webkit-transition:width .05s linear;
-  transition:width .05s linear;
-  -webkit-transform:translateZ(0) scale(1,1);
-  z-index:1000;
-  background-size: 100%;
-
-  }
-
-  .main-menu>ul {
-  margin:7px 0;
-  }
-  .nav-text{
-    margin-left: 20%;
-  }
-  .main-menu li {
-  position:relative;
-  display:block;
-  width:250px;
-  }
-
-  .main-menu li>a {
-  position:relative;
-  display:table;
-  border-collapse:collapse;
-  border-spacing:0;
-  color:#999;
-   font-family: arial;
-  font-size: 14px;
-  text-decoration:none;
-  -webkit-transform:translateZ(0) scale(1,1);
-  -webkit-transition:all .1s linear;
-  transition:all .1s linear;
-
-  }
-
-  .main-menu .nav-icon {
-  position:relative;
-
-  display:table-cell;
-  widows: 90px;
-  height:54px;
-  text-align:center;
-  vertical-align:middle;
-  font-size:50px;
-  }
-
-  .main-menu .nav-text {
-  position:relative;
-  display:table-cell;
-  vertical-align:middle;
-  width:190px;
-    font-family: 'Titillium Web', sans-serif;
-    font-size: large;
-
-  }
-
-  .main-menu>ul.logout {
-  position:absolute;
-  left:0;
-  bottom:0;
-  }
-
-  .no-touch .scrollable.hover {
-  overflow-y:hidden;
-  }
-
-  .no-touch .scrollable.hover:hover {
-  overflow-y:auto;
-  overflow:visible;
-  }
-
-  a:hover,a:focus {
-  text-decoration:none;
-  }
-
-  nav {
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  -o-user-select:none;
-  user-select:none;
-  }
-
-  nav ul,nav li {
-  outline:0;
-  margin:0;
-  padding:0;
-  }
-  .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
-  color:#fff;
-  background-color:#333;
-  }
-  .area {
-  float: left;
+img { 
   width: 100%;
-  height: 100%;
-  }
-
-body {
-  background: #e2e2e2;
-  width: 98%;
-  height: 100vh;
-}
- .card {
-  background: white;
-  position: absolute;
-  margin-left: 10%;
-  width: 80%;
-  height: 80%;
-top:10%;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  box-shadow: 0px 20px 30px 3px rgba(0, 0, 0, 0.55);
-}
-.evnImage{
-width:40%;
-height: 100%;
-position: absolute;
-}
-.card-title{
-  padding-left: 55%;
-  color: black;
-  font-weight: 100;
-}
-p{
-  font-weight: 100;
-  color: black;
-  padding-left: 45%;
-  font-size: 1.3vw;
+  max-height: 30rem;
 }
 
+i {
+  margin-right: 2%;
+}
+
+span { 
+  font-size: 1.2rem;
+}
+
+h1 { 
+  border-bottom: 3px red solid;
+}

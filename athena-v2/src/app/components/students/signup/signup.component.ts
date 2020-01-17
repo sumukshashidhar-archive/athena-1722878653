@@ -102,6 +102,7 @@ export class SignupComponent implements OnInit {
         } else {
           console.log("error");
         }
+        this.openSnackBar("User Already Exists", "Close")
       }
     );
   }

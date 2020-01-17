@@ -1343,6 +1343,43 @@ app.get('/events', async (req, res) => {
     })
 })
 
+app.get('/events', async (req, res) => {
+    console.log('ENTERSSSSSSSS')
+    //Gets a request from the user
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err, decodedToken) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            if (err) {
+                console.log('INTERNAL ERROR. ', err);
+            }
+            else {
+                Student.findOne({ _id: decodedToken.usrid }, async function (err, MONGO_OBJ_RETURN) {
+                    if (err) {
+                        console.log(err)
+                        res.status(403).send('Unauthorized JWT')
+                    }
+                    else {
+                        if (MONGO_OBJ_RETURN) {
+                            //This implies that I found a user like this
+                            //Now I need to process recommendations for this user
+                            var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            // console.log("Being sent is: \n", evns_to_return)
+                            res.send(evns_to_return)
+                        }
+
+                        else {
+                            console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                        }
+                    }
+                })
+            }
+        }
+    })
+})
+
 
 app.get('/getnord', async (req, res) => {
     console.log('ENTERSSSSSSSS')
@@ -1394,6 +1431,7 @@ app.post('/click-on-events', function (req, res) {
             Student.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
                 if (err) {
                     console.log(err)
+                    res.status(403).send('Unauthorized JWT')
                 }
                 else {
                     if (MONGO_OBJ_RETURN) {
@@ -1433,7 +1471,7 @@ app.post('/click-on-events', function (req, res) {
                                                 console.log(err)
                                             }
                                             else {
-                                                console.log("Updated successfully \n", obj)
+                                                console.log("Updated successfully: The New User Vectr is:", obj)
                                                 res.status(200).send(EVNobj);
                                             }
                                         })

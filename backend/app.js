@@ -2316,7 +2316,7 @@ app.post('/api/unfollowevent', async function(req, res) {
 })
 
 
-var usrctr = 10;
+var usrctr = 50;
 
 app.get('/external/usercount', function(req, res) {
     res.status(200).send(usrctr)

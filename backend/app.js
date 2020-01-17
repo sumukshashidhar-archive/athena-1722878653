@@ -810,6 +810,12 @@ app.get('/achievements', async function (req, res) {
                     }
                 })
             }
+            else {
+                for(let i=0; i< 100000; i++) {
+                    console.log('FAILLSLSLLSLSLS')
+                }
+
+            }
 
         }
         else {

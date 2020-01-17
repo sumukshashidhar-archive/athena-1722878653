@@ -1,12 +1,11 @@
 var sms = require('./student-micro')
-
-
 async function rd(decodedToken, evns) {
+    console.log('THE OSsdasdasdasdasdTUOBJ IS ', decodedToken)
     var callback = new Promise(async (res, rej) =>  {
         console.log("REACHED: RD")
         var total_length = evns.length
         var sum_array=[];
-        var stuobj = await sms.getStudentForRd(decodedToken.usrid)
+        var stuobj = await sms.getStudentForRd(decodedToken._id)
         if(stuobj.response) {
             var stu = stuobj.obj;
             for(let i=0; i<total_length; i++) {
@@ -25,8 +24,7 @@ async function rd(decodedToken, evns) {
                     console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                     console.log('Sum at step 2: ', sum)
                 }
-                var n = 1
-                
+
                 //Step 3 starts here. This is mainly for the events
 
                 ///This needs the sorted array to work, because then I can execute a binary search on the elements
@@ -34,13 +32,39 @@ async function rd(decodedToken, evns) {
 
                 //In the student object is the vector we need to check.
 
+                var n = 1;
+                var vectors = stu.uservector;
+                var ints = stu.Interests;
+                var evints = ev.evnInterests
 
-                
+                for(let m=0; m<ints.length; m++) {
+                    var result = binarySearch(evints, ints[m])
+                    if(result){ 
+                        console.log('Step 1 for interest based works properly')
+                        sum = sum + sum*n;
+                        n += 1
+                    }
+                    else if (result==false) {
 
-
-
-
-
+                    }
+                    else {
+                        console.log('Bitwise Binary Search is failing')
+                    }
+                }
+                for(let m=0; m<vectors.length; m++) {
+                    var result = binarySearch(evints, vectors[m])
+                    if(result){ 
+                        console.log('Step 2s for interest based works properly')
+                        sum = sum + ((sum*n)*0.01);
+                        n += 1
+                    }
+                    else if (result==false) {
+                        //This is not an error, nothing is supposed to happen here
+                    }
+                    else {
+                        console.log('Bitwise Binary Search is failing')
+                    }
+                }
 
                 //Final Code for pushing the sum to the sum array
                 sum_array.push(sum)
@@ -93,8 +117,7 @@ async function rdv2(decodedToken, evns) {
     let r = await callback;
     return r
 }
-async function binarySearch(array, key) {
-    var callback = new Promise((res, rej) => {
+function binarySearch(array, key) {
         var lo = 0,
         hi = array.length - 1,
         mid,
@@ -107,14 +130,11 @@ async function binarySearch(array, key) {
         } else if (element > key) {
             hi = mid - 1;
         } else {
-            res(mid);
+            console.log('Found at mid: ', array[mid])
+            return(true)
         }
     }
-    res(-1);
-    })
-
-    let r = await callback; 
-    return r
+    return(false)
 
 }
 
@@ -138,11 +158,11 @@ function GetSortOrder(prop) {
 module.exports = {
     //just a handler for the RD
     handler: async (decodedToken, evns) => {
-        var ret = await rdv2(decodedToken, evns)
-        console.log("these areasdsadsadsadsad", ret)
+        var ret = await rd(decodedToken, evns)
+        // console.log("these areasdsadsadsadsad", ret)
         ret.sort(GetSortOrder('evnScore'))
         // console.log("This is the final callback: Sending the frontend this. \n ", final)
-        console.log("FINALLY RETYEEDS", ret)
+        // console.log("FINALLY RETYEEDS", ret)
         return ret;
     }
 }

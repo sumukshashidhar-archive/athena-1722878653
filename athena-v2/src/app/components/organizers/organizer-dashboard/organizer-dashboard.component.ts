@@ -36,7 +36,7 @@ export class OrganizerDashboardComponent implements OnInit {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var email = decodedtoken["email"];
-    this.postToIt();
+
     // this.refreshAchievements();
   }
   // refreshAchievements() {

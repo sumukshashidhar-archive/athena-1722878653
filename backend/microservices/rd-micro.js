@@ -25,8 +25,7 @@ async function rd(decodedToken, evns) {
                     console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                     console.log('Sum at step 2: ', sum)
                 }
-                var n = 1
-                
+
                 //Step 3 starts here. This is mainly for the events
 
                 ///This needs the sorted array to work, because then I can execute a binary search on the elements
@@ -34,8 +33,37 @@ async function rd(decodedToken, evns) {
 
                 //In the student object is the vector we need to check.
 
+                var n = 1;
+                var vectors = stu.uservector;
+                var ints = stu.Interests;
+                var evints = ev.evnInterests
 
-                
+                for(let m=0; m<ints.length; m++) {
+                    var result = await binarySearch(evints, ints[m])
+                    if(res){ 
+                        sum = sum + sum*n;
+                        n += 1
+                    }
+                    else if (res==false) {
+
+                    }
+                    else {
+                        console.log('Bitwise Binary Search is failing')
+                    }
+                }
+                for(let m=0; m<ints.length; m++) {
+                    var result = await binarySearch(evints, ints[m])
+                    if(res){ 
+                        sum = sum + (sum*n)*0.01;
+                        n += 1
+                    }
+                    else if (res==false) {
+
+                    }
+                    else {
+                        console.log('Bitwise Binary Search is failing')
+                    }
+                }
 
                 
 
@@ -109,10 +137,11 @@ async function binarySearch(array, key) {
         } else if (element > key) {
             hi = mid - 1;
         } else {
-            res(mid);
+            console.log('Found at mid: ')
+            res(true);
         }
     }
-    res(-1);
+    res(false);
     })
 
     let r = await callback; 

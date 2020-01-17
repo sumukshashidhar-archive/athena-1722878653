@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { EventService } from './../../../shared/events/event.service';
 
 @Component({
   selector: 'app-eventsnord',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class EventsnordComponent implements OnInit {
   events: any
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public eventService: EventService) { }
 
   ngOnInit() {
     this.refreshEvents();
@@ -18,7 +19,8 @@ export class EventsnordComponent implements OnInit {
   refreshEvents(){
     this.http.get("http://localhost:3000/eventsdeep").subscribe(
       res => {
-        this.events = res
+        var x = this.eventService.changeDate(res)
+        this.events = x
         console.log(res)
       },
       err => {

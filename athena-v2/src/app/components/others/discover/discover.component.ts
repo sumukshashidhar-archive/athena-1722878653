@@ -196,4 +196,8 @@ export class DiscoverComponent implements OnInit {
       }
     )
   }
+
+  tabChange1(){
+    this.data.tabAgain = 0;
+  }
 }

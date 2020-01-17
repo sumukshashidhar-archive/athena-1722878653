@@ -1307,8 +1307,6 @@ app.post('/events_search', function (req, res) {
 
 
 app.get('/events', async (req, res) => {
-
-
     console.log('ENTERSSSSSSSS')
     //Gets a request from the user
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err, decodedToken) => {
@@ -1323,12 +1321,51 @@ app.get('/events', async (req, res) => {
                 Student.findOne({ _id: decodedToken.usrid }, async function (err, MONGO_OBJ_RETURN) {
                     if (err) {
                         console.log(err)
+                        res.status(403).send('Unauthorized JWT')
                     }
                     else {
                         if (MONGO_OBJ_RETURN) {
                             //This implies that I found a user like this
                             //Now I need to process recommendations for this user
                             var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                            // console.log("Being sent is: \n", evns_to_return)
+                            res.send(evns_to_return)
+                        }
+
+                        else {
+                            console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                        }
+                    }
+                })
+            }
+        }
+    })
+})
+
+
+app.get('/getnord', async (req, res) => {
+    console.log('ENTERSSSSSSSS')
+    //Gets a request from the user
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, async (err, decodedToken) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            if (err) {
+                console.log('INTERNAL ERROR. ', err);
+            }
+            else {
+                Student.findOne({ _id: decodedToken.usrid }, async function (err, MONGO_OBJ_RETURN) {
+                    if (err) {
+                        console.log(err)
+                        res.status(403).send('Unauthorized JWT')
+                    }
+                    else {
+                        if (MONGO_OBJ_RETURN) {
+                            //This implies that I found a user like this
+                            //Now I need to process recommendations for this user
+                            var evns_to_return = await dms.testexplore2(MONGO_OBJ_RETURN)
                             // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
                             // console.log("Being sent is: \n", evns_to_return)
                             res.send(evns_to_return)

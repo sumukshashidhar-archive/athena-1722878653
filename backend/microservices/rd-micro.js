@@ -30,7 +30,7 @@ async function rd(decodedToken, evns) {
                 //Step 3 starts here. This is mainly for the events
 
                 ///This needs the sorted array to work, because then I can execute a binary search on the elements
-                
+                ///The Binary Search Code lives here, because its better
 
 
 

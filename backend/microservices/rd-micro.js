@@ -76,24 +76,6 @@ async function rdv2(decodedToken, evns) {
                 console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                 console.log('Sum at step 2: ', sum)
             }
-    
-            //BASIC RECOMMENDATIONS
-    
-            // => Further comes the events searching
-            var n = 1;
-            var event_interests = ev.evnInterests;
-            var userinterests = decodedToken.interests;
-            var tot_event_interests = ev.evnInterests.length;
-            for(let j=0; j < tot_event_interests; j++) {
-                // console.log('Entering loop ' , j)
-                // console.log("REACHED: INNER EVENT COMPARISON LOOP")
-                for(let k=0; k < userinterests.length; k++) { //have to change this to binary search
-                    if(event_interests[j]==userinterests[k]) {
-                        sum +=10
-                    }
-                }
-            }
-            // console.log("REACHED: OUTSIDE, REACHED FINAL LOOP")
             sum_array.push(sum)
             evns[i].evnScore = sum;
             // console.log(evns)
@@ -120,7 +102,7 @@ async function binarySearch(array, key) {
         } else if (element > key) {
             hi = mid - 1;
         } else {
-            res( mid);
+            res(mid);
         }
     }
     res(-1);
@@ -150,7 +132,7 @@ function GetSortOrder(prop) {
 module.exports = {
     //just a handler for the RD
     handler: async (decodedToken, evns) => {
-        var ret = await rd(decodedToken, evns)
+        var ret = await rdv2(decodedToken, evns)
         console.log("these areasdsadsadsadsad", ret)
         ret.sort(GetSortOrder('evnScore'))
         // console.log("This is the final callback: Sending the frontend this. \n ", final)

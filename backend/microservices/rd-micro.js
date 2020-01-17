@@ -40,11 +40,12 @@ async function rd(decodedToken, evns) {
 
                 for(let m=0; m<ints.length; m++) {
                     var result = await binarySearch(evints, ints[m])
-                    if(res){ 
+                    if(result){ 
+                        console.log('Step 1 for interest based works properly')
                         sum = sum + sum*n;
                         n += 1
                     }
-                    else if (res==false) {
+                    else if (result==false) {
 
                     }
                     else {
@@ -53,11 +54,12 @@ async function rd(decodedToken, evns) {
                 }
                 for(let m=0; m<ints.length; m++) {
                     var result = await binarySearch(evints, ints[m])
-                    if(res){ 
+                    if(result){ 
+                        console.log('Step 2s for interest based works properly')
                         sum = sum + (sum*n)*0.01;
                         n += 1
                     }
-                    else if (res==false) {
+                    else if (result==false) {
                         //This is not an error, nothing is supposed to happen here
                     }
                     else {

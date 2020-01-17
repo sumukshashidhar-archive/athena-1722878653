@@ -1,12 +1,21 @@
 var sr = require('./evn-micro')
 var rdms = require('./rd-micro.js')
 
-async function gateway(student, PRCSEvns){
+async function gateway(student, PRCSEvns, choice){
     var callback = new Promise(async (res, rej)=> {
         //This gateway is needed if in the future someone needs to further process these events.
         //This also limits redundant code.
-        var fin = await rdms.handler(student, PRCSEvns)
-        res(fin)
+
+        if(choice == 1) {
+            var fin = await rdms.handler(student, PRCSEvns)
+            res(fin)
+    
+        }
+        else if (choice == 2) {
+            var fin = await rdms.handlerglobal(student, PRCSEvns)
+            res(fin)
+    
+        }
     })
     let r = await callback
     return r
@@ -16,9 +25,11 @@ async function gateway(student, PRCSEvns){
 module.exports = {
     explore: async function(student) {
         var callback = new Promise(async (res, rej) => {
+            var choice = 1
             var PRCSEvns = await sr.cityspecific(student.Location)
+            var returner = await gateway(student, PRCSEvns, choice)
             //These are the events to process
-            res(PRCSEvns)
+            res(returner)
             
         })
 
@@ -30,7 +41,8 @@ module.exports = {
             var PRCSEvns = await sr.all()
             //These are the events to process
             //Here comes the recommendations
-            var returner = await gateway(student, PRCSEvns)
+            var choice = 2
+            var returner = await gateway(student, PRCSEvns, choice)
             // console.log("These are the events from the gateway", returner)
             res(returner)
             // res(PRCSEvns)

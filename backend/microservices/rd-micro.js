@@ -1,8 +1,12 @@
+var sms = require('./student-micro')
+
+
 async function rd(decodedToken, evns) {
     var callback = new Promise((res, rej) =>  {
         console.log("REACHED: RD")
         var total_length = evns.length
         var sum_array=[];
+        var stuobj = await sms.getStudent(decodedToken.usrid)
         for(let i=0; i<total_length; i++) {
             var ev = evns[i] //To sesdlect an event
             var sum = 0.0
@@ -20,7 +24,7 @@ async function rd(decodedToken, evns) {
                 console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
                 console.log('Sum at step 2: ', sum)
             }
-            var n = 1
+            var n = 1            
             //This is the interests
             // Student.findOne({_id: decodedToken.usrid}, function(err, obj) {
             //     if(err) {

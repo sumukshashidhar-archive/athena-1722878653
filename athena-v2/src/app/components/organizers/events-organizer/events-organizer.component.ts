@@ -146,10 +146,11 @@ export class EventsOrganizerComponent implements OnInit {
   }
 
   getEvents(){
-    this.http.get("http://localhost:3000/api/retorgevents").subscribe(
+    this.eventService.getOrganizerEvents().subscribe(
       res => {
         console.log(res)
-        this.myEvents = res;
+        var x = this.eventService.changeDate(res)
+        this.myEvents = x;
       },
       err => {
         console.log(err)

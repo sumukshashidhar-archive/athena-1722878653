@@ -26,8 +26,8 @@ nav.main-menu.expanded {
 }
 
 .main-menu {
-  background: #fff;
-  border-right: 1px solid #fff;
+  background: #333175;
+  border-right: 1px solid #333175;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -58,7 +58,7 @@ nav.main-menu.expanded {
   display: table;
   border-collapse: collapse;
   border-spacing: 0;
-  color: #999;
+  color: #fff3e2;
   font-family: arial;
   font-size: 14px;
   text-decoration: none;

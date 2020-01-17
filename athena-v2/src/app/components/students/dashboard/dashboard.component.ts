@@ -46,18 +46,27 @@ export class DashboardComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
-    var email = decodedtoken["email"];
-    this.refreshAchievements();
-    this.getInterests();
-    this.getEvents();
+    var id = decodedtoken["usrid"];
+    this.getUserDetails(id)
+    this.getEvents()
+
   }
-  refreshAchievements() {
-    this.ach.getAchievements().subscribe(res => {
-      this.ach_list = res as Achievements[];
-      console.log(this.ach_list);
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
     });
   }
 
+  getUserDetails(id:any){
+    this.http.post('http://localhost:3000/getUserInfo',{id}).subscribe(res=>{
+      console.log(res)
+      this.interestlist=res['obj']['Interests']
+      this.ach_list=res['obj']['Achievement']
+
+    })
+  }
   getEvents() {
     this.eventService.getFollowEvents().subscribe(
       res => {
@@ -68,51 +77,6 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       }
     );
-  }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 5000,
-      verticalPosition: 'top'
-    });
-  }
-
-  getInterests() {
-    return this.http.get("http://localhost:3000/interests").subscribe(res => {
-      this.interestlist = res;
-      console.log(this.interestlist);
-    });
-  }
-
-  send() {
-    const token=this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-   const options = {
-      headers : headers
-    };
-    File = (document.getElementById("file1") as HTMLInputElement).files;
-    const frmData = new FormData();
-     frmData.append("img", File[0]);
-    frmData.append("name", File[0].name);
-    this.http
-      .post("http://localhost:3000/uploadProfile", frmData,options)
-      .subscribe(res => {
-        console.log(res);
-      }
-      ,err=>{
-        if(err.status==200){
-          this.openSnackBar("Successfully Updated","Close")
-          location.reload()
-        }
-        else{
-          this.openSnackBar("Error while updating","Close")
-        }
-      });
-  }
-
-
-  readSingleFile(e) {
-    const name = e.target.files[0].name;
-    document.getElementById("file-label").textContent = name;
   }
 
   logout() {

@@ -1853,6 +1853,34 @@ app.post('/api/searchbyinterests', async function (req, res) {
     })
 })
 
+app.post('/api/organiser/searchbyinterests', async function (req, res) {
+    //req.body.keyword
+
+    var keyword = req.body;
+
+    console.log(keyword[0]);
+
+    event.find({ evnInterests: { $all: keyword } }, async function (err, obj) {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            if (obj.length > 0) {
+                console.log("*****************************************");
+                console.log(obj);
+                console.log("******************************************")
+                res.status(200).send(obj);
+            }
+            else {
+                console.log("no events founf");
+                res.status(403).send("No events found")
+                console.log("No other events have the same interest")
+            }
+        }
+    })
+})
+
+
 app.post("/searchbyint", function (req, res) {
 
     var keyword = "BMX"

@@ -2314,3 +2314,15 @@ app.post('/api/unfollowevent', async function(req, res) {
         }
     })
 })
+
+
+var usrctr = 10;
+
+app.get('/external/usercount', function(req, res) {
+    res.status(200).send(usrctr)
+})
+
+app.get('/external/usercount/updater', function(req, res) {
+    usrctr += 10;
+
+})

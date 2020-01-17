@@ -1,7 +1,7 @@
 <body>
   <app-sidenav></app-sidenav>
   <div class="container">
-    <mat-tab-group>
+    <mat-tab-group [selectedIndex]="selected.value">
       <mat-tab label="Archive Search">
         <div class="container" style="margin-top: 3rem;">
           <h1 class="text-center">Archive Search</h1>

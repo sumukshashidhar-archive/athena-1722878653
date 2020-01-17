@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../../shared/search/search.service'
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./archive.component.css']
 })
 export class ArchiveComponent implements OnInit {
+  selected = new FormControl(0);
 
   constructor(public data: SearchService, private router: Router) { }
 
   ngOnInit() {
+    this.settingTabValue();
+  }
+
+  settingTabValue() {
+    this.selected.setValue(this.data.tabAgain);
   }
 
   onSubmit(form: NgForm) {

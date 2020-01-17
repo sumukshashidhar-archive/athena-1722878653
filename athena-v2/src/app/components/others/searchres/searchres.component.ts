@@ -58,6 +58,10 @@ export class SearchresComponent implements OnInit {
     );
   }
 
+  tabChange2(){
+    this.search.tabAgain = 1
+  }
+
   sendDetails1(form: NgForm, _id: string) {
     form.value["_id"] = _id;
     console.log(form.value);

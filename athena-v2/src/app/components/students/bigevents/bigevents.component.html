@@ -39,6 +39,10 @@
       <div class="col-8">
         <h3>About</h3>
         <p>{{ x.evnDescription }}</p>
+        <p>Target interests</p>
+        <ul *ngFor="let int of x.evnInterests">
+          <li>{{ int }}</li>
+        </ul>
         <h3>Venue</h3>
         <p>{{ x.evnLocation }}</p>
         <p>{{ x.evnPincode }}</p>

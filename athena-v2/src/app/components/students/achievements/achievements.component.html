@@ -55,11 +55,6 @@
               data-dismiss="modal" data-target="#exampleModal">
               Submit
             </button>
-            <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
-            <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
-
-            <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
-            <!-- </form> -->
           </form>
         </div>
       </div>
@@ -105,7 +100,7 @@
                   style="background-color: black; color: white;border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <button class="fa fa-trash"  (click)="DeleteAch(ach._id)" aria-hidden="true"></button>
+                <button class="btn btn-danger"  (click)="DeleteAch(ach._id)" aria-hidden="true"><i class="fa fa-trash fa-3x"></i></button>
               </div>
 
             </div>

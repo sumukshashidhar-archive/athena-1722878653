@@ -171,7 +171,7 @@ function GetSortOrder(prop) {
 module.exports = {
     //just a handler for the RD
     handler: async (decodedToken, evns) => {
-        var ret = await rdv2(decodedToken, evns)
+        var ret = await rd(decodedToken, evns)
         console.log("these areasdsadsadsadsad", ret)
         ret.sort(GetSortOrder('evnScore'))
         // console.log("This is the final callback: Sending the frontend this. \n ", final)

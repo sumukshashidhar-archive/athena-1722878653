@@ -16,7 +16,7 @@ export class EventsnordComponent implements OnInit {
   }
 
   refreshEvents(){
-    this.http.get("http://localhost:3000/getnord").subscribe(
+    this.http.get("http://localhost:3000/eventsdeep").subscribe(
       res => {
         this.events = res
         console.log(res)

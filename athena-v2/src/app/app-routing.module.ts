@@ -39,7 +39,7 @@ const routes: Routes = [
     component: HomePageComponent
   },
   {
-    path: "eventsnord",
+    path: "eventsdeep",
     component: EventsnordComponent
   },
   {

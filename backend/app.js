@@ -144,10 +144,6 @@ var storage = new GridFsStorage({
     },
 });
 
-const upLoad = multer({
-    storage
-});
-
 function generate(n) {
     var add = 1;
     var max = 12 - add;
@@ -195,6 +191,11 @@ app.post("/getProfileName", (req, res) => {
     });
 
 })
+const upLoad = multer({
+    storage
+});
+
+
 
 app.post("/upload", upLoad.single('img'), (req, res) => {
     jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {

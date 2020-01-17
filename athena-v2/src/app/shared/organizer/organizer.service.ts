@@ -13,7 +13,8 @@ export class OrganizerService {
     PhoneNo: "",
     userType: "Organizer",
     securityAnswer: "",
-    securityQuestion: ""
+    securityQuestion: "",
+    orgCity: ""
   };
 
   constructor(private http: HttpClient) {}

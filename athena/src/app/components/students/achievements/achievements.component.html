@@ -1,15 +1,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
+<div class="container">
 <body>
   <div class="reqMargin"></div>
   <div class="box1">
-    <button data-toggle="modal" data-target="#exampleModal">
+    <button data-toggle="modal" data-target="#exampleModal1">
       Add a new achievement
     </button>
   </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -26,26 +26,24 @@
             <div class="form-group">
               <div class="col-xs-6">
                 <label><strong>Category Name</strong></label>
-                <ngx-select-dropdown required (change)="selectionChanged($event)" [config]="config" name="category"
+                <ngx-select-dropdown required (change)="selectionChanged($event)" [(ngModel)]="achService.selectedAchievements.achCat"[config]="config" name="category"
                   [options]="categoryOption"></ngx-select-dropdown>
               </div>
               <div class="col-xs-6">
                 <label> Sub category Name </label>
-                <ngx-select-dropdown required [(ngModel)]="subCatName" [config]="configSubCat" name="subCatName"
+                <ngx-select-dropdown required [(ngModel)]="achService.selectedAchievements.achSubCat" [config]="configSubCat" name="subCatName"
                   [options]="subcatOptions"></ngx-select-dropdown>
               </div>
               <div class="col-xs-6">
                 <label> Rank </label>
-                <ngx-select-dropdown required [(ngModel)]="rank" [config]="configRank" name="rank" id="rank"
+                <ngx-select-dropdown required [(ngModel)]="achService.selectedAchievements.rank" [config]="configRank" name="rank" id="rank"
                   [options]="list"></ngx-select-dropdown>
               </div>
               <br />
 
-              <input type="text" required maxlength="150" class="form-control" id="description"
-                placeholder="Enter Description" />
-
-              <!-- <img [src]="url" height="200"> <br/> -->
-              <!-- <input type="file" (change)="fileChange($event)" id="inputGroupFile01"> -->
+              <input type="text" required maxlength="150" class="form-control"  [(ngModel)]="achService.selectedAchievements.description" name="description" id="description"
+                placeholder="Enter Description"  />
+                <br/>
               <div class="custom-file mb-3">
                 <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
                   (change)="readSingleFile($event)" />
@@ -57,11 +55,6 @@
               data-dismiss="modal" data-target="#exampleModal">
               Submit
             </button>
-            <!-- <form id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST"> -->
-            <!-- <input  (change)="fileChange($event)"  type="file"  class="custom-file-input"  id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01"> -->
-
-            <!-- <input maxlength="32" type="submit" class="input-group-text upload"  (click)="()"  id="btnUpload" /> -->
-            <!-- </form> -->
           </form>
         </div>
       </div>
@@ -107,7 +100,7 @@
                   style="background-color: black; color: white;border-radius: 10px;">
                   Rank: {{Rank}}
                 </div>
-                <button class="fa fa-trash"  (click)="DeleteAch(ach._id)" aria-hidden="true"></button>
+                <button class="btn btn-danger"  (click)="DeleteAch(ach._id)" aria-hidden="true"><i class="fa fa-trash fa-3x"></i></button>
               </div>
 
             </div>
@@ -136,3 +129,4 @@
   <app-sidenav></app-sidenav>
 
 </body>
+</div>

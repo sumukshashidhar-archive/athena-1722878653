@@ -50,7 +50,7 @@ import { CarouselComponent } from './components/ui-components/carousel/carousel.
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component';
 import { Searchres2Component } from './components/others/searchres2/searchres2.component';
 import { ArchiveComponent } from './components/others/archive/archive.component';
-import { EventsnordComponent } from './components/others/eventsnord/eventsnord.component';
+import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component';
 import { NordComponent } from './components/nord/nord.component';
 
 @NgModule({

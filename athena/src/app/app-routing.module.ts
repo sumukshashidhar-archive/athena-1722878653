@@ -29,7 +29,10 @@ import { AuthGuard } from './shared/auth/auth.guard';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
-
+import { Searchres2Component} from './components/others/searchres2/searchres2.component'
+import { ArchiveComponent } from './components/others/archive/archive.component'
+import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component'
+import { NordComponent } from './components/nord/nord.component'
 
 const routes: Routes = [
   {
@@ -37,12 +40,28 @@ const routes: Routes = [
     component: HomePageComponent
   },
   {
+    path: "eventsdeep",
+    component: EventsnordComponent
+  },
+  {
+    path: "nord",
+    component: NordComponent
+  },
+  {
     path: "usersearchres",
     component: UsersearchresComponent
   },
   {
+    path: "archivesearch",
+    component: ArchiveComponent
+  },
+  {
     path: "sidenav",
     component: SidenavComponent
+  },
+  {
+    path: "searchres2",
+    component: Searchres2Component
   },
   {
     path: "verifyemail",

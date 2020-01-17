@@ -55,7 +55,7 @@
                 <span class="input-group-text">Which organizer do you want to search for?</span>
               </div>
               <input type="text" placeholder="Search" class="form-control" required name="orgKey" ngModel
-                #orgKey="ngModel" [(ngModel)]="data.selOrgUser.keyword">
+                #orgKey="ngModel" [(ngModel)]="data.selOrgUser.orgKey">
               <span *ngIf="!orgKey.valid && orgKey.touched">Please enter value to search for</span>
             </div>
             <br>

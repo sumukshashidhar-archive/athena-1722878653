@@ -11,11 +11,11 @@ import { LOCAL_STORAGE } from '@ng-toolkit/universal'
 })
 export class EventService {
   selectedEvent: Event = {
-    evnPincode: "",
+    evnPincode: 0,
     evnName: "",
-    evnOrganizerContact: "",
-    evnDate1: "",
-    evnDate2: "",
+    evnOrganizerContact: 0,
+    evnDate1: null,
+    evnDate2: null,
     evnOrganizerPage: "",
     evnTargetAge: 0,
     evnDescription: "",
@@ -25,6 +25,7 @@ export class EventService {
     evnCity: "",
     Image:""  
   };
+
   events: any;
 
   details: Details = {
@@ -87,5 +88,22 @@ export class EventService {
 
   getHomeEvents(){
     return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getrecent")
+  }
+
+  getOrganizerEvents(){
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/retorgevents")
+  }
+
+  changeDate(arr){
+    for (let i = 0; i<arr.length; i++){
+      arr[i]['evnDate1'] = this.convert(arr[i]['evnDate1'])
+      arr[i]['evnDate2'] = this.convert(arr[i]['evnDate2'])
+    }
+    return arr;
+  }
+
+  convert(date1){
+    var s = new Date(date1).toLocaleDateString("en-US")
+    return s;
   }
 }

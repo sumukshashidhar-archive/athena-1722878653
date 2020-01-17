@@ -16,6 +16,8 @@ import { MatSnackBar } from "@angular/material";
 export class BigeventsComponent implements OnInit {
   x: any = this.eventService.details1;
   decoded: any;
+  follow: any;
+  following: boolean;
 
   constructor(
     public eventService: EventService,
@@ -27,9 +29,16 @@ export class BigeventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.x['evnDate1'] = this.convert(this.x['evnDate1']);
+    this.x['evnDate2'] = this.convert(this.x['evnDate2']);
   }
   logout() {
     this.auth.logout();
+  }
+
+  convert(date1){
+    var s = new Date(date1).toLocaleDateString("en-US")
+    return s;
   }
 
   openSnackBar(message: string, action: string) {
@@ -45,15 +54,15 @@ export class BigeventsComponent implements OnInit {
       res => {
         console.log(res);
         this.openSnackBar("You are now following this event", "Close");
+        this.following = true
       },
       err => {
         if (err.status === 422) {
-          // this.serverErrormessage = err.error.join('<br/>');
           console.log(422);
         } else {
-          // this.serverErrormessage = "Something went wrong"
           console.log("error");
         }
+        this.openSnackBar("Already Following this Event!!", "Close")
       }
     );
   }

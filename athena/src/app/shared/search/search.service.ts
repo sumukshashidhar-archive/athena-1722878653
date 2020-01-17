@@ -11,22 +11,27 @@ import { User_Search } from './user_search.model'
 export class SearchService {
   private name = new BehaviorSubject(null);
   currentName = this.name.asObservable();
-  results: any;
-  userResults: any;
-  message: any;
-  interestResults: any;
-  tabChange: any;
+  results: any; // Event Search Results
+  userResults: any; // User Search Results
+  message: any; // Message to be displayed
+  interestResults: any; // Interest Search Results
+  tabChange: any; // Searchres page tab
+  tabAgain: any; // Searchres2 page tab
 
-  userDetails: any
+  userDetails: any; //User click on user details
 
-  selSearch: Search = {
+  selSearch: Search = { // Event Search
     keyword: '',
     usecase: 1
   };
-  
-  eventTab:any = 0;
 
-  selSearch1: User_Search = {
+  selOrgUser = { //Organizer Search
+    orgKey: ""
+  }
+
+  eventTab:any; //Changing tab to following events tab on events page
+
+  selSearch1: User_Search = { //User Search
     userKey: ""
   }
 
@@ -56,5 +61,13 @@ export class SearchService {
   postInterestSearch(interest){
     console.log(interest)
     return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/searchbyinterests", interest)
+  }
+
+  postOrgSearch(obj){
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/search/organizers", obj)
+  }
+
+  postEventSearch(obj){
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/organiser/searchbyinterests", obj)
   }
 }

@@ -7,5 +7,6 @@ export class Organizer {
     userType: string;
     securityQuestion: string;
     securityAnswer: string;
+    orgCity: string;
   }
   

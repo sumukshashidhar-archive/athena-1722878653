@@ -3,6 +3,7 @@
   <div class="container">
     <mat-tab-group [selectedIndex]="selected.value">
       <mat-tab label="Event Search Results">
+        <p>{{ search.message }}</p>
         <div class="container">
           <br>
           <div class="row">
@@ -15,7 +16,7 @@
                 alt="Photo of a Shiba Inu">
               <mat-card-content>
                 <p>
-                  {{ evn.evnDescription }}
+                  {{ evn.evnDescription.substring(0,150) + "..." }}
                 </p>
               </mat-card-content>
               <mat-card-actions>
@@ -26,6 +27,7 @@
             </mat-card>
           </div>
         </div>
+        <p>Search for events in other cities as well <a [routerLink]="['/archivesearch']" routerLinkActive="router-link-active" (click)="tabChange2()">here</a></p>
       </mat-tab>
       <mat-tab label="User Search Results">
         <div class="container">
@@ -59,6 +61,19 @@
                   <button mat-raised-button (click)="sendDetails1(v, user._id)">READ MORE</button>
                 </form>
               </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Organiser Search Results">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of userResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.OrganiserName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.OrganiserEmail }}</mat-card-subtitle>
+              </mat-card-header>
             </mat-card>
           </div>
         </div>

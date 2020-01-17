@@ -1,56 +1,60 @@
 <app-loading *ngIf="showSpinner"></app-loading>
-<mat-tab-group [selectedIndex]="selected.value">
-  <mat-tab label="All Events">
-    <div class="container">
-      <br>
-      <div class="row">
-        <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of eventService.events">
-          <mat-card-header>
-            <mat-card-title>{{ evn.evnName }}</mat-card-title>
-            <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
-            alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p>
-              {{ evn.evnDescription }}
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <form #e="ngForm">
-              <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
-            </form>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="Events Following">
-    <div class="container">
-      <br>
-      <div class="row">
-        <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of results">
-          <mat-card-header>
-            <mat-card-title>{{ evn.evnName }}</mat-card-title>
-            <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
-            alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p>
-              {{ evn.evnDescription }}
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <form #e="ngForm">
-              <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
-            </form>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
 
-
-<app-sidenav></app-sidenav>
+<body *ngIf="!showSpinner">
+  <div class="container">
+    <mat-tab-group [selectedIndex]="selected.value">
+      <mat-tab label="All Events">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of eventService.events">
+              <mat-card-header>
+                <mat-card-title>{{ evn.evnName }}</mat-card-title>
+                <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
+                alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <p>
+                  {{ evn.evnDescription.substring(0,150) + "..." }}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <form #e="ngForm">
+                  <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+                </form>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <p class="text-center">Explore events outside your city also <a [routerLink]="['/eventsdeep']" routerLinkActive="router-link-active" >here</a></p>
+      </mat-tab>
+      <mat-tab label="Events Following">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of results">
+              <mat-card-header>
+                <mat-card-title>{{ evn.evnName }}</mat-card-title>
+                <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image class="img-responsive" src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{ evn.Image }}"
+                alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <p>
+                  {{ evn.evnDescription.substring(0,150) + "..." }}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <form #e="ngForm">
+                  <button class="btn btn-primary" (click)="sendDetails(e, evn._id)">READ MORE</button>
+                </form>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <app-sidenav></app-sidenav>
+</body>

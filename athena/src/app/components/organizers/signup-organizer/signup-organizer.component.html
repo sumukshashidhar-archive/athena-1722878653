@@ -1,9 +1,9 @@
- <body style="background-color: #00c2ff;
+<body style="background-color: #00c2ff;
  height: 130vh;">
   <app-navbar></app-navbar>
-  <br>
-  <br>
-  <br>
+  <br />
+  <br />
+  <br />
   <div class="container">
     <mat-card>
       <!-- Card header -->
@@ -19,22 +19,22 @@
             <mat-form-field>
               <input maxlength="32" matInput type="text" placeholder="School Name" required ngModel name="OrganizerName"
                 #OrganizerName="ngModel" [(ngModel)]="organizeruserService.selectedUser.OrganizerName" />
-              <mat-error class="help-block">Please enter School
-                Name</mat-error>
+              <mat-error class="help-block">Please enter School Name</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput type="email" placeholder="Email" required ngModel name="OrganizerEmail"
                 email #OrganizerEmail="ngModel" [(ngModel)]="organizeruserService.selectedUser.OrganizerEmail" />
-              <mat-error class="help-block">Please enter a valid
-                email</mat-error>
+              <mat-error class="help-block">Please enter a valid email</mat-error>
             </mat-form-field>
             <br />
             <mat-form-field>
               <input maxlength="32" matInput type="password" placeholder="Password" required id="password" minlength="8"
                 ngModel pattern=".{8,}" name="Password" #Password="ngModel"
                 [(ngModel)]="organizeruserService.selectedUser.Password" />
-              <mat-error class="help-block">Please enter a valid password which is atleast 8 characters long</mat-error>
+              <mat-error class="help-block">Please enter a valid password which is atleast 8 characters
+                long
+              </mat-error>
             </mat-form-field>
             <mat-form-field>
               <input maxlength="32" matInput type="password" placeholder="Confirm Password" required
@@ -49,6 +49,17 @@
                 ngModel name="PhoneNo" #PhoneNo="ngModel" [(ngModel)]="organizeruserService.selectedUser.PhoneNo" />
               <mat-error class="help-block">Please enter Valid Phone Number
               </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input type="text" maxlength="32" placeholder="City" matInput required ngModel name="orgCity"
+                [(ngModel)]="organizeruserService.selectedUser.orgCity" [matAutocomplete]="auto"
+                [formControl]="myControl" />
+              <mat-error class="help-block">Please enter Your City</mat-error>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </form>
           <div>
@@ -74,8 +85,13 @@
             <br />
             <mat-form-field>
               <input maxlength="32" readonly matInput readonly type="password" placeholder="Password" required
-                id="password" minlength="8" ngModel pattern=".{8,}" name="Password"
-                #Password="ngModel" [(ngModel)]="organizeruserService.selectedUser.Password" />
+                id="password" minlength="8" ngModel pattern=".{8,}" name="Password" #Password="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.Password" />
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input type="text" maxlength="32" matInput readonly placeholder="City" required ngModel name="orgCity"
+                #orgCity="ngModel" [(ngModel)]="organizeruserService.selectedUser.orgCity" />
             </mat-form-field>
             <br />
             <mat-form-field>
@@ -93,6 +109,7 @@
                   document.getElementById("btnSubmit").disabled = false;
                 }
               }
+
             </script>
             <div>
               <button id="btnSubmit" mat-button [disabled]="!b.valid || !Captchaval" (click)="(onSubmit)">

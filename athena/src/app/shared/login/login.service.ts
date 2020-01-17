@@ -17,7 +17,7 @@ export class LoginService {
     userType: "",
     securityQuestion: "",
     securityAnswer: "",
-    pincode: "",
+    pincode: 0,
     bio:"",
     studentSchool: "",
     eventsAttending:[]

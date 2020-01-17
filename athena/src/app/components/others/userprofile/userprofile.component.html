@@ -92,7 +92,44 @@
       </div>
     </div>
   </div>
+  <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
+    <div class="modal-dialog">
+      <div class="modal-content" style="max-width: 60vw; margin-top: 30%;margin-left: 25%;">
+        <div class="modal-body"
+          style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;background-color: antiquewhite;"
+          id="des">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <img src="http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/{{img}}" alt="Avatar" id="achImg" style="border-radius: 10px; max-width: 50%;">
+          <br />
+          {{desc}}
+          <br />
+          <div class="container" *ngIf="Rank=='State'"
+            style="background-color: lawngreen; color: black; border-radius: 10px; max-width: 50%;">
+            Rank: {{Rank}}
+          </div>
+          <div class="container" *ngIf="Rank=='City'"
+            style="background-color: red; color: black; border-radius: 10px;max-width: 100%;">
+            Rank: {{Rank}}
+          </div>
+          <div class="container" *ngIf="Rank=='School'"
+            style="background-color: yellow; color: black;border-radius: 10px;max-width: 100%;">
+            Rank: {{Rank}}
+          </div>
+          <div class="container" *ngIf="Rank=='National'"
+            style="background-color: orange; color: black;border-radius: 10px;max-width: 100%;">
+            Rank: {{Rank}}
+          </div>
+          <div class="container" *ngIf="Rank=='International'"
+            style="background-color: black; color: white;border-radius: 10px;max-width: 100%;">
+            Rank: {{Rank}}
+          </div>
+        </div>
 
+      </div>
+    </div>
+  </div>
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -105,10 +142,10 @@
         </div>
         <div class="modal-body" *ngFor="let ach of this.ach_list">
           <ul>
-            <li class="other">
-              <span class="name">{{ ach.SubCategoryId }}</span>
-              <!-- <span class="points">95</span> -->
+            <a (click)="thisAch(ach._id)"  data-toggle="modal" data-target="#myModal1" data-dismiss="modal" ><li class="other">
+              <span class="name" >{{ ach.SubCategoryId }}</span>
             </li>
+          </a>
 
 
           </ul>
@@ -142,6 +179,7 @@
 
           </ul>
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
         </div>

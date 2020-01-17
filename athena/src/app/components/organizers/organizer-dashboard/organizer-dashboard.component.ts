@@ -1,7 +1,5 @@
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { NameService } from "./../../../shared/name/name.service";
-import { CookieService } from "ngx-cookie-service";
 import * as jwt_decode from "jwt-decode";
 import { Component, OnInit, Inject } from "@angular/core";
 import { SearchService } from "../../../shared/search/search.service";
@@ -32,14 +30,13 @@ export class OrganizerDashboardComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private data: SearchService,
-    private uname: NameService,
     private http: HttpClient,
     private ach: AchievementsService
   ) {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var email = decodedtoken["email"];
-    this.postToIt();
+
     // this.refreshAchievements();
   }
   // refreshAchievements() {

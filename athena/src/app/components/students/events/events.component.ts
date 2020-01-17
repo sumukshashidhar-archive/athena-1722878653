@@ -1,7 +1,7 @@
 import { AuthService } from './../../../shared/auth/auth.service'
 import { Component, OnInit } from "@angular/core";
 import { EventService } from "./../../../shared/events/event.service";
-import { Event } from "./../../../shared/events/event";
+import { Event } from "./../../../shared/events/event.model";
 import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { NgForm, FormControl } from '@angular/forms';
@@ -38,7 +38,8 @@ export class EventsComponent implements OnInit {
 
   refreshEvents() {
     this.eventService.getEvents().subscribe(res => {
-      this.eventService.events = res;
+      var x = this.eventService.changeDate(res)
+      this.eventService.events = x;
       this.showSpinner = false;
       console.log(this.eventService.events);
     });
@@ -51,8 +52,9 @@ export class EventsComponent implements OnInit {
   getEvents(){
     this.eventService.getFollowEvents().subscribe(
       res => {
+        var x = this.eventService.changeDate(res)
         console.log(res)
-        this.results = res;
+        this.results = x;
       },
       err => {
         console.log(err)

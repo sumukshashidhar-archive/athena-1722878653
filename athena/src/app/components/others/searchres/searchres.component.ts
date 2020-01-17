@@ -4,6 +4,7 @@ import { EventService } from "./../../../shared/events/event.service";
 import { Router } from "@angular/router";
 import { NgForm, FormControl } from "@angular/forms";
 import { AuthService } from "src/app/shared/auth/auth.service";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-searchres",
@@ -21,7 +22,8 @@ export class SearchresComponent implements OnInit {
     public search: SearchService,
     public eventService: EventService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -48,14 +50,16 @@ export class SearchresComponent implements OnInit {
       },
       err => {
         if (err.status === 422) {
-          // this.serverErrormessage = err.error.join('<br/>');
           console.log(422);
         } else {
-          // this.serverErrormessage = "Something went wrong"
           console.log("error");
         }
       }
     );
+  }
+
+  tabChange2(){
+    this.search.tabAgain = 1
   }
 
   sendDetails1(form: NgForm, _id: string) {

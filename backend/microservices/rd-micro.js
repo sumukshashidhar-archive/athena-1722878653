@@ -6,7 +6,7 @@ async function rd(decodedToken, evns) {
         console.log("REACHED: RD")
         var total_length = evns.length
         var sum_array=[];
-        var stuobj = await sms.getStudent(decodedToken.usrid)
+        var stuobj = await sms.getStudentForRd(decodedToken.usrid)
         for(let i=0; i<total_length; i++) {
             var ev = evns[i] //To sesdlect an event
             var sum = 0.0

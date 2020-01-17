@@ -31,11 +31,16 @@ import { UsersearchresComponent } from './components/others/usersearchres/userse
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
 import { Searchres2Component} from './components/others/searchres2/searchres2.component'
 import { ArchiveComponent } from './components/others/archive/archive.component'
+import { EventsnordComponent } from './components/others/eventsnord/eventsnord.component'
 
 const routes: Routes = [
   {
     path: "",
     component: HomePageComponent
+  },
+  {
+    path: "eventsnord",
+    component: EventsnordComponent
   },
   {
     path: "usersearchres",

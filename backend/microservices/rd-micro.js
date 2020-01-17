@@ -10,20 +10,10 @@ async function rd(decodedToken, evns) {
             var stu = stuobj.obj;
             for(let i=0; i<total_length; i++) {
                 var ev = evns[i] //To sesdlect an event
-                var sum = 0.0
+                var sum = 1.0
                 console.log("THE TARGET AGE IS;", ev.evnTargetAge)
                 console.log("REACHED: OUTER LOOP")
-                if (stu.pincode!=undefined && ev.evnPincode!=undefined) {
-                    sum -= (Math.abs(stu.pincode - ev.evnPincode)*0.7) //0.7 because the pincode should not be given that much weightage
-                    console.log('Sum at step 1: ', sum)
-                    console.log("REACHED: COMPARISON STEP FOR PINCODE")
-                }
-                if (ev.evnTargetAge!=undefined && stu.Age!=undefined) {
-                    //Subtracting Raw Target Age Difference
-                    sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
-                    console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
-                    console.log('Sum at step 2: ', sum)
-                }
+
 
                 //Step 3 starts here. This is mainly for the events
 
@@ -31,8 +21,13 @@ async function rd(decodedToken, evns) {
                 ///The Binary Search Code lives here, because its better
 
                 //In the student object is the vector we need to check.
-
-                var n = 1;
+                console.log('DATA POINT 1 is: ', stu.uservector)
+                console.log('DATA POINT 2 is: ',  stu.Interests)
+                console.log('DATA POINT 3 is: ',  ev.evnInterests)
+                console.log('DATA POINT 4 is: ',  ev.evnName)
+                
+                
+                var n = 100;
                 var vectors = stu.uservector;
                 var ints = stu.Interests;
                 var evints = ev.evnInterests
@@ -41,8 +36,11 @@ async function rd(decodedToken, evns) {
                     var result = binarySearch(evints, ints[m])
                     if(result){ 
                         console.log('Step 1 for interest based works properly')
+                        console.log('original sum is ', sum)
                         sum = sum + sum*n;
-                        n += 1
+                        n += 100
+                        console.log('SUM IS ',  sum)
+
                     }
                     else if (result==false) {
 
@@ -64,6 +62,18 @@ async function rd(decodedToken, evns) {
                     else {
                         console.log('Bitwise Binary Search is failing')
                     }
+                }
+
+                if (stu.pincode!=undefined && ev.evnPincode!=undefined) {
+                    sum -= (Math.abs(stu.pincode - ev.evnPincode)*0.3) //0.7 because the pincode should not be given that much weightage
+                    console.log('Sum at step 1: ', sum)
+                    console.log("REACHED: COMPARISON STEP FOR PINCODE")
+                }
+                if (ev.evnTargetAge!=undefined && stu.Age!=undefined) {
+                    //Subtracting Raw Target Age Difference
+                    sum -= (Math.abs(decodedToken.age - ev.evnTargetAge)*0.5)
+                    console.log((Math.abs(decodedToken.age - ev.evnTargetAge)*0.5))
+                    console.log('Sum at step 2: ', sum)
                 }
 
                 //Final Code for pushing the sum to the sum array

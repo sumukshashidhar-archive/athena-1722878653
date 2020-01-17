@@ -24,7 +24,8 @@
             <br>
             <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
           </form>
-          <p class="text-center">You may also search for events that are over <a [routerLink]="['/archivesearch']" routerLinkActive="router-link-active" >here</a></p>
+          <br>
+          <p>You may also search for events that are over <a [routerLink]="['/archivesearch']" routerLinkActive="router-link-active" >here</a></p>
         </div>
       </mat-tab>
       <!-- User Search -->
@@ -81,6 +82,27 @@
           </mat-form-field>
           <br>
           <button style="margin: 1rem;" mat-raised-button (click)="searchByInterest()">Search</button>
+        </div>
+      </mat-tab>
+      <mat-tab label="Search For Events By Interests">
+        <div class="container">
+          <h3>Search for Events Based On their Target Interests</h3>
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select (selectionChange)="selectionChanged()" name="catName" [(ngModel)]="catName">
+              <mat-option *ngFor="let cat of categoryOption" [value]="cat.catId">{{ cat.catName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Subcategory</mat-label>
+            <mat-select name="subCatName" [(ngModel)]="subCatName">
+              <mat-option *ngFor="let subCat of subcatOptions" [value]="subCat.subCatName">{{ subCat.subCatName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <button style="margin: 1rem;" mat-raised-button (click)="eventsearchByInterest()">Search</button>
         </div>
       </mat-tab>
     </mat-tab-group>

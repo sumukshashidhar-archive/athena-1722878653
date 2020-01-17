@@ -17,7 +17,6 @@ export class SearchService {
   interestResults: any; // Interest Search Results
   tabChange: any; // Searchres page tab
   tabAgain: any; // Searchres2 page tab
-  keywordAgain: any; // Keyword when I run the Search again
 
   userDetails: any; //User click on user details
 
@@ -66,5 +65,9 @@ export class SearchService {
 
   postOrgSearch(obj){
     return this.http.post("http://localhost:3000/api/search/organizers", obj)
+  }
+
+  postEventSearch(obj){
+    return this.http.post("http://localhost:3000/api/organiser/searchbyinterests", obj)
   }
 }

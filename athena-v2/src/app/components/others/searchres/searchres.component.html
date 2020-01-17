@@ -27,10 +27,7 @@
             </mat-card>
           </div>
         </div>
-        <p>Do you want to search for events in other cities as well?</p>
-        <form #n="ngForm">
-          <button class="btn btn-primary" style="margin: 2rem auto;" (click)="sendAgain(n)">Search</button>
-        </form>
+        <p>Search for events in other cities as well <a [routerLink]="['/archive']" routerLinkActive="router-link-active" >here</a></p>
       </mat-tab>
       <mat-tab label="User Search Results">
         <div class="container">

@@ -35,4 +35,23 @@ export class ArchiveComponent implements OnInit {
     );
   }
 
+  onSubmit1(form: NgForm) {
+    form.value['usecase'] = 2
+    console.log(form.value);
+    this.data.postSearch(form.value).subscribe(
+      res => {
+        this.data.tabAgain = 0
+        this.data.results = null;
+        this.data.results = res;
+        this.router.navigate(['/searchres2'])
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
 }

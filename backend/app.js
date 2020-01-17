@@ -1486,21 +1486,6 @@ app.get('/getCategoriesAll', function (req, res) {
     });
 });
 
-app.get('/evnCity1234', function (req, res) {
-
-    console.log("Hello, world");
-
-    event.updateMany({}, { $set: { evnCity: "Bangalore" } }, function (err, obj) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            /*console.log(obj)*/;
-            res.send("DONE!!");
-        }
-    })
-});
-
 app.get('/getCategoriesId', function (req, res) {
     console.log(req.query.catId);
     var id = parseInt(req.query.catId);

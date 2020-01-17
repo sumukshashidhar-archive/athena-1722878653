@@ -2,7 +2,7 @@ var sms = require('./student-micro')
 
 
 async function rd(decodedToken, evns) {
-    var callback = new Promise((res, rej) =>  {
+    var callback = new Promise(async (res, rej) =>  {
         console.log("REACHED: RD")
         var total_length = evns.length
         var sum_array=[];
@@ -32,9 +32,11 @@ async function rd(decodedToken, evns) {
                 ///This needs the sorted array to work, because then I can execute a binary search on the elements
                 ///The Binary Search Code lives here, because its better
 
-                //In the student object is the vector we nee to check.
+                //In the student object is the vector we need to check.
+
 
                 
+
 
 
 

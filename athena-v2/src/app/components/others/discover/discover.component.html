@@ -4,7 +4,6 @@
 
 <body>
   <app-sidenav></app-sidenav>
-  
   <div class="container">
     <h1 style="text-align: center;">Discover Something New</h1>
     <mat-tab-group>
@@ -25,7 +24,8 @@
             <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
           </form>
           <br>
-          <p>You may also search for events that are over <a [routerLink]="['/archivesearch']" routerLinkActive="router-link-active" >here</a></p>
+          <p>You may also search for events that are over <a [routerLink]="['/archivesearch']"
+              routerLinkActive="router-link-active">here</a></p>
         </div>
       </mat-tab>
       <!-- User Search -->
@@ -54,7 +54,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Which organizer do you want to search for?</span>
               </div>
-              <input type="text" placeholder="Search" class="form-control" required name="orgKey" ngModel #orgKey="ngModel" [(ngModel)]="data.selOrgUser.keyword">
+              <input type="text" placeholder="Search" class="form-control" required name="orgKey" ngModel
+                #orgKey="ngModel" [(ngModel)]="data.selOrgUser.keyword">
               <span *ngIf="!orgKey.valid && orgKey.touched">Please enter value to search for</span>
             </div>
             <br>

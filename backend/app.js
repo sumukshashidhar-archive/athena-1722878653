@@ -2225,3 +2225,49 @@ async function ageconvert(dob) {
     let r = await callback
     return r
 }
+
+
+app.post('/api/unfollowevent', async function(req, res) {
+    jwt.verify(tokenExtractor.tokenExtractor(req.headers.authorization), publicKEY, enc.verifyOptions, function (err, decodedToken) {
+        if (err) {
+            console.log('INTERNAL ERROR. ', err);
+            res.status(403).send('Wrong JWT')
+        }
+        else {
+            Student.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    if (MONGO_OBJ_RETURN) {
+                        if(MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
+                            var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(req.body.id);
+                            if (index > -1) {
+                                MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
+
+                                Student.updateOne({id: decodedToken.usrid}, {$set: {evnFollowing: MONGO_OBJ_RETURN.evnFollowing}}, function(err2, obj2){
+                                    if(err) {
+                                        res.status(500).send('Update Error')
+                                    }
+                                    else {
+                                        res.status(200).send('Removed')
+
+                                    }
+                                })
+                              }
+                            else {
+                                res.status(404).send('Event not found in Event Following')
+                            }
+                        }
+                        else {
+                            res.status(404).send('Event not found in Event Following')
+                        }
+                    }
+                    else {
+                        console.log('INTERNAL ERROR. DID NOT FIND A USER LIKE THIS');
+                    }
+                }
+            })
+        }
+    })
+})

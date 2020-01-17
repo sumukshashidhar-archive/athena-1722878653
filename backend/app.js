@@ -811,9 +811,7 @@ app.get('/achievements', async function (req, res) {
                 })
             }
             else {
-                for(let i=0; i< 100000; i++) {
-                    console.log('FAILLSLSLLSLSLS')
-                }
+                console.log('Unauthorized JWT')
                 res.status(403).send('Wrong JWT')
 
             }

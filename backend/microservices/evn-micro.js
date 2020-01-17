@@ -5,12 +5,14 @@ var event = require('./../models/event')
 
 module.exports = {
     cityspecific: async function (city) {
+        console.log(city)
         var callback = new Promise((res, rej) => {
-            event.find({ evnLocation: city }, async function (err, OBJ) {
+            event.find({ evnCity: city }, async function (err, OBJ) {
                 if (err) {
                     console.log(err)
                 }
                 else {
+                    console.log('The Mongo Object is: ', OBJ)
                     res(OBJ)
                 }
             })

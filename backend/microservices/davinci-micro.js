@@ -26,6 +26,7 @@ module.exports = {
     explore: async function(student) {
         var callback = new Promise(async (res, rej) => {
             var choice = 1
+            console.log(student.Location)
             var PRCSEvns = await sr.cityspecific(student.Location)
             var returner = await gateway(student, PRCSEvns, choice)
             //These are the events to process

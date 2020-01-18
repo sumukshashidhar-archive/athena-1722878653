@@ -87,8 +87,8 @@ module.exports = {
 
     reqular_city_search: async function(query, student) {
         var callback = new Promise( async (res, rej) => {
-            var PRCSEvns = sr.search_normal(student.Location, query, 1)
-            var returner = await gateway(student, PRCSEvns)
+            var PRCSEvns = sr.search_normal(student.Location, query)
+            var returner = await gateway(student, PRCSEvns, 1)
             res(returner)
             // res(PRCSEvns)
         })

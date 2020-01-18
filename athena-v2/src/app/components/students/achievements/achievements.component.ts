@@ -13,7 +13,7 @@ import { InterestsService } from './../../../shared/interests/interests.service'
 import { MatSnackBar } from "@angular/material/snack-bar";
 export var File;
 export var achlist;
-
+export var achId;
 
 @Component({
   selector: "app-achievements",
@@ -108,8 +108,8 @@ export class AchievementsComponent implements OnInit {
     });
   }
 
-DeleteAch(achId:any){
-  console.log("ID IS",achId)
+DeleteAch(achID:any){
+  console.log("ID IS",achID)
   this.achService.deleteAchievement(achId).subscribe(
     res=>{
     console.log(res)
@@ -131,6 +131,7 @@ DeleteAch(achId:any){
 }
 
   DoIt(id:any){
+    achId=id
     console.log(id)
     console.log(achlist)
     for(var i=0;i<achlist.length;i++){
@@ -140,6 +141,7 @@ DeleteAch(achId:any){
        console.log(this.desc)
        console.log(this.img)
        this.Rank=achlist[i].achRank
+
 
       }
     }

@@ -29,7 +29,7 @@ export class EventsComponent implements OnInit {
     this.decoded = localStorage.getItem("access_token");
   }
 
-  
+
   ngOnInit() {
     this.refreshEvents();
     this.tabChange()
@@ -42,6 +42,11 @@ export class EventsComponent implements OnInit {
       this.eventService.events = x;
       this.showSpinner = false;
       console.log(this.eventService.events);
+    },
+    err=>{
+      if(err.status==403){
+        this.router.navigate(['/login'])
+      }
     });
   }
 

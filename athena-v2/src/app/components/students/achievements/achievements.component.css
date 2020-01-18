@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
-.fa-2x {
-font-size: 2em;
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 9999!important;
 }
 .fa {
 position: relative;
@@ -14,7 +14,14 @@ vertical-align: middle;
 font-size:20px;
 }
 
+.rank{
+  max-width: 25%;
+  font-size:0.6rem;
+  text-align: center;
+  transform: rotate(-25deg);
+  margin-top: 6.5%;
 
+}
 .main-menu:hover,nav.main-menu.expanded {
   width:250px;
   overflow:visible;

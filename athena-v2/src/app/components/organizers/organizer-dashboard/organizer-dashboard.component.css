@@ -15,7 +15,13 @@ vertical-align: middle;
 font-size:20px;
 }
 
-
+.card{
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  border-radius: 10px;
+}
+.plus :hover{
+ cursor:pointer;
+}
 .main-menu:hover,nav.main-menu.expanded {
 width:250px;
 overflow:visible;

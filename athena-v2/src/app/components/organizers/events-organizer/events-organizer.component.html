@@ -26,7 +26,7 @@
             <div class="container">
               <br>
               <div class="row">
-                <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of myEvents">
+                <mat-card class="example-card mat-elevation-z14 CARD" *ngFor="let evn of myEvents">
                   <mat-card-header>
                     <mat-card-title>{{ evn.evnName }}</mat-card-title>
                     <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
@@ -40,7 +40,7 @@
                   </mat-card-content>
                   <mat-card-actions>
                     <form #e="ngForm">
-                      <button mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+                      <button mat-raised-button  class="rm" (click)="sendDetails(e, evn._id)">READ MORE</button>
                     </form>
                   </mat-card-actions>
                 </mat-card>

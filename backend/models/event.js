@@ -29,7 +29,7 @@ var eventSchema = new mongoose.Schema({
     evnCost: Number, 
     evnRating: Number,
     evnAttendees: Array, //Specifically not something like [user.Schema]
-    Image:String
+    Image:String, 
 });
 
 module.exports = mongoose.model("event", eventSchema);

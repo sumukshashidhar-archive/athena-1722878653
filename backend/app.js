@@ -844,8 +844,8 @@ app.post('/achievements', (req, res) => {
                     SubCategoryId: req.body.subCatName.subCatName,
                     Image: req.body.file,
                     Description: req.body.description,
-                    achRank: req.body.rank.name
-
+                    achRank: req.body.rank.name,
+                    Name:req.body.name
                 })
             newAch.save(function (err, achobj) {
                 if (err) {

@@ -21,8 +21,8 @@
     <div class="containercard" style="background-color: #f9fafe ; width:100vw;margin-left: 0;display: flex;">
       <div class="row">
         <div class="column" style="float: left;" *ngFor="let ach of ach_list">
-          <a class="card mb-3"
-            style="width: 16rem;height: 12rem;  margin-left: 7vw; border-radius: 10px; position: relative;background-color: #fff;"
+          <a class="card mb-3 CARD"
+
             [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1"
             (click)="DoIt(ach._id)">
             <div class="rank" *ngIf="ach.achRank=='State'"
@@ -46,7 +46,7 @@
               {{ach.achRank}}
             </div>
             <div
-              style="text-align: center;font-size: 0.8em;font-weight: 100; color:#000; background-color:#fff;margin-top: 0.5vw;">
+              style="text-align: center;font-size: 0.8em;font-weight: 100; color:#000;margin-top: 0.5vw;">
               {{ach.SubCategoryId}}</div>
             <a class="card-body" style="text-align: center;font-size: 1.5em; font-weight: 200; color: black;">
               {{ach.Name}}

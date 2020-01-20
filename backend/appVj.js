@@ -1940,7 +1940,7 @@ async function getOneFiles(fileName) {
 
 }
 
-app.get('/getfile', async function(req,res)
+app.post('/getfile', async function(req,res)
 {
     var val = await getAllFiles(req.body.arrayOfFiles);
 

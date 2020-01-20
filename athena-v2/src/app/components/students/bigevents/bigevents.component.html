@@ -2,51 +2,52 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-  <app-sidenav></app-sidenav>
-  <br>
-  <br>
-  <div class="container">
-    <div class="row h-30">
-      <div class="col-8">
-        <img src="http://localhost:3000/{{ x.Image }}" alt="Event Image here" class="img-fluid rounded">
-      </div>
-      <div class="col-4">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ x.evnName }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <i class="fa fa-calendar fa-2x"></i>
-            <span>{{ x.evnDate1 }} | {{ x.evnDate2 }}</span>
-            <br>
-            <br>
-            <i class="fa fa-location-arrow fa-2x"></i>
-            <span>{{ x.evnLocation }}</span>
-          </mat-card-content>
-          <mat-card-actions>
-            <form #g="ngForm">
-              <button class="btn btn-primary" style="margin-right: 2rem;" [disabled]="following"
-                (click)="sendDetails(g, x._id)"><i class="fa fa-heart fa-2x"></i></button>
-              <span>Follow This Event</span>
-            </form>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
+<app-main-nav>
+  <body>
     <br>
-    <div class="row">
-      <div class="col-8">
-        <h3>About</h3>
-        <p>{{ x.evnDescription }}</p>
-        <p>Target interests</p>
-        <ul *ngFor="let int of x.evnInterests">
-          <li>{{ int }}</li>
-        </ul>
-        <h3>Venue</h3>
-        <p>{{ x.evnLocation }}</p>
-        <p>{{ x.evnPincode }}</p>
+    <br>
+    <div class="container">
+      <div class="row h-30">
+        <div class="col-8">
+          <img src="http://localhost:3000/{{ x.Image }}" alt="Event Image here" class="img-fluid rounded">
+        </div>
+        <div class="col-4">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ x.evnName }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <i class="fa fa-calendar fa-2x"></i>
+              <span>{{ x.evnDate1 }} | {{ x.evnDate2 }}</span>
+              <br>
+              <br>
+              <i class="fa fa-location-arrow fa-2x"></i>
+              <span>{{ x.evnLocation }}</span>
+            </mat-card-content>
+            <mat-card-actions>
+              <form #g="ngForm">
+                <button class="btn btn-primary" style="margin-right: 2rem;" [disabled]="following"
+                  (click)="sendDetails(g, x._id)"><i class="fa fa-heart fa-2x"></i></button>
+                <span>Follow This Event</span>
+              </form>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-8">
+          <h3>About</h3>
+          <p>{{ x.evnDescription }}</p>
+          <p>Target interests</p>
+          <ul *ngFor="let int of x.evnInterests">
+            <li>{{ int }}</li>
+          </ul>
+          <h3>Venue</h3>
+          <p>{{ x.evnLocation }}</p>
+          <p>{{ x.evnPincode }}</p>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
+</app-main-nav>

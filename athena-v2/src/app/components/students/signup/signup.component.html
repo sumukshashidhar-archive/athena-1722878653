@@ -1,6 +1,6 @@
 <div>
 
-  <body style="background-color: #00c2ff; height: 150vh;">
+  <body style="background-color: #f9fafe; height: 150vh;">
     <!-- Navbar starts here -->
     <app-navbar></app-navbar>
     <br>
@@ -11,12 +11,12 @@
     <div class="container">
       <mat-card>
         <!-- Card header -->
-        <mat-card-header>
+        <mat-card-header style="background-color: #f9fafe;">
           <h1>Student Signup</h1>
         </mat-card-header>
         <!-- Card header ends -->
-        <mat-vertical-stepper [linear]="isLinear" #stepper>
-          <mat-step [stepControl]="firstFormGroup">
+        <mat-vertical-stepper [linear]="isLinear"  style="background-color: #f9fafe;" #stepper>
+          <mat-step [stepControl]="firstFormGroup" style="background-color: #f9fafe;">
             <ng-template matStepLabel>Enter Main Details</ng-template>
             <form #f="ngForm">
               <mat-form-field>
@@ -55,12 +55,12 @@
             </form>
             <br>
             <div>
-              <button mat-button matStepperNext [disabled]="!f.valid" type="button">
+              <button class="rm" mat-button matStepperNext [disabled]="!f.valid" type="button">
                 Next
               </button>
             </div>
           </mat-step>
-          <mat-step [stepControl]="secondFormGroup">
+          <mat-step [stepControl]="secondFormGroup" style="background-color: #f9fafe;">
             <ng-template matStepLabel>Tell us more about yourself</ng-template>
             <form #g="ngForm">
               <mat-form-field>
@@ -100,13 +100,13 @@
             </form>
             <br />
             <div>
-              <button mat-button matStepperPrevious type="button">Back</button>
-              <button mat-button matStepperNext [disabled]="!g.valid" id="newBtn" type="button">
+              <button mat-button matStepperPrevious class="rm" type="button">Back</button>
+              <button mat-button matStepperNext [disabled]="!g.valid" id="newBtn" class="rm" type="button">
                 Next
               </button>
             </div>
           </mat-step>
-          <mat-step [stepControl]="fourthFormGroup">
+          <mat-step [stepControl]="fourthFormGroup" style="background-color: #f9fafe;">
             <ng-template matStepLabel>Confirm your Details</ng-template>
             <form #h="ngForm" (ngSubmit)="h.valid && onSubmit(h)">
               <mat-form-field>
@@ -159,7 +159,7 @@
                 }
 
               </script>
-              <button id="btnSubmit" [disabled]="!h.valid || !Captchaval" mat-button type="submit">
+              <button id="btnSubmit"  class="rm" [disabled]="!h.valid || !Captchaval" mat-button type="submit">
                 Create
               </button>
             </form>

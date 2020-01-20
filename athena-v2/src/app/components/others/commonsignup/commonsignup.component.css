@@ -9,8 +9,7 @@
   margin-top: 10%;
   background-color: #f9fafe;
   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
-  height: 20vw;
-  width: 20vw;
+
   text-align: center;
 }
 
@@ -18,8 +17,7 @@
   margin-top: 10%;
   background: linear-gradient(145deg, #50008b, #440075);
   box-shadow: -3px -3px 7px #35005b,  3px 3px 5px #6200a9;
-  height: 20vw;
-  width: 20vw;
+
   text-align: center;
 }
 a:hover{

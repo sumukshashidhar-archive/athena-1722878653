@@ -1,4 +1,4 @@
-import { AuthService } from './../../../shared/auth/auth.service'
+import { AuthService } from "./../../../shared/auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import * as $ from "jquery";
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
@@ -9,7 +9,7 @@ import * as jwt_decode from "jwt-decode";
 import { LoadingComponent } from "./../../others/loading/loading.component";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { EventService } from "./../../../shared/events/event.service";
-import { InterestsService } from './../../../shared/interests/interests.service';
+import { InterestsService } from "./../../../shared/interests/interests.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 export var File;
 export var achlist;
@@ -21,8 +21,8 @@ export var achId;
   styleUrls: ["./achievements.component.css"]
 })
 export class AchievementsComponent implements OnInit {
-  desc:any;
-  img:any;
+  desc: any;
+  img: any;
   profileUrlExists = false;
   imageToShow: any;
   uploadedFiles: Array<File>;
@@ -31,14 +31,14 @@ export class AchievementsComponent implements OnInit {
 
   path: "";
   link: any;
-  Rank:any
+  Rank: any;
   numbers = [1, 2, 3, 4, 5];
   list = [
     { id: 1, name: "School" },
     { id: 2, name: "City" },
     { id: 3, name: "State" },
     { id: 4, name: "National" },
-    { id:5,name:"International"}
+    { id: 5, name: "International" }
   ];
 
   test123: any;
@@ -70,7 +70,7 @@ export class AchievementsComponent implements OnInit {
   rank: any;
   file: any;
   username: any;
-  decoded:any
+  decoded: any;
   constructor(
     public achService: AchievementsService,
     private router: Router,
@@ -88,11 +88,11 @@ export class AchievementsComponent implements OnInit {
     this.refreshAchievements();
     this.getAllCategory();
     var decodedtoken = jwt_decode(this.decoded);
-    console.log(decodedtoken)
+    console.log(decodedtoken);
     if (decodedtoken["role"] == "Student") {
-      console.log(decodedtoken["given_name"])
-      this.username = decodedtoken["given_name"];}
-
+      console.log(decodedtoken["given_name"]);
+      this.username = decodedtoken["given_name"];
+    }
   }
 
   getAllCategory() {
@@ -104,48 +104,44 @@ export class AchievementsComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
-      verticalPosition: 'top'
+      verticalPosition: "top"
     });
   }
 
-DeleteAch(achID:any){
-  console.log("ID IS",achID)
-  this.achService.deleteAchievement(achId).subscribe(
-    res=>{
-    console.log(res)
-  },
-  err=>{
-    if(err.status==200){
-      console.log(err)
-      this.openSnackBar("Successfully Deleted","Close")
-      location.reload()
-      return;
+  DeleteAch(achID: any) {
+    console.log("ID IS", achID);
+    this.achService.deleteAchievement(achId).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        if (err.status == 200) {
+          console.log(err);
+          this.openSnackBar("Successfully Deleted", "Close");
+          location.reload();
+          return;
+        } else {
+          console.log(err);
+          this.openSnackBar("Error in Deletion", "Close");
+          return;
+        }
+      }
+    );
+  }
 
-    }
-    else{
-      console.log(err)
-      this.openSnackBar("Error in Deletion","Close")
-      return;
-    }
-  })
-}
-
-  DoIt(id:any){
-    achId=id
-    console.log(id)
-    console.log(achlist)
-    for(var i=0;i<achlist.length;i++){
-      if(achlist[i]._id==id){
-       this.desc=achlist[i].Description
-       this.img=achlist[i].Image
-       console.log(this.desc)
-       console.log(this.img)
-       this.Rank=achlist[i].achRank
-
-
+  DoIt(id: any) {
+    achId = id;
+    console.log(id);
+    console.log(achlist);
+    for (var i = 0; i < achlist.length; i++) {
+      if (achlist[i]._id == id) {
+        this.desc = achlist[i].Description;
+        this.img = achlist[i].Image;
+        console.log(this.desc);
+        console.log(this.img);
+        this.Rank = achlist[i].achRank;
       }
     }
-
   }
   selectionChanged(event) {
     this.subCatName = null;
@@ -153,7 +149,7 @@ DeleteAch(achID:any){
     console.log(event.value);
     this.interestsService.getSubCategory(event.value.catId).subscribe(res => {
       this.subcatOptions = res;
-      console.log(res)
+      console.log(res);
     });
   }
 
@@ -165,11 +161,11 @@ DeleteAch(achID:any){
   onSubmit(form: NgForm) {
     console.log("UPLOAD METHOD");
 
-    console.log(form.value)
+    console.log(form.value);
     File = (document.getElementById("file1") as HTMLInputElement).files;
     const frmData = new FormData();
     console.log(File[0].name);
-    form.value['file']=File[0].name
+    form.value["file"] = File[0].name;
     console.log(form.value);
     frmData.append("img", File[0]);
     console.log(frmData);
@@ -178,12 +174,10 @@ DeleteAch(achID:any){
     });
     this.achService.postAchievements(form.value).subscribe(res => {
       console.log(res);
-      this.openSnackBar("Successfully Added your achievement!","Close")
-      location.reload()
+      this.openSnackBar("Successfully Added your achievement!", "Close");
+      location.reload();
     });
-
   }
-
 
   logout() {
     this.auth.logout();
@@ -191,7 +185,7 @@ DeleteAch(achID:any){
   refreshAchievements() {
     this.achService.getAchievements().subscribe(res => {
       this.ach_list = res as Achievements[];
-      achlist=this.ach_list;
+      achlist = this.ach_list;
 
       this.showSpinner = false;
       console.log(
@@ -200,7 +194,6 @@ DeleteAch(achID:any){
     });
   }
 
-
   setAttr() {
     // console.log(File);
     // console.log(`http://localhost:3000/${File}`);
@@ -208,7 +201,7 @@ DeleteAch(achID:any){
     //   .getElementById("i1")
     //   .setAttribute("src"", `http://localhost:3000/${File}`);
     var x = (document.getElementById("testimg123") as HTMLInputElement).value;
-    console.log(x)
+    console.log(x);
     this.test123 = x;
   }
   onDelete(_id: string) {
@@ -221,6 +214,5 @@ DeleteAch(achID:any){
 
   fileChange(element) {
     this.uploadedFiles = element.target.files;
-
   }
 }

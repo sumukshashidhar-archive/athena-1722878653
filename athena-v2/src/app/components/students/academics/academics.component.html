@@ -1,8 +1,28 @@
-<!-- <div class="card" style="height: auto;width: 45%;margin-left: 25%;border-radius: 10px;color: white;margin-top: 5%;">
-  <img class="img-fluid w-100"
-    src="https://www.pnglot.com/pngfile/detail/409-4098995_education-symbols-clip-art-education-vector-art-png.png">
-  <br />
-</div> -->
+<app-main-nav>
+  <div class="table-responsive-sm">
+    <table class="table" style="margin-left:9vw;">
+      <thead>
+        <tr>
+          <th scope="col">Test Name</th>
+          <th scope="col">Test Rank</th>
+          <th scope="col">Test Score</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let acad of acadlist ">
+          <td>{{acad.testName}}</td>
+          <td>{{acad.testRank}}</td>
+          <td>{{acad.testScore}}</td>
+          <td><button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(acad.id)"
+              data-target="#acadModal">Click to view Details</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="button" class="btn btn-outline-dark btn-large" style="width: 40vw;margin-left: 30%;" data-toggle="modal"
+    data-target="#exampleModal">Add More</button>
+</app-main-nav>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -52,27 +72,7 @@
     </div>
   </div>
 </div>
-<div class="table-responsive-sm">
-  <table class="table" style="margin-left:9vw;">
-    <thead>
-      <tr>
-        <th scope="col">Test Name</th>
-        <th scope="col">Test Rank</th>
-        <th scope="col">Test Score</th>
-        <th scope="col">Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let acad of acadlist ">
-        <td>{{acad.testName}}</td>
-        <td>{{acad.testRank}}</td>
-        <td>{{acad.testScore}}</td>
-        <td><button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(acad.id)"
-            data-target="#acadModal">Click to view Details</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+
 <div class="modal fade" id="acadModal" tabindex="-1" role="dialog" aria-labelledby="acadModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -95,6 +95,3 @@
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-outline-dark btn-large" style="width: 40vw;margin-left: 30%;" data-toggle="modal"
-  data-target="#exampleModal">Add More</button>
-<app-sidenav></app-sidenav>

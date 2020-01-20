@@ -588,10 +588,8 @@ app.post('/resetpassword', function (req, res) {
     console.log("Password: ", req.body.password)
     console.log("Reseting password");
     user_function.resetPasswordFunction(req.body.email, req.body.password, req.body.authCode);
-    res.send("Validated")
+    res.send(true)
     lms.log(req.body.email, 5)
-
-
 });
 
 

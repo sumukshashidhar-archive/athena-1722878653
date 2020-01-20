@@ -1,0 +1,40 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'push'"
+      [opened]="(isHandset$ | async) === true">
+    <mat-toolbar style="color: white">{{ username }}</mat-toolbar>
+    <mat-nav-list *ngIf="isStudent">
+      <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
+      <a mat-list-item [routerLink]="['/events']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-calendar" style="margin-right: 1rem;"></i>Events</a>
+      <a mat-list-item [routerLink]="['/achievements']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-trophy" style="margin-right: 1rem;"></i>Achievements</a>
+      <a mat-list-item [routerLink]="['/interests']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-plus" style="margin-right: 1rem;"></i>Interests</a>
+      <a mat-list-item [routerLink]="['/userprofile']" routerLinkActive="router-link-active" style="color: white" ><i class="fa fa-user" style="margin-right: 1rem;"></i>Profile</a>
+      <a mat-list-item [routerLink]="['/discover']" routerLinkActive="router-link-active" style="color: white" ><i class="fa fa-search" style="margin-right: 1rem;"></i>Discover</a>
+      <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
+    </mat-nav-list>
+    <mat-nav-list *ngIf="isOrg">
+      <a mat-list-item [routerLink]="['/organizerdashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
+      <a mat-list-item [routerLink]="['/eventsorg']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-calendar" style="margin-right: 1rem;"></i>Events</a>
+      <a mat-list-item [routerLink]="['/discover']" routerLinkActive="router-link-active" style="color: white" ><i class="fa fa-search" style="margin-right: 1rem;"></i>Discover</a>
+      <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Athena</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

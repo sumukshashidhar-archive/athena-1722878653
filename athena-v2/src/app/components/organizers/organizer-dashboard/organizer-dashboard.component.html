@@ -1,43 +1,48 @@
-<div class="background">
+<head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<app-main-nav>
 
   <body>
 
     <h2 style="color: white;">Welcome, {{ username }}</h2>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Change Profile Photo
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
-            <button type="button" class="btn btn-primary" (click)="send()">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <!-- <img [src]="imageToShow"> -->
     <p></p>
     <div class="card" style="width: 20vw;height: 20vw;margin-left: 45%;background-color: #f0596a;border-radius: 8px;">
-      <h4 class="card-title" style="color: #fffcfe;font-weight: 300;font-size: 2vw;margin-top: 10%;margin-left:20%;" > Create Event</h4>
+      <h4 class="card-title" style="color: #fffcfe;font-weight: 300;font-size: 2vw;margin-top: 10%;margin-left:20%;">
+        Create Event</h4>
       <div class="card-body" style="margin-top: 10%;">
 
-        <a class="card-body plus" style="height: 10vw;width: 20vw;background-color: #fffcfe;border-radius: 10px;font-weight: 900;font-size: 5vw;color: #f0596a;margin-top: 40%;margin-left: 20%;padding: 3vw;padding-bottom: 3%;padding-top: 5%;">+</a>
+        <a class="card-body plus"
+          style="height: 10vw;width: 20vw;background-color: #fffcfe;border-radius: 10px;font-weight: 900;font-size: 5vw;color: #f0596a;margin-top: 40%;margin-left: 20%;padding: 3vw;padding-bottom: 3%;padding-top: 5%;">+</a>
       </div>
     </div>
-    <app-sidenav></app-sidenav>
-
   </body>
+</app-main-nav>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Change Profile Photo
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="file" (change)="fileChange($event)" id="inputGroupFile01">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="send()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

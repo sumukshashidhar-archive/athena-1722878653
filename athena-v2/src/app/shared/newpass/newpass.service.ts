@@ -16,7 +16,6 @@ export class NewpassService {
   constructor(private http: HttpClient) {}
 
   postPassword(pass: NewPass) {
-    console.log(pass);
     return this.http.post("http://localhost:3000/resetpassword", pass);
   }
 }

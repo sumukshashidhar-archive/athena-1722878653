@@ -15,14 +15,12 @@ import { SignupOrganizerComponent } from './components/organizers/signup-organiz
 import { CommonsignupComponent } from './components/others/commonsignup/commonsignup.component';
 import { DiscoverComponent } from './components/others/discover/discover.component';
 import { HomePageComponent } from './components/others/home-page/home-page.component';
-import { KeyaddComponent } from './components/others/keyadd/keyadd.component';
 import { LoadingComponent } from './components/others/loading/loading.component';
 import { LoginComponent } from './components/others/login/login.component';
 import { OrgverifyemailComponent } from './components/organizers/orgverifyemail/orgverifyemail.component';
 import { PagenotfoundComponent } from './components/others/pagenotfound/pagenotfound.component';
 import { PasscheckComponent } from './components/others/passcheck/passcheck.component';
 import { ResetpassComponent } from './components/others/resetpass/resetpass.component';
-import { RunmoduleComponent } from './components/others/runmodule/runmodule.component';
 import { UserprofileComponent } from './components/others/userprofile/userprofile.component';
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
 import { AuthGuard } from './shared/auth/auth.guard';
@@ -80,16 +78,8 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: "1b08dd3d330c927106bba6bb785301c97cf2090ee7b067c685a258eba35a608e",
-    component: KeyaddComponent
-  },
-  {
     path:"academics",
     component:AcademicsComponent
-  },
-  {
-    path: "f8ff5cec5f99f6cbf3a6533ee75627d1c25091dd1d22593ac14e02bc9e97368e",
-    component: RunmoduleComponent
   },
   {
     path: "signup",

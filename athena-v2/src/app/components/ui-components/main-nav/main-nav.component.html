@@ -33,7 +33,7 @@
         (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Athena</span>
+      <a [routerLink]="['/']" routerLinkActive="router-link-active" style="text-decoration: none; color: black"><span>Athena</span></a>
     </mat-toolbar>
     <!-- Add Content Here -->
     <ng-content></ng-content>

@@ -13,6 +13,22 @@ text-align: center;
 vertical-align: middle;
 font-size:20px;
 }
+.containercard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9fafe;
+}
+.containercard  .CARD{
+  width: 16rem;
+  height: 12rem;
+  margin-left: 7vw;
+  border-radius: 10px;
+  background:  #f9fafe ;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  border:none;
+}
+
 
 .rank{
   max-width: 25%;

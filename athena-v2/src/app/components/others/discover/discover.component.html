@@ -3,7 +3,7 @@
 </head>
 
 <app-main-nav>
-  <body>
+  <body >
     <div class="container">
       <h1 style="text-align: center;">Discover Something New</h1>
       <mat-tab-group>
@@ -21,7 +21,7 @@
                   #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
               </div>
               <br>
-              <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
+              <button class="btn rm" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
             </form>
             <br>
             <p>You may also search for events that are over <a [routerLink]="['/archivesearch']"
@@ -43,7 +43,7 @@
                 <span class="help-block" *ngIf="!userKey.valid && userKey.touched">Enter a search value</span>
               </div>
               <br>
-              <button class="btn btn-primary" [disabled]='!g.valid' (click)="onSubmit1(g)">Search</button>
+              <button class="btn rm" [disabled]='!g.valid' (click)="onSubmit1(g)">Search</button>
             </form>
           </div>
           <div class="organizers">
@@ -59,7 +59,7 @@
                 <span *ngIf="!orgKey.valid && orgKey.touched">Please enter value to search for</span>
               </div>
               <br>
-              <button class="btn btn-primary" [disabled]="!k.valid" (click)="orgSearch(k)">Search</button>
+              <button class="btn rm" [disabled]="!k.valid" (click)="orgSearch(k)">Search</button>
             </form>
           </div>
         </mat-tab>
@@ -82,7 +82,7 @@
               </mat-select>
             </mat-form-field>
             <br>
-            <button style="margin: 1rem;" mat-raised-button (click)="searchByInterest()">Search</button>
+            <button style="margin: 1rem;" class="rm" mat-raised-button (click)="searchByInterest()">Search</button>
           </div>
         </mat-tab>
         <mat-tab label="Search For Events By Interests">
@@ -103,7 +103,7 @@
               </mat-select>
             </mat-form-field>
             <br>
-            <button style="margin: 1rem;" mat-raised-button (click)="eventsearchByInterest()">Search</button>
+            <button style="margin: 1rem;" mat-raised-button class="rm" (click)="eventsearchByInterest()">Search</button>
           </div>
         </mat-tab>
       </mat-tab-group>

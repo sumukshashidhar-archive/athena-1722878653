@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit {
         var today= new Date()
         this.month = this.months[this.mydate.getMonth()];
 
-        if(this.months[today.getMonth()+5]==this.month){
+        if(this.months[today.getMonth()+1]==this.month){
           console.log(this.evn_list[i])
           this.str = this.mydate.getDate()+' '+this.month + ' ' + this.mydate.getFullYear();
           this.evn_list[i]['Date']=this.str

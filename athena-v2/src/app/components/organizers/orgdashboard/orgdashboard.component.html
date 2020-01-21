@@ -1,0 +1,42 @@
+<app-main-nav>
+  <div class="grid-container">
+    <h1 class="mat-h1">Dashboard</h1>
+    <mat-grid-list cols="2" rowHeight="350px">
+      <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+        <!-- Events Card -->
+        <mat-card *ngIf="card.title === 'Your Events'" class="dashboard-card card-1" [routerLink]="[card.route]" routerLinkActive="router-link-active" >
+          <mat-card-header>
+            <mat-card-title>
+              {{card.title}}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <p>This is your events card</p>
+          </mat-card-content>
+        </mat-card>
+        <!-- Discover Card -->
+        <mat-card class="dashboard-card card-2" *ngIf="card.title === 'Discover'" [routerLink]="[card.route]" routerLinkActive="router-link-active" >
+          <mat-card-header>
+            <mat-card-title>
+              {{card.title}}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+
+          </mat-card-content>
+        </mat-card>
+        <!-- Creating an Event -->
+        <mat-card class="dashboard-card card-3" [routerLink]="[card.route]" *ngIf="card.title === 'Create an Event'" routerLinkActive="router-link-active" >
+          <mat-card-header>
+            <mat-card-title>
+              {{card.title}}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <p>This is where you can create an event</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>  
+</app-main-nav>

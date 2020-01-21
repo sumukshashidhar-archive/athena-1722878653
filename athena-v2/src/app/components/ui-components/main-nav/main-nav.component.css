@@ -17,6 +17,6 @@
   z-index: 1;
 }
 
-ng-content {
-  border-radius: 100%;
+.content-box {
+  border-radius: 50%;
 }

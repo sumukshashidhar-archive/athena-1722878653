@@ -10,7 +10,6 @@ import { InterestsComponent } from './components/students/interests/interests.co
 import { EventsOrganizerComponent } from './components/organizers/events-organizer/events-organizer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchresComponent }from './components/others/searchres/searchres.component'
-import { OrganizerDashboardComponent } from './components/organizers/organizer-dashboard/organizer-dashboard.component';
 import { SignupOrganizerComponent } from './components/organizers/signup-organizer/signup-organizer.component';
 import { CommonsignupComponent } from './components/others/commonsignup/commonsignup.component';
 import { DiscoverComponent } from './components/others/discover/discover.component';
@@ -31,6 +30,7 @@ import { Searchres2Component} from './components/others/searchres2/searchres2.co
 import { ArchiveComponent } from './components/others/archive/archive.component'
 import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component'
 import { NordComponent } from './components/nord/nord.component'
+import { OrgdashboardComponent } from './components/organizers/orgdashboard/orgdashboard.component'
 
 const routes: Routes = [
   {
@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: "eventsdeep",
     component: EventsnordComponent
+  },
+  {
+    path: "orgdashboard",
+    component: OrgdashboardComponent
   },
   {
     path: "nord",
@@ -101,10 +105,6 @@ const routes: Routes = [
   {
     path: "signuporganizer",
     component: SignupOrganizerComponent
-  },
-  {
-    path: "organizerdashboard",
-    component: OrganizerDashboardComponent
   },
   {
     path: "loading",

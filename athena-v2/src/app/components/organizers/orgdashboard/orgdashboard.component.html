@@ -1,3 +1,6 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <body>
   <app-main-nav>
     <div class="grid-container">
@@ -24,8 +27,18 @@
               </mat-card-title>
             </mat-card-header>
             <mat-card-content class="dashboard-card-content">
-
+              <form #f="ngForm">
+                <br>
+                <br>
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Search" required name="keyword" ngModel
+                    #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
+                </mat-form-field>
+                <br>
+                <button (click)="search(f)" class="btn btn-primary"><i class="fa fa-search"></i></button>
+              </form>
             </mat-card-content>
+
           </mat-card>
           <!-- Creating an Event -->
           <mat-card class="dashboard-card card-3" [routerLink]="[card.route]" *ngIf="card.title === 'Create an Event'"

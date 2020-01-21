@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   evn_list: any;
   upcoming=[]
   day=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  acadlist: any;
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
 
@@ -71,8 +72,10 @@ export class DashboardComponent implements OnInit {
       console.log(res)
       this.interestlist=res['obj']['Interests']
       this.ach_list=res['obj']['Achievement']
+      this.acadlist=res['obj']['Academics']
     })
   }
+
   getEvents() {
     this.eventService.getFollowEvents().subscribe(
       res => {

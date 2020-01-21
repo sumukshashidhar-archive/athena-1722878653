@@ -71,7 +71,8 @@ export class DashboardComponent implements OnInit {
     this.eventService.getFollowEvents().subscribe(
       res => {
         console.log(res);
-        this.evn_list = res;
+        var x = this.eventService.changeDate(res)
+        this.evn_list = x;
         this.showLoading = false
       },
       err => {

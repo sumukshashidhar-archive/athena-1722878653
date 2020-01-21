@@ -4,8 +4,8 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'push'"
-      [opened]="(isHandset$ | async) === true">
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
     <mat-toolbar style="color: white">{{ username }}</mat-toolbar>
     <mat-nav-list *ngIf="isStudent">
       <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
@@ -36,6 +36,7 @@
       <a [routerLink]="['/']" routerLinkActive="router-link-active" style="text-decoration: none; color: black"><span>Athena</span></a>
     </mat-toolbar>
     <!-- Add Content Here -->
-    <ng-content></ng-content>
+    <ng-content>
+    </ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

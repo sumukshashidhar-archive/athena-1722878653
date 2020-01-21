@@ -87,8 +87,12 @@
             <td *ngIf="acad.toShow">{{acad.testName}}</td>
             <td *ngIf="acad.toShow">{{acad.testRank}}</td>
             <td *ngIf="acad.toShow">{{acad.testScore}}</td>
-            <td *ngIf="acad.toShow"><button type="button" class="btn btn-outline-success" data-toggle="modal"
-                (click)="getThisAcad(acad.id)" data-target="#acadModal">Click to view Details</button></td>
+            <td *ngIf="acad.toShow">
+              <form #k="ngForm">
+              <button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(k,acad.id)"
+                data-target="#acadModal">Click to view Details</button>
+              </form>
+            </td>
           </tr>
         </tbody>
       </table>

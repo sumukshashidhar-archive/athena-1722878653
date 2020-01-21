@@ -3,7 +3,6 @@
   <html style="background-color: #f9fafe;">
   <!-- <app-sidenav></app-sidenav> -->
   <div class="container" style="background-color: #f9fafe;">
-
     <body>
       <br />
       <div class="container" style="margin-left: -5%; display: flex;background-color: #f9fafe;">
@@ -25,7 +24,7 @@
           </a>
         </div>
         <div class="card text" style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;">
-          <a class="card-body-c" (click)="changeTab()" [routerLink]="['/events']"
+          <a class="card-body-c" [routerLink]="['/events']"
             style="background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%); border-radius:10px;width: 25vw;">
             <h5 class="card-title">{{evn_list.length}}</h5>
             <p class="card-text-a" style="margin-left: 20%;">Events <br /> <i class="fa fa-calendar"

@@ -376,7 +376,7 @@ body {
 }
 
 .container .card:hover .face.face1{
-  background: #ff0057;
+  background: #353779;
   transform: translateY(0);
 }
 .container .card .face.face1 .content{
@@ -536,7 +536,7 @@ color: aliceblue;
   }
 
   .container .card:hover .face.face1{
-    background: #ff0057;
+    background: #353779;
     transform: translateY(0);
   }
   .container .card .face.face1 .content{

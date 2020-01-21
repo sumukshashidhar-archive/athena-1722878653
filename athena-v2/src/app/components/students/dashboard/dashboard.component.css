@@ -140,6 +140,15 @@ nav li {
   margin: 0;
   padding: 0;
 }
+mat-card{
+  max-width: 50%;
+  max-height: 50%;
+  background-color: #f2f2f7;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  margin-left: 20%;
+  margin-bottom: 10%;
+  border-radius: 10px;
+}
 
 .main-menu li:hover>a,
 nav.main-menu li.active>a,
@@ -158,6 +167,7 @@ nav.main-menu li.active>a,
   float: left;
   width: 100%;
   height: 100%;
+  background: #f9fafe;
 }
 
 @font-face {
@@ -173,10 +183,8 @@ nav.main-menu li.active>a,
 
 
 
-.card-body .card-text .icons00c {
-  color: blue;
-
-
+.card{
+ background: transparent;
 }
 
 .es {
@@ -198,9 +206,7 @@ nav.main-menu li.active>a,
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
 }
 body {
-  background-color:
-    #f9fafe;
-  height: 170vh;
+  background: #f9fafe;
   background-size: cover;
   background-position: center;
 }

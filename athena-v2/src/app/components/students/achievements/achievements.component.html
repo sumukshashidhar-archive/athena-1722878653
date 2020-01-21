@@ -18,7 +18,7 @@
       <div class="row">
       </div>
     </div>
-    <div class="containercard" style="background-color: #f9fafe ; width:100vw;margin-left: 0;display: flex;">
+    <div class="containercard" style="background-color: #00000000 ; width:100vw;margin-left: 0;display: flex;">
       <div class="row">
         <div class="column" style="float: left;" *ngFor="let ach of ach_list">
           <a class="card mb-3 CARD"
@@ -42,7 +42,7 @@
               {{ach.achRank}}
             </div>
             <div class="rank" *ngIf="ach.achRank=='International'"
-              style="background-color: black; color: white;border-radius: 10px;">
+              style="background-color: black; font-size:0.5em;color: white;border-radius: 10px;">
               {{ach.achRank}}
             </div>
             <div

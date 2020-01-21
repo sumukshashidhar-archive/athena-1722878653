@@ -17,14 +17,14 @@ font-size:20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f9fafe;
+  background: #00000000;
 }
 .containercard  .CARD{
   width: 16rem;
   height: 12rem;
   margin-left: 7vw;
   border-radius: 10px;
-  background:  #f9fafe ;
+  background:  #00000000 ;
   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
   border:none;
 }
@@ -336,14 +336,14 @@ width: 20vw;
 }
 .bg{
   background-position: center center;
-  background-color:  #f9fafe;
+  background-color:  #00000000;
   height:1000%;
   background-size: cover;
 }
 html { height: 100% }
 
 body {
-  background-color:  #f9fafe;
+  background-color:  #00000000;
   border: 1px solid transparent;
   padding-bottom: 20px;
   height:120vw;

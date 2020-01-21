@@ -1,11 +1,11 @@
 <app-loading *ngIf="showLoading"></app-loading>
 <app-main-nav *ngIf="!showLoading">
-  <html style="background-color: #f9fafe;">
+  <html style="background-color: #00000000;">
   <!-- <app-sidenav></app-sidenav> -->
-  <div class="container" style="background-color: #f9fafe;">
+  <div class="container" style="background-color: #00000000;">
     <body>
       <br />
-      <div class="container" style="margin-left: -5%; display: flex;background-color: #f9fafe;">
+      <div class="container" style="margin-left: -5%; display: flex;background-color: #00000000;">
         <div class="card text "
           style="width: 25vw; position: relative;margin-left: 5%; margin-top: 5%;border-radius: 10px;">
           <a class="card-body-a" [routerLink]="['/achievements']"
@@ -34,7 +34,7 @@
         <br />
         <br />
       </div>
-      <mat-card style="margin-top: 20%;">
+      <mat-card style="margin-top: 20%; box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.699);">
         <mat-card-content >
           <h2  style="font-size: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
           <div class="container" *ngFor="let evn of upcoming" style="margin-top:10%;">

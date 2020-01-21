@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from "./../../../shared/auth/auth.service";
 import { InterestsService } from "./../../../shared/interests/interests.service";
 import { Component, OnInit } from "@angular/core";
@@ -32,7 +33,8 @@ export class InterestsComponent implements OnInit {
     private http: HttpClient,
     public auth: AuthService,
     private catService: EventService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router:Router
   ) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
@@ -56,6 +58,9 @@ export class InterestsComponent implements OnInit {
         this.interests = res
       },
       err => {
+        if(err.status==403){
+          this.router.navigate(['/login'])
+        }
         console.log(err)
       }
     )

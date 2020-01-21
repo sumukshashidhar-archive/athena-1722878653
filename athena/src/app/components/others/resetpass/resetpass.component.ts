@@ -4,6 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { NewpassService } from "./../../../shared/newpass/newpass.service";
 import { ResetcodeService } from './../../../shared/resetcode/resetcode.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: "app-resetpass",
@@ -15,8 +16,16 @@ export class ResetpassComponent implements OnInit {
   constructor(
     private router:Router,
     public newPass: NewpassService,
-    public answerService: ResetcodeService
+    public answerService: ResetcodeService,
+    public _snackBar: MatSnackBar
   ) {}
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
+  }
 
   ngOnInit() {
     
@@ -29,6 +38,7 @@ export class ResetpassComponent implements OnInit {
       res => {
         console.log(res);
         this.router.navigate(['/login']);
+        this.openSnackBar("Password updated, please login again", "Close")
       },
       err => {
         if (err.status === 422) {

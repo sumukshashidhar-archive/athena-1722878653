@@ -23,30 +23,45 @@ export class EventsComponent implements OnInit {
   imageToShow:any;
   profileUrlExists:any;
   results: any;
+  arrImage: any;
   selected = new FormControl(0);
 
-  constructor(public data: SearchService, public eventService: EventService, private router: Router,private auth:AuthService, private http:HttpClient) {
+  constructor(public data: SearchService, public eventService: EventService, private router: Router,private auth:AuthService, private http: HttpClient) {
     this.decoded = localStorage.getItem("access_token");
   }
 
-  
+
   ngOnInit() {
     this.refreshEvents();
     this.tabChange()
     this.getEvents();
+    this.makeArray();
   }
 
   refreshEvents() {
-    this.eventService.getEvents().subscribe(res => {
+    this.eventService.getEvents().subscribe(
+    res => {
       var x = this.eventService.changeDate(res)
       this.eventService.events = x;
       this.showSpinner = false;
       console.log(this.eventService.events);
+    },
+    err => {
+      if(err.status==403){
+        this.router.navigate(['/login'])
+      }
     });
   }
 
   tabChange(){
     this.selected.setValue(this.data.eventTab);
+  }
+
+  makeArray(){
+    var x = this.eventService.events
+    for(let i=0; i<x.length;i++){
+      this.arrImage.push(x[i]['Image'])
+    }
   }
 
   getEvents(){
@@ -60,6 +75,33 @@ export class EventsComponent implements OnInit {
         console.log(err)
       }
     )
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        this.imageToShow = reader.result;
+      },
+      false
+    );
+    this.profileUrlExists = true;
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  postToIt() {
+    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
+    //   console.log(res)
+    this.http
+      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
+      .subscribe((response: Blob) => {
+        console.log("response as blob");
+        console.log(response);
+        this.createImageFromBlob(response);
+      });
   }
 
   sendDetails(form: NgForm, _id: string) {

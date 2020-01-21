@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { AchievementsService } from "./../../../shared/achievements/achievements.service";
+import { EventService } from './../../../shared/events/event.service'
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as jwt_decode from "jwt-decode";
 import { OnInit, Inject } from "@angular/core";
@@ -50,6 +51,7 @@ export class OrgdashboardComponent implements OnInit {
     private router: Router,
     private data: SearchService,
     private http: HttpClient,
+    public eventService: EventService,
     private ach: AchievementsService
   ) {
     decoded = localStorage.getItem("access_token");
@@ -88,6 +90,33 @@ export class OrgdashboardComponent implements OnInit {
           console.log(err);
         }
         console.log("Error");
+      }
+    );
+  }
+
+  search(form: NgForm) {
+    form.value['usecase'] = 1
+    console.log(form.value);
+    this.data.postSearch(form.value).subscribe(
+      res => {
+        this.data.results = null;
+        var x = this.eventService.changeDate(res)
+        this.data.results = x;
+        console.log(res);
+        this.data.tabChange = 0;
+        if (this.data.results.length === 0) {
+          this.data.message = "Sorry, no results found";
+        } else {
+          this.data.message = "We found these results";
+        }
+        this.router.navigate(["/searchres"]);
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
       }
     );
   }

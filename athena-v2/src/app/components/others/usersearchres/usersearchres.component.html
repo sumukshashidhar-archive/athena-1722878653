@@ -3,7 +3,7 @@
 
 <app-main-nav>
 
-  <section>
+
     <div class="cont">
       <div class="card-wrapper">
         <div class="card">
@@ -18,8 +18,6 @@
         </div>
       </div>
     </div>
-  </section>
-
   <body>
 
     <div class="container" style="margin-left: 18%;">
@@ -56,13 +54,13 @@
       <div class="card card3">
         <div class="face face1">
           <div class="content">
-            <h3>EVENTS</h3>
+            <h3>ACADEMICS</h3>
           </div>
         </div>
         <div class="face face2">
           <div class="content">
             <button type="button" data-toggle="modal" data-target="#exampleModal2">
-              Click to view events
+              Click to view academics
             </button>
           </div>
         </div>
@@ -71,33 +69,7 @@
   </body>
   <br />
   <br />
-  <div class="cont">
-    <div class="table-responsive-sm">
-      <table class="table" style="margin-left:9vw; position: relative;margin-bottom: 0;">
-        <thead>
-          <tr>
-            <th scope="col">Test Name</th>
-            <th scope="col">Test Rank</th>
-            <th scope="col">Test Score</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let acad of thisacadlist ">
-            <td *ngIf="acad.toShow">{{acad.testName}}</td>
-            <td *ngIf="acad.toShow">{{acad.testRank}}</td>
-            <td *ngIf="acad.toShow">{{acad.testScore}}</td>
-            <td *ngIf="acad.toShow">
-              <form #k="ngForm">
-              <button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(k,acad.id)"
-                data-target="#acadModal">Click to view Details</button>
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+
 </app-main-nav>
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
   aria-hidden="true">
@@ -160,20 +132,39 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Events</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Academics</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" *ngFor="let evn of user.evnFollowing">
-        <ul>
-          <li class="other">
-            <span class="name">{{ evn }}</span>
-            <!-- <span class="points">95</span> -->
-          </li>
-
-
-        </ul>
+      <div class="modal-body">
+        <div class="cont">
+          <div class="table-responsive-sm">
+            <table class="table" style="background: #fafafafa; margin-top: 1vw;">
+              <thead>
+                <tr>
+                  <th scope="col">Test Name</th>
+                  <th scope="col">Test Rank</th>
+                  <th scope="col">Test Score</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let acad of thisacadlist ">
+                  <td *ngIf="acad.toShow">{{acad.testName}}</td>
+                  <td *ngIf="acad.toShow">{{acad.testRank}}</td>
+                  <td *ngIf="acad.toShow">{{acad.testScore}}</td>
+                  <td *ngIf="acad.toShow">
+                    <form #k="ngForm">
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(k,acad.id)"
+                      data-target="#acadModal">Click to view Details</button>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>

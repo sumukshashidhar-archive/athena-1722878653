@@ -342,7 +342,8 @@ ul li:hover{
   background: #fff;
 }
 body {
-  margin:0;
+ margin-left: -5%;
+ margin-top: -5vw;
   padding: 0;
   min-height: 100vh;
   background:  #00000000;

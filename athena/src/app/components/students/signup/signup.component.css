@@ -1,8 +1,22 @@
 .container {
+  background: #f9fafe;
   margin: 25px auto;
 }
 .body{
-  background-color: #00c2ff;
-  
+  background-color: #f9fafe;
 
+
+}
+.mat-card{
+  background:#f9fafe;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  border-radius: 10px;
+}
+mat-card-content{
+background: #f9fafe;
+}
+
+.rm{
+  background-color: #f9fafe;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
 }

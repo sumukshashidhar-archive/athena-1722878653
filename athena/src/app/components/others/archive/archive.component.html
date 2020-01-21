@@ -1,41 +1,43 @@
-<body>
-  <app-sidenav></app-sidenav>
-  <div class="container">
-    <mat-tab-group [selectedIndex]="selected.value">
-      <mat-tab label="Archive Search">
-        <div class="container" style="margin-top: 3rem;">
-          <h1 class="text-center">Archive Search</h1>
-          <form #f="ngForm">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">What do you want to search for?</span>
+<app-main-nav>
+  <body>
+    <div class="container">
+      <mat-tab-group [selectedIndex]="selected.value">
+        <mat-tab label="Archive Search">
+          <div class="container" style="margin-top: 3rem;">
+            <h1 class="text-center">Archive Search</h1>
+            <form #f="ngForm">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">What do you want to search for?</span>
+                </div>
+                <input type="text" placeholder="Search" class="form-control" required name="keyword" ngModel #keyword="ngModel"
+                  [(ngModel)]="data.selSearch.keyword">
+                  <span class="help-block" *ngIf="!keyword.valid && keyword.touched">Please enter a keyword</span>
               </div>
-              <input type="text" placeholder="Search" class="form-control" required name="keyword" ngModel #keyword="ngModel"
-                [(ngModel)]="data.selSearch.keyword">
-                <span class="help-block" *ngIf="!keyword.valid && keyword.touched">Please enter a keyword</span>
-            </div>
-            <br>
-            <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
-          </form>
-        </div>
-      </mat-tab>
-      <mat-tab label="Deep Search">
-        <div class="container" style="margin-top: 3rem;">
-          <h1 class="text-center">Deep Search</h1>
-          <form #g="ngForm">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">What do you want to search for?</span>
+              <br>
+              <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit(f)">Search</button>
+            </form>
+          </div>
+        </mat-tab>
+        <mat-tab label="Deep Search">
+          <div class="container" style="margin-top: 3rem;">
+            <h1 class="text-center">Deep Search</h1>
+            <form #g="ngForm">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">What do you want to search for?</span>
+                </div>
+                <input type="text" placeholder="Search" class="form-control" required name="keyword" ngModel #keyword="ngModel"
+                  [(ngModel)]="data.selSearch.keyword">
+                  <span class="help-block" *ngIf="!keyword.valid && keyword.touched">Please enter a keyword</span>
               </div>
-              <input type="text" placeholder="Search" class="form-control" required name="keyword" ngModel #keyword="ngModel"
-                [(ngModel)]="data.selSearch.keyword">
-                <span class="help-block" *ngIf="!keyword.valid && keyword.touched">Please enter a keyword</span>
-            </div>
-            <br>
-            <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit1(g)">Search</button>
-          </form>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-</body>
+              <br>
+              <button class="btn btn-primary" [disabled]="!f.valid" (click)="onSubmit1(g)">Search</button>
+            </form>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </body>
+  
+</app-main-nav>

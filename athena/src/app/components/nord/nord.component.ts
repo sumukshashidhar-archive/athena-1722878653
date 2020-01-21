@@ -8,6 +8,7 @@ import { EventService } from 'src/app/shared/events/event.service';
   styleUrls: ['./nord.component.css']
 })
 export class NordComponent implements OnInit {
+  showLoading: any = true;
   events: any
 
   constructor(private http: HttpClient, public eventService: EventService) { }
@@ -22,6 +23,7 @@ export class NordComponent implements OnInit {
         var x = this.eventService.changeDate(res)
         this.events = x
         console.log(res)
+        this.showLoading = false
       },
       err => {
         console.log(err)

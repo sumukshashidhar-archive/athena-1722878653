@@ -12,7 +12,7 @@
 body {
   height: 100%;
   box-sizing: border-box;
-  background:  #f9fafe ;
+  background:  #00000000 ;
 }
 .mat-card{
   background:#f2f2f7;
@@ -29,7 +29,7 @@ img {
   height: 20rem;
 }
 .container{
-  background:  #f9fafe ;
+  background:  #00000000 ;
 }
 
 .example-card2 {

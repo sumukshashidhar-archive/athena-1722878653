@@ -2,6 +2,7 @@
 
 </head>
 <app-main-nav>
+
   <body>
     <div class="container">
       <br>
@@ -10,7 +11,8 @@
           <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let int of interests">
             {{ int }}
             <form #d="ngForm">
-              <button class="btn btn-danger" (click)="deleteInterest(d,int)"><span class="glyphicon glyphicon-trash">Delete</span></button>
+              <button class="btn btn-danger" (click)="deleteInterest(d,int)"><span
+                  class="glyphicon glyphicon-trash">Delete</span></button>
             </form>
           </li>
         </ul>
@@ -20,7 +22,9 @@
       <br>
       <mat-card style="text-align: center;">
         <mat-card-header class="text-center" style="justify-content: center;">
-          <mat-card-title><h2>Add An Interest</h2></mat-card-title>
+          <mat-card-title>
+            <h2>Add An Interest</h2>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <mat-form-field>

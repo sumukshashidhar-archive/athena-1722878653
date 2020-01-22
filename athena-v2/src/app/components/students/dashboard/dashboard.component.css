@@ -366,7 +366,7 @@ h2 {
   font-size: 5vw;
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width:767px) {
   .card-text-a {
     text-align: left;
     font-size: 7vw;

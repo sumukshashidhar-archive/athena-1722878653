@@ -46,8 +46,23 @@ transform: scale(1.1);
 .dashboard-card-content {
   text-align: center;
 }
+.day{
+  font-weight: 600;color: #fafafa;font-size: 3.5em;text-align: left;
+}
 
-body {
-  background: linear-gradient(to right, #2193b0, #6dd5ed);
+@media screen and (max-width:1023px){
+.card-1,.card-2{
+  height: 100%;
+  width: 100%;
+}
+.day{
+  font-size: 2em;
+}
+}
+@media screen and (max-width:767px){
+  .card-1,.card-2{
+    height: 100%;
+    width: 150%;
+  }
 }
 

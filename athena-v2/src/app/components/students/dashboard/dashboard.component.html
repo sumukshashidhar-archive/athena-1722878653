@@ -6,18 +6,18 @@
 
     <body>
       <br />
-      <div class="container" style="margin-left: 5%; display: flex;background-color: #00000000;">
+      <div class="container c2" style="">
         <div class="card text card-123">
           <a class="card-body-a card-123-a" [routerLink]="['/achievements']">
             <h5 class="card-title">{{ach_list.length}}</h5>
-            <p class="card-text-a card-123-text">Achievements<br /><i class="fa fa-trophy card-i"
+            <p class="card-text-a card-123-text">Achievements<br /><i class="fa fa-trophy card-i1"
                 aria-hidden="true"></i></p>
           </a>
         </div>
         <div class="card text card-124">
           <a class="card-body-b card-124-a" [routerLink]="['/interests']">
             <h5 class="card-title">{{interestlist.length}}</h5>
-            <p class="card-text-a card-123-text">Interests <br /><i class="fa fa-plus card-i" aria-hidden="true"></i>
+            <p class="card-text-a card-123-text">Interests <br /><i class="fa fa-plus card-i1" aria-hidden="true"></i>
             </p>
           </a>
         </div>
@@ -28,7 +28,7 @@
         <div class="card text card-125">
           <a class="card-body-c card-125-a" [routerLink]="['/events']">
             <h5 class="card-title">{{evn_list.length}}</h5>
-            <p class="card-text-a card-123-text">Events<br /><i class="fa fa-calendar card-i" aria-hidden="true"></i>
+            <p class="card-text-a card-123-text">Events<br /><i class="fa fa-calendar card-i1" aria-hidden="true"></i>
             </p>
           </a>
         </div>
@@ -42,7 +42,7 @@
       </div>
       <mat-card style="margin-top: 20%; box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.699);">
         <mat-card-content>
-          <h2 style="font-size: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
+          <h2 class="upcoming" style="font-weight: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
           <div class="container" *ngFor="let evn of upcoming" style="margin-top:10%;">
             <h4>{{evn.evnName}}</h4>
             <h5>{{day[mydate.getDay()]}}</h5>

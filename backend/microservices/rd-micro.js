@@ -297,8 +297,8 @@ async function getAllFiles(filearray) { // [filename1]
       }
       const db = client.db(dbName);
       
-      const collection = db.collection('test.files');
-      const collectionChunks = db.collection('test.chunks');
+      const collection = db.collection('uploads.files');
+      const collectionChunks = db.collection('uploads.chunks');
   
   
       collection.find({filename: fileName}).toArray(function(err, docs){

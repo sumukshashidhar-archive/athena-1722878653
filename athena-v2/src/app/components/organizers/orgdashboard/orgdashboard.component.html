@@ -10,8 +10,8 @@
           <!-- Events Card -->
           <mat-card *ngIf="card.title === 'Your Events'" class="dashboard-card card-1" [routerLink]="[card.route]"
             routerLinkActive="router-link-active">
-            <mat-card-header>
-              <mat-card-title>
+            <mat-card-header> 
+              <mat-card-title>  
                 {{card.title}}
               </mat-card-title>
             </mat-card-header>
@@ -21,8 +21,8 @@
           </mat-card>
           <!-- Discover Card -->
           <mat-card class="dashboard-card card-2" *ngIf="card.title === 'Discover'">
-            <mat-card-header>
-              <mat-card-title>
+            <mat-card-header style="justify-content: center;">
+              <mat-card-title style="font-weight: 100;font-size: 3.2em;color: #0000ff;text-transform: uppercase;">
                 {{card.title}}
               </mat-card-title>
             </mat-card-header>
@@ -35,7 +35,7 @@
                     #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
                 </mat-form-field>
                 <br>
-                <button (click)="search(f)" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                <button (click)="search(f)" class="btn btn-primary btn-lg"><i class="fa fa-search"></i></button>
               </form>
             </mat-card-content>
 

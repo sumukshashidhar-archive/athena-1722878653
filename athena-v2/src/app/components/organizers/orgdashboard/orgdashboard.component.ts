@@ -42,6 +42,7 @@ export class OrgdashboardComponent implements OnInit {
       ];
     })
   );
+  myEvents: any
   profileUrlExists = false;
   imageToShow: any;
   uploadedFiles: Array<File>;
@@ -69,6 +70,7 @@ export class OrgdashboardComponent implements OnInit {
     this.date=this.mydate.getDate()
     this.month = this.months[this.mydate.getMonth()];
     this.today=this.day[this.mydate.getDay()]
+    this.getEvents()
 
   }
 
@@ -76,6 +78,18 @@ export class OrgdashboardComponent implements OnInit {
     this.uploadedFiles = element.target.files;
   }
 
+  getEvents(){
+    this.eventService.getOrganizerEvents().subscribe(
+      res => {
+        console.log(res)
+        var x = this.eventService.changeDate(res)
+        this.myEvents = x;
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
   logout() {
     this.auth.logout();
     this.router.navigate(["/login"]);

@@ -17,6 +17,13 @@
 .card{
   margin-left:35%;padding:12%;width:50%;position:absolute;bottom:3%;border-radius: 10px;text-decoration: none;
 }
+.card-2{
+  background: #ffff3b;
+  background-size: cover;
+}
+.card-1{
+  background:#fcfcfc;
+}
 
 .card-3{
   background: #f0596a;

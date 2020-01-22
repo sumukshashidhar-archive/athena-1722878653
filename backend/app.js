@@ -1024,8 +1024,9 @@ app.post('/getSpecicifAc', async function (req, res) {
             console.log(err);
         }
         else {
+            console.log(obj.Academics[req.body.acId])
             res.send(obj.Academics[req.body.acId]);
-            // console.log(req.body)
+             
         }
     });
 });

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(["/dashboard"]);
           }
           if (decoded["role"] == "Org") {
-            this.router.navigate(["/organizerdashboard"]);
+            this.router.navigate(["/orgdashboard"]);
           }
           console.log(this.user);
           this.data.changeName(this.user.FirstName);

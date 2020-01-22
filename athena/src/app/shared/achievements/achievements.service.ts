@@ -11,7 +11,8 @@ export class AchievementsService {
     achCat: "",
     achSubCat: "" ,
     description:"",
-    rank:""
+    rank:"",
+    name:""
   };
 
   achievements: Achievements[];

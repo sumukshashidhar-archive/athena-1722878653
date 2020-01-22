@@ -1,5 +1,5 @@
 <app-loading *ngIf="showLoading"></app-loading>
-<app-main-nav>
+<app-main-nav *ngIf="!showLoading">
   <body *ngIf="!showLoading">
     <div class="container">
       <br>

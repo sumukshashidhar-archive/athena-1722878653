@@ -1,3 +1,7 @@
+////Have to make sensitive data excluded
+
+
+
 
 var express = require("express");
 var fs = require('fs');
@@ -1013,7 +1017,9 @@ app.post('/getAcademics', async function (req, res) {
 
 app.post('/getSpecicifAc', async function (req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
-    Student.findOne({ EmailId: decoded.email }, function (err, obj) {
+    console.log(req.body.email)
+    console.log.apply(req.body.acId)
+    Student.findOne({ EmailId: req.body.email }, function (err, obj) {
         if (err) {
             console.log(err);
         }
@@ -1802,7 +1808,7 @@ async function evnFind(idx) {
 
 async function evnFindLite(idx) {
     var callback = new Promise(function (res, rej) {
-        event.findOne({ _id: idx }, { evnName: 1, Image: 1, evnDate: 1, evnDescription: 1, _id: 1 }, function (err, obj) {
+        event.findOne({ _id: idx }, { evnName: 1, Image: 1, evnDate1: 1,evnDate2: 1, evnDescription: 1, _id: 1 }, function (err, obj) {
             if (err) {
                 console.log(err)
             } else {

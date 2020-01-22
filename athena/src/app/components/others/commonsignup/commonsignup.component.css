@@ -4,3 +4,22 @@
 .btn-round { border-radius: 30px; }
 .bg-indigo { background: indigo; }
 .text-cyan { color: #35bdff; }
+
+.STU{
+  margin-top: 10%;
+  background-color: #00000000;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+
+  text-align: center;
+}
+
+.ORG{
+  margin-top: 10%;
+  background: linear-gradient(145deg, #50008b, #440075);
+  box-shadow: -3px -3px 7px #35005b,  3px 3px 5px #6200a9;
+
+  text-align: center;
+}
+a:hover{
+  transform: scale(1.1);
+}

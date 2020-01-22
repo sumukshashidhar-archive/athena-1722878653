@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Academics } from "./../../../shared/academics/academics.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
@@ -18,7 +19,8 @@ export class AcademicsComponent implements OnInit {
 
   constructor(
     public academicSerice: AcademicsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -40,6 +42,9 @@ export class AcademicsComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         this.acadlist = res;
+      },
+      err=>{
+        this.router.navigate(['/login'])
       });
   }
   getThisAcad(acId: any) {

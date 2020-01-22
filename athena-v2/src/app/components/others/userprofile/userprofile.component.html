@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
 <app-main-nav>
+
   <section>
     <div class="cont">
       <div class="card-wrapper">
@@ -37,13 +38,13 @@
       <div class="card card2">
         <div class="face face1">
           <div class="content">
-  
+
             <h3>ACHIEVEMENTS</h3>
           </div>
         </div>
         <div class="face face2">
           <div class="content">
-  
+
             <button type="button " data-toggle="modal" data-target="#exampleModal">
               Click to view achievements
             </button>
@@ -65,8 +66,9 @@
         </div>
       </div>
     </div>
-  
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+  </body>
+</app-main-nav>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -82,8 +84,8 @@
                 <span class="name">{{ int }}</span>
                 <!-- <span class="points">95</span> -->
               </li>
-  
-  
+
+
             </ul>
           </div>
           <div class="modal-footer">
@@ -126,7 +128,7 @@
               Rank: {{Rank}}
             </div>
           </div>
-  
+
         </div>
       </div>
     </div>
@@ -146,8 +148,8 @@
                 <span class="name" >{{ ach.SubCategoryId }}</span>
               </li>
             </a>
-  
-  
+
+
             </ul>
           </div>
           <div class="modal-footer">
@@ -156,9 +158,9 @@
         </div>
       </div>
     </div>
-  
-  
-  
+
+
+
     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -173,21 +175,15 @@
             <ul>
               <li class="other">
                 <span class="name">{{ evn.evnName }}</span>
-                <!-- <span class="points">95</span> -->
               </li>
-  
-  
+
+
             </ul>
           </div>
-  
+
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-  
-  
-  </body>
-  
-</app-main-nav>

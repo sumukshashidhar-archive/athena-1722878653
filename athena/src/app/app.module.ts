@@ -27,14 +27,12 @@ import { SignupOrganizerComponent } from './components/organizers/signup-organiz
 import { CommonsignupComponent } from './components/others/commonsignup/commonsignup.component';
 import { DiscoverComponent } from './components/others/discover/discover.component';
 import { HomePageComponent } from './components/others/home-page/home-page.component';
-import { KeyaddComponent } from './components/others/keyadd/keyadd.component';
 import { LoadingComponent } from './components/others/loading/loading.component';
 import { LoginComponent } from './components/others/login/login.component';
 import { OrgverifyemailComponent } from './components/organizers/orgverifyemail/orgverifyemail.component';
 import { PagenotfoundComponent } from './components/others/pagenotfound/pagenotfound.component';
 import { PasscheckComponent } from './components/others/passcheck/passcheck.component';
 import { ResetpassComponent } from './components/others/resetpass/resetpass.component';
-import { RunmoduleComponent } from './components/others/runmodule/runmodule.component';
 import { UserprofileComponent } from './components/others/userprofile/userprofile.component';
 import { VerifyemailComponent } from './components/students/verifyemail/verifyemail.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -52,6 +50,13 @@ import { Searchres2Component } from './components/others/searchres2/searchres2.c
 import { ArchiveComponent } from './components/others/archive/archive.component';
 import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component';
 import { NordComponent } from './components/nord/nord.component';
+import { MainNavComponent } from './components/ui-components/main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -68,14 +73,12 @@ import { NordComponent } from './components/nord/nord.component';
     CommonsignupComponent,
     DiscoverComponent,
     HomePageComponent,
-    KeyaddComponent,
     LoadingComponent,
     LoginComponent,
     OrgverifyemailComponent,
     PagenotfoundComponent,
     PasscheckComponent,
     ResetpassComponent,
-    RunmoduleComponent,
     UserprofileComponent,
     VerifyemailComponent,
     SearchresComponent,
@@ -88,6 +91,7 @@ import { NordComponent } from './components/nord/nord.component';
     ArchiveComponent,
     EventsnordComponent,
     NordComponent,
+    MainNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,7 +107,13 @@ import { NordComponent } from './components/nord/nord.component';
     JwtModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     RecaptchaFormsModule,
-    TransferHttpCacheModule
+    TransferHttpCacheModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     EventService,

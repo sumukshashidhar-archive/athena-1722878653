@@ -4,5 +4,5 @@ export class Achievements {
     uploadedFiles:any;
     description:string;
     rank:string
+    name:string
   }
-  

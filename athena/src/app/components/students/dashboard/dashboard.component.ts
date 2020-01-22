@@ -24,6 +24,7 @@ export var File;
 export class DashboardComponent implements OnInit {
   profileUrlExists = false;
   interestlist: any;
+  showLoading: any = true;
 
   imageToShow: any;
   uploadedFiles: Array<File>;
@@ -64,7 +65,6 @@ export class DashboardComponent implements OnInit {
       console.log(res)
       this.interestlist=res['obj']['Interests']
       this.ach_list=res['obj']['Achievement']
-
     })
   }
   getEvents() {
@@ -72,9 +72,11 @@ export class DashboardComponent implements OnInit {
       res => {
         console.log(res);
         this.evn_list = res;
+        this.showLoading = false
       },
       err => {
         console.log(err);
+        this.showLoading = true
       }
     );
   }

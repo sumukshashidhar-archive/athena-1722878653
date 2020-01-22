@@ -3,10 +3,23 @@
   width: 24rem;
   height: 35rem;
 }
+body{
+  background:#00000000
+}
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+.mat-card{
+  background:#00000000;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  border-radius: 10px;
+}
+
+.rm{
+  background-color: #00000000;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
 }
 
 body {
@@ -21,5 +34,5 @@ img {
 .example-card2 {
   margin: 3rem;
   width: 10rem;
-  height: 10rem 
+  height: 10rem
 }

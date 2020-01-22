@@ -353,29 +353,29 @@ module.exports = {
         var ret = await rd(decodedToken, evns)
         // console.log("these areasdsadsadsadsad", ret)
         ret.sort(GetSortOrder('evnScore'))
-        var imgArray = new Array();
-        for(let i=0; i < ret.length; i++) {
-            imgArray.push(ret[i]["Image"])
-        }
-        var val = await getAllFiles(imgArray);
+        // var imgArray = new Array();
+        // for(let i=0; i < ret.length; i++) {
+        //     imgArray.push(ret[i]["Image"])
+        // }
+        // var val = await getAllFiles(imgArray);
         // console.log("This is the final callback: Sending the frontend this. \n ", final)
         // console.log("FINALLY RETYEEDS", ret)
 
-        return {evns: ret, imgs: val}
+        return ret
     },
     //just a handler for the RD
     handlerglobal: async (decodedToken, evns) => {
         var ret = await rdglobal(decodedToken, evns)
         // console.log("these areasdsadsadsadsad", ret)
         ret.sort(GetSortOrder('evnScore'))
-        var imgArray = new Array();
-        for(let i=0; i < ret.length; i++) {
-            imgArray.push(ret[i]["Image"])
-        }
-        var val = await getAllFiles(imgArray);
+        // var imgArray = new Array();
+        // for(let i=0; i < ret.length; i++) {
+        //     imgArray.push(ret[i]["Image"])
+        // }
+        // var val = await getAllFiles(imgArray);
         // console.log("This is the final callback: Sending the frontend this. \n ", final)
         // console.log("FINALLY RETYEEDS", ret)
-        return {evns: ret, imgs: val}
+        return ret
     }
 }
 

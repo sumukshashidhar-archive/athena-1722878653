@@ -3,59 +3,51 @@
   <html style="background-color: #00000000;">
   <!-- <app-sidenav></app-sidenav> -->
   <div class="container" style="background-color: #00000000;">
+
     <body>
       <br />
       <div class="container" style="margin-left: 5%; display: flex;background-color: #00000000;">
-        <div class="card text "
-          style="width: 25vw; position: relative;margin-left: 5%; margin-top: 5%;border-radius: 10px;">
-          <a class="card-body-a" [routerLink]="['/achievements']"
-            style="background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%); border-radius:10px; width:25vw;">
+        <div class="card text card-123">
+          <a class="card-body-a card-123-a" [routerLink]="['/achievements']">
             <h5 class="card-title">{{ach_list.length}}</h5>
-            <p class="card-text-a" style="margin-left: 20%;">Achievements <br /> <i class="fa fa-trophy"
-                style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
+            <p class="card-text-a card-123-text">Achievements<br /><i class="fa fa-trophy card-i"
+                aria-hidden="true"></i></p>
           </a>
         </div>
-        <div class="card text " style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;">
-          <a class="card-body-b" [routerLink]="['/interests']"
-            style="background-image: linear-gradient(to right, #8f73ee 0%, #4e80c9 100%); border-radius:10px;width: 25vw;">
+        <div class="card text card-124">
+          <a class="card-body-b card-124-a" [routerLink]="['/interests']">
             <h5 class="card-title">{{interestlist.length}}</h5>
-            <p class="card-text-a" style="margin-left: 20%;">Interests <br /> <i class="fa fa-plus"
-                style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
+            <p class="card-text-a card-123-text">Interests <br /><i class="fa fa-plus card-i" aria-hidden="true"></i>
+            </p>
           </a>
         </div>
         <br />
         <br />
       </div>
-      <div class="container"  style="margin-left: 1%; display: flex;background-color: #00000000;">
-        <div class="card text" style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;">
-          <a class="card-body-c" [routerLink]="['/events']"
-            style="background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%); border-radius:10px;width: 25vw;">
+      <div class="container c1">
+        <div class="card text card-125">
+          <a class="card-body-c card-125-a" [routerLink]="['/events']">
             <h5 class="card-title">{{evn_list.length}}</h5>
-            <p class="card-text-a" style="margin-left: 20%;">Events <br /> <i class="fa fa-calendar"
-                style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
+            <p class="card-text-a card-123-text">Events<br /><i class="fa fa-calendar card-i" aria-hidden="true"></i>
+            </p>
           </a>
         </div>
-        <div class="card text" style="width:25vw;margin-left: 10%; margin-top: 5%;border-radius: 10px;">
-          <a class="card-body-c" [routerLink]="['/academics']"
-            style="background: #FDC830;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #F37335, #FDC830);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #F37335, #FDC830); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            ; border-radius:10px;width: 25vw;">
+        <div class="card text card-124">
+          <a class="card-body-c card-126-a" [routerLink]="['/academics']">
             <h5 class="card-title">{{acadlist.length}}</h5>
-            <p class="card-text-a" style="margin-left: 20%;">Academics <br /> <i class="fa fa-book"
-                style="font-size: 225%; color:white; padding-left: 15vw;" aria-hidden="true"></i> </p>
+            <p class="card-text-a card-123-text" style="margin-left: 20%;">Academics <br /> <i class="fa fa-book card-i"
+                aria-hidden="true"></i> </p>
           </a>
         </div>
       </div>
       <mat-card style="margin-top: 20%; box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.699);">
-        <mat-card-content >
-          <h2  style="font-size: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
+        <mat-card-content>
+          <h2 style="font-size: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
           <div class="container" *ngFor="let evn of upcoming" style="margin-top:10%;">
-          <h4>{{evn.evnName}}</h4>
-          <h5>{{day[mydate.getDay()]}}</h5>
+            <h4>{{evn.evnName}}</h4>
+            <h5>{{day[mydate.getDay()]}}</h5>
             <h5>{{evn.Date}}</h5>
             <a target="_blank" style="color: blue;" href="https://{{evn.evnOrganizerPage}}">{{evn.evnOrganizerPage}}</a>
-
           </div>
         </mat-card-content>
       </mat-card>

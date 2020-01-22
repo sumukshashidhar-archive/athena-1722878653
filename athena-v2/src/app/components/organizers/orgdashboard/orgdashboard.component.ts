@@ -22,6 +22,9 @@ export var decoded: any;
   styleUrls: ['./orgdashboard.component.css']
 })
 export class OrgdashboardComponent implements OnInit {
+  months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+  "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+  day=["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THRUSDAY","FRIDAY","SATURDAY"]
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
       if (matches) {
@@ -45,6 +48,11 @@ export class OrgdashboardComponent implements OnInit {
   username: any;
   path: "";
   ach_list: any;
+  mydate:any
+  date:any
+  month:any
+  today:any
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
@@ -57,6 +65,11 @@ export class OrgdashboardComponent implements OnInit {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var email = decodedtoken["email"];
+    this.mydate = new Date();
+    this.date=this.mydate.getDate()
+    this.month = this.months[this.mydate.getMonth()];
+    this.today=this.day[this.mydate.getDay()]
+
   }
 
   fileChange(element) {

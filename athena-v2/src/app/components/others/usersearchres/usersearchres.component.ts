@@ -13,8 +13,12 @@ export class UsersearchresComponent implements OnInit {
   thisacadlist=this.search.userDetails.obj['Academics']
   thisacadlistA=[];
   profilepic:any=this.search.userDetails.dp
+  Rank: any;
+  ach_list: any;
+  desc: any;
+  img: any;
 
-  constructor(public search: SearchService,private http:HttpClient) { 
+  constructor(public search: SearchService,private http:HttpClient) {
     console.log(this.user['Academics'])
     console.log(this.thisacadlist)
   }
@@ -29,6 +33,24 @@ export class UsersearchresComponent implements OnInit {
       this.thisacadlistA[0]=res as Academics
       console.log(this.thisacadlist)
     })
+  }
+  thisAch(id:any){
+    console.log(id)
+    this.DoIt(id);
+  }
+  DoIt(id:any){
+    console.log(id)
+    for(var i=0;i<this.user.Achievement.length;i++){
+      if(this.user.Achievement[i]._id==id){
+       this.desc=this.user.Achievement[i].Description
+       this.img=this.user.Achievement[i].Image
+       console.log(this.desc)
+       console.log(this.img)
+       this.Rank=this.user.Achievement[i].achRank
+
+      }
+    }
+
   }
 
   ngOnInit() {

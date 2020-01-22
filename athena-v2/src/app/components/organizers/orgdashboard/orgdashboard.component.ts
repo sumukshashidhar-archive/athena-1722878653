@@ -122,7 +122,7 @@ export class OrgdashboardComponent implements OnInit {
   }
 
   search(form: NgForm) {
-    form.value['usecase'] = 1
+    form.value['usecase'] = 2;
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {

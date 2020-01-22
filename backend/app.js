@@ -276,7 +276,7 @@ app.post('/register', async function (req, res) {
                         username: req.body.email,
                         userType: "Student",
                         password: BCRYPT_PASSWORD_HASH,
-                        profilePic: "lak.png",
+                        profilePic: "dp.png",
                         LastSeen: Date.now(),
                         Bio: req.body.bio,
                         Interests: " ",
@@ -371,7 +371,7 @@ app.post('/registerorganizer', function (req, res) {
                     username: req.body.OrganizerEmail,
                     userType: "Organizer",
                     password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "lak.png",
+                    profilePic: "dp.png",
                     Verified: false
                 });
 

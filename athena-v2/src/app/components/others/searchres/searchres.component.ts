@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 export class SearchresComponent implements OnInit {
   results: any = this.search.results;
   userResults: any = this.search.userResults;
+  orgResults: any = this.search.orgResults;
   interestResults: any = this.search.interestResults;
 
   selected = new FormControl(0);

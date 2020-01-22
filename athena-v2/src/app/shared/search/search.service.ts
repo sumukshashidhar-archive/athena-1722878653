@@ -17,6 +17,7 @@ export class SearchService {
   interestResults: any; // Interest Search Results
   tabChange: any; // Searchres page tab
   tabAgain: any; // Searchres2 page tab
+  orgResults: any; // Organizer userr search results
 
   userDetails: any; //User click on user details
 

@@ -6,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
 import { AcademicsService } from "./../../../shared/academics/academics.service";
 export var File;
 export var Image;
+import * as jwt_decode from "jwt-decode";
 @Component({
   selector: "app-academics",
   templateUrl: "./academics.component.html",
@@ -16,7 +17,7 @@ export class AcademicsComponent implements OnInit {
   Image: any;
   acadlist: any;
   thisacadlist = [];
-
+  thisacadlistA=[]
   constructor(
     public academicSerice: AcademicsService,
     private http: HttpClient,
@@ -47,17 +48,21 @@ export class AcademicsComponent implements OnInit {
         this.router.navigate(['/login'])
       });
   }
-  getThisAcad(acId: any) {
-    this.http
-      .post("http://localhost:3000/getSpecicifAc", { acId })
-      .subscribe(res => {
-        console.log("RESPONSE FOR GET ACADEMIC");
-        console.log(res);
-        this.thisacadlist[0] = res as Academics;
-        console.log(this.thisacadlist);
-      });
-  }
+  getThisAcad(form: NgForm, acId:any){
+    var decoded = localStorage.getItem("access_token");
+    var decodedtoken = jwt_decode(decoded);
 
+    form.value['email'] = decodedtoken['email']
+    form.value['acId'] = acId
+    console.log(form.value)
+    this.http.post("http://localhost:3000/getSpecicifAc",form.value).subscribe(res=>{
+      console.log('RESPONSE FOR GET ACADEMIC')
+      console.log(res)
+      console.log(acId)
+      this.thisacadlistA[0]=res as Academics
+      console.log(this.thisacadlist)
+    })
+  }
   onSubmit(form: NgForm) {
     File = (document.getElementById("file1") as HTMLInputElement).files;
     form.value["Image"] = File[0].name;

@@ -15,13 +15,13 @@ body {
   background:  #00000000 ;
 }
 .mat-card{
-  background:#00000000;
+  background:#f2f2f7;
   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
   border-radius: 10px;
 }
 
 .rm{
-  background-color: #00000000;
+  background-color: #f2f2f7;
   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
 }
 img {

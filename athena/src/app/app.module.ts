@@ -22,7 +22,6 @@ import { SignupComponent } from './components/students/signup/signup.component';
 import { InterestsComponent } from './components/students/interests/interests.component';
 import { EventsOrganizerComponent } from './components/organizers/events-organizer/events-organizer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OrganizerDashboardComponent } from './components/organizers/organizer-dashboard/organizer-dashboard.component';
 import { SignupOrganizerComponent } from './components/organizers/signup-organizer/signup-organizer.component';
 import { CommonsignupComponent } from './components/others/commonsignup/commonsignup.component';
 import { DiscoverComponent } from './components/others/discover/discover.component';
@@ -51,12 +50,8 @@ import { ArchiveComponent } from './components/others/archive/archive.component'
 import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component';
 import { NordComponent } from './components/nord/nord.component';
 import { MainNavComponent } from './components/ui-components/main-nav/main-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { OrgdashboardComponent } from './components/organizers/orgdashboard/orgdashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -68,7 +63,6 @@ import { MatListModule } from '@angular/material/list';
     SignupComponent,
     InterestsComponent,
     EventsOrganizerComponent,
-    OrganizerDashboardComponent,
     SignupOrganizerComponent,
     CommonsignupComponent,
     DiscoverComponent,
@@ -92,6 +86,7 @@ import { MatListModule } from '@angular/material/list';
     EventsnordComponent,
     NordComponent,
     MainNavComponent,
+    OrgdashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,13 +102,7 @@ import { MatListModule } from '@angular/material/list';
     JwtModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     RecaptchaFormsModule,
-    TransferHttpCacheModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
+    TransferHttpCacheModule
   ],
   providers: [
     EventService,

@@ -276,7 +276,7 @@ app.post('/register', async function (req, res) {
                         username: req.body.email,
                         userType: "Student",
                         password: BCRYPT_PASSWORD_HASH,
-                        profilePic: "lak.png",
+                        profilePic: "dp.png",
                         LastSeen: Date.now(),
                         Bio: req.body.bio,
                         Interests: " ",
@@ -371,7 +371,7 @@ app.post('/registerorganizer', function (req, res) {
                     username: req.body.OrganizerEmail,
                     userType: "Organizer",
                     password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "lak.png",
+                    profilePic: "dp.png",
                     Verified: false
                 });
 
@@ -1024,8 +1024,9 @@ app.post('/getSpecicifAc', async function (req, res) {
             console.log(err);
         }
         else {
+            console.log(obj.Academics[req.body.acId])
             res.send(obj.Academics[req.body.acId]);
-            // console.log(req.body)
+             
         }
     });
 });

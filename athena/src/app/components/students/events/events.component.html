@@ -1,6 +1,6 @@
 <app-loading *ngIf="showSpinner"></app-loading>
 
-<app-main-nav>
+<app-main-nav *ngIf="!showSpinner">
   <body *ngIf="!showSpinner">
     <div class="container">
       <mat-tab-group [selectedIndex]="selected.value">

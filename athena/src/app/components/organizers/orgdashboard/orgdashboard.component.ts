@@ -58,7 +58,7 @@ export class OrgdashboardComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private router: Router,
-    private data: SearchService,
+    public data: SearchService,
     private http: HttpClient,
     public eventService: EventService,
     private ach: AchievementsService

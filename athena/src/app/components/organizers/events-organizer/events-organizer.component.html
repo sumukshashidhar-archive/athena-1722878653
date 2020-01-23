@@ -40,7 +40,7 @@
                   </mat-card-content>
                   <mat-card-actions>
                     <form #e="ngForm">
-                      <button mat-raised-button  class="rm" (click)="sendDetails(e, evn._id)">READ MORE</button>
+                      <button mat-raised-button class="rm" (click)="sendDetails(e, evn._id)">READ MORE</button>
                     </form>
                   </mat-card-actions>
                 </mat-card>
@@ -62,113 +62,94 @@
         </div>
         <div class="modal-body">
           <form #f="ngForm" (ngSubmit)="f.valid && onSubmit(f)">
-            <div class="form-group">
-              <label class="control-label">Event Name</label>
-              <div>
-                <input maxlength="32" type="text" class="form-control input-lg" value="" required ngModel
-                  name="evnName" #evnName="ngModel" [(ngModel)]="eventService.selectedEvent.evnName" />
-                <span class="help-block" *ngIf="!evnName.valid && evnName.touched">Please enter Event
-                  Name</span>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label">Event Website Link</label>
-              <div>
-                <input type="text" class="form-control" required ngModel name="evnOrganizerPage"
-                  #evnOrganizerPage="ngModel" [(ngModel)]="eventService.selectedEvent.evnOrganizerPage" />
-                <span class="help-block" *ngIf="!evnOrganizerPage.valid && evnOrganizerPage.touched">Please add
-                  a
-                  link
-                  to your website</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event Starting Date</label>
-              <div>
-                <input maxlength="32" max="01-01-2025" (change)="setMaxDate()" type="date" id="evnDate1" required
-                  ngModel name="evnDate1" #evnDate1="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate1"
-                  [min]="maxDate">
-                <p class="help-block" *ngIf="!evnDate1.valid && evnDate1.touched">
-                  Please add Event date
-                </p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event Ending Date</label>
-              <div>
-                <input id="evnDate2" max="01-01-2025" maxlength="32" type="date" id="evnDate2" required ngModel
-                  name="evnDate2" #evnDate2="ngModel" [(ngModel)]="eventService.selectedEvent.evnDate2"
-                  [min]="newDate">
-                <span class="help-block" *ngIf="!evnDate2.valid && evnDate2.touched">
-                  Please add Event date
-                </span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event Address Line 1</label>
-              <div>
-                <input maxlength="32" type="text" id="evn" class="form-control" name="evnAdd1" required ngModel
-                  #evnAdd1="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd1" />
-                <span class="help-block" *ngIf="!evnAdd1.valid && evnAdd1.touched">Please Enter Event
-                  Address Line 1</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event Address Line 2</label>
-              <div>
-                <input maxlength="32" type="text" id="evn" class="form-control" name="evnAdd2" required ngModel
-                  #evnAdd2="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd2" />
-                <span class="help-block" *ngIf="!evnAdd2.valid && evnAdd2.touched">Please Enter Event
-                  Address Line 2</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event City</label>
-              <div>
-                <input maxlength="32" type="text" id="evn" class="form-control" name="evnCity" required ngModel
-                  #evnCity="ngModel" [(ngModel)]="eventService.selectedEvent.evnCity" />
-                <span class="help-block" *ngIf="!evnCity.valid && evnCity.touched">Please Enter Event City</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Pincode</label>
-              <div>
-                <input type="number" max="999999" class="form-control" name="evnPincode" required ngModel
-                  #evnPincode="ngModel" [(ngModel)]="eventService.selectedEvent.evnPincode">
-                <span class="help-block" *ngIf="!evnPincode.valid && evnPincode.touched">Please Enter Event
-                  Pincode</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Contact Number</label>
-              <div>
-                <input max="9999999999" type="number" class="form-control" pattern="[6789][0-9]{9}" required ngModel
-                  name="evnOrganizerContact" #evnOrganizerContact="ngModel"
-                  [(ngModel)]="eventService.selectedEvent.evnOrganizerContact" />
-                <span class="help-block" *ngIf="
-              !evnOrganizerContact.valid && evnOrganizerContact.touched
-            ">Please Enter a Valid contact Number</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Event Description</label>
-              <div>
-                <input type="text" class="form-control" required ngModel name="evnDescription"
-                  #evnDescription="ngModel" [(ngModel)]="eventService.selectedEvent.evnDescription">
-                <span class="help-block" *ngIf="!evnDescription.valid && evnDescription.touched">Please Enter A
-                  Description</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label">Target Age</label>
-              <div>
-                <input type="number" maxlength="3" max="99" class="form-control" required ngModel
-                  name="evnTargetAge" #evnTargetAge="ngModel" [(ngModel)]="eventService.selectedEvent.evnTargetAge">
-                <span class="help-block" *ngIf="!evnTargetAge.valid && evnTargetAge.touched">Please Enter Target
-                  Age</span>
-              </div>
-            </div>
+            <mat-form-field>
+              <input maxlength="32" matInput placeholder="Event Name" type="text" value="" required ngModel
+                name="evnName" #evnName="ngModel" [(ngModel)]="eventService.selectedEvent.evnName" />
+              <mat-error class="help-block">Please enter Event
+                Name</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input type="text" matInput required placeholder="Event Website" ngModel name="evnOrganizerPage"
+                #evnOrganizerPage="ngModel" [(ngModel)]="eventService.selectedEvent.evnOrganizerPage" />
+              <mat-error class="help-block">Please add
+                a
+                link
+                to your website</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input maxlength="32" matInput max="01-01-2025" placeholder="Event Starting Date" (change)="setMaxDate()"
+                type="date" id="evnDate1" required ngModel name="evnDate1" #evnDate1="ngModel"
+                [(ngModel)]="eventService.selectedEvent.evnDate1" [min]="maxDate">
+              <mat-error class="help-block">
+                Please add Event date
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput placeholder="Event Ending Date" id="evnDate2" max="01-01-2025" maxlength="32" type="date"
+                id="evnDate2" required ngModel name="evnDate2" #evnDate2="ngModel"
+                [(ngModel)]="eventService.selectedEvent.evnDate2" [min]="newDate">
+              <mat-error class="help-block">
+                Please add Event date
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput placeholder="Address Line 1" maxlength="32" type="text" id="evn" name="evnAdd1" required
+                ngModel #evnAdd1="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd1" />
+              <mat-error class="help-block" *ngIf="!evnAdd1.valid && evnAdd1.touched">Please Enter Event
+                Address Line 1</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput maxlength="32" placeholder="Address Line 2" matInput type="text" id="evn" name="evnAdd2"
+                required ngModel #evnAdd2="ngModel" [(ngModel)]="eventService.selectedEvent.evnAdd2" />
+              <mat-error class="help-block">Please Enter Event
+                Address Line 2</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input maxlength="32" name="city" required ngModel [(ngModel)]="eventService.selectedEvent.evnCity" matInput
+                type="text" placeholder="Enter your City" [matAutocomplete]="auto" [formControl]="myControl" />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error class="help-block">Enter your city</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput type="number" placeholder="Event Pincode" max="999999" name="evnPincode" required ngModel #evnPincode="ngModel"
+                [(ngModel)]="eventService.selectedEvent.evnPincode">
+              <mat-error class="help-block" *ngIf="!evnPincode.valid && evnPincode.touched">Please Enter Event
+                Pincode</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput placeholder="Contact Number" max="9999999999" type="number" pattern="[6789][0-9]{9}" required ngModel
+                name="evnOrganizerContact" #evnOrganizerContact="ngModel"
+                [(ngModel)]="eventService.selectedEvent.evnOrganizerContact" />
+              <mat-error class="help-block" *ngIf="!evnOrganizerContact.valid && evnOrganizerContact.touched">
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput type="text" required ngModel placeholder="Event Description" name="evnDescription" #evnDescription="ngModel"
+                [(ngModel)]="eventService.selectedEvent.evnDescription">
+              <mat-error class="help-block" *ngIf="!evnDescription.valid && evnDescription.touched">Please Enter A
+                Description</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput type="number" maxlength="3" placeholder="Target Age" max="99" required ngModel name="evnTargetAge"
+                #evnTargetAge="ngModel" [(ngModel)]="eventService.selectedEvent.evnTargetAge">
+              <mat-error class="help-block" *ngIf="!evnTargetAge.valid && evnTargetAge.touched">Please Enter Target
+                Age</mat-error>
+            </mat-form-field>
+            <br>
             <div class="form-group">
               <label class="control-label">Upload an Image</label>
               <div class="custom-file mb-3">
@@ -180,8 +161,7 @@
             <div class="form-group">
               <label class="control-label">Category Name</label>
               <div>
-                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config"
-                  [options]="categoryOption">
+                <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="categoryOption">
                 </ngx-select-dropdown>
                 <label class="control-label">Sub category Name</label>
                 <ngx-select-dropdown [multiple]="true" name="subCatName" [(ngModel)]="subCatName"
@@ -190,8 +170,8 @@
             </div>
             <div class="form-group">
               <div>
-                <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal"
-                  data-target="#exampleModal" (click)="onSubmit(f)">
+                <button class="btn btn-primary" [disabled]="!f.valid" data-dismiss="modal" data-target="#exampleModal"
+                  (click)="onSubmit(f)">
                   Register
                 </button>
               </div>

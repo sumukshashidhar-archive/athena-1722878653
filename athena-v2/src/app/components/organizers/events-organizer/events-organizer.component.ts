@@ -1,15 +1,19 @@
 import { AuthService } from "./../../../shared/auth/auth.service";
+import { cities } from './../../others/cities'
 import { HttpClient } from "@angular/common/http";
 import { Event } from "./../../../shared/events/event.model";
 import { Component, OnInit } from "@angular/core";
 import { SearchService } from "./../../../shared/search/search.service";
 import { InterestsService } from './../../../shared/interests/interests.service'
 import * as jwt_decode from "jwt-decode";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormControl, FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventService } from "./../../../shared/events/event.service";
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatAutocomplete } from '@angular/material/autocomplete'
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export var decoded: any;
 export var File;
@@ -30,6 +34,7 @@ export class EventsOrganizerComponent implements OnInit {
   myEvents: any
   y: any;
   x: any;
+  cities = cities;
   profileUrlExists = false;
   imageToShow: any;
   config = {
@@ -50,6 +55,10 @@ export class EventsOrganizerComponent implements OnInit {
   categoryOption: any;
   subcatOptions: any;
   noOfChoice = new Array<string>();
+
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+
   decoded: any;
   constructor(
     public eventService: EventService,
@@ -80,7 +89,19 @@ export class EventsOrganizerComponent implements OnInit {
     if (decodedtoken["role"] == "Org") {
       this.username = decodedtoken["name"];
     }
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.cities.filter(option => 
+        option.toLowerCase().includes(filterValue)
+      )
+  }
+
   logout() {
     this.auth.logout();
   }

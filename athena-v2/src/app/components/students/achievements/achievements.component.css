@@ -29,6 +29,9 @@ font-size:20px;
   border:none;
 }
 
+.cr{
+  margin-left: -25%;
+}
 
 .rank{
   max-width: 25%;
@@ -466,25 +469,10 @@ img{
       width: 100%;
       margin-left: 25vw;
     }
+    .cr{
+      margin-left: -20%;
+    }
   }
-/*
-.card {
-  /* display: inline;
-  float: left; */
-  /* display: inline-block;
-  cursor: pointer;
-  border: 1px solid #eeeeee; */
-
-      /* border-radius: 6px; */
-  /* additional css to equalize the cards */
-  /* display:table;
-  table-layout:fixed;
-  height:50%;
-  box-shadow: 0 12px 24px 0 rgba(0,0,0,0.04);
-  padding: 16px;
-  text-align: center;
-  background-color: #f1f1f1; */
-/* }  */
 
 .image img {
   float: left;

@@ -16,6 +16,9 @@ import { MatSelectModule, MatNativeDateModule } from '@angular/material'
 import { MatListModule } from '@angular/material'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+import { LayoutModule } from '@angular/cdk/layout'
 
 @NgModule({
   imports: [
@@ -35,7 +38,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule,
+    MatGridListModule,
+    LayoutModule
   ],
   exports: [
     MatSidenavModule,
@@ -54,7 +60,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule,
+    MatGridListModule,
+    LayoutModule
   ]
 })
 export class MaterialModule {}

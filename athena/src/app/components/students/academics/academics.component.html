@@ -14,8 +14,11 @@
           <td>{{acad.testName}}</td>
           <td>{{acad.testRank}}</td>
           <td>{{acad.testScore}}</td>
-          <td><button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(acad.id)"
-              data-target="#acadModal">Click to view Details</button></td>
+          <td>
+            <form #k="ngForm">
+              <button type="button" class="btn btn-outline-success" data-toggle="modal" (click)="getThisAcad(k,acad.id)"
+                data-target="#acadModal">Click to view Details</button>
+              </form>
         </tr>
       </tbody>
     </table>
@@ -82,9 +85,10 @@
         </button>
       </div>
       <div class="modal-body" style="max-height:70vw;padding:0">
-        <div class="card w-100 " *ngFor="let acad of thisacadlist" style="border-radius: 10px;margin-top: 5vw;">
+        <div class="card " *ngFor="let acad of thisacadlistA"
+          style="border-radius: 10px;margin-top: 0;margin-left: 10%;max-width:80%;max-height: 80%;align-items: center">
           <div class="card-title">{{acad.name}}</div>
-          <div class="card-body">
+          <div class="card-body acadinfo">
             <h4 style="font-weight: 100;text-align: center;">{{acad.testName}}</h4>
             <h6 style="font-weight: 200;">Score:{{acad.testScore}}</h6>
             <h6 style="font-weight: 200;">Rank:{{acad.testRank}}</h6>
@@ -95,3 +99,4 @@
     </div>
   </div>
 </div>
+

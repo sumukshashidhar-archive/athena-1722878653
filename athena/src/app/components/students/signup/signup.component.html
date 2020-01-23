@@ -15,7 +15,7 @@
           <h1>Student Signup</h1>
         </mat-card-header>
         <!-- Card header ends -->
-        <mat-vertical-stepper [linear]="isLinear"  style="background-color: #00000000;" #stepper>
+        <mat-vertical-stepper [linear]="isLinear" style="background-color: #00000000;" #stepper>
           <mat-step [stepControl]="firstFormGroup" style="background-color: #00000000;">
             <ng-template matStepLabel>Enter Main Details</ng-template>
             <form #f="ngForm">
@@ -76,8 +76,8 @@
               </mat-form-field>
               <br />
               <mat-form-field>
-                <input maxlength="32" name="city" required ngModel [(ngModel)]="userService.selectedUser.city" matInput type="text"
-                  placeholder="Enter your City" [matAutocomplete]="auto" [formControl]="myControl" />
+                <input maxlength="32" name="city" required ngModel [(ngModel)]="userService.selectedUser.city" matInput
+                  type="text" placeholder="Enter your City" [matAutocomplete]="auto" [formControl]="myControl" />
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                     {{ option }}
@@ -159,7 +159,7 @@
                 }
 
               </script>
-              <button id="btnSubmit"  class="rm" [disabled]="!h.valid || !Captchaval" mat-button type="submit">
+              <button id="btnSubmit" class="rm" [disabled]="!h.valid || !Captchaval" mat-button type="submit">
                 Create
               </button>
             </form>

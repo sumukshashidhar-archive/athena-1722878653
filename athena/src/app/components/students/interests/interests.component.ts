@@ -45,6 +45,7 @@ export class InterestsComponent implements OnInit {
     this._snackBar.open(message, action, {
       duration: 5000
     });
+    location.reload();
   }
 
   logout() {

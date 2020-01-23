@@ -4,8 +4,8 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'push'"
-      [opened]="(isHandset$ | async) === true">
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
     <mat-toolbar style="color: white">{{ username }}</mat-toolbar>
     <mat-nav-list *ngIf="isStudent">
       <a mat-list-item [routerLink]="['/dashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
@@ -18,7 +18,7 @@
       <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
     </mat-nav-list>
     <mat-nav-list *ngIf="isOrg">
-      <a mat-list-item [routerLink]="['/organizerdashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
+      <a mat-list-item [routerLink]="['/orgdashboard']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-home" style="margin-right: 1rem;"></i>Dashboard</a>
       <a mat-list-item [routerLink]="['/eventsorg']" routerLinkActive="router-link-active" style="color: white"><i class="fa fa-calendar" style="margin-right: 1rem;"></i>Events</a>
       <a mat-list-item [routerLink]="['/discover']" routerLinkActive="router-link-active" style="color: white" ><i class="fa fa-search" style="margin-right: 1rem;"></i>Discover</a>
       <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
@@ -36,6 +36,7 @@
       <a [routerLink]="['/']" routerLinkActive="router-link-active" style="text-decoration: none; color: black"><span>Athena</span></a>
     </mat-toolbar>
     <!-- Add Content Here -->
-    <ng-content></ng-content>
+    <ng-content class="content-box">
+    </ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

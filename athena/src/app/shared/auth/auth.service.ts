@@ -38,10 +38,7 @@ export class  AuthService {
       this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/dashboard', token )
 
     }
-    public getIPAddress()
-    {
-      return this.http.get("https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=json");
-    }
+
   logout() {
     var token=localStorage.getItem('access-token')
     console.log('LOGGING OUT')

@@ -1449,16 +1449,36 @@ return(false)
 var mms = require('./microservices/ml-data-exports')
 
 
-async function add(interests, evnInterests) {
-    var to_add = new Array()
+async function add(interests, evnInterests, uservector) {
+    var to_add = new Array() //Defining the array where we add the interests
+    
+    
+
+
+
     for(let i=0; i < evnInterests; i++) {
         if(binarySearch(interests, evnInterests[i])) {
+            if(binarySearch(uservector, evnInterests[i])) {
+
+            }
+            else {
+                to_add.push(evnInterests[i])
+            }
             console.log('no')
         }
         else {
             to_add.push(evnInterests[i])
         }
+        for(let j=0; j<to_add.length; j++) {
+            uservector.push(to_add[i])
+        }
+        uservector.sort()
     }
+
+
+    Student.findOne({_id: id}, {uservector: 1}, function(err, obj) {
+
+    })
 }
 
 //NOT TESTED
@@ -1468,7 +1488,7 @@ app.post('/click-on-events', function (req, res) {
             console.log('INTERNAL ERROR. ', err);
         }
         else {
-            Student.findOne({ _id: decodedToken.usrid }, function (err, MONGO_OBJ_RETURN) {
+            Student.findOne({ _id: decodedToken.usrid }, {Interests: 1, uservector: 1}, function (err, MONGO_OBJ_RETURN) {
                 if (err) {
                     console.log(err)
                     res.status(403).send('Unauthorized JWT')
@@ -1483,7 +1503,7 @@ app.post('/click-on-events', function (req, res) {
                                 if (EVNobj) {
                                     console.log('Works')
                                     mms.export(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'])
-                                    add(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'])
+                                    add(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'], MONGO_OBJ_RETURN['uservector'])
                                     res.status(200).send(EVNobj)
                                 }
                                 else {

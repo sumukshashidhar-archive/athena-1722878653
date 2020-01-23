@@ -1,0 +1,53 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 10px;
+
+}
+.card:hover{
+  transform: scale(1.1);
+}
+.card{
+  margin-left:35%;padding:12%;width:50%;position:absolute;bottom:3%;border-radius: 10px;text-decoration: none;
+}
+.card-2{
+  background: #ffff3b;
+  background-size: cover;
+}
+.card-1{
+  background:#fcfcfc;
+}
+.search:hover{
+transform: scale(1.1);
+}
+
+.card-3{
+  background: #f0596a;
+  background-size: cover;
+}
+
+.card-1, .card-3 {
+  cursor: pointer;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+body {
+  background: linear-gradient(to right, #2193b0, #6dd5ed);
+}
+

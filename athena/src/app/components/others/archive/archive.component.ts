@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from './../../../shared/search/search.service'
 import { NgForm, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EventService } from './../../../shared/events/event.service';
 
 @Component({
   selector: 'app-archive',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class ArchiveComponent implements OnInit {
   selected = new FormControl(0);
 
-  constructor(public data: SearchService, private router: Router) { }
+  constructor(public data: SearchService, private router: Router, public eventService: EventService) { }
 
   ngOnInit() {
     this.settingTabValue();
@@ -28,7 +29,8 @@ export class ArchiveComponent implements OnInit {
       res => {
         this.data.tabAgain = 1
         this.data.results = null;
-        this.data.results = res;
+        var x = this.eventService.changeDate(res)
+        this.data.results = x;
         this.router.navigate(['/searchres2'])
       },
       err => {
@@ -48,7 +50,8 @@ export class ArchiveComponent implements OnInit {
       res => {
         this.data.tabAgain = 0
         this.data.results = null;
-        this.data.results = res;
+        var x = this.eventService.changeDate(res)
+        this.data.results = x;
         this.router.navigate(['/searchres2'])
       },
       err => {

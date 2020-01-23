@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import * as jwt_decode from "jwt-decode";
 import { MatSnackBar } from "@angular/material";
-import { EventService } from './../../../shared/events/event.service'
+import { EventService } from "./../../../shared/events/event.service";
 
 @Component({
   selector: "app-discover",
@@ -68,12 +68,15 @@ export class DiscoverComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
   onSubmit(form: NgForm) {
-    form.value['usecase'] = 1
+    form.value["usecase"] = 1;
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {
         this.data.results = null;
-        var x = this.eventService.changeDate(res)
+        this.data.userResults = null;
+        this.data.interestResults = null;
+        this.data.orgResults = null;
+        var x = this.eventService.changeDate(res);
         this.data.results = x;
         console.log(res);
         this.data.tabChange = 0;
@@ -98,7 +101,10 @@ export class DiscoverComponent implements OnInit {
     this.data.postUserSearch(form.value).subscribe(
       res => {
         console.log(res);
+        this.data.results = null;
         this.data.userResults = null;
+        this.data.interestResults = null;
+        this.data.orgResults = null;
         this.data.userResults = res;
         this.data.tabChange = 1;
         this.router.navigate(["/searchres"]);
@@ -144,6 +150,10 @@ export class DiscoverComponent implements OnInit {
       console.log(arr);
       this.data.postInterestSearch(arr).subscribe(
         res => {
+          this.data.results = null;
+          this.data.userResults = null;
+          this.data.orgResults = null;
+          this.data.interestResults = null;
           this.data.interestResults = res;
           this.data.tabChange = 2;
           console.log(res);
@@ -157,47 +167,53 @@ export class DiscoverComponent implements OnInit {
     }
   }
 
-  eventsearchByInterest(){
+  eventsearchByInterest() {
     if (this.subCatName == null) {
       this.openSnackBar("Please Enter Category", "Close");
       return;
     }
-    let arr = [] 
-    arr.push(this.subCatName)
-    console.log(arr)
+    let arr = [];
+    arr.push(this.subCatName);
+    console.log(arr);
     this.data.postEventSearch(arr).subscribe(
       res => {
-        console.log(res)
-        var x = this.eventService.changeDate(res)
+        console.log(res);
+        var x = this.eventService.changeDate(res);
         this.data.results = null;
+        this.data.userResults = null;
+        this.data.orgResults = null;
+        this.data.interestResults = null;
         this.data.results = x;
         console.log(res);
         this.data.tabChange = 0;
-        this.router.navigate(['/searchres'])
+        this.router.navigate(["/searchres"]);
       },
       err => {
-        console.log(err)
-        this.openSnackBar("No Events Found", "Close")
+        console.log(err);
+        this.openSnackBar("No Events Found", "Close");
       }
-    )
+    );
   }
 
-  orgSearch(form: NgForm){
+  orgSearch(form: NgForm) {
     this.data.postOrgSearch(form.value).subscribe(
       res => {
+        this.data.results = null;
         this.data.userResults = null;
-        this.data.userResults = res;
+        this.data.orgResults = null;
+        this.data.interestResults = null;
+        this.data.orgResults = res;
         this.data.tabChange = 3;
-        this.router.navigate(['/searchres'])
-        console.log(res)
+        this.router.navigate(["/searchres"]);
+        console.log(res);
       },
       err => {
-        console.log(err)
+        console.log(err);
       }
-    )
+    );
   }
 
-  tabChange1(){
+  tabChange1() {
     this.data.tabAgain = 0;
   }
 }

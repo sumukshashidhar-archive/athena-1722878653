@@ -25,14 +25,21 @@ export class DashboardComponent implements OnInit {
   profileUrlExists = false;
   interestlist: any;
   showLoading: any = true;
-
+  mydate:any
+  month:any
+  str:any
   imageToShow: any;
   uploadedFiles: Array<File>;
   username: any;
+  months = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"]
   file: any;
   path: "";
   ach_list: any;
   evn_list: any;
+  upcoming=[]
+  day=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  acadlist: any;
   constructor(
     @Inject(LOCAL_STORAGE) private localStorage: any,
 
@@ -65,13 +72,30 @@ export class DashboardComponent implements OnInit {
       console.log(res)
       this.interestlist=res['obj']['Interests']
       this.ach_list=res['obj']['Achievement']
+      this.acadlist=res['obj']['Academics']
     })
   }
+
   getEvents() {
     this.eventService.getFollowEvents().subscribe(
       res => {
         console.log(res);
         this.evn_list = res;
+        var x=this.eventService.changeDate(res)
+        this.evn_list=x
+        for(var i=0;i<this.evn_list.length;i++){
+        this.mydate = new Date(this.evn_list[i].evnDate1);
+        var today= new Date()
+        this.month = this.months[this.mydate.getMonth()];
+
+        if(this.months[today.getMonth()+1]==this.month){
+          console.log(this.evn_list[i])
+          this.str = this.mydate.getDate()+' '+this.month + ' ' + this.mydate.getFullYear();
+          this.evn_list[i]['Date']=this.str
+          this.upcoming.push(this.evn_list[i])
+          console.log(this.upcoming)
+        }
+        }
         this.showLoading = false
       },
       err => {
@@ -80,6 +104,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
 
   logout() {
     this.auth.logout();

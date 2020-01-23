@@ -135,10 +135,3 @@ sudo npm install npm@latest -g
 ```
 
 It should, theoretically, do the trick. If it does not, then you will have to compile the brain.js libraries yourself before deployment
-
-## EVENT INTERESTS
-1. Go about adding a new event as usual.
-2. Open the modal again.
-3. Click on the "Reach out to more people" tab.
-4. Add the interests you need.
-5. Voila, you have now added interests to your events.

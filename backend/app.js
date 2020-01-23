@@ -1482,10 +1482,7 @@ app.post('/click-on-events', function (req, res) {
                             else {
                                 if (EVNobj) {
                                     console.log('Works')
-                                    mms.export(MONGO_OBJ_RETURN['interests'], EVNobj['evnInterests'])
-
-
-
+                                    mms.export(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'])
                                     
                                 }
                                 else {

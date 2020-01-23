@@ -70,7 +70,7 @@ On the second terminal, you should have an output saying that the server has sta
 4. Achievements Initial Posting
 5. Events 
 6. DaVinci Recommendation System
-7. Reset password, except NODEMAILER
+7. Reset password
 8. Searching for Users and Events and all that
 9. JWT sessions management and Authentication
 10. API Key Signatory and Verification Process
@@ -110,6 +110,7 @@ On the second terminal, you should have an output saying that the server has sta
 **Vijay Dharmaji**
 1. Interests
 2. Academics
+3. Data Entry
 
 ## License
 

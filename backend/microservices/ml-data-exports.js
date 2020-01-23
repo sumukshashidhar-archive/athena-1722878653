@@ -28,6 +28,7 @@ module.exports = {
                     console.log('error')
                 }
                 else {
+                    console.log('obj')
                     res(obj)
                 }
             });

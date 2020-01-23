@@ -2875,7 +2875,7 @@ app.get("/external/usercount/updater", function (req, res) {
 
 app.get('/api/mlstuff', function(req, res){
     console.log('comes here')
-    var result = await mms.import()
+    var result = mms.import()
     console.log(result)
     res.json(result)
 })

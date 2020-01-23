@@ -70,7 +70,7 @@ On the second terminal, you should have an output saying that the server has sta
 4. Achievements Initial Posting
 5. Events 
 6. DaVinci Recommendation System
-7. Reset password, except NODEMAILER
+7. Reset password
 8. Searching for Users and Events and all that
 9. JWT sessions management and Authentication
 10. API Key Signatory and Verification Process
@@ -110,6 +110,7 @@ On the second terminal, you should have an output saying that the server has sta
 **Vijay Dharmaji**
 1. Interests
 2. Academics
+3. Data Entry
 
 ## License
 
@@ -134,10 +135,3 @@ sudo npm install npm@latest -g
 ```
 
 It should, theoretically, do the trick. If it does not, then you will have to compile the brain.js libraries yourself before deployment
-
-## EVENT INTERESTS
-1. Go about adding a new event as usual.
-2. Open the modal again.
-3. Click on the "Reach out to more people" tab.
-4. Add the interests you need.
-5. Voila, you have now added interests to your events.

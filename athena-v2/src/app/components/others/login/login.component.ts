@@ -9,6 +9,7 @@ import { User } from "../../../shared/user/user.model";
 import { decoded } from "../../../shared/auth/auth.service";
 import { SearchService } from "../../../shared/search/search.service";
 import { first } from "rxjs/operators";
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: "app-login",
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
     private Auth: AuthService,
     private router: Router,
     public loginService: LoginService,
+    private _snackBar: MatSnackBar,
     private data: SearchService
   ) {}
 
@@ -38,6 +40,12 @@ export class LoginComponent implements OnInit {
       recaptcha: ["", Validators.required]
     });
     this.data.currentName.subscribe(name => (this.fname = name));
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
 
   onSubmit(form: NgForm) {
@@ -58,6 +66,7 @@ export class LoginComponent implements OnInit {
           console.log("Could not authenticate");
           console.log(err);
           this.error = true;
+          this.openSnackBar("Wrong Password", "Close")
         }
       );
   }

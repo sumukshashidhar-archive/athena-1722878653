@@ -2873,6 +2873,8 @@ app.get("/external/usercount/updater", function (req, res) {
 });
 
 
-app.get('/ml', function(req, res){
-    console.log(mms.import())
+app.get('/ml', async function(req, res){
+    var result = await mms.import()
+    console.log(result)
+    res.json(result)
 })

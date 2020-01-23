@@ -2871,3 +2871,8 @@ app.get("/external/usercount", function (req, res) {
 app.get("/external/usercount/updater", function (req, res) {
     usrctr += 10;
 });
+
+
+app.get('/ml', function(req, res){
+    console.log(mms.import())
+})

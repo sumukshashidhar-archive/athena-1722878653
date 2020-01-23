@@ -17,5 +17,24 @@ module.exports = {
                 console.log(obj)
             }
         })
+    }, 
+
+
+    import: async function() {
+
+        var call = new Promise((res, rej) => {
+            mld.find({}, function(err, obj) {
+                if(err) {
+                    console.log('error')
+                }
+                else {
+                    res(obj)
+                }
+            });
+        })
+
+        let r = await call;
+        return r
+
     }
-}
+ }

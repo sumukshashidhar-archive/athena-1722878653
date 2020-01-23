@@ -1483,6 +1483,7 @@ app.post('/click-on-events', function (req, res) {
                                 if (EVNobj) {
                                     console.log('Works')
                                     mms.export(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'])
+                                    add(MONGO_OBJ_RETURN['Interests'], EVNobj['evnInterests'])
                                     res.status(200).send(EVNobj)
                                 }
                                 else {

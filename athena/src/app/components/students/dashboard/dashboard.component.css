@@ -281,7 +281,8 @@ body {
   width: 25vw;
 }
 
-.card-124 {
+.card-124,
+.card-126 {
   width: 25vw;
   margin-left: 10%;
   margin-top: 5%;
@@ -329,7 +330,19 @@ body {
   background-color: #00000000;
 }
 
+.c2 {
+  margin-left: 5%;
+  display: flex;
+  background-color: #00000000;
+}
+
 .card-i {
+  font-size: 225%;
+  color: white;
+  padding-left: 15vw;
+}
+
+.card-i1 {
   font-size: 225%;
   color: white;
   padding-left: 15vw;
@@ -358,7 +371,7 @@ h2 {
   font-size: 5vw;
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width:767px) {
   .card-text-a {
     text-align: left;
     font-size: 7vw;
@@ -368,6 +381,12 @@ h2 {
     border-radius: 5px;
   }
 
+  mat-card {
+    max-height: 100%;
+    max-width: 100%;
+    margin-left: 10%;
+  }
+
   .main-menu {
     width: 10vw;
   }
@@ -375,15 +394,61 @@ h2 {
   .card-title {
     font-weight: 800;
     color: white;
-    font-size: 7vw;
+    font-size: 3em;
   }
 
-  .card-body-a {
-    width: 100%
+  .card-123-text {
+    font-size: 2em;
   }
 
-  .container {
+  .card-i {
+    padding-left: 40vw;
+  }
+
+  .card-i1 {
+    padding-left: 55vw;
+  }
+
+  .card-124-a {
+    width: 80vw;
+  }
+
+  .card-125-a {
+    width: 80vw;
+  }
+
+
+  .card-126-a {
+    width: 80vw;
+  }
+
+  .card-123-a {
+    width: 80vw;
+  }
+
+  .card-123 {
+    margin-left: 10%;
+  }
+
+
+
+  .c1 {
     display: block;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+
   }
+
+  .c2 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    margin-bottom: -10%;
+  }
+
+  .upcoming {
+    font-size: 1.5em;
+    white-space: nowrap;
+  }
+
 }

@@ -281,7 +281,8 @@ body {
   width: 25vw;
 }
 
-.card-124,.card-126 {
+.card-124,
+.card-126 {
   width: 25vw;
   margin-left: 10%;
   margin-top: 5%;
@@ -328,16 +329,20 @@ body {
   display: flex;
   background-color: #00000000;
 }
-.c2{
-  margin-left: 5%; display: flex;background-color: #00000000;
+
+.c2 {
+  margin-left: 5%;
+  display: flex;
+  background-color: #00000000;
 }
+
 .card-i {
   font-size: 225%;
   color: white;
   padding-left: 15vw;
 }
 
-.card-i1{
+.card-i1 {
   font-size: 225%;
   color: white;
   padding-left: 15vw;
@@ -375,7 +380,8 @@ h2 {
     margin-left: 0;
     border-radius: 5px;
   }
-  mat-card{
+
+  mat-card {
     max-height: 100%;
     max-width: 100%;
     margin-left: 10%;
@@ -390,53 +396,59 @@ h2 {
     color: white;
     font-size: 3em;
   }
-  .card-123-text{
+
+  .card-123-text {
     font-size: 2em;
   }
-  .card-i{
+
+  .card-i {
     padding-left: 40vw;
   }
-  .card-i1{
+
+  .card-i1 {
     padding-left: 55vw;
   }
-  
-.card-124-a {
- width: 80vw;
-}
-  
-.card-125-a {
-  width: 80vw;
- }
- 
-   
-.card-126-a {
-  width: 80vw;
- }
-   
-.card-123-a {
-  width: 80vw;
- }
- .card-123{
-   margin-left: 10%;
- }
-  
- 
- 
-  .c1{
+
+  .card-124-a {
+    width: 80vw;
+  }
+
+  .card-125-a {
+    width: 80vw;
+  }
+
+
+  .card-126-a {
+    width: 80vw;
+  }
+
+  .card-123-a {
+    width: 80vw;
+  }
+
+  .card-123 {
+    margin-left: 10%;
+  }
+
+
+
+  .c1 {
     display: block;
     margin: 0;
-    padding:0;
-  
+    padding: 0;
+
   }
-  .c2{
+
+  .c2 {
     display: block;
     margin: 0;
     padding: 0;
     margin-bottom: -10%;
   }
-  .upcoming{
+
+  .upcoming {
     font-size: 1.5em;
     white-space: nowrap;
   }
-  
+
 }

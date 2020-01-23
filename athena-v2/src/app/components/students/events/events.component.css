@@ -1,7 +1,7 @@
 .example-card {
-  margin: 3rem;
-  width: 24rem;
-  height: 35rem;
+  margin: 1rem;
+  width: 20rem;
+  height: 37rem;
 }
 
 .example-header-image {
@@ -12,24 +12,28 @@
 body {
   height: 100%;
   box-sizing: border-box;
-  background:  #00000000 ;
+  background: #00000000;
 }
-.mat-card{
-  background:#f2f2f7;
-  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+
+.mat-card {
+  background: #f2f2f7;
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, .288);
   border-radius: 10px;
 }
 
-.rm{
+.rm {
   background-color: #f2f2f7;
-  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, .288);
 }
+
 img {
-  width: 24rem;
+  width: 20rem;
   height: 20rem;
+  object-fit: scale-down;
 }
-.container{
-  background:  #00000000 ;
+
+.container {
+  background: #00000000;
 }
 
 .example-card2 {

@@ -2873,7 +2873,7 @@ app.get("/external/usercount/updater", function (req, res) {
 });
 
 
-app.get('/ml', async function(req, res){
+app.get('/api/mlstuff', function(req, res){
     console.log('comes here')
     var result = await mms.import()
     console.log(result)

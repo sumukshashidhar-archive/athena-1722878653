@@ -1082,6 +1082,7 @@ app.post('/addInterest', function (req, res) {
                         }
                         else {
                             obj.Interests.push(newInterests[i]);
+                            obj.Interests.sort();
                             Student.updateOne({ EmailId: decodedToken.email }, { $set: { Interests: obj.Interests } }, function (err, updateobj) {
                                 if (err) {
                                     console.log(err)
@@ -1422,8 +1423,42 @@ app.get('/getnord', async (req, res) => {
     })
 })
 
+function binarySearch(array, key) {
+    var lo = 0,
+    hi = array.length - 1,
+    mid,
+    element;
+while (lo <= hi) {
+    mid = ((lo + hi) >> 1);
+    element = array[mid];
+    if (element < key) {
+        lo = mid + 1;
+    } else if (element > key) {
+        hi = mid - 1;
+    } else {
+        console.log('Found at mid: ', array[mid])
+        return(true)
+    }
+}
+return(false)
+
+}
 
 
+var mms = require('./microservices/ml-data-exports')
+
+
+async function add(interests, evnInterests) {
+    var to_add = new Array()
+    for(let i=0; i < evnInterests; i++) {
+        if(binarySearch(interests, evnInterests[i])) {
+            console.log('no')
+        }
+        else {
+            to_add.push(evnInterests[i])
+        }
+    }
+}
 
 //NOT TESTED
 app.post('/click-on-events', function (req, res) {
@@ -1445,41 +1480,12 @@ app.post('/click-on-events', function (req, res) {
                             }
                             else {
                                 if (EVNobj) {
-                                    //This means that the event is found, we have to check if the uservector object already has the interests of the event
-                                    // the interests of the event are
-                                    var eint = EVNobj.evnInterests;
-                                    var usrvec = MONGO_OBJ_RETURN.uservector;
-                                    console.log("EVENT INTERESTS ARE: ", eint)
-                                    console.log("MONGO USRVEC IS", eint)
-                                    for (let i = 0; i < eint.length; i++) {
-                                        var curInt = eint[i]
-                                        console.log("current int is , ", curInt)
-                                        if (usrvec.includes(curInt)) {
-                                            console.log("Already Included, have to do nothing")
-                                        }
-                                        else {
-                                            usrvec.push(eint[i])
-                                        }
-                                    }
-                                    //After this, we check if usrvec and the returned mongo objects are the same, by this we know
-                                    //If there is need of updating the collection in the db
+                                    console.log('Works')
+                                    mms.export(MONGO_OBJ_RETURN['interests'], EVNobj['evnInterests'])
 
-                                    if (usrvec == MONGO_OBJ_RETURN.uservector) {
-                                        console.log("No new data")
-                                        res.status(200).send(EVNobj);
-                                    }
-                                    else {
-                                        //Have to now update the student object
-                                        Student.updateOne({ _id: decodedToken.usrid }, { $set: { uservector: usrvec } }, function (err, obj) {
-                                            if (err) {
-                                                console.log(err)
-                                            }
-                                            else {
-                                                console.log("Updated successfully: The New User Vectr is:", obj)
-                                                res.status(200).send(EVNobj);
-                                            }
-                                        })
-                                    }
+
+
+                                    
                                 }
                                 else {
                                     console.log('INTERNAL ERROR. COULD NOT FIND THE EVENT');
@@ -2001,10 +2007,6 @@ app.post('/api/tracker/click-on-user-event', async function (req, res) {
                             }
                             else {
                                 if (obj2 != null) {
-                                    //This means that the user object has also been found here
-                                    //Now what matters is that I reuturn this
-                                    addToUserVector(obj._id, obj2.interests)
-    
                                     user.findOne({ username: obj2.EmailId }, function (err, obj23) {
                                         res.status(200).send({ obj: obj2, dp: obj23.profilePic })
                                     });
@@ -2055,13 +2057,9 @@ app.post('/api/tracker/vectorless/click-on-user-event', async function (req, res
                             if (obj2 != null) {
                                 //This means that the user object has also been found here
                                 //Now what matters is that I reuturn this
-                                addToUserVector(obj._id, obj2.interests)
-
                                 user.findOne({ username: obj2.EmailId }, function (err, obj23) {
                                     res.status(200).send({ obj: obj2, dp: obj23.profilePic })
                                 });
-
-
 
                             }
                             else {
@@ -2089,7 +2087,22 @@ app.post('/api/tracker/vectorless/click-on-user-event', async function (req, res
 
 
 function addToUserVector(userid, to_add) {
+    Student.findOne({_id: userid}, function(err, obj) {
+        Student.updateOne({_id: userid}, {$set: {}}, function(err2, obj2) {
+            if(err2) {
 
+            }
+
+            else {
+                if(obj2) {
+                    console.log('')
+                }
+                else {
+                    console.log('Failed Uservector Add')
+                }
+            }
+        })
+    })
 }
 
 

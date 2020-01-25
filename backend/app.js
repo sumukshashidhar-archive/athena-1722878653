@@ -87,6 +87,9 @@ var app = express();
 //testing var declaration - will be removed as development goes on
 var token;
 
+
+var randomise = require('./config/randomizer');
+var rdstring = randomise.randomizer;
 //Using Cors
 app.use(cors());
 app.use(function (req, res, next) {
@@ -133,8 +136,7 @@ var storage = new GridFsStorage({
                 if (err) {
                     return reject(err);
                 }
-
-                const filename = file.originalname;
+                const filename = file.originalname + dater();
                 const fileInfo = {
                     filename: filename,
                     bucketName: "uploads"
@@ -144,6 +146,16 @@ var storage = new GridFsStorage({
         });
     }
 });
+
+function dater() {
+    var d = new Date().getDay().toString();
+    var m = new Date().getMonth().toString();
+    var y = new Date().getFullYear().toString();
+    var thro = new Date().toISOString()
+    var randomstring = d + m + y + thro.slice(0, 11) + rdstring;
+    console.log(randomstring)
+    return randomstring
+}
 
 function generate(n) {
     var add = 1;
@@ -293,9 +305,6 @@ app.post("/register", async function (req, res) {
                     password: BCRYPT_PASSWORD_HASH,
                     profilePic: "dp.png",
                     LastSeen: Date.now(),
-                    Bio: req.body.bio,
-                    Interests: " ",
-                    studentSchool: req.body.studentSchool,
                     Verified: false
                 });
 
@@ -479,6 +488,9 @@ app.get("/verifyuser/*", function (req, res) {
     );
 });
 
+
+
+
 //////UPLOAD PROFILE PIC
 app.post("/uploadProfile", multipartMiddleware, (req, res) => {
     console.log("HSSSSSSSSSSSNN");
@@ -557,12 +569,8 @@ app.post("/login", async function (req, res) {
                                                         given_name: obj["FirstName"],
                                                         family_name: obj["LastName"],
                                                         role: usrobj["userType"],
-                                                        interests: obj["Interests"],
                                                         Location: obj["Location"],
                                                         Pincode: obj["pincode"],
-                                                        Bio: obj["bio"],
-                                                        age: obj["age"],
-                                                        uservector: obj["uservector"]
                                                     },
                                                     privateKEY,
                                                     enc.signOptions
@@ -857,7 +865,7 @@ app.post("/organizer-events", async function (req, res) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(req.body.Image);
+                var newImgName = req.body.Image + dater();
                 if (decodedToken["role"] == "Org") {
                     var newEvent = new event({
                         evnName: req.body.evnName,
@@ -874,7 +882,7 @@ app.post("/organizer-events", async function (req, res) {
                         evnTargetAge: req.body.evnTargetAge,
                         evnDescription: req.body.evnDescription,
                         evnCost: req.body.cost,
-                        Image: req.body.Image
+                        Image: newImgName
                     });
                     newEvent.save(function (err, obj) {
                         if (err) {
@@ -1006,7 +1014,7 @@ app.post("/achievements", (req, res) => {
                 var newAch = new achievements({
                     CategoryId: req.body.category.catName,
                     SubCategoryId: req.body.subCatName.subCatName,
-                    Image: req.body.file,
+                    Image: (req.body.file + dater()),
                     Description: req.body.description,
                     achRank: req.body.rank.name,
                     Name: req.body.name
@@ -1084,10 +1092,11 @@ app.post("/addAcademics", function (req, res) {
                             console.log(err);
                         } else {
                             if (obj.Academics) {
+                                var newImgName = req.body.Image + dater();
                                 var newAc = new AcademicsSchema({
                                     testName: req.body.testName,
                                     testRank: req.body.testRank,
-                                    Image: req.body.Image,
+                                    Image: newImgName,
                                     toShow: req.body.toShow,
                                     id: obj.Academics.length,
                                     testScore: req.body.testScore
@@ -1131,10 +1140,11 @@ app.post("/addAcademics", function (req, res) {
                                     }
                                 });
                             } else {
+
                                 var newAc = new AcademicsSchema({
                                     testName: req.body.testName,
                                     testRank: req.body.testRank,
-                                    Image: req.body.Image,
+                                    Image: newImgName,
                                     toShow: req.body.toShow,
                                     id: 0,
                                     testScore: req.body.testScore

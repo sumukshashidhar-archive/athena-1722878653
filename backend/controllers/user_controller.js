@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var user = require("../models/user.js");
 var saltRounds = 3;
 

@@ -2898,7 +2898,7 @@ app.get("/external/usercount/updater", function (req, res) {
 ///DEV ROUTES ===>
 
 
-app.get('/addevnsdata', (req, res) => {
+app.get('/api/addevnsdata', (req, res) => {
     //Add DATA Here
     //PLEASE ADD A ORGANISER ID
     var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT

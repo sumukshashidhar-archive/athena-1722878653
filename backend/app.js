@@ -2420,7 +2420,7 @@ app.post("/api/tracker/click-on-user-event", async function (req, res) {
                                                 function (err, obj23) {
                                                     res.status(200).send({
                                                         obj: obj2,
-                                                        // dp: obj23.profilePic
+                                                        dp: obj23.profilePic
                                                     });
                                                 }
                                             );

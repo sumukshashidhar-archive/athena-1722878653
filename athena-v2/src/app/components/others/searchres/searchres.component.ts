@@ -4,7 +4,8 @@ import { EventService } from "./../../../shared/events/event.service";
 import { Router } from "@angular/router";
 import { NgForm, FormControl } from "@angular/forms";
 import { AuthService } from "src/app/shared/auth/auth.service";
-import { HttpClient } from '@angular/common/http';
+import * as jwt_decode from "jwt-decode";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-searchres",
@@ -16,6 +17,8 @@ export class SearchresComponent implements OnInit {
   userResults: any = this.search.userResults;
   orgResults: any = this.search.orgResults;
   interestResults: any = this.search.interestResults;
+  isStudent: any;
+  isOrg: any;
 
   selected = new FormControl(0);
 
@@ -25,7 +28,17 @@ export class SearchresComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private http: HttpClient
-  ) {}
+  ) {
+    var decoded = localStorage.getItem("access_token");
+    var decodedtoken = jwt_decode(decoded);
+
+    if (decodedtoken["role"] == "Student") {
+      this.isStudent = true;
+    }
+    if (decodedtoken["role"] == "Org") {
+      this.isOrg = true;
+    }
+  }
 
   ngOnInit() {
     this.settingTabValue();
@@ -42,6 +55,7 @@ export class SearchresComponent implements OnInit {
   sendDetails(form: NgForm, _id: string) {
     form.value["_id"] = _id;
     console.log(form.value);
+    if (this.isStudent){
     this.eventService.getEventDetails(form.value).subscribe(
       res => {
         console.log(res);
@@ -57,24 +71,56 @@ export class SearchresComponent implements OnInit {
         }
       }
     );
+    }
+    else if (this.isOrg) {
+      this.eventService.getEventDetailsorg(form.value).subscribe(
+        res => {
+          console.log(res);
+          this.eventService.details1 = res;
+          console.log(this.eventService.details1);
+          this.router.navigate(["/bigevents"]);
+        },
+        err => {
+          if (err.status === 422) {
+            console.log(422);
+          } else {
+            console.log("error");
+          }
+        }
+      );
+    }
   }
 
-  tabChange2(){
-    this.search.tabAgain = 1
+  tabChange2() {
+    this.search.tabAgain = 1;
   }
 
   sendDetails1(form: NgForm, _id: string) {
     form.value["_id"] = _id;
     console.log(form.value);
-    this.search.getUserDetails(form.value).subscribe(
-      res => {
-        console.log(res);
-        this.search.userDetails = res;
-        this.router.navigate(["/usersearchres"]);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this.isStudent) {
+      this.search.getUserDetails(form.value).subscribe(
+        res => {
+          console.log(res);
+          this.search.userDetails = res;
+          this.router.navigate(["/usersearchres"]);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    else if (this.isOrg) {
+      this.search.getUserDetailsorg(form.value).subscribe(
+        res => {
+          console.log(res);
+          this.search.userDetails = res;
+          this.router.navigate(["/usersearchres"]);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
 }

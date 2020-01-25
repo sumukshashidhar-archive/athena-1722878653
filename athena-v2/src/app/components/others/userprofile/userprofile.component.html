@@ -6,7 +6,7 @@
   <section>
     <div class="cont">
       <div class="card-wrapper">
-        <div class="card">
+        <div class="card details">
           <img src="https://www.sendxmail.com/wp-content/uploads/2014/11/low_poly_background.jpg" alt="IMAGE CARD BG"
             class="card-img">
              <img src="http://localhost:3000/{{imageToShow}}" alt="profile image" class="profile-img">
@@ -96,9 +96,9 @@
     </div>
     <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
       <div class="modal-dialog">
-        <div class="modal-content" style="max-width: 60vw; margin-top: 30%;margin-left: 25%;">
-          <div class="modal-body"
-            style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;background-color: antiquewhite;"
+        <div class="modal-content myModal1c" style="">
+          <div class="modal-body myModal1b"
+            style=""
             id="des">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -108,19 +108,19 @@
             {{desc}}
             <br />
             <div class="container" *ngIf="Rank=='State'"
-              style="background-color: lawngreen; color: black; border-radius: 10px; max-width: 50%;">
+              style="background-color: lawngreen; color: black;  max-width: 50%;">
               Rank: {{Rank}}
             </div>
             <div class="container" *ngIf="Rank=='City'"
-              style="background-color: red; color: black; border-radius: 10px;max-width: 100%;">
+              style="background-color: red; color: black; max-width: 100%;">
               Rank: {{Rank}}
             </div>
             <div class="container" *ngIf="Rank=='School'"
-              style="background-color: yellow; color: black;border-radius: 10px;max-width: 100%;">
+              style="background-color: yellow; color: black;max-width: 100%;">
               Rank: {{Rank}}
             </div>
             <div class="container" *ngIf="Rank=='National'"
-              style="background-color: orange; color: black;border-radius: 10px;max-width: 100%;">
+              style="background-color: orange; color: black;max-width: 100%;">
               Rank: {{Rank}}
             </div>
             <div class="container" *ngIf="Rank=='International'"
@@ -174,7 +174,9 @@
           <div class="modal-body" *ngFor="let evn of this.evn_list">
             <ul>
               <li class="other">
+                <a target="_blank" href="https://{{evn.evnOrganizerPage}}">
                 <span class="name">{{ evn.evnName }}</span>
+              </a>
               </li>
 
 

@@ -1,9 +1,8 @@
 version: '3'
-services: :
+services:
   app:
     container_name: docker-node-prod
     restart: always
     build: .
     ports:
       - '3000:3000'
-      

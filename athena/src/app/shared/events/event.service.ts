@@ -60,21 +60,8 @@ export class EventService {
     return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/click-on-events", _id)
   }
 
-  postEventInterest(eventInterest, eventId){
-    const token = this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
-      headers : headers
-    };
-    console.log(eventInterest)
-    console.log(eventId)
-    const obj = {
-      eventId: eventId,
-      options: options,
-      eventInterest: eventInterest
-    }
-    console.log(obj)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/addInterestOrganizer", obj)
+  getEventDetailsorg(_id: Details) {
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/vectorless/click-on-events", _id)
   }
 
   postFollow(_id: EventFollow){

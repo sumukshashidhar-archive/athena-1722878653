@@ -59,6 +59,10 @@ export class SearchService {
     return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/tracker/click-on-user-event", userDetails)
   }
 
+  getUserDetailsorg(userdetails) {
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/tracker/vectorless/click-on-user-event", userdetails)
+  }
+
   postInterestSearch(interest){
     console.log(interest)
     return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/searchbyinterests", interest)

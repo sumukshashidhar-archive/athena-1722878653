@@ -36,6 +36,8 @@
           <div class="div">
             <input maxlength="32" minlength="6" class="input" type="password" placeholder="Password" required ngModel name="password"
               id="password" #password="ngModel" [(ngModel)]="loginService.selectedUser.password" style="margin-bottom: 2rem;">
+              <br>
+              <br>
             <span style="color: red;" class="help-block" *ngIf="!password.valid && password.touched">Enter a
               password</span>
               <br>

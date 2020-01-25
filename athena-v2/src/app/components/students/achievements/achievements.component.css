@@ -1,8 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
-.cdk-global-overlay-wrapper, .cdk-overlay-container {
-  z-index: 9999!important;
+
+.achdetails{
+  max-width: 60vw; margin-top: 30%;margin-left: 25%;
 }
 .fa {
 position: relative;
@@ -471,6 +472,10 @@ img{
     }
     .cr{
       margin-left: -20%;
+    }
+    .achdetails{
+      max-width: 90vw;
+      margin-left: -10vw;
     }
   }
 

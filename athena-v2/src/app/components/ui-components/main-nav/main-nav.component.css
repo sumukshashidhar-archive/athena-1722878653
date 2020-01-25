@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 210px;
+  width: 240px;
   background-color: #353779;
 }
 
@@ -15,4 +15,21 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .displaying {
+    display: none;
+  }
+
+  .notdisplaying {
+    width: 85%;
+    margin-left: 1rem;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .notdisplaying {
+    display: none;
+  }
 }

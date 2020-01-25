@@ -45,6 +45,7 @@ export class UserprofileComponent implements OnInit {
       this.username = decodedtoken["given_name"];
     this.id=decodedtoken['usrid']
 this.getUserDetails(this.id)
+this.getEvents();
 
     }
     console.log(this.decoded);
@@ -80,6 +81,16 @@ this.getUserDetails(this.id)
   thisAch(id:any){
     console.log(id)
     this.DoIt(id);
+  }
+  getEvents(){
+    this.eventService.getFollowEvents().subscribe(
+      res => {
+       this.evn_list=res
+      },
+      err => {
+        console.log(err)
+      }
+    )
   }
 
 }

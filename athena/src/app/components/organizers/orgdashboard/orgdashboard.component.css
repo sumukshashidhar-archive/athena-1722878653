@@ -2,6 +2,10 @@
   margin: 20px;
 }
 
+.evn{
+  width: 100vw;
+  background-color: tomato;
+}
 .dashboard-card {
   position: absolute;
   top: 15px;
@@ -18,19 +22,26 @@
   margin-left:35%;padding:12%;width:50%;position:absolute;bottom:3%;border-radius: 10px;text-decoration: none;
 }
 .card-2{
-  background: #ffff3b;
+  background: #FDC830;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #F37335, #FDC830);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #F37335, #FDC830); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   background-size: cover;
+  width:35vw;
 }
 .card-1{
   background:#fcfcfc;
+  width:85vw;
 }
 .search:hover{
 transform: scale(1.1);
 }
 
 .card-3{
-  background: #f0596a;
+  background-image: radial-gradient( circle farthest-corner at 74.2% 50.9%,  rgba(14,72,222,1) 5.2%, rgba(3,22,65,1) 75.3% );
   background-size: cover;
+  width:35vw;
+
 }
 
 .card-1, .card-3 {

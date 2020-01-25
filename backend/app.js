@@ -2890,3 +2890,55 @@ app.get("/external/usercount/updater", function (req, res) {
 //     console.log(result)
 //     res.json(result)
 // })
+
+
+
+
+
+///DEV ROUTES ===>
+
+
+app.get('/addevnsdata', (req, res) => {
+    //Add DATA Here
+    //PLEASE ADD A ORGANISER ID
+    var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT
+    //IF YOU DONT WANT IMAGE NOW, COMMENT OUT THE IMAGE FIELD IN THE BOTTOM
+    var orgID = ''; //ADD HERE FROM WHICH ORGANISER
+    var evnName = '';
+    var evnDate1 = ''; //MUST BE IN MILLISECONDS, ADD A REGULAR AND CHECK
+    var evnDate2 = ''; // SAME AS ABOVE 
+    var evnInterests = ''; //MUST BE AN ARRAY
+    var evnLocation = ''; //DONT KNOW WHAT THIS IS FOR
+    var evnOrganizerName = ''; //ADD THIS FROM THE TOKEN AS WELL
+    var evnOrganizerPage = ''; //KEEP THEM CONSTANT
+    var evnOrganizerContact = ''; //THIS AS WELL
+    var evnPincode = ''; //MUST BE 560076 or 560078 or something along those lines
+    var evnTargetAge = ''; //PUT 15-16  
+    var newEvent = new event({
+        evnName: evnName,
+        evnDate1: evnDate1,
+        evnDate2: evnDate2,
+        evnInterests: evnInterests,
+        evnLocation: evnLocation,
+        evnCity: req.body.evnCity,
+        evnOrganizerName: evnOrganizerName, //this line has to be changed
+        evnOrganizerPage: evnOrganizerPage,
+        evnOrganizerContact: evnOrganizerContact,
+        evnPincode:evnPincode,
+        evnTargetAge: evnTargetAge,
+        evnDescription: req.body.evnDescription,
+        evnCost: req.body.cost,
+        Image: newImgName
+    });
+    newEvent.save(function (err, obj) {
+        if (err) {
+            console.log("ERROR:\n" + err);
+            return res.redirect("/registerorganiser");
+        } else {
+            /*console.log(obj)*/
+            //have to append the newly created id to the organizer as well
+            oems.addToOrganiser(orgID, obj._id);
+            res.json(obj);
+        }
+    });
+})

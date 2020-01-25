@@ -6,12 +6,13 @@ const crypto = require("crypto");
 
 module.exports = {
     
-    furtherInfoOrg: function furtherInfoOrganiser(OrganizerName, emailId, PhoneNo){
+    furtherInfoOrg: function furtherInfoOrganiser(OrganizerName, emailId, PhoneNo, orgCity){
         console.log("Saving further info organiser...");
         console.log(OrganizerName)
         var newOrganiser = new Organiser({
             OrganiserName: OrganizerName,
             OrganiserEmail: emailId,
+            OrgCity: orgCity,
             // RegistrationDate: RegistrationDate,
             PhoneNo: PhoneNo
             // loginId: loginId

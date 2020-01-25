@@ -324,7 +324,7 @@ app.post("/register", async function (req, res) {
                                 req.body.city,
                                 req.body.pincode,
                                 req.body.bio,
-                                req.body.age
+                                req.body.studentSchool
                             )
                         ); //TODO: Put this in a different file
                     }
@@ -440,7 +440,8 @@ app.post("/registerorganizer", function (req, res) {
                             organizer_functions.furtherInfoOrg(
                                 req.body.OrganizerName,
                                 req.body.OrganizerEmail,
-                                req.body.PhoneNo
+                                req.body.PhoneNo, 
+                                req.body.orgCity
                             )
                         ); //TODO: Put this in a different file
                     }

@@ -530,6 +530,21 @@ app.post("/uploadProfile", multipartMiddleware, (req, res) => {
     );
 });
 
+
+var removeByAttr = function(arr, attr, value){
+    var i = arr.length;
+    while(i--){
+       if( arr[i] 
+           && arr[i].hasOwnProperty(attr) 
+           && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+
+           arr.splice(i,1);
+
+       }
+    }
+    return arr;
+}
+
 // LOGIN
 app.post("/login", async function (req, res) {
     //First finding if such a user exists in the database
@@ -2718,8 +2733,8 @@ app.post("/api/search/organizers", async function (req, res) {
                     res.status(500).send("MONGo");
                 } else {
                     if (obj != []) {
-                        sender.concat;
-                        res.status(200).send(obj);
+                        var fin = removeByAttr(obj, 'id', decoded.usrid)
+                        res.status(200).send(fin);
                     } else {
                         res.status(200).send("NO USERS FOUND");
                     }

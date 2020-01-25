@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="containercard" style="background-color: #00000000 ; width:100vw;margin-left: 0;display: flex;">
-      <div class="row">
+      <div class="row" class="cr">
         <div class="column" style="float: left;" *ngFor="let ach of ach_list">
           <a class="card mb-3 CARD"
 
@@ -60,9 +60,9 @@
 <div class="newsItem" *ngFor="let ach of this.ach_list">
   <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
     <div class="modal-dialog">
-      <div class="modal-content" style="max-width: 60vw; margin-top: 30%;margin-left: 25%;">
+      <div class="modal-content achdetails">
         <div class="modal-body"
-          style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 50vw;" id="des">
+          style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 100%;" id="des">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -95,7 +95,7 @@
       <div class="modal-body">
         <form #f="ngForm" id="frmUploader" enctype="multipart/form-data" action="/achievements" method="POST">
           <div class="form-group">
-            <input type="text" required maxlength="100" class="form-control"
+            <input type="text" required maxlength="35" class="form-control"
               [(ngModel)]="achService.selectedAchievements.name" name="name" id="name"
               placeholder="Enter Achievement Name" />
             <div class="col-xs-6">

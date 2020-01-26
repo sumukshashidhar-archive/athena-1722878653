@@ -2338,7 +2338,7 @@ app.post("/api/searchbyinterests", async function (req, res) {
     );
 });
 
-app.post("/api/organiser/searchbyinterests", async function (req, res) {
+app.post("/api/organiser/nbyinterests", async function (req, res) {
     //req.body.keyword
 
     var keyword = req.body;

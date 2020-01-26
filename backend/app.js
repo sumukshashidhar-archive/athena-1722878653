@@ -1209,7 +1209,7 @@ app.get("/interests", async function(req, res) {
         enc.verifyOptions,
         function(err, decodedToken) {
             console.log("Getting Interests....");
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
                 Student.findOne({
                         EmailId: decodedToken.email
@@ -1241,9 +1241,8 @@ app.post("/addInterest", function(req, res) {
         enc.verifyOptions,
         function(err, decodedToken) {
             console.log("Getting Achievements....");
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
-
                 var newInterests = req.body;
                 console.log(newInterests);
 

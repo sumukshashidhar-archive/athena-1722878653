@@ -1710,7 +1710,7 @@ async function add(interests, evnInterests, uservector, _id) {
 }
 
 //NOT TESTED
-app.post("/click-on-events", function(req, res) {
+app.post("/click-on-events", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
@@ -1776,7 +1776,7 @@ app.post("/click-on-events", function(req, res) {
     //Must send a post
 });
 
-app.post("//addInterestOrganizer", function(req, res) {
+app.post("//addInterestOrganizer", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization)
     if(decoded!=false && decoded['role']=='Org') {
             var eventId = req.body.eventId;
@@ -1997,7 +1997,8 @@ app.get("/api/getevents", async function(req, res) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
-                // console.log(decodedToken)
+                if(decodedToken['role']=='Student') {
+                                    // console.log(decodedToken)
                 Student.findOne({
                         _id: decodedToken["usrid"]
                     },
@@ -2029,6 +2030,11 @@ app.get("/api/getevents", async function(req, res) {
                         }
                     }
                 );
+                }
+                else {
+                    res.status(403).send('Unauthorized')
+                }
+
             }
         }
     );

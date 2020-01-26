@@ -1044,7 +1044,7 @@ app.post("/addAcademics", function(req, res) {
         publicKEY,
         enc.verifyOptions,
         function(err, decodedToken) {
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
                 console.log(decodedToken);
                 // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
@@ -1156,8 +1156,8 @@ app.post("/addAcademics", function(req, res) {
 
 app.post("/getAcademics", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
-
-    Student.findOne({
+    if(decoded!=false && decoded['role']=='Student') {
+            Student.findOne({
             EmailId: decoded.email
         },
         function(err, obj) {
@@ -1169,6 +1169,11 @@ app.post("/getAcademics", async function(req, res) {
             }
         }
     );
+    }
+    else {
+        res.status(403).send('Unauthorized')
+    }
+
 });
 
 app.post("/getSpecicifAc", async function(req, res) {

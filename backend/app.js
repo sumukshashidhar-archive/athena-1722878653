@@ -360,67 +360,67 @@ app.post("/register", async function(req, res) {
     }
 });
 
-app.post("/updateinfo", function(req, res) {
-    jwt.verify(
-        tokenExtractor.tokenExtractor(req.headers.authorization),
-        publicKEY,
-        enc.verifyOptions,
-        function(err, decodedToken) {
-            if (err) {
-                console.log(err);
-                res.status(403).send("Not Logged In");
-            } else {
-                user.findOne({
-                        email: req.body.email
-                    },
-                    function(err, obj) {
-                        if (err) {
-                            console.log("Mongo Error:" + err);
-                        } else {
-                            if (obj != null && obj != undefined && obj != {}) {
-                                /*console.log(obj)*/
-                                bcrypt.compare(req.body.password, obj.password, function(
-                                    err,
-                                    BCRYPT_RES
-                                ) {
-                                    if (BCRYPT_RES) {
-                                        var FirstName = req.body.FirstName;
-                                        var LastName = req.body.LastName;
-                                        var PhoneNo = req.body.phoneNo;
-                                        var Bio = req.body.bio;
-                                        var Location = req.body.Location;
+// app.post("/updateinfo", function(req, res) {
+//     jwt.verify(
+//         tokenExtractor.tokenExtractor(req.headers.authorization),
+//         publicKEY,
+//         enc.verifyOptions,
+//         function(err, decodedToken) {
+//             if (err) {
+//                 console.log(err);
+//                 res.status(403).send("Not Logged In");
+//             } else {
+//                 user.findOne({
+//                         email: req.body.email
+//                     },
+//                     function(err, obj) {
+//                         if (err) {
+//                             console.log("Mongo Error:" + err);
+//                         } else {
+//                             if (obj != null && obj != undefined && obj != {}) {
+//                                 /*console.log(obj)*/
+//                                 bcrypt.compare(req.body.password, obj.password, function(
+//                                     err,
+//                                     BCRYPT_RES
+//                                 ) {
+//                                     if (BCRYPT_RES) {
+//                                         var FirstName = req.body.FirstName;
+//                                         var LastName = req.body.LastName;
+//                                         var PhoneNo = req.body.phoneNo;
+//                                         var Bio = req.body.bio;
+//                                         var Location = req.body.Location;
 
-                                        user.updateOne({
-                                                id: obj._id
-                                            }, {
-                                                $set: {
-                                                    FirstName: req.body.FirstName,
-                                                    LastName: req.body.LastName,
-                                                    PhoneNo: req.body.phoneNo,
-                                                    Bio: req.body.bio,
-                                                    SLocation: req.body.Slocation
-                                                }
-                                            },
-                                            function(err, obj) {
-                                                if (err) {
-                                                    console.log(err);
-                                                } else {
-                                                    console.log("Success");
+//                                         user.updateOne({
+//                                                 id: obj._id
+//                                             }, {
+//                                                 $set: {
+//                                                     FirstName: req.body.FirstName,
+//                                                     LastName: req.body.LastName,
+//                                                     PhoneNo: req.body.phoneNo,
+//                                                     Bio: req.body.bio,
+//                                                     SLocation: req.body.Slocation
+//                                                 }
+//                                             },
+//                                             function(err, obj) {
+//                                                 if (err) {
+//                                                     console.log(err);
+//                                                 } else {
+//                                                     console.log("Success");
 
-                                                    res.status(200).send("Success");
-                                                }
-                                            }
-                                        );
-                                    } else {}
-                                });
-                            }
-                        }
-                    }
-                );
-            }
-        }
-    );
-});
+//                                                     res.status(200).send("Success");
+//                                                 }
+//                                             }
+//                                         );
+//                                     } else {}
+//                                 });
+//                             }
+//                         }
+//                     }
+//                 );
+//             }
+//         }
+//     );
+// });
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post("/registerorganizer", function(req, res) {
@@ -500,7 +500,6 @@ app.get("/verifyuser/*", function(req, res) {
 
 //////UPLOAD PROFILE PIC
 app.post("/uploadProfile", multipartMiddleware, (req, res) => {
-
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
@@ -832,27 +831,6 @@ app.post("/bio", function(req, res) {
     );
 });
 
-//Should be the default route for the frontend when it launches
-app.post("/auth", function(req, res) {
-    jwt.verify(req.body.token, publicKEY, enc.verifyOptions, function(
-        err,
-        decodedToken
-    ) {
-        if (err) {
-            res.status(422).send("JWT verification error");
-            console.log("JWT is invalid");
-        } else {
-            if (decodedToken["role"] == "Org") {
-                res.status(200).send("Org");
-            } else if (decodedToken["role"] == "Student") {
-                res.status(200).send("Student");
-            }
-        }
-    });
-});
-
-
-
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post("/organizer-events", async function(req, res) {
     jwt.verify(
@@ -910,7 +888,7 @@ app.post("/addInterestOrganizer", function(req, res) {
         publicKEY,
         enc.verifyOptions,
         function(err, decodedToken) {
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Org') {
                 console.log("Verified");
                 var newInterests = req.body.eventInterest;
                 event.findOne({

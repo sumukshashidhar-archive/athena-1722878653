@@ -1,7 +1,7 @@
 .example-card {
-    margin: 3rem;
-    width: 24rem;
-    height: 38rem;
+    margin: 1rem;
+    width: 20rem;
+    height: 37rem;
 
   }
   .mat-card{
@@ -21,8 +21,9 @@
   }
 
   img {
-    width: 24rem;
+    width: 20rem;
     height: 20rem;
+    object-fit: scale-down;
   }
 
   .example-card2 {

@@ -1178,6 +1178,7 @@ app.post("/getAcademics", async function(req, res) {
 
 app.post("/getSpecicifAc", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
+    if(decoded!=false && decoded['role']=='Student')
     console.log(req.body.email);
     console.log.apply(req.body.acId);
     Student.findOne({

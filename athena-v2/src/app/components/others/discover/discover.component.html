@@ -2,12 +2,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<app-main-nav>
+<!-- <app-main-nav>
   <body >
     <div class="container">
       <h1 style="text-align: center;">Discover Something New</h1>
       <mat-tab-group>
-        <!-- Event Search -->
         <mat-tab label="Search For Events">
           <div class="container">
             <h3>Search For New Events </h3>
@@ -28,7 +27,6 @@
                 routerLinkActive="router-link-active" (click)="tabChange1()">here</a></p>
           </div>
         </mat-tab>
-        <!-- User Search -->
         <mat-tab label="Search For Users">
           <div class="users">
             <h3>Search For People You May Know</h3>
@@ -63,7 +61,6 @@
             </form>
           </div>
         </mat-tab>
-        <!-- Interest Search -->
         <mat-tab label="Search By Interests">
           <div class="container">
             <h3>Search for users based on their interests</h3>
@@ -110,4 +107,47 @@
     </div>
   </body>
   
+</app-main-nav> -->
+
+<app-main-nav>
+  <br>
+  <br>
+  <div class="container">
+    <section id="userinterests">
+      <h5>Search By Interests</h5>
+      <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select (selectionChange)="selectionChanged()" name="catName" [(ngModel)]="catName">
+          <mat-option *ngFor="let cat of categoryOption" [value]="cat.catId">{{ cat.catName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Subcategory</mat-label>
+        <mat-select name="subCatName" [(ngModel)]="subCatName">
+          <mat-option *ngFor="let subCat of subcatOptions" [value]="subCat.subCatName">{{ subCat.subCatName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button style="margin: 1rem;" class="rm" mat-raised-button (click)="searchByInterest()">Search for users</button>
+      <button style="margin: 1rem;" class="rm" mat-raised-button (click)="eventsearchByInterest()">Search for
+        events</button>
+    </section>
+    <hr>
+    <section id="eventsearch">
+      <br>
+      <h5>Advanced Event Search</h5>
+      <form #f="ngForm">
+        <mat-form-field>
+          <input matInput type="text" placeholder="Event Name" required name="keyword" ngModel #keyword="ngModel"
+            [(ngModel)]="data.selSearch.keyword">
+          <mat-error>Please enter a keyword</mat-error>
+        </mat-form-field>
+        <br>
+        <button class="rm" style="margin: 1rem;" mat-raised-button (click)="deepSearch(f)">Deep Search</button>
+        <button class="rm" style="margin: 1rem;" mat-raised-button (click)="archiveSearch(f)">Archive Search</button>
+      </form>
+    </section>
+  </div>
 </app-main-nav>

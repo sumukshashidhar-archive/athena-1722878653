@@ -8,8 +8,16 @@
 .achdetailsB{
   text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 100%;
 }
-.containercard{
-  background-color: #00000000 ; width:100vw;margin-left: 20%;display: flex;
+.container{
+  margin-left: -2%;
+}
+
+mat-card-title{
+  text-align: center;
+  font-weight: 100;
+}
+row{
+  margin-left: -25%;
 }
 .fa {
 position: relative;
@@ -20,24 +28,25 @@ text-align: center;
 vertical-align: middle;
 font-size:20px;
 }
-.containercard{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #00000000;
-}
-.containercard  .CARD{
+
+.CARD{
   width: 16rem;
   height: 12rem;
   margin-left: 7vw;
   border-radius: 10px;
-  background:  #f2f2f7 ;
-  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.288);
+  background:  ##ffffff ;
+  box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px rgba(94,104,121,.288);
   border:none;
+  margin-bottom: 10%;
+}
+.CARD:hover{
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
 .cr{
   margin-left: -25%;
+  display: flex;
 }
 
 .rank{
@@ -48,117 +57,7 @@ font-size:20px;
   margin-top: 6.5%;
 
 }
-.main-menu:hover,nav.main-menu.expanded {
-  width:250px;
-  overflow:visible;
-  }
 
-  .main-menu {
-    background:#fff;
-    border-right:1px solid #fff  ;
-  position:absolute;
-  top:0;
-  bottom:0;
-  height:100%;
-  left:0;
-  width:60px;
-  overflow:hidden;
-  -webkit-transition:width .05s linear;
-  transition:width .05s linear;
-  -webkit-transform:translateZ(0) scale(1,1);
-  z-index:1000;
-  background-size: 100%;
-
-  }
-
-  .main-menu>ul {
-  margin:7px 0;
-  }
-
-  .main-menu li {
-  position:relative;
-  display:block;
-  width:250px;
-  }
-
-
-  .main-menu li>a {
-  position:relative;
-  display:table;
-  border-collapse:collapse;
-  border-spacing:0;
-  color:#999;
-   font-family: arial;
-  font-size: 14px;
-  text-decoration:none;
-  -webkit-transform:translateZ(0) scale(1,1);
-  -webkit-transition:all .1s linear;
-  transition:all .1s linear;
-
-  }
-
-  .main-menu .nav-icon {
-  position:relative;
-
-  display:table-cell;
-  widows: 90px;
-  height:54px;
-  text-align:center;
-  vertical-align:middle;
-  font-size:50px;
-  }
-
-  .main-menu .nav-text {
-  position:relative;
-  display:table-cell;
-  vertical-align:middle;
-  width:190px;
-    font-family: 'Titillium Web', sans-serif;
-    font-size: large;
-
-  }
-
-  .main-menu>ul.logout {
-  position:absolute;
-  left:0;
-  bottom:0;
-  }
-
-  .no-touch .scrollable.hover {
-  overflow-y:hidden;
-  }
-
-  .no-touch .scrollable.hover:hover {
-  overflow-y:auto;
-  overflow:visible;
-  }
-
-  a:hover,a:focus {
-  text-decoration:none;
-  }
-
-  nav {
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  -o-user-select:none;
-  user-select:none;
-  }
-
-  nav ul,nav li {
-  outline:0;
-  margin:0;
-  padding:0;
-  }
-  .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
-  color:#fff;
-  background-color:#333;
-  }
-  .area {
-  float: left;
-  width: 100%;
-  height: 100%;
-  }
 @font-face {
   font-family: 'Titillium Web';
   font-style: normal;
@@ -174,13 +73,13 @@ font-size:20px;
 @media screen and (max-width:1024px){
 
 
-.column {
+/* .column {
   width: 34%;
   display: block;
   margin-bottom: 20px;
  float: left;
 
-}
+} */
 .achdetails{
   margin-left: -5%;
   max-width: 90vw;
@@ -188,9 +87,7 @@ font-size:20px;
 .card-header{
   font-size:3vw;
 }
-.containercard{
-  background-color: #00000000 ; width:100vw;margin-left: 20%;display: flex;
-}
+
 .subcat{
   text-align: center;font-size: 3vw;padding-bottom:10vw
 }
@@ -209,12 +106,6 @@ font-size:20px;
   top: 0;
   left: 0;
 }
-.bg{
-  background-position: center center;
-  background-color:  #00000000;
-  height:1000%;
-  background-size: cover;
-}
 html { height: 100% }
 
 body {
@@ -226,47 +117,6 @@ body {
   background-position: center;
 }
 
-.search {
-  width: 100%;
-  position: relative;
-  display: flex;
-}
-
-.searchTerm {
-  width: 100%;
-  border: 3px solid #e6e6e6;
-  border-right: none;
-  padding: 5px;
-  height: 36px;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-  color: #9dbfaf;
-}
-
-.searchTerm:focus {
-  color: rgb(6, 8, 8);
-}
-
-.searchButton {
-  width: 40px;
-  height: 36px;
-  border: 1px solid #e6e6e6;
-  background: #e6e6e6;
-  text-align: center;
-  color: #fff;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/*Resize the wrap to see the search bar change!*/
-.wrap {
-  width: 30%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .reqMargin {
   width: 400px;
@@ -336,20 +186,6 @@ img{
 
 }
 
-  @media screen and (max-width: 750px) {
-    .column {
-      width: 100%;
-      margin-left: 25%;
-    }
-    .cr{
-      margin-left: -45%;
-    }
-    .achdetails{
-      max-width: 90vw;
-      margin-left: 2%
-    }
-
-  }
 
 .image img {
   float: left;
@@ -380,86 +216,9 @@ h3 {
   color: #cfcfcf;
 }
 
-.hr {
-  width: 100%;
-  height: 2px;
-  background: #efefef;
-  ;
-}
-
-.summary p {
-  font: Arial, sans-serif;
-  padding-top: 12px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: #666;
-}
-.card bg-light mb-3{
-  margin-left: 20vw;
-}
-.read-more {
-  border: 2px solid #0A7261;
-  border-radius: 4px;
-  padding: 3px 5px;
-
-   font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.8rem;
-  line-height: 1.2;
-  letter-spacing: 0.04em;
-/*   padding-top: 4px; */
-/*   padding-bottom: 4px; */
-  color: #0A7261;
-  transition: 0.4s;
-}
-.container{
-  align-items: center;
-}
-
-.read-more:hover {
-  border: 2px solid #0A7261;
-  background: #0A7261;
-  color: white;
-}
 
 a:hover, a:focus {text-decoration:none;}
 
 a:hover .summary p, a:focus .summary p {
   color: #333;
 }
-
-@media screen and (min-width:1366px){
-  .column {
-  width: 30%;
-  float: left;
-  margin-right: -10%;
-  margin-left:2%
-  }
-  .achdetails{
-    margin-left: -1%;
-  }
-
-  .container{
-    margin-left: -10%;
-  }
-  .cr{
-    margin-left: -40%;
-    max-width: 100vw;
-  }
-  .containercard{
-    margin-left: 30%;
-  }
-}
-@media screen and (min-width:1601px){
-  .containercard{
-    margin-left: 35%;
-  }
-  .cr{
-    margin-left: -30%;
-  }
-  .column {
-    margin-right: -17%;
-    padding: 0 ;
-    }
-}
-

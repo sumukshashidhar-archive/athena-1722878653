@@ -42,6 +42,7 @@ export class OrgdashboardComponent implements OnInit {
       ];
     })
   );
+  cardS=['A','B','C','D']
   myEvents: any
   profileUrlExists = false;
   imageToShow: any;

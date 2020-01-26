@@ -303,7 +303,7 @@ app.post("/register", async function (req, res) {
                     username: req.body.email,
                     userType: "Student",
                     password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "dp.png",
+                    profilePic: "dp.png0020202020-01-26TcAXU972wrRoMVtbSAlNDeQIVMfwgw",
                     LastSeen: Date.now(),
                     Verified: false
                 });
@@ -429,7 +429,7 @@ app.post("/registerorganizer", function (req, res) {
                     username: req.body.OrganizerEmail,
                     userType: "Organizer",
                     password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "dp.png",
+                    profilePic: "dp.png0020202020-01-26TcAXU972wrRoMVtbSAlNDeQIVMfwgw",
                     Verified: false
                 });
 

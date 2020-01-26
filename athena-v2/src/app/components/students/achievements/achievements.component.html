@@ -15,10 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
 
     <div class="container">
-      <div class="row">
-      </div>
-    </div>
-    <div class="containercard" style="background-color: #00000000 ; width:100vw;margin-left: 0;display: flex;">
+    <div class="containercard" style="">
       <div class="row" class="cr">
         <div class="column" style="float: left;" *ngFor="let ach of ach_list">
           <a class="card mb-3 CARD"
@@ -55,14 +52,15 @@
         </div>
       </div>
     </div>
+  </div>
   </body>
 </app-main-nav>
 <div class="newsItem" *ngFor="let ach of this.ach_list">
   <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
     <div class="modal-dialog">
       <div class="modal-content achdetails">
-        <div class="modal-body"
-          style="text-align: center; font-weight: 50; color: gray;white-space: pre-line; max-width: 100%;" id="des">
+        <div class="modal-body achdetailsB"
+          style="" >
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -1,11 +1,11 @@
-<body style="background-color: #00c2ff;
+<body style="background-color: #fff;
  height: 130vh;">
   <app-navbar></app-navbar>
   <br />
   <br />
   <br />
   <div class="container">
-    <mat-card>
+    <mat-card style="background: #fff;">
       <!-- Card header -->
       <mat-card-header>
         <h1>Organiser Signup</h1>
@@ -63,7 +63,8 @@
             </mat-form-field>
           </form>
           <div>
-            <button mat-button matStepperNext [disabled]="!a.valid">
+            <br>
+            <button mat-button class="rm" [disabled]="!a.valid">
               Next
             </button>
           </div>
@@ -112,7 +113,8 @@
 
             </script>
             <div>
-              <button id="btnSubmit" mat-button [disabled]="!b.valid || !Captchaval" (click)="(onSubmit)">
+              <br>
+              <button id="btnSubmit" class="rm" mat-button [disabled]="!b.valid || !Captchaval" (click)="(onSubmit)">
                 Create
               </button>
             </div>

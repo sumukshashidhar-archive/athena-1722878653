@@ -1380,7 +1380,7 @@ app.post("/deleteInterest", function(req, res) {
         publicKEY,
         enc.verifyOptions,
         function(err, decodedToken) {
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 Student.findOne({
                         EmailId: decodedToken.email
                     },

@@ -1503,9 +1503,6 @@ app.post("/event-search", async function(req, res) {
                     var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN);
                     res.send(evns);
                 }
-                var query = req.body.keyword;
-                var evns = await dms.testexplore3(query, DECODEDTOKEN);
-                console.log("HELSOF S", evns);
                 res.send(evns);
             }
         }

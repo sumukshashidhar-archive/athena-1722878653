@@ -45,7 +45,6 @@ import { SidenavComponent } from './components/ui-components/sidenav/sidenav.com
 import { AcademicsComponent } from './components/students/academics/academics.component';
 import { CarouselComponent } from './components/ui-components/carousel/carousel.component';
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component';
-import { Searchres2Component } from './components/others/searchres2/searchres2.component';
 import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component';
 import { NordComponent } from './components/nord/nord.component';
 import { MainNavComponent } from './components/ui-components/main-nav/main-nav.component';
@@ -80,7 +79,6 @@ import { OrgdashboardComponent } from './components/organizers/orgdashboard/orgd
     AcademicsComponent,
     CarouselComponent,
     UsersearchresComponent,
-    Searchres2Component,
     EventsnordComponent,
     NordComponent,
     MainNavComponent,

@@ -112,9 +112,9 @@
             <br>
             <mat-form-field>
               <input type="text" maxlength="32" placeholder="City" matInput required ngModel name="evnCity"
-                [(ngModel)]="eventService.selectedEvent.evnCity"  />
+                [(ngModel)]="eventService.selectedEvent.evnCity">
               <mat-error class="help-block">Please enter Your City</mat-error>
-              <!-- <mat-autocomplete #auto="matAutocomplete">
+              <!-- <mat-autocomplete #auto="matAutocomplete" style="z-index: 10000;">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                   {{ option }}
                 </mat-option>

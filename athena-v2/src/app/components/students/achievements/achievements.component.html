@@ -11,15 +11,10 @@
         Add a new achievement
       </button>
     </div>
-    <!--  -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
-
-
     <div class="container">
       <div class="row">
-        <div class=" column col-12 col-sm-6 col-lg-4 col-xl-3"*ngFor="let ach of ach_list">
-          <mat-card class="CARD" data-toggle="modal" data-target="#myModal1"
-            (click)="DoIt(ach._id)">
+        <div class="col-md-4" *ngFor="let ach of ach_list">
+          <mat-card class="CARD" data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">
             <div class="rank" *ngIf="ach.achRank=='State'"
               style="background-color: lawngreen; color: black; border-radius: 10px;">
               {{ach.achRank}}
@@ -42,9 +37,9 @@
             </div>
             <br>
             <br>
-            <mat-card-content style="font-weigth:400">
+            <mat-card-content style="font-weight:400">
               {{ach.Name}}
-          </mat-card-content>
+            </mat-card-content>
           </mat-card>
         </div>
       </div>
@@ -55,8 +50,7 @@
   <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
     <div class="modal-dialog">
       <div class="modal-content achdetails">
-        <div class="modal-body achdetailsB"
-          style="" >
+        <div class="modal-body achdetailsB" style="">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

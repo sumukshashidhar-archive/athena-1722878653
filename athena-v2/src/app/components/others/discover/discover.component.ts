@@ -67,14 +67,11 @@ export class DiscoverComponent implements OnInit {
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {
-        this.data.results = null;
-        this.data.userResults = null;
-        this.data.interestResults = null;
-        this.data.orgResults = null;
+        sessionStorage.clear()
         var x = this.eventService.changeDate(res);
+        sessionStorage.setItem("results", JSON.stringify(x))
         this.data.results = x;
         console.log(res);
-        this.data.tabChange = 0;
         if (this.data.results.length === 0) {
           this.data.message = "Sorry, no results found";
         } else {
@@ -97,41 +94,16 @@ export class DiscoverComponent implements OnInit {
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {
-        this.data.results = null;
-        this.data.userResults = null;
-        this.data.interestResults = null;
-        this.data.orgResults = null;
+        sessionStorage.clear()
         var x = this.eventService.changeDate(res);
+        sessionStorage.setItem("results", JSON.stringify(x))
         this.data.results = x;
         console.log(res);
-        this.data.tabChange = 0;
         if (this.data.results.length === 0) {
           this.data.message = "Sorry, no results found";
         } else {
           this.data.message = "We found these results";
         }
-        this.router.navigate(["/searchres"]);
-      },
-      err => {
-        if (err.status === 422) {
-          console.log(422);
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  }
-
-  onSubmit1(form: NgForm) {
-    this.data.postUserSearch(form.value).subscribe(
-      res => {
-        console.log(res);
-        this.data.results = null;
-        this.data.userResults = null;
-        this.data.interestResults = null;
-        this.data.orgResults = null;
-        this.data.userResults = res;
-        this.data.tabChange = 1;
         this.router.navigate(["/searchres"]);
       },
       err => {
@@ -177,12 +149,9 @@ export class DiscoverComponent implements OnInit {
       console.log(arr);
       this.data.postInterestSearch(arr).subscribe(
         res => {
-          this.data.results = null;
-          this.data.userResults = null;
-          this.data.orgResults = null;
-          this.data.interestResults = null;
+          sessionStorage.clear()
+          sessionStorage.setItem("userResults", JSON.stringify(res))
           this.data.interestResults = res;
-          this.data.tabChange = 2;
           console.log(res);
           this.router.navigate(["/searchres"]);
         },
@@ -204,15 +173,11 @@ export class DiscoverComponent implements OnInit {
     console.log(arr);
     this.data.postEventSearch(arr).subscribe(
       res => {
+        sessionStorage.clear()
         console.log(res);
         var x = this.eventService.changeDate(res);
-        this.data.results = null;
-        this.data.userResults = null;
-        this.data.orgResults = null;
-        this.data.interestResults = null;
-        this.data.results = x;
+        sessionStorage.setItem("results", JSON.stringify(x))
         console.log(res);
-        this.data.tabChange = 0;
         this.router.navigate(["/searchres"]);
       },
       err => {
@@ -220,27 +185,5 @@ export class DiscoverComponent implements OnInit {
         this.openSnackBar("No Events Found", "Close");
       }
     );
-  }
-
-  orgSearch(form: NgForm) {
-    this.data.postOrgSearch(form.value).subscribe(
-      res => {
-        this.data.results = null;
-        this.data.userResults = null;
-        this.data.orgResults = null;
-        this.data.interestResults = null;
-        this.data.orgResults = res;
-        this.data.tabChange = 3;
-        this.router.navigate(["/searchres"]);
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  tabChange1() {
-    this.data.tabAgain = 0;
   }
 }

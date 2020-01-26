@@ -15,11 +15,13 @@ export class SearchService {
   userResults: any; // User Search Results
   message: any; // Message to be displayed
   interestResults: any; // Interest Search Results
-  tabChange: any; // Searchres page tab
-  tabAgain: any; // Searchres2 page tab
+  // tabChange: any; // Searchres page tab
+  // tabAgain: any; // Searchres2 page tab
   orgResults: any; // Organizer userr search results
 
   userDetails: any; //User click on user details
+
+  keyword2: any // Carrying out the search again
 
   selSearch: Search = { // Event Search
     keyword: '',
@@ -42,13 +44,13 @@ export class SearchService {
     this.name.next(name);
   }
 
-  postSearch(search: Search){
+  postSearch(search){
     console.log('Search method')
     console.log(search)
     return this.http.post("http://localhost:3000/event-search", search)
   }
 
-  postUserSearch(userSearch: User_Search) {
+  postUserSearch(userSearch) {
     console.log('User Search Method')
     console.log(userSearch)
     return this.http.post('http://localhost:3000/api/search/users', userSearch)

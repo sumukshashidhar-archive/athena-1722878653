@@ -2200,7 +2200,7 @@ app.post("/api/searchbyinterests", async function(req, res) {
 
 });
 
-app.post("/api/organiser/nbyinterests", async function(req, res) {
+app.post("/api/organiser/searchbyinterests", async function(req, res) {
     //req.body.keyword
 
     var keyword = req.body;
@@ -2476,7 +2476,7 @@ app.post("/api/search/users", async function(req, res) {
                     LastSeen: 1,
                     _id: 1
                 },
-                function(err, obj) {
+                async function(err, obj) {
                     if (err) {
                         res.status(500).send("MONGo");
                     } else {

@@ -1,4 +1,4 @@
-<app-main-nav>
+<!-- <app-main-nav>
   <body>
     <div class="container">
       <mat-tab-group [selectedIndex]="selected.value">
@@ -81,5 +81,69 @@
       </mat-tab-group>
     </div>
   </body>
-
+</app-main-nav> -->
+<app-main-nav>
+  <div class="container" style="margin-top: 3rem;">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" (click)="eventSearch()">Events</a>
+          <a class="list-group-item list-group-item-action" (click)="studentSearch()">Students</a>
+          <a class="list-group-item list-group-item-action" (click)="organizerSearch()">Organizers</a>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="example-card mat-elevation-z14" *ngFor="let evn of results">
+              <mat-card-header>
+                <mat-card-title>{{ evn.evnName }}</mat-card-title>
+                <mat-card-subtitle>{{ evn.evnDate1 }} to {{ evn.evnDate2 }}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image class="img-responsive" src="http://localhost:3000/{{ evn.Image }}"
+                alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <p>
+                  {{ evn.evnDescription.substring(0,100) + "..." }}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <form #e="ngForm">
+                  <button  class="rm" mat-raised-button (click)="sendDetails(e, evn._id)">READ MORE</button>
+                </form>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of userResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.FirstName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.LastName }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <form #u="ngForm">
+                  <button mat-raised-button class="rm" (click)="sendDetails1(u, user._id)">READ MORE</button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <div class="container">
+          <br>
+          <div class="row">
+            <mat-card class="mat-elevation-z14 example-card2" *ngFor="let user of orgResults">
+              <mat-card-header>
+                <mat-card-title>{{ user.OrganiserName }}</mat-card-title>
+                <mat-card-subtitle>{{ user.OrganiserEmail }}</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </app-main-nav>

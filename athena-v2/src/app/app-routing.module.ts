@@ -26,7 +26,6 @@ import { AuthGuard } from './shared/auth/auth.guard';
 import { NavbarComponent } from './components/ui-components/navbar/navbar.component'
 import { UsersearchresComponent } from './components/others/usersearchres/usersearchres.component'
 import { SidenavComponent } from './components/ui-components/sidenav/sidenav.component'
-import { Searchres2Component} from './components/others/searchres2/searchres2.component'
 import { EventsnordComponent } from './components/students/eventsnord/eventsnord.component'
 import { NordComponent } from './components/nord/nord.component'
 import { OrgdashboardComponent } from './components/organizers/orgdashboard/orgdashboard.component'
@@ -55,10 +54,6 @@ const routes: Routes = [
   {
     path: "sidenav",
     component: SidenavComponent
-  },
-  {
-    path: "searchres2",
-    component: Searchres2Component
   },
   {
     path: "verifyemail",

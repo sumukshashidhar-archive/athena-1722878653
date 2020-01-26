@@ -11,7 +11,7 @@
             class="card-img">
              <img src="http://localhost:3000/{{imageToShow}}" style="cursor: pointer;"  data-toggle="modal" data-target="#dpModal" alt="profile image" class="profile-img">
           <h1>{{username}}</h1>
-          <p class="job-title">Student School</p>
+          <p class="job-title">{{school}}</p>
           <p class="about">
             {{bio}}
           </p>
@@ -20,7 +20,7 @@
     </div>
   </section>
   <body>
-    <div class="container" style="margin-left: 18%;">
+    <div class="container cc" style="">
       <div class="card abc">
         <div class="face face1">
           <div class="content">
@@ -94,43 +94,29 @@
         </div>
       </div>
     </div>
-    <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
-      <div class="modal-dialog">
-        <div class="modal-content myModal1c" style="">
-          <div class="modal-body myModal1b"
-            style=""
-            id="des">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <img src="http://localhost:3000/{{img}}" data-toggle="" alt="Avatar" id="achImg" style="border-radius: 10px; max-width: 50%;">
-            <br />
-            {{desc}}
-            <br />
-            <div class="container" *ngIf="Rank=='State'"
-              style="background-color: lawngreen; color: black;  max-width: 50%;">
-              Rank: {{Rank}}
+    <div class="newsItem" *ngFor="let ach of this.ach_list">
+      <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body"
+            style="background: #fff;max-height: 100vh;max-width: 100vw;" >
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 style="margin-top: 2%;margin-left: 10%;font-size: 1.5em;">{{Name}}</h4>
+              <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="max-height: 80%;max-width: 80%;margin-left: 10%; margin-top: 5%;">
+              <br />
+              <p> {{desc}}</p>
+              <br />
+<!--
+              <button class="btn btn-danger" style="margin-left: 40%;" (click)="DeleteAch(ach._id)" aria-hidden="true"><i
+                  class="fa fa-trash fa-3x"></i></button> -->
             </div>
-            <div class="container" *ngIf="Rank=='City'"
-              style="background-color: red; color: black; max-width: 100%;">
-              Rank: {{Rank}}
-            </div>
-            <div class="container" *ngIf="Rank=='School'"
-              style="background-color: yellow; color: black;max-width: 100%;">
-              Rank: {{Rank}}
-            </div>
-            <div class="container" *ngIf="Rank=='National'"
-              style="background-color: orange; color: black;max-width: 100%;">
-              Rank: {{Rank}}
-            </div>
-            <div class="container" *ngIf="Rank=='International'"
-              style="background-color: black; color: white;border-radius: 10px;max-width: 100%;">
-              Rank: {{Rank}}
-            </div>
-          </div>
 
+          </div>
         </div>
       </div>
+
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
@@ -203,6 +189,7 @@
           </button>
         </div>
         <div class="modal-body">
+          <br>
           <div class="custom-file mb-3">
             <input type="file" required class="custom-file-input" name="file" id="file1" [(ngModel)]="file"
               (change)="readSingleFile($event)" />

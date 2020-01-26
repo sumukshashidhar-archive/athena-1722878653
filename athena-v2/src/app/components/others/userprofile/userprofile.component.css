@@ -55,8 +55,6 @@ nav li {
 }
 
 .modal-body {
-  margin: 0;
-  padding: 0;
   background: #353779;
   font-family: sans-serif;
 
@@ -90,13 +88,12 @@ section {
 
 .card {
   width: 32rem;
-  background-color: #ebeef8;
+  background-color: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 2rem 0;
-  box-shadow: .5rem .5rem 3rem rgba(0, 0, 0, 0.2);
 }
 
 .card .card-img {
@@ -116,12 +113,14 @@ section {
   z-index: 999;
   border: 1rem solid #ebeef8;
 }
+.profile-img:hover {
+  transform: scale(1.1);
+}
 
 
 .card h1 {
   font-size: 2.5rem;
   color: #333;
-  margin: 1.5rem 0;
 }
 
 .job-title {
@@ -132,7 +131,6 @@ section {
 
 .about {
   font-size: 1.5rem;
-  margin: 1.5rem 0;
   font-style: italic;
   text-align: center;
   color: #333;
@@ -159,45 +157,14 @@ section {
   box-shadow: none
 }
 
-.social-media {
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: space-evenly;
-  padding: 2rem 0;
-  margin-top: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, .1);
-}
-
-
-.social-media i {
-  font-size: 3rem;
-  transition: color .5s;
-}
-
-.fa-facebook-square {
-  color: #3b5999;
-}
-
-.fa-twitter-square {
-  color: #55acee;
-}
-
-.fa-instagram {
-  color: #ff0057
-}
-
-.fa-facebook-square:hover,
-.fa-twitter-square:hover,
-.fa-instagram:hover {
-  color: #45e19f
-}
-
 @media screen and (min-width: 700px) {
   .modal-content {
     max-width: 100%;
     max-height: 60%;
   }
+.cc{
+  margin-left: 20vw;
+}
 
   .modal-body .name {
     max-width: 20%;
@@ -255,16 +222,16 @@ ul {
   white-space: pre-line;
   max-width: 70vw;
   max-height: 70vw;
-  background-color: #fff
+  background-color: #fafafa
 }
 
 ul li:hover {
   transform: scale(1.06);
-  background: #fff;
+  background: #fafafa;
 }
 
 body {
-  margin: 0;
+  margin-left: 10vw;
   padding: 0;
   min-height: 100vh;
   background: #00000000;
@@ -365,9 +332,9 @@ body {
   color: aliceblue;
 }
 
-@media screen and (max-width: 765px) {
+@media screen and (max-width: 576px) {
   body {
-    margin-top: -15%;
+    margin-top: 5%;
     padding: 0;
     min-height: 100vh;
     background: #00000000;
@@ -375,6 +342,10 @@ body {
     justify-content: center;
     align-items: center;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .job-title{
+    font-size: 1rem;
   }
 
   .card-wrapper {
@@ -398,24 +369,24 @@ body {
     white-space: pre-line;
     max-width: 70vw;
     max-height: 70vw;
-    background-color: #fff
+    background-color: #fafafa
   }
 
   .card {
     width: 13rem;
-    background-color: #ebeef8;
+    background-color: #fafafa;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-left: 20%;
-    box-shadow: .5rem .5rem 3rem rgba(0, 0, 0, 0.2);
+
 
   }
 
   .card .card-img {
     width: 100%;
-    height: 26rem;
+    height: 15rem;
     object-fit: cover;
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 78%, 0% 100%);
     clip-path: polygon(0 0, 100% 0, 100% 78%, 0% 100%);
@@ -432,14 +403,15 @@ body {
 
   }
 
+
   .card h1 {
     font-size: 2.5rem;
     color: #333;
-    margin-top: 5rem;
+    margin-top: 0rem;
   }
 
   .container {
-    margin-top: 10%;
+    margin-top: -5%;
     width: 100.2vw;
     position: relative;
     display: block;

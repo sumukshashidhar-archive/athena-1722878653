@@ -1,3 +1,4 @@
+import { school } from './../../students/signup/signup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventService } from './../../../shared/events/event.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -17,6 +18,8 @@ import { LOCAL_STORAGE } from "@ng-toolkit/universal";
 export class UserprofileComponent implements OnInit {
   ach_list: any;
   decoded: any;
+  school:any
+  Name:any
   bio: any;
   file:any;
   username: any;
@@ -63,6 +66,7 @@ this.getEvents();
        console.log(this.desc)
        console.log(this.img)
        this.Rank=this.ach_list[i].achRank
+       this.Name=this.ach_list[i].Name
 
       }
     }
@@ -117,6 +121,8 @@ this.getEvents();
       this.ach_list=res['obj']['Achievement']
       this.bio=res['obj']['Bio']
       this.imageToShow=res['dp']
+      this.school=res['obj']['studentSchool']
+      console.log(this.school)
     })
   }
   thisAch(id:any){

@@ -14,8 +14,7 @@
     <!--  -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
 
-
-    <div class="container">
+    <div class="container" style="color: yellow; margin-left: 5%;">
       <div class="row">
         <div class=" column col-12 col-sm-6 col-lg-4 col-xl-3"*ngFor="let ach of ach_list">
           <mat-card class="CARD" data-toggle="modal" data-target="#myModal1"
@@ -54,18 +53,17 @@
 <div class="newsItem" *ngFor="let ach of this.ach_list">
   <div class="modal" id="myModal1" *ngFor="let ach of this.ach_list">
     <div class="modal-dialog">
-      <div class="modal-content achdetails">
-        <div class="modal-body achdetailsB"
-          style="" >
+      <div class="modal-content">
+        <div class="modal-body"
+        style="background: #fff;max-height: 100vh;max-width: 100vw;" >
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="border-radius: 10px;">
+          <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="max-height: 80%;max-width: 80%;margin-left: 10%; margin-top: 5%;">
           <br />
-          {{desc}}
           <br />
-
-          <button class="btn btn-danger" (click)="DeleteAch(ach._id)" aria-hidden="true"><i
+         <p style="margin-top: 50%;"> {{desc}}</p>
+          <button class="btn btn-danger" style="margin-left: 40%;" (click)="DeleteAch(ach._id)" aria-hidden="true"><i
               class="fa fa-trash fa-3x"></i></button>
         </div>
 

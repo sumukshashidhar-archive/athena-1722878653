@@ -32,9 +32,9 @@ font-size:20px;
 .CARD{
   width: 16rem;
   height: 12rem;
-  margin-left: 7vw;
+  margin-left: -1vw;
   border-radius: 10px;
-  background:  ##ffffff ;
+  background:  #f2f2f7 ;
   box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px rgba(94,104,121,.288);
   border:none;
   margin-bottom: 10%;
@@ -55,6 +55,7 @@ font-size:20px;
   text-align: center;
   transform: rotate(-25deg);
   margin-top: 6.5%;
+  margin-left: -5%;
 
 }
 
@@ -221,4 +222,14 @@ a:hover, a:focus {text-decoration:none;}
 
 a:hover .summary p, a:focus .summary p {
   color: #333;
+}
+@media screen and(max-width:576 px){
+  .achdetails{
+    margin-left: 75%;
+  }
+}
+@media  screen and (min-width:1920px){
+.CARD{
+  margin-left: 20vw;
+}
 }

@@ -1719,7 +1719,8 @@ app.post("/click-on-events", function(req, res) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
-                Student.findOne({
+                if(decodedToken['role']=='Student') {
+                                    Student.findOne({
                         _id: decodedToken.usrid
                     }, {
                         Interests: 1,
@@ -1763,6 +1764,11 @@ app.post("/click-on-events", function(req, res) {
                         }
                     }
                 );
+                }
+                else {
+                    res.status(403).send('Unauthorized')
+                }
+
             }
         }
     );
@@ -1771,7 +1777,9 @@ app.post("/click-on-events", function(req, res) {
 });
 
 app.post("//addInterestOrganizer", function(req, res) {
-    var eventId = req.body.eventId;
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false && decoded['role']=='Org') {
+            var eventId = req.body.eventId;
     var eventInterest = req.body.eventInterest;
 
     event.findOne({
@@ -1802,6 +1810,11 @@ app.post("//addInterestOrganizer", function(req, res) {
             }
         }
     );
+    }
+    else {
+        res.status(403).send('Unauth')
+    }
+
 
     // console.log(req.body.eventInterest);
     // console.log(req.body.eventId);

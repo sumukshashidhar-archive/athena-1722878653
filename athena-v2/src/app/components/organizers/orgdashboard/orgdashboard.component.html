@@ -1,64 +1,54 @@
-<head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-  <app-main-nav>
 
-        <h1 class="mat-h1">Dashboard</h1>
-        <mat-grid-list cols="2" rowHeight="350px">
-        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-          <!-- Events Card -->
+<app-main-nav>
+  <html style="background-color: #00000000;">
+  <div class="container" style="background-color: #00000000;">
 
+    <body>
+      <br />
+      <div class="container c2" style="">
+        <div class="card text card-123">
+          <a class="card-body-a card-123-a" [routerLink]="['/achievements']">
+            <h5 class="card-title">1</h5>
+            <p class="card-text-a card-122-text">Manage Your Events<br /></p>
+          </a>
+        </div>
+        <div class="card text card-124">
+          <a class="card-body-b card-124-a" [routerLink]="['/interests']">
+            <h5 class="card-title">1</h5>
+            <p class="card-text-a card-123-text">Add an Event <br />
+            </p>
+          </a>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="container c1">
+        <div class="card text card-125">
+          <a class="card-body-c card-125-a" [routerLink]="['/events']">
+            <h5 class="card-title">1</h5>
+            <p class="card-text-a card-123-text">Add an Event<br />
+            </p>
+          </a>
+        </div>
+        <div class="card text card-124">
+          <a class="card-body-c card-126-a" [routerLink]="['/academics']">
+            <h5 class="card-title">1</h5>
+            <p class="card-text-a card-123-text" style="">Discover <br /> </p>
+          </a>
+        </div>
+      </div>
+      <mat-card class="upcomingC" style="margin-top: 20%; box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.699);">
+        <mat-card-content>
+          <h2 class="upcoming" style="font-weight: 100;margin-bottom: 10%;">Your Upcoming Events</h2>
+          <div class="container" *ngFor="let evn of myEvents" style="margin-top:10%;">
+            <h4>{{evn.evnName}}</h4>
+            <h5>{{evn.evnDate1}}</h5>
+            <a target="_blank" class="link" style="color: blue;font-size: 2em;" href="https://{{evn.evnOrganizerPage}}">{{evn.evnOrganizerPage}}</a>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </body>
+  </div>
 
-          <mat-card *ngIf="card.title === 'Your Events'" class="dashboard-card card-1" [routerLink]="[card.route]"
-          routerLinkActive="router-link-active">
-          <mat-card-header>
-            <mat-card-title>
-              {{card.title}}
-            </mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content class="dashboard-card-content">
-            <p>This is your events card</p>
-          </mat-card-content>
-        </mat-card>
-
-
-          <!-- Discover Card -->
-          <mat-card class="dashboard-card card-2" *ngIf="card.title === 'Discover'">
-            <mat-card-content class="dashboard-card-content" style="justify-content:center;">
-              <form #f="ngForm">
-                <br>
-                <br>
-                <mat-form-field>
-                  <input matInput type="text" placeholder="Search" required name="keyword" ngModel
-                    #keyword="ngModel" [(ngModel)]="data.selSearch.keyword">
-                </mat-form-field>
-                <br>
-                <button (click)="search(f)" class="btn btn-primary btn-lg search"><i class="fa fa-search"></i></button>
-              </form>
-            </mat-card-content>
-
-          </mat-card>
-          <!-- Creating an Event -->
-          <mat-card class="dashboard-card card-3" [routerLink]="[card.route]" *ngIf="card.title === 'Create an Event'"
-            routerLinkActive="router-link-active">
-            <mat-card-header>
-              <mat-card-title class="text-center" style="font-weight: 100;color: #fafafa;font-size: 1.2em;justify-content: center;">
-                {{card.title}}
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="dashboard-card-content">
-              <h6 class="day" style="">{{today}}</h6>
-              <p  style="font-weight: 400;color: #fafafa;font-size: 2em;text-align: left;" >{{month}}</p>
-              <h3  style="font-weight: 600;color: #fafafa;font-size:3.5em;text-align: left;">{{date}}</h3>
-              <a class="card" [routerLink]="['/eventsorg']" routerLinkActive="router-link-active" >
-                <i class="fa fa-plus fa-4x" style="color: #021b79;"></i>
-              </a>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-  </app-main-nav>
-</body>
+  </html>
+</app-main-nav>

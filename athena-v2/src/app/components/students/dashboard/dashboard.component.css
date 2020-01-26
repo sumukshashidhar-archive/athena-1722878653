@@ -465,36 +465,4 @@ h2 {
   }
 
 }
-@media screen and (min-width:1920px){
-  .c2{
-    margin-left: 4%;
-  }
-  .link{
-    font-size: 2vw;
-  }
 
-  .c1{
-    margin-left: 0%;
-  }
-  .upcomingC{
-    max-width: 100%;
-    max-height: 100%;
-    width: 50vw;
-  }
-  .card-126-a, .card-126{
-    margin-left: -65%;
-  }
-  .card-124-a,.card-124{
-    margin-left: 10%;
-  }
-  .card-124,.card-126{
-   max-width: 1%;
-  }
-.upcoming{
-  font-size: 6em;
-  white-space: nowrap;
-}
-h4,h5,a{
-  font-size: 3em;
-}
-}

@@ -14,13 +14,11 @@
     <!--  -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
 
-    <div class="container">
-    <div class="containercard" style="">
-      <div class="row" class="cr">
-        <div class="column" style="float: left;" *ngFor="let ach of ach_list">
-          <a class="card mb-3 CARD"
 
-            [routerLink]="['/']" onclick="return false;" data-toggle="modal" data-target="#myModal1"
+    <div class="container">
+      <div class="row">
+        <div class=" column col-12 col-sm-6 col-lg-4 col-xl-3"*ngFor="let ach of ach_list">
+          <mat-card class="CARD" data-toggle="modal" data-target="#myModal1"
             (click)="DoIt(ach._id)">
             <div class="rank" *ngIf="ach.achRank=='State'"
               style="background-color: lawngreen; color: black; border-radius: 10px;">
@@ -42,17 +40,15 @@
               style="background-color: black; font-size:0.5em;color: white;border-radius: 10px;">
               {{ach.achRank}}
             </div>
-            <div
-              style="text-align: center;font-size: 0.8em;font-weight: 100; color:#000;margin-top: 0.5vw;">
-              {{ach.SubCategoryId}}</div>
-            <a class="card-body" style="text-align: center;font-size: 1.5em; font-weight: 200; color: black;">
+            <br>
+            <br>
+            <mat-card-content style="font-weigth:400">
               {{ach.Name}}
-            </a>
-          </a>
+          </mat-card-content>
+          </mat-card>
         </div>
       </div>
     </div>
-  </div>
   </body>
 </app-main-nav>
 <div class="newsItem" *ngFor="let ach of this.ach_list">

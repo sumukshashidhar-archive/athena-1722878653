@@ -1178,21 +1178,26 @@ app.post("/getAcademics", async function(req, res) {
 
 app.post("/getSpecicifAc", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
-    if(decoded!=false && decoded['role']=='Student')
-    console.log(req.body.email);
-    console.log.apply(req.body.acId);
-    Student.findOne({
-            EmailId: req.body.email
-        },
-        function(err, obj) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(obj.Academics[req.body.acId]);
-                res.send(obj.Academics[req.body.acId]);
-            }
-        }
-    );
+    if(decoded!=false && decoded['role']=='Student'){
+            console.log(req.body.email);
+            console.log.apply(req.body.acId);
+            Student.findOne({
+                    EmailId: req.body.email
+                },
+                function(err, obj) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(obj.Academics[req.body.acId]);
+                        res.send(obj.Academics[req.body.acId]);
+                    }
+                }
+            );
+    }
+    else {
+        res.status(403).send('wrong type')
+    }
+
 });
 
 //INTERESTS

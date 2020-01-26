@@ -1,5 +1,11 @@
 ////Have to make sensitive data excluded
 
+
+
+
+
+
+//CODE CLEANS - SUMUK
 var express = require("express");
 var fs = require("fs");
 var jwt = require("jsonwebtoken");
@@ -11,8 +17,24 @@ const crypto = require("crypto");
 var multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const nodemailer = require("nodemailer");
-var CatE = require("./models/category.js");
+const multipart = require("connect-multiparty");
 var Grid = require("gridfs-stream");
+
+
+
+const multipartMiddleware = multipart({
+    uploadDir: "./uploads"
+});
+var mms = require("./microservices/ml-data-exports");
+var rcms = require("./microservices/redundancy-check");
+var oems = require("./microservices/event-org-micro");
+// PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
+var privateKEY = fs.readFileSync("./keys/private.key", "utf8");
+var publicKEY = fs.readFileSync("./keys/public.key", "utf8");
+var lms = require("./microservices/logs-micro");
+var dms = require("./microservices/davinci-micro");
+var jwms = require("./microservices/jwt-micro");
+var CatE = require("./models/category.js");
 var InterestSchema = require("./models/interest.js");
 const tokenExtractor = require("./controllers/tokenExtractor.js");
 var organizer_functions = require("./controllers/organizer_controller");
@@ -20,7 +42,7 @@ var student_functions = require("./controllers/student_controller");
 var user_function = require("./controllers/user_controller.js");
 var achievements = require("./models/Achievements.js");
 var AcademicsSchema = require("./models/AcademicsSchema.js");
-
+var randomise = require('./config/randomizer');
 const enc = require("./config/encryptionConfig.js");
 var serv = require("./config/severConfig.js");
 var user = require("./models/user.js");
@@ -28,20 +50,11 @@ var Student = require("./models/StudentInfo.js");
 var Organiser = require("./models/OrganiserInfo.js");
 const db = require("./config/database");
 var event = require("./models/event");
+var sr = require("./microservices/evn-micro");
+
+
+
 const saltRounds = enc.saltRounds;
-const multipart = require("connect-multiparty");
-const multipartMiddleware = multipart({
-    uploadDir: "./uploads"
-});
-
-var rcms = require("./microservices/redundancy-check");
-
-// PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
-var privateKEY = fs.readFileSync("./keys/private.key", "utf8");
-var publicKEY = fs.readFileSync("./keys/public.key", "utf8");
-var lms = require("./microservices/logs-micro");
-var dms = require("./microservices/davinci-micro");
-
 function sendMail(output, to) {
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -87,8 +100,6 @@ var app = express();
 //testing var declaration - will be removed as development goes on
 var token;
 
-
-var randomise = require('./config/randomizer');
 var rdstring = randomise.randomizer;
 //Using Cors
 app.use(cors());
@@ -868,7 +879,7 @@ app.post("/auth", function (req, res) {
     });
 });
 
-var oems = require("./microservices/event-org-micro");
+
 
 // ORGANIZER EVENTS CREATOR ROUTE.
 app.post("/organizer-events", async function (req, res) {
@@ -1592,7 +1603,6 @@ app.post("/events_search", function (req, res) {
 });
 
 app.get("/events", async (req, res) => {
-    console.log("ENTERSSxcvxcvxcvxcvxcvxcvxcvxcvxSSSSSS");
     //Gets a request from the user
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
@@ -1737,7 +1747,7 @@ function binarySearch(array, key) {
     return false;
 }
 
-var mms = require("./microservices/ml-data-exports");
+
 
 async function add(interests, evnInterests, uservector, _id) {
     var to_add = new Array(); //Defining the array where we add the interests
@@ -1958,81 +1968,9 @@ app.get("/getCategoriesId", function (req, res) {
     );
 });
 
-// app.get('/addInterestArray', function(req, res)
-// {
-//     CatE.updateMany({}, {$set: {users: [1]}}, function(err, obj)
-//     {
-//         if(err)
-//         {
-//             console.log(err);
-//         }
-//         else
-//         {
-//             res.send("DONE!!");
-//         }
-//     });
-// });
 
-app.post("/addCat", function (req, res) {
-    var catId = generate(6);
-    var catName = "Adventerous Journey";
-
-    var subCatNameArray = ["Nature", "Historic", "Investigation", "Survival"];
-    var subCat = new Array();
-
-    for (var i = 0; i < subCatNameArray.length; i++) {
-        var subCatObj = {
-            subCatId: parseInt(generate(10)),
-            subCatName: subCatNameArray[i]
-        };
-
-        subCat.push(subCatObj);
-    }
-
-    var cat = new CatE({
-        catId: catId,
-        catName: catName,
-        subCat: subCat
-    });
-
-    cat.save(function (err, obj) {
-        if (err) {
-            console.log(err);
-        } else {
-            /*console.log(obj)*/
-            res.redirect(
-                "file:///C:/Users/Dell/Documents/main/athena-pvt/addCat.html"
-            );
-        }
-    });
-});
 
 app.get("/:filename", (req, res) => {
-    // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    //     console.log(req.params)
-    //     console.log(file)
-    //   // Check if file
-    //   if (!file || file.length === 0) {
-    //     return res.status(404).json({
-    //       err: 'No file exists',
-    //     })
-    //   }
-
-    //   // Check if image
-    //   if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-    //     // Read output to browser
-    //     console.log('REached this point')
-    //     const readstream = gfs.createReadStream(file.filename)
-    //     readstream.pipe(res)
-    //     return({files:file})
-
-    //   } else {
-    //     res.status(404).json({
-    //       err: 'Not an image',
-    //     })
-
-    //   }
-    // })
     const file = gfs
         .find({
             filename: req.params.filename
@@ -2076,7 +2014,7 @@ function getFrndInt(email) {
     );
 }
 
-var jwms = require("./microservices/jwt-micro");
+
 
 app.post("/api/follow", async function (req, res) {
     jwt.verify(
@@ -2097,31 +2035,37 @@ app.post("/api/follow", async function (req, res) {
                             console.log(err);
                             res.status(403).send("No such student");
                         } else {
-                            /*console.log(obj)*/
-                            var id = req.body._id;
-                            if (obj.evnFollowing.includes(id)) {
-                                res.status(403).send("Already Exists");
-                            } else {
-                                obj.evnFollowing.push(id);
-                                /*console.log(obj)*/
-                                Student.updateOne(
-                                    {
-                                        _id: decodedToken["usrid"]
-                                    },
-                                    {
-                                        $set: {
-                                            evnFollowing: obj.evnFollowing
+                            if(obj!=null){
+                                var id = req.body._id;
+                                if (obj.evnFollowing.includes(id)) {
+                                    res.status(403).send("Already Exists");
+                                } else {
+                                    obj.evnFollowing.push(id);
+                                    /*console.log(obj)*/
+                                    Student.updateOne(
+                                        {
+                                            _id: decodedToken["usrid"]
+                                        },
+                                        {
+                                            $set: {
+                                                evnFollowing: obj.evnFollowing
+                                            }
+                                        },
+                                        function (err, obj) {
+                                            if (err) {
+                                                res.status(500).send("Something went wrong");
+                                            } else {
+                                                res.status(200).send(obj);
+                                            }
                                         }
-                                    },
-                                    function (err, obj) {
-                                        if (err) {
-                                            res.status(500).send("Something went wrong");
-                                        } else {
-                                            res.status(200).send(obj);
-                                        }
-                                    }
-                                );
+                                    );
+                                }
                             }
+                            else {
+                                res.status(403).send('Not Student')
+                            }
+                            /*console.log(obj)*/
+
                         }
                     }
                 );
@@ -2293,7 +2237,7 @@ app.post("/logout", async function (req, res) {
     }
 });
 
-var sr = require("./microservices/evn-micro");
+
 
 app.get("/api/getrecent", async function (req, res) {
     var evns = await sr.all();
@@ -2751,20 +2695,6 @@ var arms = require("./microservices/archive-micro");
 app.get("/api/run", function (req, res) {
     ///Archiving Events
     var key = "";
-    console.log("works");
-    Student.find({}, function (err, obj) {
-        if (err) {
-            console.log(err);
-        } else {
-            if (obj != []) {
-                /*console.log(obj)*/
-                for (let i = 0; i < obj.length; obj++) {
-                    var age = ageconvert(obj[i].DOB);
-                    console.log(age);
-                }
-            }
-        }
-    });
     arms.eventsArchive();
 });
 
@@ -2815,88 +2745,88 @@ app.post("/api/vectorless/click-on-events", function (req, res) {
     //Must send a post
 });
 
-async function ageconvert(dob) {
-    var callback = new Promise((res, rej) => {
-        var checkYear = Math.floor(dob / 31536000000);
-        res(checkYear);
-    });
+// async function ageconvert(dob) {
+//     var callback = new Promise((res, rej) => {
+//         var checkYear = Math.floor(dob / 31536000000);
+//         res(checkYear);
+//     });
 
-    let r = await callback;
-    return r;
-}
+//     let r = await callback;
+//     return r;
+// }
 
-app.post("/api/unfollowevent", async function (req, res) {
-    jwt.verify(
-        tokenExtractor.tokenExtractor(req.headers.authorization),
-        publicKEY,
-        enc.verifyOptions,
-        function (err, decodedToken) {
-            if (err) {
-                console.log("INTERNAL ERROR. ", err);
-                res.status(403).send("Wrong JWT");
-            } else {
-                Student.findOne(
-                    {
-                        _id: decodedToken.usrid
-                    },
-                    {
-                        evnFollowing: 1
-                    },
-                    function (err, MONGO_OBJ_RETURN) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            if (MONGO_OBJ_RETURN) {
-                                if (MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
-                                    var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(
-                                        req.body.id
-                                    );
-                                    if (index > -1) {
-                                        MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
+// app.post("/api/unfollowevent", async function (req, res) {
+//     jwt.verify(
+//         tokenExtractor.tokenExtractor(req.headers.authorization),
+//         publicKEY,
+//         enc.verifyOptions,
+//         function (err, decodedToken) {
+//             if (err) {
+//                 console.log("INTERNAL ERROR. ", err);
+//                 res.status(403).send("Wrong JWT");
+//             } else {
+//                 Student.findOne(
+//                     {
+//                         _id: decodedToken.usrid
+//                     },
+//                     {
+//                         evnFollowing: 1
+//                     },
+//                     function (err, MONGO_OBJ_RETURN) {
+//                         if (err) {
+//                             console.log(err);
+//                         } else {
+//                             if (MONGO_OBJ_RETURN) {
+//                                 if (MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
+//                                     var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(
+//                                         req.body.id
+//                                     );
+//                                     if (index > -1) {
+//                                         MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
 
-                                        Student.updateOne(
-                                            {
-                                                id: decodedToken.usrid
-                                            },
-                                            {
-                                                $set: {
-                                                    evnFollowing: MONGO_OBJ_RETURN.evnFollowing
-                                                }
-                                            },
-                                            function (err2, obj2) {
-                                                if (err) {
-                                                    res.status(500).send("Update Error");
-                                                } else {
-                                                    res.status(200).send("Removed");
-                                                }
-                                            }
-                                        );
-                                    } else {
-                                        res.status(404).send("Event not found in Event Following");
-                                    }
-                                } else {
-                                    res.status(404).send("Event not found in Event Following");
-                                }
-                            } else {
-                                console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
-                            }
-                        }
-                    }
-                );
-            }
-        }
-    );
-});
+//                                         Student.updateOne(
+//                                             {
+//                                                 id: decodedToken.usrid
+//                                             },
+//                                             {
+//                                                 $set: {
+//                                                     evnFollowing: MONGO_OBJ_RETURN.evnFollowing
+//                                                 }
+//                                             },
+//                                             function (err2, obj2) {
+//                                                 if (err) {
+//                                                     res.status(500).send("Update Error");
+//                                                 } else {
+//                                                     res.status(200).send("Removed");
+//                                                 }
+//                                             }
+//                                         );
+//                                     } else {
+//                                         res.status(404).send("Event not found in Event Following");
+//                                     }
+//                                 } else {
+//                                     res.status(404).send("Event not found in Event Following");
+//                                 }
+//                             } else {
+//                                 console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+//                             }
+//                         }
+//                     }
+//                 );
+//             }
+//         }
+//     );
+// });
 
-var usrctr = 50;
+// var usrctr = 50;
 
-app.get("/external/usercount", function (req, res) {
-    res.status(200).send(usrctr);
-});
+// app.get("/external/usercount", function (req, res) {
+//     res.status(200).send(usrctr);
+// });
 
-app.get("/external/usercount/updater", function (req, res) {
-    usrctr += 10;
-});
+// app.get("/external/usercount/updater", function (req, res) {
+//     usrctr += 10;
+// });
 
 
 // app.get('/api/mlstuff', async function(req, res){
@@ -2913,47 +2843,47 @@ app.get("/external/usercount/updater", function (req, res) {
 ///DEV ROUTES ===>
 
 
-app.get('/api/addevnsdata', (req, res) => {
-    //Add DATA Here
-    //PLEASE ADD A ORGANISER ID
-    var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT
-    //IF YOU DONT WANT IMAGE NOW, COMMENT OUT THE IMAGE FIELD IN THE BOTTOM
-    var orgID = ''; //ADD HERE FROM WHICH ORGANISER
-    var evnName = '';
-    var evnDate1 = ''; //MUST BE IN MILLISECONDS, ADD A REGULAR AND CHECK
-    var evnDate2 = ''; // SAME AS ABOVE 
-    var evnInterests = ''; //MUST BE AN ARRAY
-    var evnLocation = ''; //DONT KNOW WHAT THIS IS FOR
-    var evnOrganizerName = ''; //ADD THIS FROM THE TOKEN AS WELL
-    var evnOrganizerPage = ''; //KEEP THEM CONSTANT
-    var evnOrganizerContact = ''; //THIS AS WELL
-    var evnPincode = ''; //MUST BE 560076 or 560078 or something along those lines
-    var evnTargetAge = ''; //PUT 15-16  
-    var newEvent = new event({
-        evnName: evnName,
-        evnDate1: evnDate1,
-        evnDate2: evnDate2,
-        evnInterests: evnInterests,
-        evnLocation: evnLocation,
-        evnCity: req.body.evnCity,
-        evnOrganizerName: evnOrganizerName, //this line has to be changed
-        evnOrganizerPage: evnOrganizerPage,
-        evnOrganizerContact: evnOrganizerContact,
-        evnPincode:evnPincode,
-        evnTargetAge: evnTargetAge,
-        evnDescription: req.body.evnDescription,
-        evnCost: req.body.cost,
-        Image: newImgName
-    });
-    newEvent.save(function (err, obj) {
-        if (err) {
-            console.log("ERROR:\n" + err);
-            return res.redirect("/registerorganiser");
-        } else {
-            /*console.log(obj)*/
-            //have to append the newly created id to the organizer as well
-            oems.addToOrganiser(orgID, obj._id);
-            res.json(obj);
-        }
-    });
-})
+// app.get('/api/addevnsdata', (req, res) => {
+//     //Add DATA Here
+//     //PLEASE ADD A ORGANISER ID
+//     var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT
+//     //IF YOU DONT WANT IMAGE NOW, COMMENT OUT THE IMAGE FIELD IN THE BOTTOM
+//     var orgID = ''; //ADD HERE FROM WHICH ORGANISER
+//     var evnName = '';
+//     var evnDate1 = ''; //MUST BE IN MILLISECONDS, ADD A REGULAR AND CHECK
+//     var evnDate2 = ''; // SAME AS ABOVE 
+//     var evnInterests = ''; //MUST BE AN ARRAY
+//     var evnLocation = ''; //DONT KNOW WHAT THIS IS FOR
+//     var evnOrganizerName = ''; //ADD THIS FROM THE TOKEN AS WELL
+//     var evnOrganizerPage = ''; //KEEP THEM CONSTANT
+//     var evnOrganizerContact = ''; //THIS AS WELL
+//     var evnPincode = ''; //MUST BE 560076 or 560078 or something along those lines
+//     var evnTargetAge = ''; //PUT 15-16  
+//     var newEvent = new event({
+//         evnName: evnName,
+//         evnDate1: evnDate1,
+//         evnDate2: evnDate2,
+//         evnInterests: evnInterests,
+//         evnLocation: evnLocation,
+//         evnCity: req.body.evnCity,
+//         evnOrganizerName: evnOrganizerName, //this line has to be changed
+//         evnOrganizerPage: evnOrganizerPage,
+//         evnOrganizerContact: evnOrganizerContact,
+//         evnPincode:evnPincode,
+//         evnTargetAge: evnTargetAge,
+//         evnDescription: req.body.evnDescription,
+//         evnCost: req.body.cost,
+//         Image: newImgName
+//     });
+//     newEvent.save(function (err, obj) {
+//         if (err) {
+//             console.log("ERROR:\n" + err);
+//             return res.redirect("/registerorganiser");
+//         } else {
+//             /*console.log(obj)*/
+//             //have to append the newly created id to the organizer as well
+//             oems.addToOrganiser(orgID, obj._id);
+//             res.json(obj);
+//         }
+//     });
+// })

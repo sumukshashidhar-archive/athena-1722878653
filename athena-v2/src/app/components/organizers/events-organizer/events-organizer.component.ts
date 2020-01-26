@@ -88,9 +88,6 @@ export class EventsOrganizerComponent implements OnInit {
     this.maxDateSet();
     this.getAllCategory();
     this.getEvents();
-    if (decodedtoken["role"] == "Org") {
-      this.username = decodedtoken["name"];
-    }
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))

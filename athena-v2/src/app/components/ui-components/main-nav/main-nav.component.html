@@ -18,7 +18,9 @@
       <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
       <form class="form-inline notdisplaying" #g="ngForm">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" ngModel #keyword="ngModel" required [(ngModel)]="searchService.selSearch.keyword">
-        <button mat-raised-button color="secondary" (click)="search(g)" [disabled]="!g.valid">Search</button>
+        <br>
+        <br>
+        <button class="btn btn-success" style="margin: 1rem;" (click)="search(g)" [disabled]="!g.valid">Search</button>
       </form>
     </mat-nav-list>
     <mat-nav-list *ngIf="isOrg">
@@ -28,7 +30,9 @@
       <a mat-list-item [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()" style="color: white"><i class="fa fa-power-off" style="margin-right: 1rem;"></i>Logout</a>
       <form class="form-inline notdisplaying" #f="ngForm">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keyword" ngModel #keyword="ngModel" required [(ngModel)]="searchService.selSearch.keyword">
-        <button mat-raised-button color="accent" (click)="search(f)" [disabled]="!f.valid">Search</button>
+        <br>
+        <br>
+        <button class="btn btn-success" (click)="search(f)" style="margin: 1rem;" [disabled]="!f.valid">Search</button>
       </form>
     </mat-nav-list>
   </mat-sidenav>

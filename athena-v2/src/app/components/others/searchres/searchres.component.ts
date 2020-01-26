@@ -13,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./searchres.component.css"]
 })
 export class SearchresComponent implements OnInit {
-  results: any = this.search.results;
+  results: any
   userResults: any = this.search.userResults;
   orgResults: any = this.search.orgResults;
   interestResults: any = this.search.interestResults;
@@ -41,15 +41,12 @@ export class SearchresComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settingTabValue();
+    this.results = JSON.parse(sessionStorage.getItem("results"))
+    this.userResults = JSON.parse(sessionStorage.getItem("userResults"))
   }
 
   logout() {
     this.auth.logout();
-  }
-
-  settingTabValue() {
-    this.selected.setValue(this.search.tabChange);
   }
 
   sendDetails(form: NgForm, _id: string) {
@@ -91,10 +88,6 @@ export class SearchresComponent implements OnInit {
     }
   }
 
-  tabChange2() {
-    this.search.tabAgain = 1;
-  }
-
   sendDetails1(form: NgForm, _id: string) {
     form.value["_id"] = _id;
     console.log(form.value);
@@ -122,5 +115,51 @@ export class SearchresComponent implements OnInit {
         }
       );
     }
+  }
+
+  eventSearch(){
+    var obj = {}
+    obj['keyword'] = sessionStorage.getItem("keyword")
+    obj['usecase'] = 1
+    this.search.postSearch(obj).subscribe(
+      res => {
+        var x = this.eventService.changeDate(res)
+        sessionStorage.setItem("results", JSON.stringify(x))
+        this.search.keyword2 = obj['keyword']
+        location.reload()
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
+  studentSearch(){
+    var obj = {}
+    obj['userKey'] = sessionStorage.getItem("keyword");
+    console.log(obj)
+    this.search.postUserSearch(obj).subscribe(
+      res => {
+        sessionStorage.clear()
+        sessionStorage.setItem("userResults", JSON.stringify(res))
+        this.search.keyword2 = obj['userKey']
+        location.reload()
+      },
+      err => {
+        console.log(err)
+      }
+    )
+  }
+
+  organizerSearch(){
+    var obj = {}
+    obj['orgKey'] = sessionStorage.getItem("keyword")
+    this.search.postOrgSearch(obj).subscribe(
+      res => {
+        sessionStorage.clear()
+        sessionStorage.setItem("orgResults", JSON.stringify(res))
+        location.reload()
+      }
+    )
   }
 }

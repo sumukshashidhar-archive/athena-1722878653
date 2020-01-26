@@ -1,5 +1,8 @@
 ////Have to make sensitive data excluded
 
+
+
+//CODE CLEANS - SUMUK
 var express = require("express");
 var fs = require("fs");
 var jwt = require("jsonwebtoken");
@@ -11,8 +14,24 @@ const crypto = require("crypto");
 var multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const nodemailer = require("nodemailer");
-var CatE = require("./models/category.js");
+const multipart = require("connect-multiparty");
 var Grid = require("gridfs-stream");
+
+
+
+const multipartMiddleware = multipart({
+    uploadDir: "./uploads"
+});
+var mms = require("./microservices/ml-data-exports");
+var rcms = require("./microservices/redundancy-check");
+var oems = require("./microservices/event-org-micro");
+// PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
+var privateKEY = fs.readFileSync("./keys/private.key", "utf8");
+var publicKEY = fs.readFileSync("./keys/public.key", "utf8");
+var lms = require("./microservices/logs-micro");
+var dms = require("./microservices/davinci-micro");
+var jwms = require("./microservices/jwt-micro");
+var CatE = require("./models/category.js");
 var InterestSchema = require("./models/interest.js");
 const tokenExtractor = require("./controllers/tokenExtractor.js");
 var organizer_functions = require("./controllers/organizer_controller");
@@ -20,7 +39,7 @@ var student_functions = require("./controllers/student_controller");
 var user_function = require("./controllers/user_controller.js");
 var achievements = require("./models/Achievements.js");
 var AcademicsSchema = require("./models/AcademicsSchema.js");
-
+var randomise = require('./config/randomizer');
 const enc = require("./config/encryptionConfig.js");
 var serv = require("./config/severConfig.js");
 var user = require("./models/user.js");
@@ -28,19 +47,11 @@ var Student = require("./models/StudentInfo.js");
 var Organiser = require("./models/OrganiserInfo.js");
 const db = require("./config/database");
 var event = require("./models/event");
+var sr = require("./microservices/evn-micro");
+
+
+
 const saltRounds = enc.saltRounds;
-const multipart = require("connect-multiparty");
-const multipartMiddleware = multipart({
-    uploadDir: "./uploads"
-});
-
-var rcms = require("./microservices/redundancy-check");
-
-// PRIVATE and PUBLIC key. Key Requirements are important to JWT authentication
-var privateKEY = fs.readFileSync("./keys/private.key", "utf8");
-var publicKEY = fs.readFileSync("./keys/public.key", "utf8");
-var lms = require("./microservices/logs-micro");
-var dms = require("./microservices/davinci-micro");
 
 function sendMail(output, to) {
     let transporter = nodemailer.createTransport({
@@ -87,12 +98,10 @@ var app = express();
 //testing var declaration - will be removed as development goes on
 var token;
 
-
-var randomise = require('./config/randomizer');
 var rdstring = randomise.randomizer;
 //Using Cors
 app.use(cors());
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     next();
 });
@@ -173,28 +182,36 @@ function generate(n) {
 }
 
 //STARTING SERVER HERE
-app.listen(serv.port, process.env.IP, function (
+app.listen(serv.port, process.env.IP, function(
     req,
     res //The Serv.port is from a config file
 ) {
     console.log("SERVER STARTED");
 });
 
+
+
+app.get('/api/test', function(req, res){
+    console.log('Got the request')
+    res.json('Server Runs')
+})
+
+
+
 app.post("/getProfileName", (req, res) => {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified");
                 console.log(decodedToken);
 
-                user.findOne(
-                    {
+                user.findOne({
                         username: decodedToken.email
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log("ERRROR" + err);
                             res.send(false);
@@ -221,15 +238,14 @@ app.post("/upload", upLoad.single("img"), (req, res) => {
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified");
 
-                user.findOneAndUpdate(
-                    {
+                user.findOneAndUpdate({
                         username: decodedToken.email
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log("ERRROR" + err);
                             res.send(false);
@@ -251,21 +267,19 @@ app.post("/uploadProfile", upLoad.single("img"), (req, res) => {
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified PROFILE PICTURE");
                 console.log(req.body);
 
-                user.findOneAndUpdate(
-                    {
+                user.findOneAndUpdate({
                         username: decodedToken.email
-                    },
-                    {
+                    }, {
                         $set: {
                             profilePic: req.body.name + dater()
                         }
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log("ERRROR" + err);
                             res.send(false);
@@ -285,12 +299,12 @@ app.post("/uploadProfile", upLoad.single("img"), (req, res) => {
 });
 
 //REGISTRATION ROUTE FOR STUDENTS.
-app.post("/register", async function (req, res) {
+app.post("/register", async function(req, res) {
     console.log(req.body);
     var redcheck = await rcms.check(req.body.email);
     console.log(redcheck);
     if (redcheck) {
-        bcrypt.hash(req.body.password, saltRounds, function (
+        bcrypt.hash(req.body.password, saltRounds, function(
             err,
             BCRYPT_PASSWORD_HASH
         ) {
@@ -308,7 +322,7 @@ app.post("/register", async function (req, res) {
                     Verified: false
                 });
 
-                newUser.save(async function (err, obj) {
+                newUser.save(async function(err, obj) {
                     if (err) {
                         console.log("ERROR, " + err);
                         res.status(422).send("Error in saving user");
@@ -346,77 +360,73 @@ app.post("/register", async function (req, res) {
     }
 });
 
-app.post("/updateinfo", function (req, res) {
-    jwt.verify(
-        tokenExtractor.tokenExtractor(req.headers.authorization),
-        publicKEY,
-        enc.verifyOptions,
-        function (err, decodedToken) {
-            if (err) {
-                console.log(err);
-                res.status(403).send("Not Logged In");
-            } else {
-                user.findOne(
-                    {
-                        email: req.body.email
-                    },
-                    function (err, obj) {
-                        if (err) {
-                            console.log("Mongo Error:" + err);
-                        } else {
-                            if (obj != null && obj != undefined && obj != {}) {
-                                /*console.log(obj)*/
-                                bcrypt.compare(req.body.password, obj.password, function (
-                                    err,
-                                    BCRYPT_RES
-                                ) {
-                                    if (BCRYPT_RES) {
-                                        var FirstName = req.body.FirstName;
-                                        var LastName = req.body.LastName;
-                                        var PhoneNo = req.body.phoneNo;
-                                        var Bio = req.body.bio;
-                                        var Location = req.body.Location;
+// app.post("/updateinfo", function(req, res) {
+//     jwt.verify(
+//         tokenExtractor.tokenExtractor(req.headers.authorization),
+//         publicKEY,
+//         enc.verifyOptions,
+//         function(err, decodedToken) {
+//             if (err) {
+//                 console.log(err);
+//                 res.status(403).send("Not Logged In");
+//             } else {
+//                 user.findOne({
+//                         email: req.body.email
+//                     },
+//                     function(err, obj) {
+//                         if (err) {
+//                             console.log("Mongo Error:" + err);
+//                         } else {
+//                             if (obj != null && obj != undefined && obj != {}) {
+//                                 /*console.log(obj)*/
+//                                 bcrypt.compare(req.body.password, obj.password, function(
+//                                     err,
+//                                     BCRYPT_RES
+//                                 ) {
+//                                     if (BCRYPT_RES) {
+//                                         var FirstName = req.body.FirstName;
+//                                         var LastName = req.body.LastName;
+//                                         var PhoneNo = req.body.phoneNo;
+//                                         var Bio = req.body.bio;
+//                                         var Location = req.body.Location;
 
-                                        user.updateOne(
-                                            {
-                                                id: obj._id
-                                            },
-                                            {
-                                                $set: {
-                                                    FirstName: req.body.FirstName,
-                                                    LastName: req.body.LastName,
-                                                    PhoneNo: req.body.phoneNo,
-                                                    Bio: req.body.bio,
-                                                    SLocation: req.body.Slocation
-                                                }
-                                            },
-                                            function (err, obj) {
-                                                if (err) {
-                                                    console.log(err);
-                                                } else {
-                                                    console.log("Success");
+//                                         user.updateOne({
+//                                                 id: obj._id
+//                                             }, {
+//                                                 $set: {
+//                                                     FirstName: req.body.FirstName,
+//                                                     LastName: req.body.LastName,
+//                                                     PhoneNo: req.body.phoneNo,
+//                                                     Bio: req.body.bio,
+//                                                     SLocation: req.body.Slocation
+//                                                 }
+//                                             },
+//                                             function(err, obj) {
+//                                                 if (err) {
+//                                                     console.log(err);
+//                                                 } else {
+//                                                     console.log("Success");
 
-                                                    res.status(200).send("Success");
-                                                }
-                                            }
-                                        );
-                                    } else {
-                                    }
-                                });
-                            }
-                        }
-                    }
-                );
-            }
-        }
-    );
-});
+//                                                     res.status(200).send("Success");
+//                                                 }
+//                                             }
+//                                         );
+//                                     } else {}
+//                                 });
+//                             }
+//                         }
+//                     }
+//                 );
+//             }
+//         }
+//     );
+// });
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
-app.post("/registerorganizer", function (req, res) {
+app.post("/registerorganizer", function(req, res) {
     var redcheck = rcms.check(req.body.email);
     if (redcheck) {
-        bcrypt.hash(req.body.Password, saltRounds, function (
+        bcrypt.hash(req.body.Password, saltRounds, function(
             err,
             BCRYPT_PASSWORD_HASH
         ) {
@@ -433,7 +443,7 @@ app.post("/registerorganizer", function (req, res) {
                     Verified: false
                 });
 
-                newUser.save(function (err, obj) {
+                newUser.save(function(err, obj) {
                     if (err) {
                         console.log("ERROR, " + err);
                         res.status(422).send("Error in saving user");
@@ -449,7 +459,7 @@ app.post("/registerorganizer", function (req, res) {
                             organizer_functions.furtherInfoOrg(
                                 req.body.OrganizerName,
                                 req.body.OrganizerEmail,
-                                req.body.PhoneNo, 
+                                req.body.PhoneNo,
                                 req.body.orgCity
                             )
                         ); //TODO: Put this in a different file
@@ -462,19 +472,17 @@ app.post("/registerorganizer", function (req, res) {
     }
 });
 
-app.get("/verifyuser/*", function (req, res) {
+app.get("/verifyuser/*", function(req, res) {
     var idx = req.url.slice(12, 1000);
 
-    user.updateOne(
-        {
+    user.updateOne({
             _id: idx
-        },
-        {
+        }, {
             $set: {
                 Verified: true
             }
         },
-        function (err, obj1) {
+        function(err, obj1) {
             if (err) {
                 console.log("ERROR" + err);
             } else {
@@ -490,30 +498,25 @@ app.get("/verifyuser/*", function (req, res) {
 
 
 
-
 //////UPLOAD PROFILE PIC
 app.post("/uploadProfile", multipartMiddleware, (req, res) => {
-    console.log("HSSSSSSSSSSSNN");
-
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified");
                 console.log(decodedToken);
 
-                user.findOneAndUpdate(
-                    {
+                user.findOneAndUpdate({
                         username: decodedToken.email
-                    },
-                    {
+                    }, {
                         $set: {
                             profilePic: req.files.uploads[0].path
                         }
                     },
-                    function (err, ibj) {
+                    function(err, ibj) {
                         if (err) {
                             console.log("ERRROR" + err);
                             res.send(false);
@@ -531,33 +534,32 @@ app.post("/uploadProfile", multipartMiddleware, (req, res) => {
 });
 
 
-var removeByAttr = function(arr, attr, value){
+var removeByAttr = function(arr, attr, value) {
     var i = arr.length;
-    while(i--){
-       if( arr[i] 
-           && arr[i].hasOwnProperty(attr) 
-           && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+    while (i--) {
+        if (arr[i] &&
+            arr[i].hasOwnProperty(attr) &&
+            (arguments.length > 2 && arr[i][attr] === value)) {
 
-           arr.splice(i,1);
+            arr.splice(i, 1);
 
-       }
+        }
     }
     return arr;
 }
 
 // LOGIN
-app.post("/login", async function (req, res) {
+app.post("/login", async function(req, res) {
     //First finding if such a user exists in the database
-    user.findOne(
-        {
+    user.findOne({
             username: req.body.username
         },
-        function (err, usrobj) {
+        function(err, usrobj) {
             console.log(usrobj);
             //checking that the user object is not null or undefined, to avoid further errors
             if (!err && usrobj != null && usrobj != undefined) {
                 if (usrobj.Verified) {
-                    bcrypt.compare(req.body.password, usrobj["password"], function (
+                    bcrypt.compare(req.body.password, usrobj["password"], function(
                         err,
                         BCRYPT_RES
                     ) {
@@ -569,16 +571,14 @@ app.post("/login", async function (req, res) {
                                 //Checking what user type the user is, and returning a JWT based on that
                                 if (usrobj["userType"] == "Student") {
                                     //If the user object is a Student. I am finding a student with the required description
-                                    Student.findOne(
-                                        {
+                                    Student.findOne({
                                             EmailId: req.body.username
                                         },
-                                        function (err, obj) {
+                                        function(err, obj) {
                                             if (!err && usrobj != null && usrobj != undefined) {
                                                 //I am generating a JWT here with some required details. Signing options can be changed in config/encryption.js
                                                 /*console.log(obj)*/
-                                                token = jwt.sign(
-                                                    {
+                                                token = jwt.sign({
                                                         usrid: obj["_id"],
                                                         email: obj["EmailId"],
                                                         given_name: obj["FirstName"],
@@ -596,7 +596,7 @@ app.post("/login", async function (req, res) {
                                                     token,
                                                     publicKEY,
                                                     enc.verifyOptions,
-                                                    function (err, decodedToken) {
+                                                    function(err, decodedToken) {
                                                         console.log(decodedToken);
                                                         console.log("Succesfully generated a JWT Token");
                                                         res.json(token);
@@ -611,17 +611,15 @@ app.post("/login", async function (req, res) {
                                     );
                                 } else if (usrobj["userType"] == "Organizer") {
                                     //Repeating for Organizer
-                                    Organiser.findOne(
-                                        {
+                                    Organiser.findOne({
                                             OrganiserEmail: req.body.username
                                         },
-                                        function (err, obj) {
+                                        function(err, obj) {
                                             if (usrobj.Verified) {
                                                 console.log("vhjk fghuio");
 
                                                 /*console.log(obj)*/
-                                                token = jwt.sign(
-                                                    {
+                                                token = jwt.sign({
                                                         usrid: obj["_id"],
                                                         email: obj["OrganiserEmail"],
                                                         name: obj["OrganiserName"],
@@ -661,13 +659,12 @@ app.post("/login", async function (req, res) {
 
 //PRODUCTION READY CODE:
 //PRODUCTION READY CODE:
-app.post("/reset", function (req, res) {
+app.post("/reset", function(req, res) {
     //Finding a user from the DB
-    user.findOne(
-        {
+    user.findOne({
             username: req.body.email
         },
-        function (err, obj) {
+        function(err, obj) {
             if (!obj) {
                 if (err) {
                     console.log(err);
@@ -680,16 +677,14 @@ app.post("/reset", function (req, res) {
                 var code = generate(6);
                 var output = "YOUR CODE IS: " + code;
 
-                user.findOneAndUpdate(
-                    {
+                user.findOneAndUpdate({
                         username: req.body.email
-                    },
-                    {
+                    }, {
                         $set: {
                             AuthCode: code
                         }
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log(err);
                             res.send(false);
@@ -705,15 +700,14 @@ app.post("/reset", function (req, res) {
     );
 });
 
-app.post("/resetPasswordCode", function (req, res) {
+app.post("/resetPasswordCode", function(req, res) {
     console.log(req.body.code);
     console.log(req.body.email);
 
-    user.findOne(
-        {
+    user.findOne({
             username: req.body.email
         },
-        function (err, mongoObj) {
+        function(err, mongoObj) {
             if (err) {
                 console.log(err);
             } else {
@@ -731,7 +725,7 @@ app.post("/resetPasswordCode", function (req, res) {
 });
 
 //Method for resetting passwords
-app.post("/resetpassword", function (req, res) {
+app.post("/resetpassword", function(req, res) {
     //Finding if a user exists with the same email
     console.log("Email is: ", req.body.email);
     console.log("Password: ", req.body.password);
@@ -747,7 +741,7 @@ app.post("/resetpassword", function (req, res) {
 
 //I BELIEVE THIS IS REDUNDANT CODE:
 
-app.post("/new-password", function (err, obj) {
+app.post("/new-password", function(err, obj) {
     //Checks the authorization code is not null or undefined
     if (
         req.body.authCode != null ||
@@ -755,26 +749,23 @@ app.post("/new-password", function (err, obj) {
         req.body.authCode != ""
     ) {
         //finds a user with a matching authcode and checks for an error
-        user.findOne(
-            {
+        user.findOne({
                 authCode: req.body.authCode
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     console.log(err);
                 } else {
                     console.log("successfully got the authCode");
                     //Updates the user's password in the database if all checks out
-                    user.updateOne(
-                        {
+                    user.updateOne({
                             _id: obj._id
-                        },
-                        {
+                        }, {
                             $set: {
                                 password: req.body.password
                             }
                         },
-                        function (err, obj) {
+                        function(err, obj) {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -793,11 +784,11 @@ app.post("/new-password", function (err, obj) {
 });
 
 //Dashboard Method, can verify token in the frontend to reduce server process times and lag
-app.get("/dashboard", async function (req, res) {
+app.get("/dashboard", async function(req, res) {
     console.log("Login Successful. Now in the dashboard methods");
     //TODO: Verify in the frontend
     //Have to get the token the right way here
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
         if (err) {
             console.log(err);
         } else {
@@ -811,20 +802,19 @@ app.get("/dashboard", async function (req, res) {
     });
 });
 
-app.post("/bio", function (req, res) {
+app.post("/bio", function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             console.log("Getting Bio....");
             if (!err && decodedToken != null) {
                 console.log("Verified: " + decodedToken.email);
-                Student.findOne(
-                    {
+                Student.findOne({
                         EmailId: decodedToken.email
                     },
-                    function (err, mongoObj) {
+                    function(err, mongoObj) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -841,42 +831,13 @@ app.post("/bio", function (req, res) {
     );
 });
 
-/*
-UNDERDEVELOPED ROUTES
-*/
-
-app.post("/auth", function (req, res) {
-    //Have to verify JWT in here for the first instance
-});
-
-//Should be the default route for the frontend when it launches
-app.post("/auth", function (req, res) {
-    jwt.verify(req.body.token, publicKEY, enc.verifyOptions, function (
-        err,
-        decodedToken
-    ) {
-        if (err) {
-            res.status(422).send("JWT verification error");
-            console.log("JWT is invalid");
-        } else {
-            if (decodedToken["role"] == "Org") {
-                res.status(200).send("Org");
-            } else if (decodedToken["role"] == "Student") {
-                res.status(200).send("Student");
-            }
-        }
-    });
-});
-
-var oems = require("./microservices/event-org-micro");
-
 // ORGANIZER EVENTS CREATOR ROUTE.
-app.post("/organizer-events", async function (req, res) {
+app.post("/organizer-events", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (err) {
                 console.log(err);
             } else {
@@ -899,7 +860,7 @@ app.post("/organizer-events", async function (req, res) {
                         evnCost: req.body.cost,
                         Image: newImgName
                     });
-                    newEvent.save(function (err, obj) {
+                    newEvent.save(function(err, obj) {
                         if (err) {
                             console.log("ERROR:\n" + err);
                             return res.redirect("/registerorganiser");
@@ -919,22 +880,21 @@ app.post("/organizer-events", async function (req, res) {
     );
 });
 
-app.post("/addInterestOrganizer", function (req, res) {
+app.post("/addInterestOrganizer", function(req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
 
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
-            if (!err && decodedToken != null) {
+        function(err, decodedToken) {
+            if (!err && decodedToken != null && decodedToken['role']=='Org') {
                 console.log("Verified");
                 var newInterests = req.body.eventInterest;
-                event.findOne(
-                    {
+                event.findOne({
                         _id: req.body.eventId
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err || obj == null || obj == undefined) {
                             console.log(err);
                         } else {
@@ -945,20 +905,17 @@ app.post("/addInterestOrganizer", function (req, res) {
                                     console.log("Already there");
                                 } else {
                                     obj.evnInterests.push(newInterests[i]);
-                                    event.updateOne(
-                                        {
+                                    event.updateOne({
                                             EmailId: decodedToken.email
-                                        },
-                                        {
+                                        }, {
                                             $set: {
                                                 Interests: obj.Interests
                                             }
                                         },
-                                        function (err, updateobj) {
+                                        function(err, updateobj) {
                                             if (err) {
                                                 console.log(err);
-                                            } else {
-                                            }
+                                            } else {}
                                         }
                                     );
                                 }
@@ -972,21 +929,20 @@ app.post("/addInterestOrganizer", function (req, res) {
     );
 });
 
-app.get("/achievements", async function (req, res) {
+app.get("/achievements", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             console.log("Getting Achievements....");
             if (!err && decodedToken != null) {
                 if (decodedToken["role"] == "Student") {
                     console.log("Verified");
-                    Student.findOne(
-                        {
+                    Student.findOne({
                             EmailId: decodedToken.email
                         },
-                        function (err, mongoObj) {
+                        function(err, mongoObj) {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -1013,17 +969,15 @@ app.get("/achievements", async function (req, res) {
 app.post("/achievements", (req, res) => {
     console.log("NN");
     console.log(req.body);
-
     console.log(req.body);
     console.log(req.body.uploadedFiles);
     console.log("PRINTED IT");
-
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
-            if (!err && decodedToken != null) {
+        function(err, decodedToken) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
                 console.log(decodedToken);
                 var newAch = new achievements({
@@ -1034,16 +988,15 @@ app.post("/achievements", (req, res) => {
                     achRank: req.body.rank.name,
                     Name: req.body.name
                 });
-                newAch.save(function (err, achobj) {
+                newAch.save(function(err, achobj) {
                     if (err) {
                         console.log(err);
                     } else {
                         res.status(200).json(achobj);
-                        Student.findOne(
-                            {
+                        Student.findOne({
                                 EmailId: decodedToken.email
                             },
-                            function (err, obj) {
+                            function(err, obj) {
                                 if (err) {
                                     console.log(err);
                                 } else {
@@ -1051,16 +1004,14 @@ app.post("/achievements", (req, res) => {
                                         "Found the student object with the token. Now pushing achievement"
                                     );
                                     obj.Achievement.push(achobj);
-                                    Student.updateOne(
-                                        {
+                                    Student.updateOne({
                                             EmailId: decodedToken.email
-                                        },
-                                        {
+                                        }, {
                                             $set: {
                                                 Achievement: obj.Achievement
                                             }
                                         },
-                                        function (err, updateobj) {
+                                        function(err, updateobj) {
                                             if (err) {
                                                 console.log(err);
                                             } else {
@@ -1080,7 +1031,7 @@ app.post("/achievements", (req, res) => {
 
 //ACADEMICS
 
-app.post("/addAcademics", function (req, res) {
+app.post("/addAcademics", function(req, res) {
     // onsole.log("\N\N");
     // console.log(req.body)
 
@@ -1092,17 +1043,16 @@ app.post("/addAcademics", function (req, res) {
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
-            if (!err && decodedToken != null) {
+        function(err, decodedToken) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
                 console.log(decodedToken);
                 // console.log('THIS IS TH EAHIEVEMENT' + req.body.achCat + req.body.achSubCat + req.body.uploadedFiles + req.body.rank + req.body.description)
 
-                Student.findOne(
-                    {
+                Student.findOne({
                         EmailId: decodedToken.email
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -1117,30 +1067,27 @@ app.post("/addAcademics", function (req, res) {
                                     testScore: req.body.testScore
                                 });
 
-                                newAc.save(function (err, achobj) {
+                                newAc.save(function(err, achobj) {
                                     if (err) {
                                         console.log(err);
                                     } else {
-                                        Student.findOne(
-                                            {
+                                        Student.findOne({
                                                 EmailId: decodedToken.email
                                             },
-                                            function (err, obj) {
+                                            function(err, obj) {
                                                 if (err) {
                                                     console.log(err);
                                                 } else {
                                                     console.log("FOUND TOKEN, ADDING ACADEMICS");
                                                     obj.Academics.push(newAc);
-                                                    Student.updateOne(
-                                                        {
+                                                    Student.updateOne({
                                                             EmailId: decodedToken.email
-                                                        },
-                                                        {
+                                                        }, {
                                                             $set: {
                                                                 Academics: obj.Academics
                                                             }
                                                         },
-                                                        function (err, updateobj) {
+                                                        function(err, updateobj) {
                                                             if (err) {
                                                                 console.log(err);
                                                             } else {
@@ -1165,30 +1112,27 @@ app.post("/addAcademics", function (req, res) {
                                     testScore: req.body.testScore
                                 });
 
-                                newAc.save(function (err, achobj) {
+                                newAc.save(function(err, achobj) {
                                     if (err) {
                                         console.log(err);
                                     } else {
-                                        Student.findOne(
-                                            {
+                                        Student.findOne({
                                                 EmailId: decodedToken.email
                                             },
-                                            function (err, obj) {
+                                            function(err, obj) {
                                                 if (err) {
                                                     console.log(err);
                                                 } else {
                                                     console.log("FOUND TOKEN, ADDING ACADEMICS");
                                                     obj.Academics.push(newAc);
-                                                    Student.updateOne(
-                                                        {
+                                                    Student.updateOne({
                                                             EmailId: decodedToken.email
-                                                        },
-                                                        {
+                                                        }, {
                                                             $set: {
                                                                 Academics: obj.Academics
                                                             }
                                                         },
-                                                        function (err, updateobj) {
+                                                        function(err, updateobj) {
                                                             if (err) {
                                                                 console.log(err);
                                                             } else {
@@ -1210,14 +1154,13 @@ app.post("/addAcademics", function (req, res) {
     );
 });
 
-app.post("/getAcademics", async function (req, res) {
+app.post("/getAcademics", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
-
-    Student.findOne(
-        {
+    if(decoded!=false && decoded['role']=='Student') {
+            Student.findOne({
             EmailId: decoded.email
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log(err);
             } else {
@@ -1226,43 +1169,52 @@ app.post("/getAcademics", async function (req, res) {
             }
         }
     );
+    }
+    else {
+        res.status(403).send('Unauthorized')
+    }
+
 });
 
-app.post("/getSpecicifAc", async function (req, res) {
+app.post("/getSpecicifAc", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
-    console.log(req.body.email);
-    console.log.apply(req.body.acId);
-    Student.findOne(
-        {
-            EmailId: req.body.email
-        },
-        function (err, obj) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(obj.Academics[req.body.acId]);
-                res.send(obj.Academics[req.body.acId]);
-            }
-        }
-    );
+    if(decoded!=false && decoded['role']=='Student'){
+            console.log(req.body.email);
+            console.log.apply(req.body.acId);
+            Student.findOne({
+                    EmailId: req.body.email
+                },
+                function(err, obj) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(obj.Academics[req.body.acId]);
+                        res.send(obj.Academics[req.body.acId]);
+                    }
+                }
+            );
+    }
+    else {
+        res.status(403).send('wrong type')
+    }
+
 });
 
 //INTERESTS
 
-app.get("/interests", async function (req, res) {
+app.get("/interests", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             console.log("Getting Interests....");
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
-                Student.findOne(
-                    {
+                Student.findOne({
                         EmailId: decodedToken.email
                     },
-                    function (err, mongoObj) {
+                    function(err, mongoObj) {
                         if (err || mongoObj == null) {
                             console.log(err);
                         } else {
@@ -1280,26 +1232,24 @@ app.get("/interests", async function (req, res) {
     );
 });
 
-app.post("/addInterest", function (req, res) {
+app.post("/addInterest", function(req, res) {
     console.log("INTEREST SENT FROM FRONTEND: \n\n" + req.body);
 
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             console.log("Getting Achievements....");
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
-
                 var newInterests = req.body;
                 console.log(newInterests);
 
-                Student.findOne(
-                    {
+                Student.findOne({
                         EmailId: decodedToken.email
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err || obj == null || obj == undefined) {
                             console.log(err);
                         } else {
@@ -1311,16 +1261,14 @@ app.post("/addInterest", function (req, res) {
                                 } else {
                                     obj.Interests.push(newInterests[i]);
                                     obj.Interests.sort();
-                                    Student.updateOne(
-                                        {
+                                    Student.updateOne({
                                             EmailId: decodedToken.email
-                                        },
-                                        {
+                                        }, {
                                             $set: {
                                                 Interests: obj.Interests
                                             }
                                         },
-                                        function (err, updateobj) {
+                                        function(err, updateobj) {
                                             if (err) {
                                                 console.log(err);
                                             } else {
@@ -1332,11 +1280,10 @@ app.post("/addInterest", function (req, res) {
                                     console.log("NEW INTEREST NAMEMM: " + newInterests[i]);
                                     var subCat = newInterests[i];
 
-                                    InterestSchema.findOne(
-                                        {
+                                    InterestSchema.findOne({
                                             subCat: newInterests[i]
                                         },
-                                        function (err, intObj) {
+                                        function(err, intObj) {
                                             if (err) {
                                                 console.log(err);
                                             } else {
@@ -1348,7 +1295,7 @@ app.post("/addInterest", function (req, res) {
                                                         users: [obj._id]
                                                     });
 
-                                                    interestSchema.save(function (err, obj) {
+                                                    interestSchema.save(function(err, obj) {
                                                         if (err) {
                                                             console.log(err);
                                                         } else {
@@ -1359,16 +1306,14 @@ app.post("/addInterest", function (req, res) {
                                                     console.log(intObj);
                                                     intObj.users.push(obj._id);
 
-                                                    InterestSchema.updateOne(
-                                                        {
+                                                    InterestSchema.updateOne({
                                                             subCat: subCat
-                                                        },
-                                                        {
+                                                        }, {
                                                             $set: {
                                                                 users: intObj.users
                                                             }
                                                         },
-                                                        function (err, lObj) {
+                                                        function(err, lObj) {
                                                             if (err) {
                                                                 console.log(err);
                                                             } else {
@@ -1396,25 +1341,23 @@ app.post("/addInterest", function (req, res) {
     );
 });
 
-app.post("/getUserInfo", function (req, res) {
+app.post("/getUserInfo", function(req, res) {
     console.log("ID: ");
     console.log(req.body.id);
 
-    Student.findOne(
-        {
+    Student.findOne({
             _id: req.body.id
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log(err);
             } else {
                 console.log("FOUND STUDENT OBJECT.");
 
-                user.findOne(
-                    {
+                user.findOne({
                         username: obj.EmailId
                     },
-                    function (err1, obj1) {
+                    function(err1, obj1) {
                         if (err1) {
                             console.log(err1);
                         } else {
@@ -1430,19 +1373,18 @@ app.post("/getUserInfo", function (req, res) {
     );
 });
 
-app.post("/deleteInterest", function (req, res) {
+app.post("/deleteInterest", function(req, res) {
     console.log("delete interest" + req.body.interest);
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
-            if (!err && decodedToken != null) {
-                Student.findOne(
-                    {
+        function(err, decodedToken) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
+                Student.findOne({
                         EmailId: decodedToken.email
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err || obj == null || obj == undefined) {
                             console.log("ERROR");
                         } else {
@@ -1454,16 +1396,14 @@ app.post("/deleteInterest", function (req, res) {
                                 }
                             }
 
-                            Student.update(
-                                {
+                            Student.update({
                                     EmailId: decodedToken.email
-                                },
-                                {
+                                }, {
                                     $set: {
                                         Interests: arr
                                     }
                                 },
-                                function (err1, obj1) {
+                                function(err1, obj1) {
                                     if (err) {
                                         console.log(err);
                                     } else {
@@ -1484,7 +1424,7 @@ app.post("/deleteInterest", function (req, res) {
     );
 });
 
-app.post("/deleteAchievements", function (req, res) {
+app.post("/deleteAchievements", function(req, res) {
     console.log("DELETING ACH");
     console.log("******************************");
     console.log("req.body: ");
@@ -1495,21 +1435,19 @@ app.post("/deleteAchievements", function (req, res) {
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             console.log("Getting Achievements....");
-            if (!err && decodedToken != null) {
-                Student.updateOne(
-                    {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
+                Student.updateOne({
                         EmailId: decodedToken.email
-                    },
-                    {
+                    }, {
                         $pull: {
                             Achievement: {
                                 _id: req.body.achId
                             }
                         }
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -1528,10 +1466,10 @@ app.post("/deleteAchievements", function (req, res) {
 
 // ADMIN DASH ROUTE
 
-app.post("/organizerdashboard", async function (req, res) {
+app.post("/organizerdashboard", async function(req, res) {
     //Will have to make more options to display more specific errors in the future and them handle that in the frontend
-    jwt.verify(token, publicKEY, enc.verifyOptions, function (err, decodedToken) {
-        if (!err && decodedToken != null) {
+    jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
+        if (!err && decodedToken != null && decodedToken['role']=='Org') {
             console.log("Now redirecting to organizer dashboard");
             res.status(200).json(decodedToken);
         } else {
@@ -1540,22 +1478,23 @@ app.post("/organizerdashboard", async function (req, res) {
     });
 });
 
-app.post("/event-search", async function (req, res) {
+app.post("/event-search", async function(req, res) {
     //Running an event search with the given keywords in the database
     // pubmsg.find({$or: [{sender: req.body.searchitem}, {msgid: req.body.searchitem}]}, function(err, obj)
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        async function (err, DECODEDTOKEN) {
-            if (err) {
-            } else {
+        async function(err, DECODEDTOKEN) {
+            if (err) {} else {
                 if (req.body.usecase == 1) {
-                    var evns = await dms.reqular_city_search(
-                        req.body.keyword,
-                        DECODEDTOKEN
-                    );
-                    res.send(evns);
+                    if(DECODEDTOKEN['role']=='Student'){
+                        var evns = await dms.reqular_city_search(req.body.keyword,DECODEDTOKEN);
+                        res.send(evns); 
+                    }
+                    else {
+                        res.status(403).send('Unauthorized')
+                    }
                 } else if (req.body.usecase == 2) {
                     var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN);
                     res.send(evns);
@@ -1564,35 +1503,13 @@ app.post("/event-search", async function (req, res) {
                     var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN);
                     res.send(evns);
                 }
-                var query = req.body.keyword;
-                var evns = await dms.testexplore3(query, DECODEDTOKEN);
-                console.log("HELSOF S", evns);
                 res.send(evns);
             }
         }
     );
 });
 
-app.post("/events_search", function (req, res) {
-    if (req.body.keyword != undefined) {
-        tempsearch.event_search(req.body.keyword, req.body.usecase, function (
-            err,
-            obj
-        ) {
-            if (err) {
-                console.log("INTERNAL ERROR. ");
-            } else {
-                console.log("SUCCESS >>> GOT SEARCH EVENTS");
-                /*console.log(obj)*/
-            }
-        });
-    } else {
-        console.log("INTERNAL ERROR. YOURE NOT SENDING ");
-    }
-});
-
 app.get("/events", async (req, res) => {
-    console.log("ENTERSSxcvxcvxcvxcvxcvxcvxcvxcvxSSSSSS");
     //Gets a request from the user
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
@@ -1605,28 +1522,33 @@ app.get("/events", async (req, res) => {
                 if (err) {
                     console.log("INTERNAL ERROR. ", err);
                 } else {
-                    Student.findOne(
-                        {
-                            _id: decodedToken.usrid
-                        },
-                        async function (err, MONGO_OBJ_RETURN) {
-                            if (err) {
-                                console.log(err);
-                                res.status(403).send("Unauthorized JWT");
-                            } else {
-                                if (MONGO_OBJ_RETURN) {
-                                    //This implies that I found a user like this
-                                    //Now I need to process recommendations for this user
-                                    var evns_to_return = await dms.explore(MONGO_OBJ_RETURN);
-                                    // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
-                                    // console.log("Being sent is: \n", evns_to_return)
-                                    res.send(evns_to_return);
+                    if(decodedToken['role']=='Student') {
+                                Student.findOne({
+                                _id: decodedToken.usrid
+                            },
+                            async function(err, MONGO_OBJ_RETURN) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(403).send("Unauthorized JWT");
                                 } else {
-                                    console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+                                    if (MONGO_OBJ_RETURN) {
+                                        //This implies that I found a user like this
+                                        //Now I need to process recommendations for this user
+                                        var evns_to_return = await dms.explore(MONGO_OBJ_RETURN);
+                                        // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                                        // console.log("Being sent is: \n", evns_to_return)
+                                        res.send(evns_to_return);
+                                    } else {
+                                        console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+                                    }
                                 }
                             }
-                        }
-                    );
+                        );
+                    }
+                    else {
+                        res.status(403).send('Unauthorized')
+                    }
+
                 }
             }
         }
@@ -1647,11 +1569,10 @@ app.get("/eventsdeep", async (req, res) => {
                 if (err) {
                     console.log("INTERNAL ERROR. ", err);
                 } else {
-                    Student.findOne(
-                        {
+                    Student.findOne({
                             _id: decodedToken.usrid
                         },
-                        async function (err, MONGO_OBJ_RETURN) {
+                        async function(err, MONGO_OBJ_RETURN) {
                             if (err) {
                                 console.log(err);
                                 res.status(403).send("Unauthorized JWT");
@@ -1689,11 +1610,10 @@ app.get("/getnord", async (req, res) => {
                 if (err) {
                     console.log("INTERNAL ERROR. ", err);
                 } else {
-                    Student.findOne(
-                        {
+                    Student.findOne({
                             _id: decodedToken.usrid
                         },
-                        async function (err, MONGO_OBJ_RETURN) {
+                        async function(err, MONGO_OBJ_RETURN) {
                             if (err) {
                                 console.log(err);
                                 res.status(403).send("Unauthorized JWT");
@@ -1737,7 +1657,7 @@ function binarySearch(array, key) {
     return false;
 }
 
-var mms = require("./microservices/ml-data-exports");
+
 
 async function add(interests, evnInterests, uservector, _id) {
     var to_add = new Array(); //Defining the array where we add the interests
@@ -1774,8 +1694,14 @@ async function add(interests, evnInterests, uservector, _id) {
 
         var op2 = await callback2;
         if (op2) {
-            Student.updateOne({ _id: _id }, {$set: {uservector: uservector}}, function(err, obj) {
-                if(obj) {
+            Student.updateOne({
+                _id: _id
+            }, {
+                $set: {
+                    uservector: uservector
+                }
+            }, function(err, obj) {
+                if (obj) {
                     console.log('success')
                 }
             });
@@ -1784,34 +1710,32 @@ async function add(interests, evnInterests, uservector, _id) {
 }
 
 //NOT TESTED
-app.post("/click-on-events", function (req, res) {
+app.post("/click-on-events", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
-                Student.findOne(
-                    {
+                if(decodedToken['role']=='Student') {
+                                    Student.findOne({
                         _id: decodedToken.usrid
-                    },
-                    {
+                    }, {
                         Interests: 1,
                         uservector: 1
                     },
-                    function (err, MONGO_OBJ_RETURN) {
+                    function(err, MONGO_OBJ_RETURN) {
                         if (err) {
                             console.log(err);
                             res.status(403).send("Unauthorized JWT");
                         } else {
                             if (MONGO_OBJ_RETURN) {
-                                event.findOne(
-                                    {
+                                event.findOne({
                                         _id: req.body._id
                                     },
-                                    function (err, EVNobj) {
+                                    function(err, EVNobj) {
                                         if (err) {
                                             console.log(err);
                                         } else {
@@ -1840,6 +1764,11 @@ app.post("/click-on-events", function (req, res) {
                         }
                     }
                 );
+                }
+                else {
+                    res.status(403).send('Unauthorized')
+                }
+
             }
         }
     );
@@ -1847,30 +1776,29 @@ app.post("/click-on-events", function (req, res) {
     //Must send a post
 });
 
-app.post("//addInterestOrganizer", function (req, res) {
-    var eventId = req.body.eventId;
+app.post("//addInterestOrganizer", async function(req, res) {
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false && decoded['role']=='Org') {
+            var eventId = req.body.eventId;
     var eventInterest = req.body.eventInterest;
 
-    event.findOne(
-        {
+    event.findOne({
             _id: eventId
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log(err);
             } else {
                 obj.evnInterests.push(eventInterest);
 
-                event.findOneAndUpdate(
-                    {
+                event.findOneAndUpdate({
                         _id: eventId
-                    },
-                    {
+                    }, {
                         $set: {
                             evnInterests: obj.evnInterests
                         }
                     },
-                    function (err1, obj1) {
+                    function(err1, obj1) {
                         if (err1) {
                             console.log(err1);
                         } else {
@@ -1882,17 +1810,21 @@ app.post("//addInterestOrganizer", function (req, res) {
             }
         }
     );
+    }
+    else {
+        res.status(403).send('Unauth')
+    }
+
 
     // console.log(req.body.eventInterest);
     // console.log(req.body.eventId);
 });
 
-app.post("/add-categories", function (err, obj) {
-    category.findOne(
-        {
+app.post("/add-categories", function(err, obj) {
+    category.findOne({
             catName: req.body.catName
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log("INTERNAL ERROR. ");
             } else {
@@ -1900,7 +1832,7 @@ app.post("/add-categories", function (err, obj) {
                     var newSubCat = new subcat({
                         subCatName: req.body.subCatName
                     });
-                    newSubCat.save(function (err, subcatsave) {
+                    newSubCat.save(function(err, subcatsave) {
                         if (err) {
                             console.log("INTERNAL ERROR. ", err);
                         } else {
@@ -1920,13 +1852,11 @@ app.post("/add-categories", function (err, obj) {
     );
 });
 
-app.get("/getCategoriesAll", function (req, res) {
-    CatE.find(
-        {},
-        {
+app.get("/getCategoriesAll", function(req, res) {
+    CatE.find({}, {
             subCat: 0
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log();
             } else {
@@ -1937,16 +1867,15 @@ app.get("/getCategoriesAll", function (req, res) {
     );
 });
 
-app.get("/getCategoriesId", function (req, res) {
+app.get("/getCategoriesId", function(req, res) {
     console.log(req.query.catId);
     var id = parseInt(req.query.catId);
     console.log(id);
 
-    CatE.findOne(
-        {
+    CatE.findOne({
             catId: id
         },
-        function (err, obj) {
+        function(err, obj) {
             if (err) {
                 console.log();
             } else {
@@ -1958,81 +1887,9 @@ app.get("/getCategoriesId", function (req, res) {
     );
 });
 
-// app.get('/addInterestArray', function(req, res)
-// {
-//     CatE.updateMany({}, {$set: {users: [1]}}, function(err, obj)
-//     {
-//         if(err)
-//         {
-//             console.log(err);
-//         }
-//         else
-//         {
-//             res.send("DONE!!");
-//         }
-//     });
-// });
 
-app.post("/addCat", function (req, res) {
-    var catId = generate(6);
-    var catName = "Adventerous Journey";
-
-    var subCatNameArray = ["Nature", "Historic", "Investigation", "Survival"];
-    var subCat = new Array();
-
-    for (var i = 0; i < subCatNameArray.length; i++) {
-        var subCatObj = {
-            subCatId: parseInt(generate(10)),
-            subCatName: subCatNameArray[i]
-        };
-
-        subCat.push(subCatObj);
-    }
-
-    var cat = new CatE({
-        catId: catId,
-        catName: catName,
-        subCat: subCat
-    });
-
-    cat.save(function (err, obj) {
-        if (err) {
-            console.log(err);
-        } else {
-            /*console.log(obj)*/
-            res.redirect(
-                "file:///C:/Users/Dell/Documents/main/athena-pvt/addCat.html"
-            );
-        }
-    });
-});
 
 app.get("/:filename", (req, res) => {
-    // gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    //     console.log(req.params)
-    //     console.log(file)
-    //   // Check if file
-    //   if (!file || file.length === 0) {
-    //     return res.status(404).json({
-    //       err: 'No file exists',
-    //     })
-    //   }
-
-    //   // Check if image
-    //   if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-    //     // Read output to browser
-    //     console.log('REached this point')
-    //     const readstream = gfs.createReadStream(file.filename)
-    //     readstream.pipe(res)
-    //     return({files:file})
-
-    //   } else {
-    //     res.status(404).json({
-    //       err: 'Not an image',
-    //     })
-
-    //   }
-    // })
     const file = gfs
         .find({
             filename: req.params.filename
@@ -2051,21 +1908,19 @@ app.get("/:filename", (req, res) => {
 });
 
 function getFrndInt(email) {
-    Student.findOne(
-        {
+    Student.findOne({
             EmailId: email
         },
-        function (err, obj) {
+        function(err, obj) {
             var frnds = obj.Friends;
 
             var interests = [];
 
             for (var i = 0; i < frnds.length; i++) {
-                Student.findOne(
-                    {
+                Student.findOne({
                         EmailId: frnds[i]
                     },
-                    function (err, obj1) {
+                    function(err, obj1) {
                         interests.concat(obj1.interests);
                     }
                 );
@@ -2076,52 +1931,54 @@ function getFrndInt(email) {
     );
 }
 
-var jwms = require("./microservices/jwt-micro");
 
-app.post("/api/follow", async function (req, res) {
+
+app.post("/api/follow", async function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
                 console.log(decodedToken);
-                Student.findOne(
-                    {
+                Student.findOne({
                         _id: decodedToken["usrid"]
                     },
-                    function (err, obj) {
+                    function(err, obj) {
                         if (err) {
                             console.log(err);
                             res.status(403).send("No such student");
                         } else {
-                            /*console.log(obj)*/
-                            var id = req.body._id;
-                            if (obj.evnFollowing.includes(id)) {
-                                res.status(403).send("Already Exists");
+                            if (obj != null) {
+                                var id = req.body._id;
+                                if (obj.evnFollowing.includes(id)) {
+                                    res.status(403).send("Already Exists");
+                                } else {
+                                    obj.evnFollowing.push(id);
+                                    /*console.log(obj)*/
+                                    Student.updateOne({
+                                            _id: decodedToken["usrid"]
+                                        }, {
+                                            $set: {
+                                                evnFollowing: obj.evnFollowing
+                                            }
+                                        },
+                                        function(err, obj) {
+                                            if (err) {
+                                                res.status(500).send("Something went wrong");
+                                            } else {
+                                                res.status(200).send(obj);
+                                            }
+                                        }
+                                    );
+                                }
                             } else {
-                                obj.evnFollowing.push(id);
-                                /*console.log(obj)*/
-                                Student.updateOne(
-                                    {
-                                        _id: decodedToken["usrid"]
-                                    },
-                                    {
-                                        $set: {
-                                            evnFollowing: obj.evnFollowing
-                                        }
-                                    },
-                                    function (err, obj) {
-                                        if (err) {
-                                            res.status(500).send("Something went wrong");
-                                        } else {
-                                            res.status(200).send(obj);
-                                        }
-                                    }
-                                );
+                                res.status(403).send('Not Student')
                             }
+                            /*console.log(obj)*/
+
                         }
                     }
                 );
@@ -2130,22 +1987,22 @@ app.post("/api/follow", async function (req, res) {
     );
 });
 //This is for the personal stuff
-app.get("/api/getevents", async function (req, res) {
+app.get("/api/getevents", async function(req, res) {
     var return_arr = [];
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        async function (err, decodedToken) {
+        async function(err, decodedToken) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
-                // console.log(decodedToken)
-                Student.findOne(
-                    {
+                if(decodedToken['role']=='Student') {
+                                    // console.log(decodedToken)
+                Student.findOne({
                         _id: decodedToken["usrid"]
                     },
-                    async function (err, obj) {
+                    async function(err, obj) {
                         if (err) {
                             res.status(403).send("No such student");
                         } else {
@@ -2173,18 +2030,22 @@ app.get("/api/getevents", async function (req, res) {
                         }
                     }
                 );
+                }
+                else {
+                    res.status(403).send('Unauthorized')
+                }
+
             }
         }
     );
 });
 
 async function evnFind(idx) {
-    var callback = new Promise(function (res, rej) {
-        event.findOne(
-            {
+    var callback = new Promise(function(res, rej) {
+        event.findOne({
                 _id: idx
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -2200,12 +2061,10 @@ async function evnFind(idx) {
 }
 
 async function evnFindLite(idx) {
-    var callback = new Promise(function (res, rej) {
-        event.findOne(
-            {
+    var callback = new Promise(function(res, rej) {
+        event.findOne({
                 _id: idx
-            },
-            {
+            }, {
                 evnName: 1,
                 Image: 1,
                 evnDate1: 1,
@@ -2213,7 +2072,7 @@ async function evnFindLite(idx) {
                 evnDescription: 1,
                 _id: 1
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -2228,16 +2087,15 @@ async function evnFindLite(idx) {
     return r;
 }
 
-app.get("/api/retorgevents", async function (req, res) {
+app.get("/api/retorgevents", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
     console.log(decoded);
     if (decoded != false) {
         if (decoded["role"] == "Org") {
-            Organiser.findOne(
-                {
+            Organiser.findOne({
                     _id: decoded["usrid"]
                 },
-                async function (err, obj) {
+                async function(err, obj) {
                     if (err) {
                         console.log(err);
                         res.status(500).send(err);
@@ -2263,22 +2121,20 @@ app.get("/api/retorgevents", async function (req, res) {
     }
 });
 
-app.post("/logout", async function (req, res) {
+app.post("/logout", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
     if (decoded != false) {
         console.log(decoded);
         console.log("HSSSSSHSHHSHSSSS");
         var d = Date.now();
-        user.updateOne(
-            {
+        user.updateOne({
                 _id: decoded["usrid"]
-            },
-            {
+            }, {
                 $set: {
                     LastSeen: d
                 }
             },
-            function (err, MONGOUPDTAE) {
+            function(err, MONGOUPDTAE) {
                 if (err) {
                     for (let i = 0; i < 10; i++) {
                         console.log("FAILED TO UPDATE LAST SEEN");
@@ -2293,9 +2149,9 @@ app.post("/logout", async function (req, res) {
     }
 });
 
-var sr = require("./microservices/evn-micro");
 
-app.get("/api/getrecent", async function (req, res) {
+
+app.get("/api/getrecent", async function(req, res) {
     var evns = await sr.all();
     var ret_arr = [];
     for (let i = evns.length - 1; i > evns.length - 4; i--) {
@@ -2306,20 +2162,20 @@ app.get("/api/getrecent", async function (req, res) {
     res.send(ret_arr);
 });
 
-app.post("/api/searchbyinterests", async function (req, res) {
+app.post("/api/searchbyinterests", async function(req, res) {
     //req.body.keyword
-
-    var keyword = req.body;
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false && decoded['role']=='Student') {
+            var keyword = req.body;
 
     console.log(keyword[0]);
 
-    Student.find(
-        {
+    Student.find({
             Interests: {
                 $all: keyword
             }
         },
-        async function (err, obj) {
+        async function(err, obj) {
             if (err) {
                 console.log(err);
             } else {
@@ -2327,7 +2183,17 @@ app.post("/api/searchbyinterests", async function (req, res) {
                     console.log("*****************************************");
                     /*console.log(obj)*/
                     console.log("******************************************");
-                    res.status(200).send(obj);
+                    console.log(obj)
+                    console.log(decoded.usrid)
+
+                    for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            res.status(200).send(obj);
+                        }
+                    }
+
                 } else {
                     console.log("no users founf");
                     res.status(403).send("No users found");
@@ -2336,22 +2202,26 @@ app.post("/api/searchbyinterests", async function (req, res) {
             }
         }
     );
+    } 
+    else {
+        res.status(403).send('Unauthorized')
+    }
+
 });
 
-app.post("/api/organiser/searchbyinterests", async function (req, res) {
+app.post("/api/organiser/searchbyinterests", async function(req, res) {
     //req.body.keyword
 
     var keyword = req.body;
 
     console.log(keyword[0]);
 
-    event.find(
-        {
+    event.find({
             evnInterests: {
                 $all: keyword
             }
         },
-        async function (err, obj) {
+        async function(err, obj) {
             if (err) {
                 console.log(err);
             } else {
@@ -2370,31 +2240,28 @@ app.post("/api/organiser/searchbyinterests", async function (req, res) {
     );
 });
 
-app.post("/searchbyint", function (req, res) {
-    var keyword = "BMX";
+// app.post("/searchbyint", function(req, res) {
+//     var keyword = "BMX";
 
-    InterestSchema.findOne(
-        {
-            subCat: keyword
-        },
-        function (err, obj) {
-            /*console.log(obj)*/
-        }
-    );
-});
+//     InterestSchema.findOne({
+//             subCat: keyword
+//         },
+//         function(err, obj) {
+//             /*console.log(obj)*/
+//         }
+//     );
+// });
 
 async function findStudent(id) {
     var callback = new Promise((res, rej) => {
-        Student.findOne(
-            {
+        Student.findOne({
                 _id: id
-            },
-            {
+            }, {
                 FirstName: 1,
                 LastName: 1,
                 _id: 1
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     console.log("MONGO ERROR");
                     res(false);
@@ -2414,36 +2281,33 @@ async function findStudent(id) {
     return r;
 }
 
-app.post("/api/tracker/click-on-user-event", async function (req, res) {
+app.post("/api/tracker/click-on-user-event", async function(req, res) {
     ///need to send in a student id here to find
     var decoded = await jwms.verify(req.headers.authorization);
     if (decoded != false) {
         if (decoded["role"] == "Student") {
-            Student.findOne(
-                {
+            Student.findOne({
                     _id: decoded["usrid"]
                 },
-                function (err, obj) {
+                function(err, obj) {
                     if (err) {
                         console.log(err);
                         res.send(500).send("Mongo Error");
                     } else {
                         if (obj != null) {
                             //Means that the user is found, here we search for the selected user
-                            Student.findOne(
-                                {
+                            Student.findOne({
                                     _id: req.body._id
                                 },
-                                function (err2, obj2) {
+                                function(err2, obj2) {
                                     if (err) {
                                         res.status(500).send("Internal Mongo Error");
                                     } else {
                                         if (obj2 != null) {
-                                            user.findOne(
-                                                {
+                                            user.findOne({
                                                     username: obj2.EmailId
                                                 },
-                                                function (err, obj23) {
+                                                function(err, obj23) {
                                                     res.status(200).send({
                                                         obj: obj2,
                                                         dp: obj23.profilePic
@@ -2471,7 +2335,7 @@ app.post("/api/tracker/click-on-user-event", async function (req, res) {
     }
 });
 
-app.post("/api/tracker/vectorless/click-on-user-event", async function (
+app.post("/api/tracker/vectorless/click-on-user-event", async function(
     req,
     res
 ) {
@@ -2480,33 +2344,30 @@ app.post("/api/tracker/vectorless/click-on-user-event", async function (
     if (decoded != false) {
         if (decoded["role"] == "Org") {
             //We need to add the selected students interests to the user vector object
-            Organiser.findOne(
-                {
+            Organiser.findOne({
                     _id: decoded["usrid"]
                 },
-                function (err, obj) {
+                function(err, obj) {
                     if (err) {
                         console.log(err);
                         res.send(500).send("Mongo Error");
                     } else {
                         if (obj != null) {
                             //Means that the user is found, here we search for the selected user
-                            Student.findOne(
-                                {
+                            Student.findOne({
                                     _id: req.body._id
                                 },
-                                function (err2, obj2) {
+                                function(err2, obj2) {
                                     if (err) {
                                         res.status(500).send("Internal Mongo Error");
                                     } else {
                                         if (obj2 != null) {
                                             //This means that the user object has also been found here
                                             //Now what matters is that I reuturn this
-                                            user.findOne(
-                                                {
+                                            user.findOne({
                                                     username: obj2.EmailId
                                                 },
-                                                function (err, obj23) {
+                                                function(err, obj23) {
                                                     res.status(200).send({
                                                         obj: obj2,
                                                         dp: obj23.profilePic
@@ -2534,21 +2395,17 @@ app.post("/api/tracker/vectorless/click-on-user-event", async function (
 });
 
 function addToUserVector(userid, to_add) {
-    Student.findOne(
-        {
+    Student.findOne({
             _id: userid
         },
-        function (err, obj) {
-            Student.updateOne(
-                {
+        function(err, obj) {
+            Student.updateOne({
                     _id: userid
-                },
-                {
+                }, {
                     $set: {}
                 },
-                function (err2, obj2) {
-                    if (err2) {
-                    } else {
+                function(err2, obj2) {
+                    if (err2) {} else {
                         if (obj2) {
                             console.log("");
                         } else {
@@ -2561,22 +2418,20 @@ function addToUserVector(userid, to_add) {
     );
 }
 
-app.get("/discoverUsers", async function (req, res) {
+app.get("/discoverUsers", async function(req, res) {
     var decoded = await jwms.verify(req.headers.authorization);
     if (decoded != false) {
         //Must add profile picture when you find it here
         //Must also refine to fit in good recommendations
         //Should be pretty good for a small dataset
-        Student.find(
-            {
+        Student.find({
                 Location: decoded["Location"]
-            },
-            {
+            }, {
                 Firstname: 1,
                 LastName: 1,
                 _id: 1
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     console.log(err);
                     res.status(500).send(err);
@@ -2596,55 +2451,52 @@ app.get("/discoverUsers", async function (req, res) {
     }
 });
 
-app.post("/api/search/users", async function (req, res) {
+app.post("/api/search/users", async function(req, res) {
     var query = req.body.userKey;
     var usecase = req.body.usecase;
     var decoded = await jwms.verify(req.headers.authorization);
     var sender = [];
     if (decoded != false) {
         if (usecase == 1) {
-            Student.find(
-                {
-                    $and: [
-                        {
-                            Location: decoded["Location"]
-                        },
-                        {
-                            $or: [
-                                {
-                                    FirstName: {
-                                        $regex: query,
-                                        $options: "i"
-                                    }
-                                },
-                                {
-                                    LastName: {
-                                        $regex: query,
-                                        $options: "i"
-                                    }
-                                },
-                                {
-                                    EmailId: {
-                                        $regex: query,
-                                        $options: "i"
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
+            Student.find({
+                    $and: [{
+                        Location: decoded["Location"]
+                    }, {
+                        $or: [{
+                            FirstName: {
+                                $regex: query,
+                                $options: "i"
+                            }
+                        }, {
+                            LastName: {
+                                $regex: query,
+                                $options: "i"
+                            }
+                        }, {
+                            EmailId: {
+                                $regex: query,
+                                $options: "i"
+                            }
+                        }]
+                    }]
+                }, {
                     FirstName: 1,
                     LastName: 1,
                     LastSeen: 1,
                     _id: 1
                 },
-                function (err, obj) {
+                async function(err, obj) {
                     if (err) {
                         res.status(500).send("MONGo");
                     } else {
                         if (obj != []) {
+                                                for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
                             res.status(200).send(obj);
+                        }
+                    }
                         } else {
                             res.status(200).send("NO USERS FOUND");
                         }
@@ -2652,36 +2504,30 @@ app.post("/api/search/users", async function (req, res) {
                 }
             );
         } else {
-            Student.find(
-                {
-                    $or: [
-                        {
-                            FirstName: {
-                                $regex: query,
-                                $options: "i"
-                            }
-                        },
-                        {
-                            LastName: {
-                                $regex: query,
-                                $options: "i"
-                            }
-                        },
-                        {
-                            EmailId: {
-                                $regex: query,
-                                $options: "i"
-                            }
+            Student.find({
+                    $or: [{
+                        FirstName: {
+                            $regex: query,
+                            $options: "i"
                         }
-                    ]
-                },
-                {
+                    }, {
+                        LastName: {
+                            $regex: query,
+                            $options: "i"
+                        }
+                    }, {
+                        EmailId: {
+                            $regex: query,
+                            $options: "i"
+                        }
+                    }]
+                }, {
                     FirstName: 1,
                     LastName: 1,
                     LastSeen: 1,
                     _id: 1
                 },
-                function (err, obj) {
+                function(err, obj) {
                     if (err) {
                         res.status(500).send("MONGo");
                     } else {
@@ -2700,41 +2546,42 @@ app.post("/api/search/users", async function (req, res) {
     }
 });
 
-app.post("/api/search/organizers", async function (req, res) {
+app.post("/api/search/organizers", async function(req, res) {
     var query = req.body.orgKey;
     var usecase = req.body.usecase;
     var decoded = await jwms.verify(req.headers.authorization);
     var sender = [];
     if (decoded != false) {
-        Organiser.find(
-            {
-                $or: [
-                    {
-                        OrganiserName: {
-                            $regex: query,
-                            $options: "i"
-                        }
-                    },
-                    {
-                        Organiser: {
-                            $regex: query,
-                            $options: "i"
-                        }
+        Organiser.find({
+                $or: [{
+                    OrganiserName: {
+                        $regex: query,
+                        $options: "i"
                     }
-                ]
-            },
-            {
+                }, {
+                    Organiser: {
+                        $regex: query,
+                        $options: "i"
+                    }
+                }]
+            }, {
                 OrganiserName: 1,
                 OrganiserEmail: 1,
                 _id: 1
             },
-            function (err, obj) {
+            function(err, obj) {
                 if (err) {
                     res.status(500).send("MONGo");
                 } else {
                     if (obj != []) {
-                        var fin = removeByAttr(obj, 'id', decoded.usrid)
-                        res.status(200).send(fin);
+                                            for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            res.status(200).send(obj);
+                        }
+                    }
+
                     } else {
                         res.status(200).send("NO USERS FOUND");
                     }
@@ -2748,49 +2595,33 @@ app.post("/api/search/organizers", async function (req, res) {
 
 var arms = require("./microservices/archive-micro");
 
-app.get("/api/run", function (req, res) {
+app.get("/api/run", function(req, res) {
     ///Archiving Events
     var key = "";
-    console.log("works");
-    Student.find({}, function (err, obj) {
-        if (err) {
-            console.log(err);
-        } else {
-            if (obj != []) {
-                /*console.log(obj)*/
-                for (let i = 0; i < obj.length; obj++) {
-                    var age = ageconvert(obj[i].DOB);
-                    console.log(age);
-                }
-            }
-        }
-    });
     arms.eventsArchive();
 });
 
-app.post("/api/vectorless/click-on-events", function (req, res) {
+app.post("/api/vectorless/click-on-events", function(req, res) {
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
-        function (err, decodedToken) {
+        function(err, decodedToken) {
             if (err) {
                 console.log("INTERNAL ERROR. ", err);
             } else {
-                Organiser.findOne(
-                    {
+                Organiser.findOne({
                         _id: decodedToken.usrid
                     },
-                    function (err, MONGO_OBJ_RETURN) {
+                    function(err, MONGO_OBJ_RETURN) {
                         if (err) {
                             console.log(err);
                         } else {
                             if (MONGO_OBJ_RETURN) {
-                                event.findOne(
-                                    {
+                                event.findOne({
                                         _id: req.body._id
                                     },
-                                    function (err, EVNobj) {
+                                    function(err, EVNobj) {
                                         if (err) {
                                             console.log(err);
                                         } else {
@@ -2815,88 +2646,88 @@ app.post("/api/vectorless/click-on-events", function (req, res) {
     //Must send a post
 });
 
-async function ageconvert(dob) {
-    var callback = new Promise((res, rej) => {
-        var checkYear = Math.floor(dob / 31536000000);
-        res(checkYear);
-    });
+// async function ageconvert(dob) {
+//     var callback = new Promise((res, rej) => {
+//         var checkYear = Math.floor(dob / 31536000000);
+//         res(checkYear);
+//     });
 
-    let r = await callback;
-    return r;
-}
+//     let r = await callback;
+//     return r;
+// }
 
-app.post("/api/unfollowevent", async function (req, res) {
-    jwt.verify(
-        tokenExtractor.tokenExtractor(req.headers.authorization),
-        publicKEY,
-        enc.verifyOptions,
-        function (err, decodedToken) {
-            if (err) {
-                console.log("INTERNAL ERROR. ", err);
-                res.status(403).send("Wrong JWT");
-            } else {
-                Student.findOne(
-                    {
-                        _id: decodedToken.usrid
-                    },
-                    {
-                        evnFollowing: 1
-                    },
-                    function (err, MONGO_OBJ_RETURN) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            if (MONGO_OBJ_RETURN) {
-                                if (MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
-                                    var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(
-                                        req.body.id
-                                    );
-                                    if (index > -1) {
-                                        MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
+// app.post("/api/unfollowevent", async function (req, res) {
+//     jwt.verify(
+//         tokenExtractor.tokenExtractor(req.headers.authorization),
+//         publicKEY,
+//         enc.verifyOptions,
+//         function (err, decodedToken) {
+//             if (err) {
+//                 console.log("INTERNAL ERROR. ", err);
+//                 res.status(403).send("Wrong JWT");
+//             } else {
+//                 Student.findOne(
+//                     {
+//                         _id: decodedToken.usrid
+//                     },
+//                     {
+//                         evnFollowing: 1
+//                     },
+//                     function (err, MONGO_OBJ_RETURN) {
+//                         if (err) {
+//                             console.log(err);
+//                         } else {
+//                             if (MONGO_OBJ_RETURN) {
+//                                 if (MONGO_OBJ_RETURN.evnFollowing.includes(req.body.id)) {
+//                                     var index = MONGO_OBJ_RETURN.evnFollowing.indexOf(
+//                                         req.body.id
+//                                     );
+//                                     if (index > -1) {
+//                                         MONGO_OBJ_RETURN.evnFollowing.splice(index, 1);
 
-                                        Student.updateOne(
-                                            {
-                                                id: decodedToken.usrid
-                                            },
-                                            {
-                                                $set: {
-                                                    evnFollowing: MONGO_OBJ_RETURN.evnFollowing
-                                                }
-                                            },
-                                            function (err2, obj2) {
-                                                if (err) {
-                                                    res.status(500).send("Update Error");
-                                                } else {
-                                                    res.status(200).send("Removed");
-                                                }
-                                            }
-                                        );
-                                    } else {
-                                        res.status(404).send("Event not found in Event Following");
-                                    }
-                                } else {
-                                    res.status(404).send("Event not found in Event Following");
-                                }
-                            } else {
-                                console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
-                            }
-                        }
-                    }
-                );
-            }
-        }
-    );
-});
+//                                         Student.updateOne(
+//                                             {
+//                                                 id: decodedToken.usrid
+//                                             },
+//                                             {
+//                                                 $set: {
+//                                                     evnFollowing: MONGO_OBJ_RETURN.evnFollowing
+//                                                 }
+//                                             },
+//                                             function (err2, obj2) {
+//                                                 if (err) {
+//                                                     res.status(500).send("Update Error");
+//                                                 } else {
+//                                                     res.status(200).send("Removed");
+//                                                 }
+//                                             }
+//                                         );
+//                                     } else {
+//                                         res.status(404).send("Event not found in Event Following");
+//                                     }
+//                                 } else {
+//                                     res.status(404).send("Event not found in Event Following");
+//                                 }
+//                             } else {
+//                                 console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+//                             }
+//                         }
+//                     }
+//                 );
+//             }
+//         }
+//     );
+// });
 
-var usrctr = 50;
+// var usrctr = 50;
 
-app.get("/external/usercount", function (req, res) {
-    res.status(200).send(usrctr);
-});
+// app.get("/external/usercount", function (req, res) {
+//     res.status(200).send(usrctr);
+// });
 
-app.get("/external/usercount/updater", function (req, res) {
-    usrctr += 10;
-});
+// app.get("/external/usercount/updater", function (req, res) {
+//     usrctr += 10;
+// });
 
 
 // app.get('/api/mlstuff', async function(req, res){
@@ -2908,52 +2739,50 @@ app.get("/external/usercount/updater", function (req, res) {
 
 
 
-
-
 ///DEV ROUTES ===>
 
 
-app.get('/api/addevnsdata', (req, res) => {
-    //Add DATA Here
-    //PLEASE ADD A ORGANISER ID
-    var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT
-    //IF YOU DONT WANT IMAGE NOW, COMMENT OUT THE IMAGE FIELD IN THE BOTTOM
-    var orgID = ''; //ADD HERE FROM WHICH ORGANISER
-    var evnName = '';
-    var evnDate1 = ''; //MUST BE IN MILLISECONDS, ADD A REGULAR AND CHECK
-    var evnDate2 = ''; // SAME AS ABOVE 
-    var evnInterests = ''; //MUST BE AN ARRAY
-    var evnLocation = ''; //DONT KNOW WHAT THIS IS FOR
-    var evnOrganizerName = ''; //ADD THIS FROM THE TOKEN AS WELL
-    var evnOrganizerPage = ''; //KEEP THEM CONSTANT
-    var evnOrganizerContact = ''; //THIS AS WELL
-    var evnPincode = ''; //MUST BE 560076 or 560078 or something along those lines
-    var evnTargetAge = ''; //PUT 15-16  
-    var newEvent = new event({
-        evnName: evnName,
-        evnDate1: evnDate1,
-        evnDate2: evnDate2,
-        evnInterests: evnInterests,
-        evnLocation: evnLocation,
-        evnCity: req.body.evnCity,
-        evnOrganizerName: evnOrganizerName, //this line has to be changed
-        evnOrganizerPage: evnOrganizerPage,
-        evnOrganizerContact: evnOrganizerContact,
-        evnPincode:evnPincode,
-        evnTargetAge: evnTargetAge,
-        evnDescription: req.body.evnDescription,
-        evnCost: req.body.cost,
-        Image: newImgName
-    });
-    newEvent.save(function (err, obj) {
-        if (err) {
-            console.log("ERROR:\n" + err);
-            return res.redirect("/registerorganiser");
-        } else {
-            /*console.log(obj)*/
-            //have to append the newly created id to the organizer as well
-            oems.addToOrganiser(orgID, obj._id);
-            res.json(obj);
-        }
-    });
-})
+// app.get('/api/addevnsdata', (req, res) => {
+//     //Add DATA Here
+//     //PLEASE ADD A ORGANISER ID
+//     var newImgName = req.body.Image + dater(); //VERY IMPORTANT - YOU NEED AN IMAGE NAME STAT
+//     //IF YOU DONT WANT IMAGE NOW, COMMENT OUT THE IMAGE FIELD IN THE BOTTOM
+//     var orgID = ''; //ADD HERE FROM WHICH ORGANISER
+//     var evnName = '';
+//     var evnDate1 = ''; //MUST BE IN MILLISECONDS, ADD A REGULAR AND CHECK
+//     var evnDate2 = ''; // SAME AS ABOVE 
+//     var evnInterests = ''; //MUST BE AN ARRAY
+//     var evnLocation = ''; //DONT KNOW WHAT THIS IS FOR
+//     var evnOrganizerName = ''; //ADD THIS FROM THE TOKEN AS WELL
+//     var evnOrganizerPage = ''; //KEEP THEM CONSTANT
+//     var evnOrganizerContact = ''; //THIS AS WELL
+//     var evnPincode = ''; //MUST BE 560076 or 560078 or something along those lines
+//     var evnTargetAge = ''; //PUT 15-16  
+//     var newEvent = new event({
+//         evnName: evnName,
+//         evnDate1: evnDate1,
+//         evnDate2: evnDate2,
+//         evnInterests: evnInterests,
+//         evnLocation: evnLocation,
+//         evnCity: req.body.evnCity,
+//         evnOrganizerName: evnOrganizerName, //this line has to be changed
+//         evnOrganizerPage: evnOrganizerPage,
+//         evnOrganizerContact: evnOrganizerContact,
+//         evnPincode:evnPincode,
+//         evnTargetAge: evnTargetAge,
+//         evnDescription: req.body.evnDescription,
+//         evnCost: req.body.cost,
+//         Image: newImgName
+//     });
+//     newEvent.save(function (err, obj) {
+//         if (err) {
+//             console.log("ERROR:\n" + err);
+//             return res.redirect("/registerorganiser");
+//         } else {
+//             /*console.log(obj)*/
+//             //have to append the newly created id to the organizer as well
+//             oems.addToOrganiser(orgID, obj._id);
+//             res.json(obj);
+//         }
+//     });
+// })

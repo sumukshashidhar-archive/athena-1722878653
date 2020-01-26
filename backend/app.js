@@ -254,7 +254,7 @@ app.post("/uploadProfile", upLoad.single("img"), (req, res) => {
         function (err, decodedToken) {
             if (!err && decodedToken != null) {
                 console.log("Verified PROFILE PICTURE");
-                console.log(decodedToken);
+                console.log(req.body);
 
                 user.findOneAndUpdate(
                     {
@@ -262,7 +262,7 @@ app.post("/uploadProfile", upLoad.single("img"), (req, res) => {
                     },
                     {
                         $set: {
-                            profilePic: req.body.name
+                            profilePic: req.body.name + dater()
                         }
                     },
                     function (err, obj) {

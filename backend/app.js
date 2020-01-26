@@ -2183,7 +2183,7 @@ app.post("/api/searchbyinterests", async function(req, res) {
                     console.log("*****************************************");
                     /*console.log(obj)*/
                     console.log("******************************************");
-                    var fin = await removeByAttr(obj, 'id', decoded.usrid)
+                    var fin = await removeByAttr(obj, '_id', decoded.usrid)
                     res.status(200).send(fin);
                 } else {
                     console.log("no users founf");
@@ -2481,8 +2481,8 @@ app.post("/api/search/users", async function(req, res) {
                         res.status(500).send("MONGo");
                     } else {
                         if (obj != []) {
-                            var fin = await removeByAttr(obj, 'id', decoded.usrid)
-                            res.status(200).send(obj);
+                            var fin = await removeByAttr(obj, '_id', decoded.usrid)
+                            res.status(200).send(fin);
                         } else {
                             res.status(200).send("NO USERS FOUND");
                         }
@@ -2560,7 +2560,7 @@ app.post("/api/search/organizers", async function(req, res) {
                     res.status(500).send("MONGo");
                 } else {
                     if (obj != []) {
-                        var fin = removeByAttr(obj, 'id', decoded.usrid)
+                        var fin = removeByAttr(obj, '_id', decoded.usrid)
                         res.status(200).send(fin);
                     } else {
                         res.status(200).send("NO USERS FOUND");

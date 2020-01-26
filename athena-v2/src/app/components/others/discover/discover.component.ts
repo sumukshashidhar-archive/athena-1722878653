@@ -15,11 +15,8 @@ import { EventService } from "./../../../shared/events/event.service";
   styleUrls: ["./discover.component.css"]
 })
 export class DiscoverComponent implements OnInit {
-  normal: any;
-  deep: any;
-  archive: any;
-  isStudent = false;
-  isOrg = false;
+  isStudent: any;
+  isOrg: any;
   username: any;
   imageToShow: any;
   profileUrlExists = false;
@@ -63,12 +60,40 @@ export class DiscoverComponent implements OnInit {
     });
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(["/login"]);
+  // Advanced Event Search
+
+  deepSearch(form: NgForm) {
+    form.value["usecase"] = 2;
+    console.log(form.value);
+    this.data.postSearch(form.value).subscribe(
+      res => {
+        this.data.results = null;
+        this.data.userResults = null;
+        this.data.interestResults = null;
+        this.data.orgResults = null;
+        var x = this.eventService.changeDate(res);
+        this.data.results = x;
+        console.log(res);
+        this.data.tabChange = 0;
+        if (this.data.results.length === 0) {
+          this.data.message = "Sorry, no results found";
+        } else {
+          this.data.message = "We found these results";
+        }
+        this.router.navigate(["/searchres"]);
+      },
+      err => {
+        if (err.status === 422) {
+          console.log(422);
+        } else {
+          console.log(err);
+        }
+      }
+    );
   }
-  onSubmit(form: NgForm) {
-    form.value["usecase"] = 1;
+
+  archiveSearch(form: NgForm) {
+    form.value["usecase"] = 3
     console.log(form.value);
     this.data.postSearch(form.value).subscribe(
       res => {
@@ -135,6 +160,8 @@ export class DiscoverComponent implements OnInit {
       console.log(this.subcatOptions);
     });
   }
+
+  // Search by interests below
 
   searchByInterest() {
     console.log(this.subCatName);

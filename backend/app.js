@@ -2164,8 +2164,9 @@ app.get("/api/getrecent", async function(req, res) {
 
 app.post("/api/searchbyinterests", async function(req, res) {
     //req.body.keyword
-
-    var keyword = req.body;
+    var decoded = await jwms.verify(req.headers.authorization)
+    if(decoded!=false && decoded['role']=='Student') {
+            var keyword = req.body;
 
     console.log(keyword[0]);
 
@@ -2182,7 +2183,8 @@ app.post("/api/searchbyinterests", async function(req, res) {
                     console.log("*****************************************");
                     /*console.log(obj)*/
                     console.log("******************************************");
-                    res.status(200).send(obj);
+                    var fin = await removeByAttr(obj, 'id', decoded.usrid)
+                    res.status(200).send(fin);
                 } else {
                     console.log("no users founf");
                     res.status(403).send("No users found");
@@ -2191,6 +2193,11 @@ app.post("/api/searchbyinterests", async function(req, res) {
             }
         }
     );
+    } 
+    else {
+        res.status(403).send('Unauthorized')
+    }
+
 });
 
 app.post("/api/organiser/nbyinterests", async function(req, res) {
@@ -2224,17 +2231,17 @@ app.post("/api/organiser/nbyinterests", async function(req, res) {
     );
 });
 
-app.post("/searchbyint", function(req, res) {
-    var keyword = "BMX";
+// app.post("/searchbyint", function(req, res) {
+//     var keyword = "BMX";
 
-    InterestSchema.findOne({
-            subCat: keyword
-        },
-        function(err, obj) {
-            /*console.log(obj)*/
-        }
-    );
-});
+//     InterestSchema.findOne({
+//             subCat: keyword
+//         },
+//         function(err, obj) {
+//             /*console.log(obj)*/
+//         }
+//     );
+// });
 
 async function findStudent(id) {
     var callback = new Promise((res, rej) => {
@@ -2474,6 +2481,7 @@ app.post("/api/search/users", async function(req, res) {
                         res.status(500).send("MONGo");
                     } else {
                         if (obj != []) {
+                            var fin = await removeByAttr(obj, 'id', decoded.usrid)
                             res.status(200).send(obj);
                         } else {
                             res.status(200).send("NO USERS FOUND");

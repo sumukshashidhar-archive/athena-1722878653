@@ -1512,24 +1512,6 @@ app.post("/event-search", async function(req, res) {
     );
 });
 
-app.post("/events_search", function(req, res) {
-    if (req.body.keyword != undefined) {
-        tempsearch.event_search(req.body.keyword, req.body.usecase, function(
-            err,
-            obj
-        ) {
-            if (err) {
-                console.log("INTERNAL ERROR. ");
-            } else {
-                console.log("SUCCESS >>> GOT SEARCH EVENTS");
-                /*console.log(obj)*/
-            }
-        });
-    } else {
-        console.log("INTERNAL ERROR. YOURE NOT SENDING ");
-    }
-});
-
 app.get("/events", async (req, res) => {
     //Gets a request from the user
     jwt.verify(
@@ -1543,27 +1525,33 @@ app.get("/events", async (req, res) => {
                 if (err) {
                     console.log("INTERNAL ERROR. ", err);
                 } else {
-                    Student.findOne({
-                            _id: decodedToken.usrid
-                        },
-                        async function(err, MONGO_OBJ_RETURN) {
-                            if (err) {
-                                console.log(err);
-                                res.status(403).send("Unauthorized JWT");
-                            } else {
-                                if (MONGO_OBJ_RETURN) {
-                                    //This implies that I found a user like this
-                                    //Now I need to process recommendations for this user
-                                    var evns_to_return = await dms.explore(MONGO_OBJ_RETURN);
-                                    // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
-                                    // console.log("Being sent is: \n", evns_to_return)
-                                    res.send(evns_to_return);
+                    if(decodedToken['role']=='Student') {
+                                Student.findOne({
+                                _id: decodedToken.usrid
+                            },
+                            async function(err, MONGO_OBJ_RETURN) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(403).send("Unauthorized JWT");
                                 } else {
-                                    console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+                                    if (MONGO_OBJ_RETURN) {
+                                        //This implies that I found a user like this
+                                        //Now I need to process recommendations for this user
+                                        var evns_to_return = await dms.explore(MONGO_OBJ_RETURN);
+                                        // var evns_to_return = await dms.testexplore(MONGO_OBJ_RETURN)
+                                        // console.log("Being sent is: \n", evns_to_return)
+                                        res.send(evns_to_return);
+                                    } else {
+                                        console.log("INTERNAL ERROR. DID NOT FIND A USER LIKE THIS");
+                                    }
                                 }
                             }
-                        }
-                    );
+                        );
+                    }
+                    else {
+                        res.status(403).send('Unauthorized')
+                    }
+
                 }
             }
         }

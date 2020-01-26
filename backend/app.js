@@ -969,17 +969,15 @@ app.get("/achievements", async function(req, res) {
 app.post("/achievements", (req, res) => {
     console.log("NN");
     console.log(req.body);
-
     console.log(req.body);
     console.log(req.body.uploadedFiles);
     console.log("PRINTED IT");
-
     jwt.verify(
         tokenExtractor.tokenExtractor(req.headers.authorization),
         publicKEY,
         enc.verifyOptions,
         function(err, decodedToken) {
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 console.log("Verified");
                 console.log(decodedToken);
                 var newAch = new achievements({

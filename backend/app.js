@@ -2183,8 +2183,17 @@ app.post("/api/searchbyinterests", async function(req, res) {
                     console.log("*****************************************");
                     /*console.log(obj)*/
                     console.log("******************************************");
-                    var fin = await removeByAttr(obj, '_id', decoded.usrid)
-                    res.status(200).send(fin);
+                    console.log(obj)
+                    console.log(decoded.usrid)
+
+                    for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            res.status(200).send(obj);
+                        }
+                    }
+
                 } else {
                     console.log("no users founf");
                     res.status(403).send("No users found");
@@ -2481,8 +2490,13 @@ app.post("/api/search/users", async function(req, res) {
                         res.status(500).send("MONGo");
                     } else {
                         if (obj != []) {
-                            var fin = await removeByAttr(obj, '_id', decoded.usrid)
-                            res.status(200).send(fin);
+                                                for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            res.status(200).send(obj);
+                        }
+                    }
                         } else {
                             res.status(200).send("NO USERS FOUND");
                         }
@@ -2560,8 +2574,14 @@ app.post("/api/search/organizers", async function(req, res) {
                     res.status(500).send("MONGo");
                 } else {
                     if (obj != []) {
-                        var fin = removeByAttr(obj, '_id', decoded.usrid)
-                        res.status(200).send(fin);
+                                            for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            res.status(200).send(obj);
+                        }
+                    }
+
                     } else {
                         res.status(200).send("NO USERS FOUND");
                     }

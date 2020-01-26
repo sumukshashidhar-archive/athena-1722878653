@@ -1437,7 +1437,7 @@ app.post("/deleteAchievements", function(req, res) {
         enc.verifyOptions,
         function(err, decodedToken) {
             console.log("Getting Achievements....");
-            if (!err && decodedToken != null) {
+            if (!err && decodedToken != null && decodedToken['role']=='Student') {
                 Student.updateOne({
                         EmailId: decodedToken.email
                     }, {
@@ -1469,7 +1469,7 @@ app.post("/deleteAchievements", function(req, res) {
 app.post("/organizerdashboard", async function(req, res) {
     //Will have to make more options to display more specific errors in the future and them handle that in the frontend
     jwt.verify(token, publicKEY, enc.verifyOptions, function(err, decodedToken) {
-        if (!err && decodedToken != null) {
+        if (!err && decodedToken != null && decodedToken['role']=='Org') {
             console.log("Now redirecting to organizer dashboard");
             res.status(200).json(decodedToken);
         } else {
@@ -1488,11 +1488,13 @@ app.post("/event-search", async function(req, res) {
         async function(err, DECODEDTOKEN) {
             if (err) {} else {
                 if (req.body.usecase == 1) {
-                    var evns = await dms.reqular_city_search(
-                        req.body.keyword,
-                        DECODEDTOKEN
-                    );
-                    res.send(evns);
+                    if(DECODEDTOKEN['role']=='Student'){
+                        var evns = await dms.reqular_city_search(req.body.keyword,DECODEDTOKEN);
+                        res.send(evns); 
+                    }
+                    else {
+                        res.status(403).send('Unauthorized')
+                    }
                 } else if (req.body.usecase == 2) {
                     var evns = await dms.deep_search(req.body.keyword, DECODEDTOKEN);
                     res.send(evns);

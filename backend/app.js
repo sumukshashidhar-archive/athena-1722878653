@@ -2178,28 +2178,31 @@ app.post("/api/searchbyinterests", async function (req, res) {
 
         Student.find({
             Interests: {
-                $all: keyword
+                $all: keyword[0]
             }
         },
-            async function (err, obj) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (obj.length > 0) {
-                        console.log("*****************************************");
-                        /*console.log(obj)*/
-                        console.log("******************************************");
-                        console.log(obj)
-                        console.log(decoded.usrid)
+        async function(err, obj) {
+            if (err) {
+                console.log(err);
+            } else {
 
-                        for (let i = 0; i < obj.length; i++) {
-                            if (obj[i]['_id'] == decoded.usrid) {
-                                console.log('comes till here')
-                                obj.splice(i, 1);
-                                res.status(200).send(obj);
-                            }
+                if (obj.length > 0) {
+                    console.log("*****************************************");
+                    /*console.log(obj)*/
+                    console.log("******************************************");
+
+                    for(let i=0; i<obj.length; i++) {
+                        if(obj[i]['_id']==decoded.usrid) {
+                            console.log('comes till here')
+                            obj.splice (i, 1);
+                            console.log("aksdhflasdfhaisudhfiaushdfiuashdifhoasiduhfiausdhfoahisdfiuhasdoifhu")
+                            console.log(obj)
+                            res.status(200).send(obj);
                         }
-
+                        if (i == obj.length-1){
+                            res.status(200).send(obj)
+                        }
+                    }
                     } else {
                         console.log("no users founf");
                         res.status(403).send("No users found");

@@ -41,8 +41,6 @@ export class DashboardComponent implements OnInit {
   day=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
   acadlist: any;
   constructor(
-    @Inject(LOCAL_STORAGE) private localStorage: any,
-
     private auth: AuthService,
     private router: Router,
     private data: SearchService,

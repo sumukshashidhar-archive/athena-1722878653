@@ -2560,6 +2560,7 @@ app.post("/api/search/organizers", async function (req, res) {
     var usecase = req.body.usecase;
     var decoded = await jwms.verify(req.headers.authorization);
     var sender = [];
+    console.log("searching by organizers now")
     if (decoded != false) {
         Organiser.find({
             $or: [{
@@ -2582,6 +2583,7 @@ app.post("/api/search/organizers", async function (req, res) {
                 if (err) {
                     res.status(500).send("MONGo");
                 } else {
+                    console.log(obj,"aioshdioahfoihaioshdoashoihoihoioioiooioioiiooiio")
                     if (obj != []) {
                         for (let i = 0; i < obj.length; i++) {
                             if (obj[i]['_id'] == decoded.usrid) {
@@ -2589,10 +2591,13 @@ app.post("/api/search/organizers", async function (req, res) {
                                 obj.splice(i, 1);
                                 res.status(200).send(obj);
                             }
+                            if (i == obj.length-1){
+                                res.status(200).send(obj)
+                            }
                         }
 
                     } else {
-                        res.status(200).send("NO USERS FOUND");
+                        res.status(403).send("No users found")
                     }
                 }
             }

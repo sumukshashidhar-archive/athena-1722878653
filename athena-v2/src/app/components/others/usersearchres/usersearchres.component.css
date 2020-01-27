@@ -330,7 +330,7 @@ body {
   color: aliceblue;
 }
 
-@media screen and (max-width: 765px) {
+@media screen and (max-width: 768px) {
   body {
     margin-top: 5%;
     padding: 0;

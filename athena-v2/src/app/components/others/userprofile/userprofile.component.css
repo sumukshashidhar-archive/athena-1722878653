@@ -157,14 +157,13 @@ section {
   box-shadow: none
 }
 
+
 @media screen and (min-width: 700px) {
   .modal-content {
     max-width: 100%;
     max-height: 60%;
   }
-.cc{
-  margin-left: 20vw;
-}
+
 
   .modal-body .name {
     max-width: 20%;
@@ -231,8 +230,9 @@ ul li:hover {
 }
 
 body {
-  margin-left: 10vw;
+  margin-left: 5vw;
   padding: 0;
+  margin-top: -5%;
   min-height: 100vh;
   background: #00000000;
   display: flex;
@@ -332,7 +332,7 @@ body {
   color: aliceblue;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   body {
     margin-top: 5%;
     padding: 0;
@@ -412,6 +412,7 @@ body {
 
   .container {
     margin-top: -5%;
+    margin-left: 10%;
     width: 100.2vw;
     position: relative;
     display: block;

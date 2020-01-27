@@ -43,6 +43,8 @@ export class SearchresComponent implements OnInit {
   ngOnInit() {
     this.results = JSON.parse(sessionStorage.getItem("results"))
     this.userResults = JSON.parse(sessionStorage.getItem("userResults"))
+    this.orgResults = JSON.parse(sessionStorage.getItem("orgResults"))
+    this.interestResults = JSON.parse(sessionStorage.getItem("interestResults"))
   }
 
   logout() {
@@ -123,6 +125,9 @@ export class SearchresComponent implements OnInit {
     obj['usecase'] = 1
     this.search.postSearch(obj).subscribe(
       res => {
+        sessionStorage.removeItem("results")
+        sessionStorage.removeItem("userResults")
+        sessionStorage.removeItem("orgResults")
         var x = this.eventService.changeDate(res)
         sessionStorage.setItem("results", JSON.stringify(x))
         this.search.keyword2 = obj['keyword']
@@ -140,7 +145,9 @@ export class SearchresComponent implements OnInit {
     console.log(obj)
     this.search.postUserSearch(obj).subscribe(
       res => {
-        sessionStorage.clear()
+        sessionStorage.removeItem("results")
+        sessionStorage.removeItem("userResults")
+        sessionStorage.removeItem("orgResults")
         sessionStorage.setItem("userResults", JSON.stringify(res))
         this.search.keyword2 = obj['userKey']
         location.reload()
@@ -156,7 +163,9 @@ export class SearchresComponent implements OnInit {
     obj['orgKey'] = sessionStorage.getItem("keyword")
     this.search.postOrgSearch(obj).subscribe(
       res => {
-        sessionStorage.clear()
+        sessionStorage.removeItem("results")
+        sessionStorage.removeItem("userResults")
+        sessionStorage.removeItem("orgResults")
         sessionStorage.setItem("orgResults", JSON.stringify(res))
         location.reload()
       }

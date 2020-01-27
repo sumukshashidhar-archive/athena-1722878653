@@ -14,7 +14,7 @@ import { MatSnackBar } from "@angular/material";
   styleUrls: ["./bigevents.component.css"]
 })
 export class BigeventsComponent implements OnInit {
-  x: any = this.eventService.details1;
+  x: any
   decoded: any;
   follow: any;
   following: boolean;
@@ -29,6 +29,7 @@ export class BigeventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.x = JSON.parse(sessionStorage.getItem("evnDetails"))
     this.x['evnDate1'] = this.convert(this.x['evnDate1']);
     this.x['evnDate2'] = this.convert(this.x['evnDate2']);
   }

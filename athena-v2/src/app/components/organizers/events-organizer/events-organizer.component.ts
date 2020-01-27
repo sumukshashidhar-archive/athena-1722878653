@@ -219,6 +219,7 @@ export class EventsOrganizerComponent implements OnInit {
     form.value['_id'] = _id;
     this.http.post("http://localhost:3000/api/vectorless/click-on-events", form.value).subscribe(
       res => {
+        sessionStorage.setItem("evnDetails", JSON.stringify(res))
         this.eventService.details1 = res
         console.log(res)
         this.router.navigate(['/bigevents'])

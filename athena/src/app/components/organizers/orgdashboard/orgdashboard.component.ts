@@ -42,6 +42,7 @@ export class OrgdashboardComponent implements OnInit {
       ];
     })
   );
+  cardS=['A','B','C','D']
   myEvents: any
   profileUrlExists = false;
   imageToShow: any;
@@ -130,7 +131,6 @@ export class OrgdashboardComponent implements OnInit {
         var x = this.eventService.changeDate(res)
         this.data.results = x;
         console.log(res);
-        this.data.tabChange = 0;
         if (this.data.results.length === 0) {
           this.data.message = "Sorry, no results found";
         } else {

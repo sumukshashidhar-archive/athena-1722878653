@@ -4,7 +4,7 @@
 
 mat-card {
     justify-content: center;
-    background:##ffffff;
+    background:#fafafa;
     box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px rgba(94,104,121,.288);
 }
 

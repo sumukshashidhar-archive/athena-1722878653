@@ -149,7 +149,7 @@ export class DiscoverComponent implements OnInit {
       console.log(arr);
       this.data.postInterestSearch(arr).subscribe(
         res => {
-          sessionStorage.clear()
+          sessionStorage.removeItem("userResults")
           sessionStorage.setItem("userResults", JSON.stringify(res))
           this.data.interestResults = res;
           console.log(res);

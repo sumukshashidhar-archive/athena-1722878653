@@ -6,7 +6,7 @@ import { Component, OnInit } from "@angular/core";
 import { SearchService } from "./../../../shared/search/search.service";
 import { InterestsService } from './../../../shared/interests/interests.service'
 import * as jwt_decode from "jwt-decode";
-import { NgForm, FormControl, FormBuilder } from "@angular/forms";
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventService } from "./../../../shared/events/event.service";
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -34,7 +34,6 @@ export class EventsOrganizerComponent implements OnInit {
   myEvents: any
   y: any;
   x: any;
-  cities = cities;
   profileUrlExists = false;
   imageToShow: any;
   config = {
@@ -56,6 +55,8 @@ export class EventsOrganizerComponent implements OnInit {
   subcatOptions: any;
   noOfChoice = new Array<string>();
 
+  cities = cities;
+
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
 
@@ -67,7 +68,8 @@ export class EventsOrganizerComponent implements OnInit {
     private data: SearchService,
     private auth: AuthService,
     public interestsService : InterestsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _formBuilder: FormBuilder
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
@@ -86,9 +88,6 @@ export class EventsOrganizerComponent implements OnInit {
     this.maxDateSet();
     this.getAllCategory();
     this.getEvents();
-    if (decodedtoken["role"] == "Org") {
-      this.username = decodedtoken["name"];
-    }
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))

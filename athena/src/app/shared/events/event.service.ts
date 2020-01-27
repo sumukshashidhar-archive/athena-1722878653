@@ -41,13 +41,8 @@ export class EventService {
   constructor(@Inject(LOCAL_STORAGE) private localStorage: any, private http: HttpClient) {}
 
   getEvents() {
-    const token=this.localStorage.getItem('access_token')
-    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
-    const options = {
-      headers : headers
-    };
     console.log("Events")
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/events",options);
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/events");
   }
   postEvents(events: Event) {
     console.log("Post Events method");

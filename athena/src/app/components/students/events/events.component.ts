@@ -35,7 +35,6 @@ export class EventsComponent implements OnInit {
     this.refreshEvents();
     this.tabChange()
     this.getEvents();
-    this.makeArray();
   }
 
   refreshEvents() {
@@ -55,13 +54,6 @@ export class EventsComponent implements OnInit {
 
   tabChange(){
     this.selected.setValue(this.data.eventTab);
-  }
-
-  makeArray(){
-    var x = this.eventService.events
-    for(let i=0; i<x.length;i++){
-      this.arrImage.push(x[i]['Image'])
-    }
   }
 
   getEvents(){

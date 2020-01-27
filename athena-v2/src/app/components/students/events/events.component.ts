@@ -103,6 +103,7 @@ export class EventsComponent implements OnInit {
       res => {
         console.log(res)
         this.eventService.details1 = res;
+        sessionStorage.setItem("evnDetails", JSON.stringify(res))
         console.log(this.eventService.details1)
         this.router.navigate(['/bigevents'])
       },

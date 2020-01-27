@@ -1,3 +1,5 @@
+import { school } from './../../students/signup/signup.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventService } from './../../../shared/events/event.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit, Inject } from "@angular/core";
@@ -16,7 +18,10 @@ import { LOCAL_STORAGE } from "@ng-toolkit/universal";
 export class UserprofileComponent implements OnInit {
   ach_list: any;
   decoded: any;
+  school:any
+  Name:any
   bio: any;
+  file:any;
   username: any;
   imageToShow: any;
   interestlist: any;
@@ -31,7 +36,8 @@ export class UserprofileComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     public achService: AchievementsService,
-    private eventService:EventService
+    private eventService:EventService,
+    public _snackBar:MatSnackBar
   ) {
     this.decoded = localStorage.getItem("access_token");
 
@@ -60,10 +66,49 @@ this.getEvents();
        console.log(this.desc)
        console.log(this.img)
        this.Rank=this.ach_list[i].achRank
+       this.Name=this.ach_list[i].Name
 
       }
     }
 
+  }
+  send() {
+    const token=this.localStorage.getItem('access_token')
+    const headers = new HttpHeaders().set('Authorization','Bearer'+token) ;
+    const options = {
+      headers : headers
+    };
+    var File = (document.getElementById("file1") as HTMLInputElement).files;
+    const frmData = new FormData();
+    console.log(File[0]);
+    console.log(File[0].name);
+    frmData.append("img", File[0]);
+    frmData.append("name", File[0].name);
+    var file=File[0].name
+    this.http
+      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile",frmData)
+      .subscribe(res => {
+        console.log(res);
+      }  ,err=>{
+        if(err.status==200){
+          this.openSnackBar("Successfully Updated","Close")
+          location.reload()
+        }
+        else{
+          this.openSnackBar("Error while updating","Close")
+        }
+      });
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
+  }
+
+  readSingleFile(e) {
+    const name = e.target.files[0].name;
+    document.getElementById("file-label").textContent = name;
   }
   logout() {
     this.auth.logout();
@@ -76,6 +121,8 @@ this.getEvents();
       this.ach_list=res['obj']['Achievement']
       this.bio=res['obj']['Bio']
       this.imageToShow=res['dp']
+      this.school=res['obj']['studentSchool']
+      console.log(this.school)
     })
   }
   thisAch(id:any){

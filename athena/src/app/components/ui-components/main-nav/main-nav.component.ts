@@ -45,7 +45,12 @@ export class MainNavComponent {
   }
 
   search(form: NgForm) {
-    form.value["usecase"] = 1;
+    if (this.isStudent){
+      form.value['usecase'] = 1
+    }
+    else if (this.isOrg){
+      form.value['usecase'] = 2
+    }
     console.log(form.value);
     this.searchService.postSearch(form.value).subscribe(
       res => {
@@ -55,13 +60,11 @@ export class MainNavComponent {
         this.searchService.orgResults = null;
         var x = this.eventService.changeDate(res);
         this.searchService.results = x;
+        sessionStorage.setItem("keyword", form.value['keyword'])
+        sessionStorage.setItem("results", JSON.stringify(x))
         console.log(res);
-        this.searchService.tabChange = 0;
-        if (this.searchService.results.length === 0) {
-          this.searchService.message = "Sorry, no results found";
-        } else {
-          this.searchService.message = "We found these results";
-        }
+        // this.searchService.tabChange = 0;
+        this.searchService.keyword2 = form.value['keyword']
         this.router.navigate(["/searchres"]);
       },
       err => {

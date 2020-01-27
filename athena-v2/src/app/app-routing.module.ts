@@ -41,7 +41,8 @@ const routes: Routes = [
   },
   {
     path: "orgdashboard",
-    component: OrgdashboardComponent
+    component: OrgdashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "nord",
@@ -49,7 +50,8 @@ const routes: Routes = [
   },
   {
     path: "usersearchres",
-    component: UsersearchresComponent
+    component: UsersearchresComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "sidenav",
@@ -73,7 +75,8 @@ const routes: Routes = [
   },
   {
     path:"academics",
-    component:AcademicsComponent
+    component:AcademicsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "signup",
@@ -81,11 +84,13 @@ const routes: Routes = [
   },
   {
     path: "bigevents",
-    component: BigeventsComponent
+    component: BigeventsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "discover",
-    component: DiscoverComponent
+    component: DiscoverComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "achievements",
@@ -102,7 +107,8 @@ const routes: Routes = [
   },
   {
     path: "eventsorg",
-    component: EventsOrganizerComponent
+    component: EventsOrganizerComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "passcheck",
@@ -115,7 +121,8 @@ const routes: Routes = [
   },
   {
     path: "events",
-    component: EventsComponent
+    component: EventsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "resetpass",
@@ -123,7 +130,8 @@ const routes: Routes = [
   },
   {
     path: "interests",
-    component: InterestsComponent
+    component: InterestsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "commonsignup",
@@ -131,11 +139,13 @@ const routes: Routes = [
   },
   {
     path:'searchres',
-    component: SearchresComponent
+    component: SearchresComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "userprofile",
-    component: UserprofileComponent
+    component: UserprofileComponent,
+    canActivate: [AuthGuard]
   },
 
   {

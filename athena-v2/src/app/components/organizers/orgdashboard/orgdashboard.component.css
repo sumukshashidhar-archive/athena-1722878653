@@ -61,19 +61,11 @@ mat-card {
   border-radius: 10px;
 }
 
-.card-body-a:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
-}
 
-.card-body-b:hover {
+.card-body-c:hover,.card-body-b:hover,.card-body-a:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
-}
-
-.card-body-c:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 body {

@@ -16,13 +16,13 @@ body {
 }
 
 .mat-card {
-  background: ##ffffff;
+  background: #ffffff;
   box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px rgba(94, 104, 121, .288);
   border-radius: 10px;
 }
 
 .rm {
-  background-color: ##ffffff;
+  background-color: #ffffff;
   box-shadow: -3px -3px 7px #ffffff, 3px 3px 5px rgba(94, 104, 121, .288);
 }
 

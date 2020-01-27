@@ -11,7 +11,9 @@
             class="card-img">
           <img src="http://localhost:3000/{{profilepic}}" alt="profile image" class="profile-img">
           <h1>{{ user.FirstName }}</h1>
-          <p class="job-title">Student School</p>
+          <p class="job-title">{{user.EmailId}}</p>
+          <p class="job-title">{{user.PhoneNo}}</p>
+          <p class="job-title">{{user.studentSchool}}</p>
           <p class="about">
             {{ user.Bio }}
           </p>

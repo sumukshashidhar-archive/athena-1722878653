@@ -5,6 +5,7 @@
     <div class="container">
       <mat-tab-group [selectedIndex]="selected.value">
         <mat-tab label="All Events">
+          <h2 *ngIf="this.interestlist.length==0">We notice that you do not have any interests.<a style="text-decoration: none; background: #00000000;" [routerLink]="['/interests']" routerLinkActive="router-link-active" >Want to add some?</a></h2>
           <div class="container">
             <br>
             <div class="row">

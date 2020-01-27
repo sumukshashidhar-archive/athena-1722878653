@@ -25,6 +25,7 @@ export class EventsComponent implements OnInit {
   results: any;
   arrImage: any;
   selected = new FormControl(0);
+  interestlist: any;
 
   constructor(public data: SearchService, public eventService: EventService, private router: Router,private auth:AuthService, private http: HttpClient) {
     this.decoded = localStorage.getItem("access_token");
@@ -35,7 +36,18 @@ export class EventsComponent implements OnInit {
     this.refreshEvents();
     this.tabChange()
     this.getEvents();
+   var  decoded = localStorage.getItem("access_token");
+    var decodedtoken = jwt_decode(decoded);
+    var id = decodedtoken["usrid"];
+    this.getUserDetails(id)
   }
+  getUserDetails(id:any){
+    this.http.post('http://localhost:3000/getUserInfo',{id}).subscribe(res=>{
+      console.log(res)
+      this.interestlist=res['obj']['Interests']
+    })
+  }
+
 
   refreshEvents() {
     this.eventService.getEvents().subscribe(
@@ -51,6 +63,7 @@ export class EventsComponent implements OnInit {
       }
     });
   }
+
 
   tabChange(){
     this.selected.setValue(this.data.eventTab);

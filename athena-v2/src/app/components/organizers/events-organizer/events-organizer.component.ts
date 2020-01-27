@@ -29,6 +29,7 @@ export class EventsOrganizerComponent implements OnInit {
   maxDate: string;
   newDate: string;
   username: any;
+  selected=new FormControl(0)
   match = false;
   arr: any;
   myEvents: any
@@ -73,6 +74,7 @@ export class EventsOrganizerComponent implements OnInit {
   ) {
     decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
+    this.setTab();
   }
 
   openSnackBar(message: string, action: string) {
@@ -96,7 +98,7 @@ export class EventsOrganizerComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.cities.filter(option => 
+    return this.cities.filter(option =>
         option.toLowerCase().includes(filterValue)
       )
   }
@@ -215,6 +217,9 @@ export class EventsOrganizerComponent implements OnInit {
     });
   }
 
+  setTab(){
+    this.selected.setValue(this.data.eventTab)
+  }
   sendDetails(form: NgForm, _id: string){
     form.value['_id'] = _id;
     this.http.post("http://localhost:3000/api/vectorless/click-on-events", form.value).subscribe(

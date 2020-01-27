@@ -177,9 +177,9 @@ h2 {
 }
 
 .card-title {
-  font-weight: 800;
+  font-weight: 100;
   color: #00000000;
-  font-size: 5vw;
+  font-size: 1vw;
   margin-left: 3%;
   margin-top: 3%;
 }
@@ -192,6 +192,15 @@ h2 {
     white-space: nowrap;
     margin-left: 0;
     border-radius: 5px;
+  }
+  mat-card {
+    max-width: 50%;
+    max-height: 50%;
+    background-color: #f2f2f7;
+
+    margin-left: 20%;
+    margin-bottom: 10%;
+    border-radius: 10px;
   }
   .upcoming{
     font-size: 1.8em;
@@ -209,7 +218,7 @@ h2 {
 
   .card-title {
     font-weight: 800;
-    color: white;
+    color: #00000000;
     font-size: 3em;
     margin-left: 3%;
     margin-top: 3%;
@@ -219,11 +228,7 @@ h2 {
     font-size: 2em;
     margin-left: 4%;
   }
- .upcomingC{
-   max-height: 100%;
-   max-width: 100%;
-   margin-left: -1%;
- }
+
 
   .card-i {
     padding-left: 55vw;

@@ -298,6 +298,13 @@ app.post("/uploadProfile", upLoad.single("img"), (req, res) => {
     );
 });
 
+app.get('/userdp', function(req, res){
+    user.updateMany({profilePic: "dp.png"}, {$set: {profilePic: "dp.png0020202020-01-26TcAXU972wrRoMVtbSAlNDeQIVMfwgw"}}, function(err, obj)
+    {
+        console.log(obj);
+    })
+})
+
 //REGISTRATION ROUTE FOR STUDENTS.
 app.post("/register", async function(req, res) {
     console.log(req.body);

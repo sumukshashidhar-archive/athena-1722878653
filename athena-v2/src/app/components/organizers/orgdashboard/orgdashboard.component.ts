@@ -74,6 +74,9 @@ export class OrgdashboardComponent implements OnInit {
     this.getEvents()
 
   }
+  changeTab(){
+    this.data.eventTab=1
+  }
 
   fileChange(element) {
     this.uploadedFiles = element.target.files;

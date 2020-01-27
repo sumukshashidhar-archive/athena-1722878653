@@ -16,7 +16,7 @@
 
     <div class="container" style="color: yellow;display: flex;justify-content: center;">
       <div class="row">
-        <div class="col-md-4" *ngFor="let ach of ach_list">
+        <div class="col-md-6 col-xl-4" *ngFor="let ach of ach_list">
           <mat-card class="CARD" data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">
             <div class="rank" *ngIf="ach.achRank=='State'"
               style="background-color: lawngreen; color: black; border-radius: 10px;">
@@ -40,7 +40,7 @@
             </div>
             <br>
             <br>
-            <mat-card-content style="font-weight:400">
+            <mat-card-content style="font-weight:400;word-break: break-word;">
               {{ach.Name}}
             </mat-card-content>
           </mat-card>
@@ -58,11 +58,16 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="max-height: 80%;max-width: 80%;margin-left: 10%; margin-top: 5%;">
-          <br />
-          <br />
-         <p style="margin-top:70%;"> {{desc}}</p>
-          <button class="btn btn-danger" style="margin-left: 40%;" (click)="DeleteAch(ach._id)" aria-hidden="true"><i
+          <div class="row">
+            <img src="http://localhost:3000/{{img}}" alt="Avatar" id="achImg" style="max-height: 80%;max-width: 80%;margin-left: 10%; margin-top: 5%;">
+          </div>
+          <br>
+          <div class="row" style="">
+            <p style="margin-left: 10%;word-break: break-word;margin-right: 10%;"> {{desc}}</p>
+          </div>
+         <br>
+         <br>
+          <button class="btn btn-danger" style="margin-left: 40%;margin-bottom: 5%;" (click)="DeleteAch(ach._id)" aria-hidden="true"><i
               class="fa fa-trash fa-3x"></i></button>
         </div>
 
@@ -107,7 +112,7 @@
             </div>
             <br />
 
-            <input type="text" required maxlength="100" class="form-control"
+            <input type="text" required maxlength="350" class="form-control"
               [(ngModel)]="achService.selectedAchievements.description" name="description" id="description"
               placeholder="Enter Description" />
             <br />

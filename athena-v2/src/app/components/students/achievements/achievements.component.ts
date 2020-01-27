@@ -135,14 +135,13 @@ export class AchievementsComponent implements OnInit {
 
   DoIt(id: any) {
     achId = id;
-    console.log(id);
-    console.log(achlist);
+
     for (var i = 0; i < achlist.length; i++) {
       if (achlist[i]._id == id) {
         this.desc = achlist[i].Description;
         this.img = achlist[i].Image;
-        console.log(this.desc);
-        console.log(this.img);
+        console.log(achlist[i].Name)
+        console.log(achlist[i].Image)
         this.Rank = achlist[i].achRank;
       }
     }

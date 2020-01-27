@@ -327,7 +327,7 @@ app.post("/register", async function(req, res) {
                         console.log("ERROR, " + err);
                         res.status(422).send("Error in saving user");
                     } else {
-                        var age = await ageconvert(req.body.DOB);
+
                         console.log(age);
                         /*console.log(obj)*/
                         var output =

@@ -7,35 +7,20 @@
       <br />
       <div class="container c2" style="">
         <div class="card text card-123">
-          <a class="card-body-a card-123-a" >
-            <h5 class="card-title">1</h5>
-            <p class="card-text-a card-122-text">Manage Your Events<br /></p>
+          <a class="card-body-a card-126-a" (click)="changeTab()" [routerLink]="['/eventsorg']" >
+            <h5 class="card-title">You have found Hidden Text </h5>
+            <p class="card-text-a card-122-text" routerLinkActive="router-link-active" >Manage Your Events<br /></p>
           </a>
         </div>
         <div class="card text card-124">
-          <a class="card-body-b card-124-a" >
-            <h5 class="card-title">1</h5>
-            <p class="card-text-a card-123-text">Add an Event <br />
+          <a class="card-body-b card-124-a" [routerLink]="['/eventsorg']" routerLinkActive="router-link-active" >
+            <p class="card-title">You have found Hidden Text </p>
+            <p class="card-text-a card-123-text"  >Add an Event <br />
             </p>
           </a>
         </div>
         <br />
         <br />
-      </div>
-      <div class="container c1">
-        <div class="card text card-125">
-          <a class="card-body-c card-125-a" >
-            <h5 class="card-title">1</h5>
-            <p class="card-text-a card-123-text">Add an Event<br />
-            </p>
-          </a>
-        </div>
-        <div class="card text card-124">
-          <a class="card-body-c card-126-a">
-            <h5 class="card-title">1</h5>
-            <p class="card-text-a card-123-text" style="">Discover <br /> </p>
-          </a>
-        </div>
       </div>
       <mat-card class="upcomingC" style="margin-top: 20%; box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94,104,121,.699);">
         <mat-card-content>
@@ -43,12 +28,10 @@
           <div class="container" *ngFor="let evn of myEvents" style="margin-top:10%;">
             <h4>{{evn.evnName}}</h4>
             <h5>{{evn.evnDate1}}</h5>
-            <a target="_blank" class="link" style="color: blue;font-size: 2em;" href="https://{{evn.evnOrganizerPage}}">{{evn.evnOrganizerPage}}</a>
           </div>
         </mat-card-content>
       </mat-card>
     </body>
   </div>
-
   </html>
 </app-main-nav>

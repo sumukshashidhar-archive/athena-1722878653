@@ -86,6 +86,9 @@ export class EventsOrganizerComponent implements OnInit {
 
   ngOnInit() {
     var decodedtoken = jwt_decode(decoded);
+    if(decodedtoken["role"]!="Org"){
+      this.router.navigate(['/dashboard'])
+    }
     this.refreshEvents();
     this.maxDateSet();
     this.getAllCategory();
@@ -130,41 +133,47 @@ export class EventsOrganizerComponent implements OnInit {
   onSubmit(form: NgForm) {
     File = (document.getElementById("file1") as HTMLInputElement).files;
     form.value["Image"] = File[0].name;
-    const frmData = new FormData();
-    frmData.append("img", File[0]);
-    console.log(frmData);
-    form.value['evnDate1'] = Date.parse(form.value['evnDate1'])
-    form.value['evnDate2'] = Date.parse(form.value['evnDate2'])
-    this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
-      console.log(res);
-    });
-    let arr = [];
-    for (let i = 0; i < this.subCatName.length; i++) {
-      arr.push(this.subCatName[i].subCatName);
-    }
-    if (this.subCatName == null || this.subCatName == undefined || this.subCatName == ""){
-      this.openSnackBar("Please add event interests", "Close")
-      return;
-    }
-    console.log(typeof(form.value['evnDate1']))
-    form.value["interestArray"] = arr;
-    console.log(form.value["interestArray"]);
-    form.value["evnLocation"] =
-      form.value["evnAdd1"] + "\n" + form.value["evnAdd2"];
-    this.eventService.postEvents(form.value).subscribe(
-      res => {
+    if(File[0].size/1024000<4.1){
+      const frmData = new FormData();
+      frmData.append("img", File[0]);
+      console.log(frmData);
+      form.value['evnDate1'] = Date.parse(form.value['evnDate1'])
+      form.value['evnDate2'] = Date.parse(form.value['evnDate2'])
+      this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
         console.log(res);
-        this.y = res;
-        this.x = this.y._id;
-      },
-      err => {
-        if (err.status === 422) {
-          console.log(422);
-        } else {
-          console.log(err);
-        }
+      });
+      let arr = [];
+      for (let i = 0; i < this.subCatName.length; i++) {
+        arr.push(this.subCatName[i].subCatName);
       }
-    );
+      if (this.subCatName == null || this.subCatName == undefined || this.subCatName == ""){
+        this.openSnackBar("Please add event interests", "Close")
+        return;
+      }
+      console.log(typeof(form.value['evnDate1']))
+      form.value["interestArray"] = arr;
+      console.log(form.value["interestArray"]);
+      form.value["evnLocation"] =
+        form.value["evnAdd1"] + "\n" + form.value["evnAdd2"];
+      this.eventService.postEvents(form.value).subscribe(
+        res => {
+          console.log(res);
+          this.y = res;
+          this.x = this.y._id;
+        },
+        err => {
+          if (err.status === 422) {
+            console.log(422);
+          } else {
+            console.log(err);
+          }
+        }
+      );
+    }
+    else{
+      this.openSnackBar("File is too big. Try again with a smaller file", "Close");
+    }
+
   }
 
   getEvents(){

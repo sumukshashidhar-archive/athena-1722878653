@@ -82,6 +82,10 @@ export class AchievementsComponent implements OnInit {
   ) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
+    var decodedtoken = jwt_decode(this.decoded);
+    if(decodedtoken["role"]!="Student"){
+      router.navigate(['/orgdashboard'])
+    }
   }
 
   ngOnInit() {
@@ -163,7 +167,9 @@ export class AchievementsComponent implements OnInit {
 
     console.log(form.value);
     File = (document.getElementById("file1") as HTMLInputElement).files;
-    const frmData = new FormData();
+    console.log(File[0].size/1024000)
+    if(File[0].size/1024000<2.1){
+      const frmData = new FormData();
     console.log(File[0].name);
     form.value["file"] = File[0].name;
     console.log(form.value);
@@ -177,6 +183,10 @@ export class AchievementsComponent implements OnInit {
       this.openSnackBar("Successfully Added your achievement!", "Close");
       location.reload();
     });
+    }
+    else{
+      this.openSnackBar("File is too big. Try again with a smaller file", "Close");
+    }
   }
 
   logout() {
@@ -195,11 +205,7 @@ export class AchievementsComponent implements OnInit {
   }
 
   setAttr() {
-    // console.log(File);
-    // console.log(`http://localhost:3000/${File}`);
-    // document
-    //   .getElementById("i1")
-    //   .setAttribute("src"", `http://localhost:3000/${File}`);
+
     var x = (document.getElementById("testimg123") as HTMLInputElement).value;
     console.log(x);
     this.test123 = x;

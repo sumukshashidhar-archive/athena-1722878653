@@ -3,6 +3,11 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+
+.card-title{
+  font-size: 2vw;
+  color: transparent;
+}
 a{
   text-decoration: none;
   color: #00000000;
@@ -28,6 +33,9 @@ a{
 
 }
 
+
+
+
 @font-face {
   font-family: 'Titillium Web';
   font-style: normal;
@@ -42,8 +50,6 @@ a{
 
 
 .card {
-  max-height: 100%;
-
   background: transparent;
 }
 
@@ -51,21 +57,21 @@ a{
   margin-left: 70%;
   margin-left: 70%;
 }
-mat-card {
-  max-width: 50%;
-  max-height: 50%;
-  background-color: #f2f2f7;
-
-  margin-left: 20%;
-  margin-bottom: 10%;
-  border-radius: 10px;
-}
 
 
-.card-body-c:hover,.card-body-b:hover,.card-body-a:hover {
+.card-body-a:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+}
+
+.card-body-b:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-body-c:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -74,7 +80,47 @@ body {
   background-position: center;
 }
 
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
 
+.searchTerm {
+  width: 100%;
+  border: 3px solid #e6e6e6;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9dbfaf;
+}
+
+.searchTerm:focus {
+  color: rgb(6, 8, 8);
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #e6e6e6;
+  background: #e6e6e6;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .card-text-a {
   font-size: 2vw;
@@ -83,17 +129,24 @@ body {
   text-align: left;
 }
 
+#dp {
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+  background-image: url("https://www.w3schools.com/howto/img_avatar.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 
 .card-123-a {
-
   background-image: linear-gradient(to right, #fc855c 0%, #f6699e 100%);
   border-radius: 10px;
-  width: 27vw;
+  width: 25vw;
 }
 
 .card-124,
 .card-126 {
-  width: 27vw;
+  width: 25vw;
   margin-left: 10%;
   margin-top: 5%;
   border-radius: 10px;
@@ -102,34 +155,33 @@ body {
 .card-125-a {
   background-image: linear-gradient(to right, #3cd0c0 0%, #0d95cb 100%);
   border-radius: 10px;
-  width: 27vw;
-
+  width: 25vw;
 }
 
 .card-124-a {
-
   background-image: linear-gradient(to right, #8f73ee 0%, #4e80c9 100%);
   border-radius: 10px;
-  width: 27vw;
+  width: 25vw;
 }
 
 .card-123-text {
   margin-left: 20%;
 }
-.card-122-text {
-  margin-left: 10%;
-}
-
 
 .card-126-a {
-
+  background: #FDC830;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #F37335, #FDC830);
+  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #F37335, #FDC830);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ;
   border-radius: 10px;
-  width: 27vw;
+  width: 25vw;
 }
 
 .card-125 {
-  width: 27vw;
+  width: 25vw;
   margin-left: 10%;
   margin-top: 5%;
   border-radius: 10px;
@@ -165,7 +217,7 @@ body {
 }
 
 .card-123 {
-  width: 27vw;
+  width: 25vw;
   position: relative;
   margin-left: 5%;
   margin-top: 5%;
@@ -176,31 +228,19 @@ h2 {
   text-align: center;
 }
 
-.card-title {
-  font-weight: 100;
-  color: #00000000;
-  font-size: 1vw;
-  margin-left: 3%;
-  margin-top: 3%;
+.card-title{
+  font-size: 2vw;
+  color: transparent;
 }
 
 @media screen and (max-width:767px) {
   .card-text-a {
     text-align: left;
-    font-size: 7vw;
+    font-size: 1em;
     color: white;
     white-space: nowrap;
     margin-left: 0;
     border-radius: 5px;
-  }
-  mat-card {
-    max-width: 50%;
-    max-height: 50%;
-    background-color: #f2f2f7;
-
-    margin-left: 20%;
-    margin-bottom: 10%;
-    border-radius: 10px;
   }
   .upcoming{
     font-size: 1.8em;
@@ -216,19 +256,21 @@ h2 {
     width: 10vw;
   }
 
-  .card-title {
-    font-weight: 800;
-    color: #00000000;
-    font-size: 3em;
-    margin-left: 3%;
-    margin-top: 3%;
+  .card-title{
+    font-size: 2vw;
+    color: transparent;
   }
+
 
   .card-123-text {
-    font-size: 2em;
+    font-size: 1em;
     margin-left: 4%;
   }
-
+ .upcomingC{
+   max-height: 100%;
+   max-width: 100%;
+   margin-left: -1%;
+ }
 
   .card-i {
     padding-left: 55vw;
@@ -281,9 +323,3 @@ h2 {
   }
 
 }
-@media screen and(min-width:1920px){
-  .card-126-a{
-    margin-left: 2%;
-  }
-}
-

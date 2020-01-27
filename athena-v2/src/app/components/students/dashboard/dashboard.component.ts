@@ -53,6 +53,9 @@ export class DashboardComponent implements OnInit {
     decoded = localStorage.getItem("access_token");
     var decodedtoken = jwt_decode(decoded);
     var id = decodedtoken["usrid"];
+    if(decodedtoken["role"]!="Student"){
+      router.navigate(['/orgdashboard'])
+    }
     this.getUserDetails(id)
     this.getEvents()
 

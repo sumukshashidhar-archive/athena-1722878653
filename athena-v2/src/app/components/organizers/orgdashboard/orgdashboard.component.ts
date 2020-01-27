@@ -65,7 +65,10 @@ export class OrgdashboardComponent implements OnInit {
     private ach: AchievementsService
   ) {
     decoded = localStorage.getItem("access_token");
-    var decodedtoken = jwt_decode(decoded);
+    var decodedtoken = jwt_decode(decoded);;
+    if(decodedtoken["role"]!="Org"){
+      router.navigate(['/dashboard'])
+    }
     var email = decodedtoken["email"];
     this.mydate = new Date();
     this.date=this.mydate.getDate()

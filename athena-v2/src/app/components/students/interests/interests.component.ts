@@ -38,6 +38,10 @@ export class InterestsComponent implements OnInit {
   ) {
     this.decoded = localStorage.getItem("access_token");
     this.noOfChoice.push("1");
+    var decodedtoken = jwt_decode(this.decoded);
+    if(decodedtoken["role"]!="Student"){
+      router.navigate(['/orgdashboard'])
+    }
   }
 
 

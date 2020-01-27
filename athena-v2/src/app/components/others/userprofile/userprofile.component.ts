@@ -79,25 +79,31 @@ this.getEvents();
       headers : headers
     };
     var File = (document.getElementById("file1") as HTMLInputElement).files;
-    const frmData = new FormData();
-    console.log(File[0]);
-    console.log(File[0].name);
-    frmData.append("img", File[0]);
-    frmData.append("name", File[0].name);
-    var file=File[0].name
-    this.http
-      .post("http://localhost:3000/uploadProfile",frmData)
-      .subscribe(res => {
-        console.log(res);
-      }  ,err=>{
-        if(err.status==200){
-          this.openSnackBar("Successfully Updated","Close")
-          location.reload()
-        }
-        else{
-          this.openSnackBar("Error while updating","Close")
-        }
-      });
+    if(File[0].size/1024000<2.1){
+      const frmData = new FormData();
+      console.log(File[0]);
+      console.log(File[0].name);
+      frmData.append("img", File[0]);
+      frmData.append("name", File[0].name);
+      var file=File[0].name
+      this.http
+        .post("http://localhost:3000/uploadProfile",frmData)
+        .subscribe(res => {
+          console.log(res);
+        }  ,err=>{
+          if(err.status==200){
+            this.openSnackBar("Successfully Updated","Close")
+            location.reload()
+          }
+          else{
+            this.openSnackBar("Error while updating","Close")
+          }
+        });
+    }
+    else{
+      this.openSnackBar("File is too big. Try again with a smaller file", "Close");
+    }
+
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Academics } from "./../../../shared/academics/academics.model";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -21,8 +22,15 @@ export class AcademicsComponent implements OnInit {
   constructor(
     public academicSerice: AcademicsService,
     private http: HttpClient,
-    private router:Router
-  ) {}
+    private router:Router,
+    public _snackBar:MatSnackBar
+  ) {
+    var decoded = localStorage.getItem("access_token");
+    var decodedtoken = jwt_decode(decoded);
+    if(decodedtoken["role"]!="Student"){
+      router.navigate(['/orgdashboard'])
+    }
+  }
 
   ngOnInit() {
     this.getAcademics();
@@ -30,6 +38,12 @@ export class AcademicsComponent implements OnInit {
   readSingleFile(e) {
     const name = e.target.files[0].name;
     document.getElementById("file-label").textContent = name;
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: "top"
+    });
   }
 
   getAcademics() {
@@ -66,7 +80,8 @@ export class AcademicsComponent implements OnInit {
   onSubmit(form: NgForm) {
     File = (document.getElementById("file1") as HTMLInputElement).files;
     form.value["Image"] = File[0].name;
-    const frmData = new FormData();
+    if(File[0].size/1024000<2.1){
+      const frmData = new FormData();
     frmData.append("img", File[0]);
     console.log(frmData);
     this.http.post("http://localhost:3000/upload", frmData).subscribe(res => {
@@ -86,5 +101,11 @@ export class AcademicsComponent implements OnInit {
         }
       }
     );
+
   }
+  else{
+    this.openSnackBar("File is too big. Try again with a smaller file", "Close");
+  }
+    }
+
 }

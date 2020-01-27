@@ -60,12 +60,20 @@ export class MainNavComponent {
         this.searchService.orgResults = null;
         var x = this.eventService.changeDate(res);
         this.searchService.results = x;
+        sessionStorage.removeItem("results")
+        sessionStorage.removeItem("userResults")
         sessionStorage.setItem("keyword", form.value['keyword'])
         sessionStorage.setItem("results", JSON.stringify(x))
         console.log(res);
         // this.searchService.tabChange = 0;
         this.searchService.keyword2 = form.value['keyword']
         this.router.navigate(["/searchres"]);
+        setTimeout(
+          function(){
+            location.reload();
+          },
+          1000
+        );
       },
       err => {
         if (err.status === 422) {

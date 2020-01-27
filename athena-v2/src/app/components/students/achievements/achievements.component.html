@@ -14,7 +14,7 @@
     <!--  -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet" />
 
-    <div class="container" style="color: yellow; margin-left: 5%;">
+    <div class="container" style="color: yellow;display: flex;justify-content: center;">
       <div class="row">
         <div class="col-md-4" *ngFor="let ach of ach_list">
           <mat-card class="CARD" data-toggle="modal" data-target="#myModal1" (click)="DoIt(ach._id)">

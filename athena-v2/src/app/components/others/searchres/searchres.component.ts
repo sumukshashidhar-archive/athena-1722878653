@@ -161,8 +161,10 @@ export class SearchresComponent implements OnInit {
   organizerSearch(){
     var obj = {}
     obj['orgKey'] = sessionStorage.getItem("keyword")
+    console.log(obj,"asdjasdaoisdj")
     this.search.postOrgSearch(obj).subscribe(
       res => {
+        console.log("response of orgsearch")
         sessionStorage.removeItem("results")
         sessionStorage.removeItem("userResults")
         sessionStorage.removeItem("orgResults")

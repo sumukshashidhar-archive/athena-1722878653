@@ -55,25 +55,26 @@ const saltRounds = enc.saltRounds;
 
 function sendMail(output, to) {
     let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: "smtpout.secureserver.net",
+        port: 465,
+	secureConnection: false, 
+        secure: true, // true for 465, false for other ports
         auth: {
-            user: "developersatathena@gmail.com ", // generated ethereal user
-            pass: "Kumarans@365!"
+            user: "", // generated ethereal user
+            pass: ""
             // generated ethereal password //Ty61YkTXI82slp4HOmLqSaq5EYi0gcyvs8Etd6JFjHi12g7j8D7TBObdvzNghUZ3ddK8xGAESGE3lK5po0T0X4jtPJk5cVC
         },
         tls: {
-            rejectUnauthorized: false
+		ciphers: 'SSLv3'
         }
     });
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"Athena Contact" <developersatathena@gmail.com>', // sender address
+        from: '"Sumuk from Athena" <sumuk@sumukshashidhar.com>', // sender address
         to: to, // list of receivers
         subject: "Athena Contact", // Subject line
-        text: "Com[puter generated email, please do not reply", // plain text body
+        text: "This is a computer generated email, please do not reply!", // plain text body
         html: output // html body
     };
 
@@ -335,7 +336,6 @@ app.post("/register", async function (req, res) {
                         res.status(422).send("Error in saving user");
                     } else {
 
-                        console.log(age);
                         /*console.log(obj)*/
                         var output =
                             "Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/" +
@@ -431,7 +431,8 @@ app.post("/register", async function (req, res) {
 
 //REGISTRATION ROUTE FOR ORGANIZERS.
 app.post("/registerorganizer", function (req, res) {
-    var redcheck = rcms.check(req.body.email);
+    console.log(req.body);
+	var redcheck = rcms.check(req.body.OrganizerEmail);
     if (redcheck) {
         bcrypt.hash(req.body.Password, saltRounds, function (
             err,
@@ -446,7 +447,7 @@ app.post("/registerorganizer", function (req, res) {
                     username: req.body.OrganizerEmail,
                     userType: "Organizer",
                     password: BCRYPT_PASSWORD_HASH,
-                    profilePic: "dp.png0020202020-01-26TcAXU972wrRoMVtbSAlNDeQIVMfwgw",
+                    profilePic: "",
                     Verified: false
                 });
 
@@ -2800,3 +2801,87 @@ app.post("/api/vectorless/click-on-events", function (req, res) {
 //         }
 //     });
 // })
+//
+//
+//
+//
+//
+
+	
+
+app.post('/api/addsubs', function(req, res){
+	console.log(req)
+	CatE.findOne({}, function(err, obj){
+		if(err){
+			res.send(err)
+		}
+		else {
+			console.log(obj)
+			if(obj.subCat.includes(req.body.subcat)==false){
+				console.log(obj)
+
+				obj.subCat.push(req.body.subcat)
+			}
+			CatE.updateOne({catName: obj.catName}, {$set: {subCat: obj.subCat}}, function(err2, obj2){
+				res.json(obj2)
+			})
+		}
+	})
+})
+
+app.get('/api/imports', function(req, res){
+	var catId = generate(6);
+    var cat = new CatE({
+        catId: catId,
+        catName: "Science and Technology",
+	subCat: [ { "subCatId" : 3856606424, "subCatName" : "Coding" }, { "subCatId" : 4874972964, "subCatName" : "Hacking" }, { "subCatId" : 6482561762, "subCatName" : "Astronomy" }, { "subCatId" : 4861987004, "subCatName" : "Physical Sciences" }, { "subCatId" : 7831696882, "subCatName" : "Chemical Sciences" }, { "subCatId" : 6163380902, "subCatName" : "Mathematics" }, { "subCatId" : 7509270573, "subCatName" : "Robotics" } ]
+    });
+
+    cat.save(function (err, obj) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(obj);
+	
+}
+})
+})
+
+
+
+
+
+app.get("/api/addCat", function (req, res) {
+    var catId = generate(6);
+    var catName = 'Academical';
+
+    var subCatNameArray = ["Science", "Commerce", "Humanities", "Competitive Exams", "General Knowledge"];
+    var subCat = new Array();
+
+    for (var i = 0; i < subCatNameArray.length; i++) {
+        var subCatObj = {
+            subCatId: parseInt(generate(10)),
+            subCatName: subCatNameArray[i]
+        };
+
+        subCat.push(subCatObj);
+    }
+
+    var cat = new CatE({
+        catId: catId,
+        catName: catName,
+        subCat: subCat
+    });
+
+    cat.save(function (err, obj) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(obj);
+		
+		
+		/*console.log(obj)*/
+        }
+    });
+});
+

@@ -30,10 +30,11 @@ vertical-align: middle;
 font-size:20px;
 }
 
+
 .CARD{
-  width: 16rem;
+  width: 14rem;
   height: 12rem;
-  margin-left: 8vw;
+  margin-left: 10%;
   text-align: center;
   border-radius: 10px;
   background:  #f2f2f7 ;

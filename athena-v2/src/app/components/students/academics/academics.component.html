@@ -1,6 +1,6 @@
 <app-main-nav>
-  <div class="table-responsive-sm">
-    <table class="table" style="margin-left:9vw;">
+  <div class="table-responsive-sm" *ngIf="acadlist.length>0">
+    <table class="table" style="margin-left:9vw;" *ngIf="acadlist.length>0">
       <thead>
         <tr>
           <th scope="col">Test Name</th>

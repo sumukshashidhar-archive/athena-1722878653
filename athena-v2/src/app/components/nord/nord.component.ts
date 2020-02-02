@@ -18,7 +18,7 @@ export class NordComponent implements OnInit {
   }
 
   refreshEvents(){
-    this.http.get("http://localhost:3000/getnord").subscribe(
+    this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getnord").subscribe(
       res => {
         var x = this.eventService.changeDate(res)
         this.events = x

@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUserDetails(id:any){
-    this.http.post('http://localhost:3000/getUserInfo',{id}).subscribe(res=>{
+    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getUserInfo',{id}).subscribe(res=>{
       console.log(res)
       this.interestlist=res['obj']['Interests']
       this.ach_list=res['obj']['Achievement']

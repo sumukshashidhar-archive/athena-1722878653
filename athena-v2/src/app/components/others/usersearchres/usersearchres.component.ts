@@ -26,7 +26,7 @@ export class UsersearchresComponent implements OnInit {
     form.value['email'] = this.user['EmailId']
     form.value['acId'] = acId
     console.log(form.value)
-    this.http.post("http://localhost:3000/getSpecicifAc",form.value).subscribe(res=>{
+    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getSpecicifAc",form.value).subscribe(res=>{
       console.log('RESPONSE FOR GET ACADEMIC')
       console.log(res)
       console.log(acId)

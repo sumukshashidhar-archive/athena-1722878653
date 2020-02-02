@@ -42,38 +42,38 @@ export class EventService {
 
   getEvents() {
     console.log("Events")
-    return this.http.get("http://localhost:3000/events");
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/events");
   }
   postEvents(events: Event) {
     console.log("Post Events method");
     console.log(events)
-    return this.http.post("http://localhost:3000/organizer-events", events);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/organizer-events", events);
   }
 
   getEventDetails(_id: Details ){
     console.log(_id)
-    return this.http.post("http://localhost:3000/click-on-events", _id)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/click-on-events", _id)
   }
 
   getEventDetailsorg(_id: Details) {
-    return this.http.post("http://localhost:3000/api/vectorless/click-on-events", _id)
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/vectorless/click-on-events", _id)
   }
 
   postFollow(_id: EventFollow){
     console.log(_id)
-    return this.http.post("http://localhost:3000/api/follow", _id);
+    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/follow", _id);
   }
 
   getFollowEvents(){
-    return this.http.get("http://localhost:3000/api/getevents")
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getevents")
   }
 
   getHomeEvents(){
-    return this.http.get("http://localhost:3000/api/getrecent")
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/getrecent")
   }
 
   getOrganizerEvents(){
-    return this.http.get("http://localhost:3000/api/retorgevents")
+    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/retorgevents")
   }
 
   changeDate(arr){

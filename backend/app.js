@@ -338,7 +338,7 @@ app.post("/register", async function (req, res) {
 
                         /*console.log(obj)*/
                         var output =
-                            "Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/" +
+                            "Click on below link to verify <b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000:3000/verifyuser/" +
                             obj._id;
                         console.log(output);
                         sendMail(output, req.body.email);
@@ -458,7 +458,7 @@ app.post("/registerorganizer", function (req, res) {
                     } else {
                         console.log(obj._id);
                         var output =
-                            "Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/verifyuser/" +
+                            "Click on below link to verify<b> => http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000:3000/verifyuser/" +
                             obj._id;
                         sendMail(output, req.body.OrganizerEmail);
                         //Sends the following data to the functions.js file. Edits have to be made in there if needed

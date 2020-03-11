@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "athena-v2": {
+    "athena": {
       "projectType": "application",
       "schematics": {},
       "root": "",

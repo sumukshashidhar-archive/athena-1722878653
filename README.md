@@ -11,6 +11,19 @@ developersatathena@gmail.com
 or reach out to me personally at 
 
 sumuk@sumukshashidhar.com
+
+
+## Deprecation Notice
+
+This project is not being actively maintianed by the autors due to their lack of time. If any onlookers wish to take this project forward, they are free to do so with permission from the authors. However, the project must be credited and not be used in a commercial setting. The authors are here to help if you would like to take this project forward and improve it.
+
+
+
+
+
+
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 

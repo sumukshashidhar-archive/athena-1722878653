@@ -15,7 +15,7 @@ sumuk@sumukshashidhar.com
 
 ## Deprecation Notice
 
-This project is not being actively maintianed by the autors due to their lack of time. If any onlookers wish to take this project forward, they are free to do so with permission from the authors. However, the project must be credited and not be used in a commercial setting. The authors are here to help if you would like to take this project forward and improve it.
+This project is not being actively maintained by the authors due to their lack of time. If any onlookers wish to take this project forward, they are free to do so with permission from the authors. However, the project must be credited and not be used in a commercial setting. The authors are here to help if you would like to take this project forward and improve it.
 
 
 

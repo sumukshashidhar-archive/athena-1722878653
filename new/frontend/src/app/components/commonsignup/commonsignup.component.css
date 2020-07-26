@@ -1,0 +1,16 @@
+body {
+  background-image: url("./../../../assets/images/image4.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+button {
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  height: 100%;
+  width: 50%;
+}

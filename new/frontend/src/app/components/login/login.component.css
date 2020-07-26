@@ -1,0 +1,13 @@
+mat-card {
+  margin: 22% auto;
+  width: 500px;
+}
+
+h1 {
+  text-align: center;
+  margin-left: 33%;
+}
+
+mat-card {
+  background-color: #d3d3d338;
+}

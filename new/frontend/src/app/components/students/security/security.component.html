@@ -1,0 +1,41 @@
+<body>
+  <div class="login-page">
+    <div class="form">
+      <form
+        #f="ngForm"
+        class="register-form"
+        (ngSubmit)="f.valid && onSubmit(f)"
+      >
+        <input
+          maxlength="32"
+          type="text"
+          placeholder="Enter a security question"
+          required
+          ngModel
+          name="question"
+          #question="ngModel"
+          [(ngModel)]="userService.selectedUser.securityQuestion"
+        />
+        <span class="help-block" *ngIf="!question.valid && question.touched"
+          >Please enter a question of your choice</span
+        >
+        <br />
+        <input
+          maxlength="32"
+          type="text"
+          placeholder="Enter your Answer"
+          required
+          ngModel
+          name="answer"
+          #answer="ngModel"
+          [(ngModel)]="userService.selectedUser.securityAnswer"
+        />
+        <span class="help-block" *ngIf="!answer.valid && answer.touched"
+          >Please enter the answewr to your question</span
+        >
+        <br />
+        <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>

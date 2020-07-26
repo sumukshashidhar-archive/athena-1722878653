@@ -1,0 +1,78 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+img {
+  border-radius: 100%;
+  width: 20%;
+  height: 25%;
+  margin-left: 40%;
+  margin-top: 20px;
+}
+
+.es {
+  margin-left: 70%;
+  margin-left: 70%;
+}
+
+body {
+  background-image: url(https://clubkendoupc.com/wp-content/uploads/2017/01/search-background-img.jpg);
+  height: 170vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #e6e6e6;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9dbfaf;
+}
+
+.searchTerm:focus {
+  color: rgb(6, 8, 8);
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #e6e6e6;
+  background: #e6e6e6;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap {
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#dp {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-image: url("https://www.w3schools.com/howto/img_avatar.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  text-align: center;
+  margin: 25px auto;
+  display: block;
+}
+h2 {
+  text-align: center;
+}

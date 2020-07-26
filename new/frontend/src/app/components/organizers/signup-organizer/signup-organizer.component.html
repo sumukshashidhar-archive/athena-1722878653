@@ -1,0 +1,257 @@
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" routerLink="/">Logo</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+  </nav>
+  <div class="container">
+    <mat-card>
+      <!-- Card header -->
+      <mat-card-header>
+        <h1>Organiser Signup</h1>
+      </mat-card-header>
+      <!-- Card header ends -->
+      <!-- Stepper Form Starts -->
+      <mat-vertical-stepper [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <ng-template matStepLabel>Enter main details</ng-template>
+          <form #a="ngForm">
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="text"
+                placeholder="School Name"
+                required
+                ngModel
+                name="OrganizerName"
+                #OrganizerName="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.OrganizerName"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!OrganizerName.valid && OrganizerName.touched"
+                >Please enter School Name</mat-error
+              >
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="email"
+                placeholder="Email"
+                required
+                ngModel
+                name="OrganizerEmail"
+                email
+                #OrganizerEmail="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.OrganizerEmail"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!OrganizerEmail.valid && OrganizerEmail.touched"
+                >Please enter a valid email</mat-error
+              >
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="password"
+                placeholder="Password"
+                required
+                id="password"
+                minlength="8"
+                ngModel
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                name="Password"
+                #Password="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.Password"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!Password.valid && Password.touched"
+                >Must contain at least one number and one uppercase and
+                lowercase letter, 8 or more characters, and no special
+                characters</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="password"
+                placeholder="Confirm Password"
+                required
+                id="confirm_password"
+                minlength="8"
+                ngModel
+                name="cPassword"
+                #cPassword="ngModel"
+                pattern="{{ Password.value }}"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!cPassword.valid && cPassword.touched"
+                >Passwords Do Not Match
+              </mat-error>
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="text"
+                placeholder="Phone Number"
+                pattern="[789][0-9]{9}"
+                required
+                ngModel
+                name="PhoneNo"
+                #PhoneNo="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.PhoneNo"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!PhoneNo.valid && PhoneNo.touched"
+                >Please enter Valid Phone Number
+              </mat-error>
+            </mat-form-field>
+          </form>
+          <div>
+            <button mat-button matStepperNext [disabled]="!a.valid">
+              Next
+            </button>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel>Confirm your Details</ng-template>
+          <form #b="ngForm" (ngSubmit)="b.valid && onSubmit(b)">
+            <mat-form-field>
+              <input
+                maxlength="32"
+                readonly
+                matInput
+                type="text"
+                placeholder="School Name"
+                required
+                ngModel
+                name="OrganizerName"
+                #OrganizerName="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.OrganizerName"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!OrganizerName.valid && OrganizerName.touched"
+                >Please enter School Name</mat-error
+              >
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                readonly
+                type="email"
+                placeholder="Email"
+                required
+                ngModel
+                name="OrganizerEmail"
+                email
+                #OrganizerEmail="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.OrganizerEmail"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!OrganizerEmail.valid && OrganizerEmail.touched"
+                >Please enter a valid email</mat-error
+              >
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                readonly
+                matInput
+                readonly
+                type="password"
+                placeholder="Password"
+                required
+                id="password"
+                minlength="8"
+                ngModel
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                name="Password"
+                #Password="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.Password"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!Password.valid && Password.touched"
+                >Must contain at least one number and one uppercase and
+                lowercase letter, 8 or more characters, and no special
+                characters</mat-error
+              >
+            </mat-form-field>
+            <br />
+            <mat-form-field>
+              <input
+                maxlength="32"
+                matInput
+                type="text"
+                readonly
+                placeholder="Phone Number"
+                pattern="[789][0-9]{9}"
+                required
+                ngModel
+                name="PhoneNo"
+                #PhoneNo="ngModel"
+                [(ngModel)]="organizeruserService.selectedUser.PhoneNo"
+              />
+              <mat-error
+                class="help-block"
+                *ngIf="!PhoneNo.valid && PhoneNo.touched"
+                >Please enter Valid Phone Number
+              </mat-error>
+            </mat-form-field>
+            <re-captcha
+              (resolved)="resolved($event)"
+              siteKey="6LdNCbYUAAAAAAtM-ojfBuOhVFcjnmsUEZFjjMNj"
+              data-callback="recaptchaCallback"
+            ></re-captcha>
+            <script>
+              function recaptchaCallback() {
+                console.log("Hello World");
+                if (grecaptcha.getResponse().length !== 0) {
+                  // ...
+                  document.getElementById("btnSubmit").disabled = false;
+                }
+              }
+            </script>
+            <div>
+              <button
+                id="btnSubmit"
+                mat-button
+                [disabled]="!b.valid || !Captchaval"
+                (click)="(onSubmit)"
+              >
+                Create
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-vertical-stepper>
+    </mat-card>
+  </div>
+</body>

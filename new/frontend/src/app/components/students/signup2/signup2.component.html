@@ -1,0 +1,12 @@
+<body>
+  <div class="form">
+    <form #f="ngForm">
+      <input type="text" name="bio" class="form-control" ngModel #bio="ngModel"
+        [(ngModel)]="interestsendingservice.selectedInt.bio">
+      <span class="help-block" *ngIf="bio.touched && !bio.valid">Please Enter Valid Bio</span>
+      <input type="text" placeholder="Enter your interests as comma separated values" id="txtSearch" name="interests" #interests="ngModel" required [(ngModel)]="interestsendingservice.selectedInt.interests"
+        maxlength="12" />
+      <button class="btn btn-primary" (click)="onSubmit(f)">Submit</button>
+    </form>
+  </div>
+</body>

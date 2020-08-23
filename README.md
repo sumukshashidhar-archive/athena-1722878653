@@ -15,6 +15,12 @@ or reach out to me personally at
 
 sumuk@sumukshashidhar.com
 
+# Demo Link
+
+This project was showcased at Cisco Bangalore as part of its talent outreach program. 
+
+[Athena - A Platform for Students to find events based on their interests](https://www.youtube.com/watch?v=Lmn6MzDVQsc)
+
 
 ## Deprecation Notice
 

@@ -42,7 +42,7 @@ export class EventsComponent implements OnInit {
     this.getUserDetails(id)
   }
   getUserDetails(id:any){
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getUserInfo',{id}).subscribe(res=>{
+    this.http.post('https://backend-athena.herokuapp.com/getUserInfo',{id}).subscribe(res=>{
       console.log(res)
       this.interestlist=res['obj']['Interests']
     })
@@ -98,10 +98,10 @@ export class EventsComponent implements OnInit {
   }
 
   postToIt() {
-    // this.http.get('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload').subscribe(res=>{
+    // this.http.get('https://backend-athena.herokuapp.com/imageUpload').subscribe(res=>{
     //   console.log(res)
     this.http
-      .get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/imageUpload", { responseType: "blob" })
+      .get("https://backend-athena.herokuapp.com/imageUpload", { responseType: "blob" })
       .subscribe((response: Blob) => {
         console.log("response as blob");
         console.log(response);

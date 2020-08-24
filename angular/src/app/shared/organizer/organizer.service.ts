@@ -21,6 +21,6 @@ export class OrganizerService {
 
   postOrgUser(user: Organizer) {
     console.log(user)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/registerorganizer", user);
+    return this.http.post("https://backend-athena.herokuapp.com/registerorganizer", user);
   }
 }

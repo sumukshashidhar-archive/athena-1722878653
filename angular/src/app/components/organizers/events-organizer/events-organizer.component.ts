@@ -139,7 +139,7 @@ export class EventsOrganizerComponent implements OnInit {
       console.log(frmData);
       form.value['evnDate1'] = Date.parse(form.value['evnDate1'])
       form.value['evnDate2'] = Date.parse(form.value['evnDate2'])
-      this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
+      this.http.post("https://backend-athena.herokuapp.com/upload", frmData).subscribe(res => {
         console.log(res);
       });
       let arr = [];
@@ -231,7 +231,7 @@ export class EventsOrganizerComponent implements OnInit {
   }
   sendDetails(form: NgForm, _id: string){
     form.value['_id'] = _id;
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/vectorless/click-on-events", form.value).subscribe(
+    this.http.post("https://backend-athena.herokuapp.com/api/vectorless/click-on-events", form.value).subscribe(
       res => {
         sessionStorage.setItem("evnDetails", JSON.stringify(res))
         this.eventService.details1 = res

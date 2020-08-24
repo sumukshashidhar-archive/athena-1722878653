@@ -62,7 +62,7 @@ export class SidenavComponent implements OnInit {
      frmData.append("img", File[0]);
     frmData.append("name", File[0].name);
     this.http
-      .post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/uploadProfile", frmData,options)
+      .post("https://backend-athena.herokuapp.com/uploadProfile", frmData,options)
       .subscribe(res => {
         console.log(res);
       }
@@ -97,7 +97,7 @@ export class SidenavComponent implements OnInit {
     const options = {
       headers : headers
     };
-    this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/getProfileName',options).subscribe(res=>{
+    this.http.post('https://backend-athena.herokuapp.com/getProfileName',options).subscribe(res=>{
       console.log(res)
       console.log('IMAGE TO SHOW')
       this.imageToShow=res['name']

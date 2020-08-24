@@ -22,15 +22,15 @@ export class AchievementsService {
   postAchievements(ach: Achievements) {
     console.log("Post achievements method");
     console.log(ach);
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/achievements",ach);
+    return this.http.post("https://backend-athena.herokuapp.com/achievements",ach);
   }
 
   getAchievements() {
-    return this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/achievements");
+    return this.http.get("https://backend-athena.herokuapp.com/achievements");
   }
 
   deleteAchievement(achId: string) {
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/deleteAchievements",{achId})
+    return this.http.post("https://backend-athena.herokuapp.com/deleteAchievements",{achId})
   }
 
 }

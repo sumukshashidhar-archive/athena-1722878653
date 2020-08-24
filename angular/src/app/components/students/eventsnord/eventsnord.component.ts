@@ -19,7 +19,7 @@ export class EventsnordComponent implements OnInit {
   }
 
   refreshEvents(){
-    this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/eventsdeep").subscribe(
+    this.http.get("https://backend-athena.herokuapp.com/eventsdeep").subscribe(
       res => {
         var x = this.eventService.changeDate(res)
         this.events = x

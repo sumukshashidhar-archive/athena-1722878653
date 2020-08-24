@@ -47,34 +47,34 @@ export class SearchService {
   postSearch(search){
     console.log('Search method')
     console.log(search)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/event-search", search)
+    return this.http.post("https://backend-athena.herokuapp.com/event-search", search)
   }
 
   postUserSearch(userSearch) {
     console.log('User Search Method')
     console.log(userSearch)
-    return this.http.post('http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/search/users', userSearch)
+    return this.http.post('https://backend-athena.herokuapp.com/api/search/users', userSearch)
   }
 
   getUserDetails(userDetails){
     console.log("User Details method")
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/tracker/click-on-user-event", userDetails)
+    return this.http.post("https://backend-athena.herokuapp.com/api/tracker/click-on-user-event", userDetails)
   }
 
   getUserDetailsorg(userdetails) {
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/tracker/vectorless/click-on-user-event", userdetails)
+    return this.http.post("https://backend-athena.herokuapp.com/api/tracker/vectorless/click-on-user-event", userdetails)
   }
 
   postInterestSearch(interest){
     console.log(interest)
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/searchbyinterests", interest)
+    return this.http.post("https://backend-athena.herokuapp.com/api/searchbyinterests", interest)
   }
 
   postOrgSearch(obj){
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/search/organizers", obj)
+    return this.http.post("https://backend-athena.herokuapp.com/api/search/organizers", obj)
   }
 
   postEventSearch(obj){
-    return this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/api/organiser/searchbyinterests", obj)
+    return this.http.post("https://backend-athena.herokuapp.com/api/organiser/searchbyinterests", obj)
   }
 }

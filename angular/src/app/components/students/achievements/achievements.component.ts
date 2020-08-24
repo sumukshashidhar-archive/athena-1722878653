@@ -174,7 +174,7 @@ export class AchievementsComponent implements OnInit {
     console.log(form.value);
     frmData.append("img", File[0]);
     console.log(frmData);
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/upload", frmData).subscribe(res => {
+    this.http.post("https://backend-athena.herokuapp.com/upload", frmData).subscribe(res => {
       console.log(res);
     });
     this.achService.postAchievements(form.value).subscribe(res => {

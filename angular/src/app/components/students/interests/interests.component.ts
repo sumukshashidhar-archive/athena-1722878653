@@ -57,7 +57,7 @@ export class InterestsComponent implements OnInit {
   }
 
   getInterests(){
-    this.http.get("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/interests").subscribe(
+    this.http.get("https://backend-athena.herokuapp.com/interests").subscribe(
       res => {
         console.log(res);
         this.interests = res
@@ -117,7 +117,7 @@ export class InterestsComponent implements OnInit {
 
   deleteInterest(form: NgForm ,interest:string){
     form.value['interest'] = interest
-    this.http.post("http://ec2-13-126-238-105.ap-south-1.compute.amazonaws.com:3000/deleteInterest", form.value).subscribe(
+    this.http.post("https://backend-athena.herokuapp.com/deleteInterest", form.value).subscribe(
       res => {
         console.log(res)
         this.openSnackBar("You have deleted the interest. Please reload the page to see the changes take effect", "Close")

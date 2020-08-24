@@ -183,7 +183,7 @@ function generate(n) {
 }
 
 //STARTING SERVER HERE
-app.listen(serv.port, process.env.IP, function (
+app.listen(process.env.PORT || serv.port, process.env.IP || "0.0.0.0", function (
     req,
     res //The Serv.port is from a config file
 ) {

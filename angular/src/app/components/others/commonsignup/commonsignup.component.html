@@ -1,27 +1,41 @@
-<div class="d-md-flex h-md-100 align-items-center">
+<!DOCTYPE html>
+<html lang="en">
 
-  <!-- First Half -->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-  <div class="col-md-6 p-0 bg-indigo h-md-100">
-    <div class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
-      <div class="logoarea pt-5 pb-5">
-        <h1>Organize an Event</h1>
-        <a class="btn btn-round btn-primary" [routerLink]="['/signuporganizer']"
-        routerLinkActive="router-link-active">Organize</a>
-      </div>
-    </div>
-  </div>
+	<title>Closed Beta</title>
 
-  <!-- Second Half -->
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
 
-  <div class="col-md-6 p-0 h-md-100">
-    <div class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center" style="background: #00000000;">
-      <div class="logoarea pt-5 pb-5">
-        <h1 style="color: black;">Participate in an Event</h1>
-        <a class="btn btn-round btn-primary" [routerLink]="['/signup']"
-        routerLinkActive="router-link-active">Participate</a>
-      </div>
-    </div>
-  </div>
+	<!-- Custom stlylesheet -->
 
-</div>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>Oops!</h1>
+			</div>
+			<h2>We're currently in closed beta!</h2>
+			<p>Thanks for your interest in Athena. However, as of September 2020, we are still in closed beta. Please email us to get access to 1Athena!</p>
+			<a [routerLink]="['/']" routerLinkActive="router-link-active" >Go back to the HomePage!</a>
+		</div>
+	</div>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

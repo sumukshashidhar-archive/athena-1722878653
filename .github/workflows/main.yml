@@ -16,11 +16,11 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '10.x'
-    - run: cd angular       
-    - run: cd angular; npm install
-    - run: cd angular; npm run build:prod
+    - run: cd angular;ls       
+    - run: cd angular;ls; npm install
+    - run: cd angular;ls; npm run build
     - uses: w9jds/firebase-action@master
       with:
         args: deploy --only hosting
       env:
-        FIREBASE_TOKEN: AIzaSyBMg8kuXQB7FX62jBcEKQ_DEjbwsOlhzFY
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

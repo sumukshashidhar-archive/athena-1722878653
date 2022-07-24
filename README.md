@@ -4,9 +4,7 @@ This journey has reached its end. We thank everyone who was a part of Athena for
 
 # Athena V1.0
 
-If you're a student in India, you've probably had struggles with consolidating your achievements and awards and finding events that you can attend, based on your interests. 
-
-By this project, we hope to create a space for budding young minds in order to get as much exposure as possible and to also provide them with a space where they can consolidate their achievements. 
+Athena is a service to allow people to discover events, competitions and conferences based on their interests, rather than their existing social circle.
 
 If you have any concerns or have any suggestions as to how we can do better, do let us know at 
 developersatathena@gmail.com 
@@ -15,12 +13,9 @@ or reach out to me personally at
 
 sumuk@sumukshashidhar.com
 
-# Demo Link
+# Demo
 
-This project was showcased at Cisco Bangalore as part of its talent outreach program. 
-
-[Athena - A Platform for Students to find events based on their interests](https://www.youtube.com/watch?v=Lmn6MzDVQsc)
-
+This project was showcased at Cisco as part of its talent outreach program. 
 
 ## Deprecation Notice
 
@@ -133,6 +128,6 @@ This project is licensed under the GPLv3 License
 
 ## Acknowledgments
 
-- This project is developed in conjunction with Cisco India Ltd, as part of their Talent Outreach Programme
+- This project is developed in conjunction with Cisco Ltd, as part of their Talent Outreach Programme
 
 
